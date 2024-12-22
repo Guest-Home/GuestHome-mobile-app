@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
       routerConfig: router,
       title: 'Min App',
       theme: ThemeData(
+        fontFamily: 'Manrope',
         colorScheme: ColorScheme.fromSeed(seedColor: ColorConstant.primaryColor),
         useMaterial3: true,
       ),
