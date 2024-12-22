@@ -58,19 +58,26 @@ class _OnBordingState extends State<OnBording>
                                   ),
                                 ],
                               ),
+
                               Column(
                                  spacing: 10,
                                    children:List.generate(3,(index) =>
-                                        ChoiceChip(label:Text(state.language[index]),
-                                                                            elevation: 0,
-                                                                            backgroundColor: ColorConstant.primaryColor,
-                                                                            side: BorderSide(color: Colors.white),
-                                                                            checkmarkColor: Colors.white,
-                                                                            labelStyle: TextStyle(color: Colors.white),
-                                                                            selectedColor: ColorConstant.primaryColor,
-                                                                            disabledColor: ColorConstant.primaryColor,
-                                                                            labelPadding: const EdgeInsets.symmetric(horizontal:25, vertical: 8.0),
-                                                                            selected:index.isEven? true:false),
+                                       Container(
+                                           width:200,
+                                           decoration: BoxDecoration(
+                                               borderRadius: BorderRadius.circular(10),
+                                               shape: BoxShape.rectangle,
+                                               border: Border.all(color: Colors.white)
+                                           ),
+                                           child: RadioListTile.adaptive(value: true,
+                                             activeColor: Colors.white,
+                                             selected: index.isEven?true:false,
+                                             title: Text(state.language[index],style: TextStyle(color: Colors.white),),
+                                             groupValue:true,
+                                             onChanged:(value) {
+
+                                             },)),
+
                                        )),
                             ],
                           ),
