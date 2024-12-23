@@ -25,6 +25,7 @@ dependencies:
   flutter_svg: ^2.0.16
   get_it: ^8.0.3
   bottom_navbar_with_indicator: ^0.0.9
+  fl_chart: ^0.70.0
 
 dev_dependencies:
   flutter_test:

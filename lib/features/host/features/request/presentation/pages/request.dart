@@ -18,6 +18,7 @@ class _RequestState extends State<Request> {
           SliverAppBar(
             automaticallyImplyLeading: false,
             backgroundColor: Colors.white,
+            scrolledUnderElevation: 0,
             title: Text(
               'Request',
               style: Theme.of(context)
@@ -32,7 +33,6 @@ class _RequestState extends State<Request> {
             collapsedHeight: 140,
             elevation: 0,
             shadowColor: Colors.transparent,
-            scrolledUnderElevation: 10,
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
               collapseMode: CollapseMode.pin,

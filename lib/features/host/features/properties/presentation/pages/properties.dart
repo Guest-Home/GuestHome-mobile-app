@@ -26,14 +26,14 @@ class _PropertiesState extends State<Properties> {
                 .bodyLarge!
                 .copyWith(fontWeight: FontWeight.bold),
           ),
-          floating: false,
-          snap: false,
-          pinned: false,
+          floating: true,
+          snap: true,
+          pinned: true,
           expandedHeight: 140,
           collapsedHeight: 140,
           elevation: 0,
           shadowColor: Colors.transparent,
-          scrolledUnderElevation: 10,
+          scrolledUnderElevation: 0,
           flexibleSpace: FlexibleSpaceBar(
             centerTitle: true,
             collapseMode: CollapseMode.pin,

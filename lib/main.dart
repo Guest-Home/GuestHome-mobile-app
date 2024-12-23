@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
           appBarTheme: AppBarTheme(
             backgroundColor: Colors.white,
             elevation: 0,
+            scrolledUnderElevation: 0,
           ),
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ButtonStyle(
