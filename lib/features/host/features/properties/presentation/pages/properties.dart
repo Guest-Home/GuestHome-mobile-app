@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
+import '../../../../../../core/common/custom_button.dart';
+import '../widgets/property_card.dart';
 
 class Properties extends StatefulWidget {
   const Properties({super.key});
@@ -25,7 +28,7 @@ class _PropertiesState extends State<Properties> {
           ),
           floating: false,
           snap: false,
-          pinned: true,
+          pinned: false,
           expandedHeight: 140,
           collapsedHeight: 140,
           elevation: 0,
@@ -33,8 +36,8 @@ class _PropertiesState extends State<Properties> {
           scrolledUnderElevation: 10,
           flexibleSpace: FlexibleSpaceBar(
             centerTitle: true,
+            collapseMode: CollapseMode.pin,
             title: Container(
-              margin: EdgeInsets.symmetric(horizontal: 10),
               padding: EdgeInsets.all(10),
               child: TextFormField(
                 cursorColor: ColorConstant.primaryColor,
@@ -57,101 +60,48 @@ class _PropertiesState extends State<Properties> {
             ),
           ),
         ),
+        // SliverFillRemaining(
+        //   fillOverscroll: false,
+        //   hasScrollBody: false,
+        //   child: Container(
+        //     padding: const EdgeInsets.all(10),
+        //     child:
+        //         Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        //       Text(
+        //         'Lorem ipsum dolor sit amet consectetur. Est netus commodo mattis lectus nam lacinia hac sapien.',
+        //         textAlign: TextAlign.center,
+        //         style: Theme.of(context).textTheme.bodyLarge!,
+        //       ),
+        //       Padding(
+        //           padding: const EdgeInsets.all(20),
+        //           child: CustomButton(
+        //             style: ElevatedButton.styleFrom(
+        //                 backgroundColor: ColorConstant.primaryColor,
+        //                 padding: EdgeInsets.all(20),
+        //                 shape: RoundedRectangleBorder(
+        //                     borderRadius: BorderRadius.circular(10))),
+        //             onPressed: () => context.goNamed('addProperty'),
+        //             child: Row(
+        //               mainAxisAlignment: MainAxisAlignment.center,
+        //               children: [
+        //                 Icon(Icons.add, color: Colors.white),
+        //                 Text(
+        //                   'Add Property',
+        //                   style: Theme.of(context)
+        //                       .textTheme
+        //                       .bodyMedium!
+        //                       .copyWith(color: Colors.white),
+        //                 )
+        //               ],
+        //             ),
+        //           ))
+        //     ]),
+        //   ),
+        // ),
+
         SliverList(
           delegate: SliverChildBuilderDelegate(
-            (context, index) => Card(
-              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              color: ColorConstant.cardGrey.withValues(alpha: 1.6),
-              elevation: 0,
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  spacing: 5,
-                  children: [
-                    Placeholder(
-                      fallbackHeight: 200,
-                    ),
-                    ListTile(
-                      title: Text(
-                        'Property Name',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge!
-                            .copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Text(
-                          'House Description goes here.Lorem ipsum dolor sit amet consectetur. Posuere vulputate gravida diam id feugiat. Suscipit et nunc tortor vivamus mattis sed est.'),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Icon(
-                          Icons.location_on_rounded,
-                          color: ColorConstant.primaryColor,
-                        ),
-                        Text(
-                          'Addis Ababa, Ethiopia',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(
-                                  color: ColorConstant.inActiveColor,
-                                  fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    Divider(
-                      color: ColorConstant.inActiveColor.withValues(alpha: 0.2),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          spacing: 7,
-                          children: [
-                            Icon(
-                              Icons.other_houses_rounded,
-                              color: ColorConstant.primaryColor,
-                            ),
-                            Text(
-                              '10',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(color: ColorConstant.primaryColor),
-                            ),
-                          ],
-                        ),
-                        RichText(
-                            text: TextSpan(
-                          text: 'Price: ',
-                          children: [
-                            TextSpan(
-                              text: 'ETB 1000',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
-                                      color: ColorConstant.primaryColor,
-                                      fontWeight: FontWeight.bold),
-                            ),
-                            TextSpan(
-                              text: '/night',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(color: ColorConstant.inActiveColor),
-                            ),
-                          ],
-                        )),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            (context, index) => PropertyCard(),
             childCount: 1000,
           ),
         ),

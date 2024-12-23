@@ -13,7 +13,7 @@ class _AddPropertiesState extends State<AddProperties> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leadingWidth: 34,
+        leadingWidth: 27,
         leading: AppBarBackButton(
           route: "properties",
         ),
