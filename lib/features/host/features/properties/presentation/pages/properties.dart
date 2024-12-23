@@ -74,7 +74,8 @@ class _PropertiesState extends State<Properties> {
         //       ),
         //       Padding(
         //           padding: const EdgeInsets.all(20),
-        //           child: CustomButton(
+        //           child:
+        // CustomButton(
         //             style: ElevatedButton.styleFrom(
         //                 backgroundColor: ColorConstant.primaryColor,
         //                 padding: EdgeInsets.all(20),
