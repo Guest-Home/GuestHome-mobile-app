@@ -4,13 +4,17 @@ sealed class OnBordingEvent extends Equatable {
   const OnBordingEvent();
 }
 
-
-class onbordingChangeEvent extends OnBordingEvent{
-  int index;
-  onbordingChangeEvent({required this.index});
-
-
+class OnBordingChangeEvent extends OnBordingEvent {
+  final int index;
+  const OnBordingChangeEvent({required this.index});
 
   @override
-  List<Object?> get props =>[];
+  List<Object?> get props => [];
+}
+
+class OnBordingGetStartedEvent extends OnBordingEvent {
+  const OnBordingGetStartedEvent();
+
+  @override
+  List<Object?> get props => [];
 }

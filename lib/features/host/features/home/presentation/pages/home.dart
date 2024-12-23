@@ -1,0 +1,79 @@
+import 'package:bottom_navbar_with_indicator/bottom_navbar_with_indicator.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:minapp/config/color/color.dart';
+
+class Home extends StatelessWidget {
+  const Home({super.key, required this.child});
+
+  final Widget child;
+  int _getSelectedIndex(BuildContext context) {
+    final location = GoRouter.of(context).state?.path;
+    if (location!.startsWith('/properties')) {
+      return 0;
+    }
+    if (location.startsWith('/request')) {
+      return 1;
+    }
+    if (location.startsWith('/analytics')) {
+      return 3;
+    }
+    if (location.startsWith('/profile')) {
+      return 4;
+    }
+    return 0;
+  }
+
+  void _onItemTapped(BuildContext context, int index) {
+    switch (index) {
+      case 0:
+        context.go('/properties');
+        break;
+      case 1:
+        context.go('/request');
+        break;
+      case 3:
+        context.go('/analytics');
+        break;
+      case 4:
+        context.go('/profile');
+        break;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      floatingActionButton: Container(
+        margin: EdgeInsets.only(top:60),
+        child: FloatingActionButton(
+          autofocus: false,
+          onPressed: () {
+            context.goNamed('addProperty');
+          },
+          backgroundColor: ColorConstant.primaryColor,elevation: 0,
+          child: Icon(Icons.add_circle_outline,size:30,color: Colors.white,),),
+      ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
+        bottomNavigationBar:CustomLineIndicatorBottomNavbar(
+          selectedColor: ColorConstant.primaryColor,
+          unSelectedColor: ColorConstant.inActiveColor,
+          backgroundColor: Colors.white,
+          enableLineIndicator:true,
+          indicatorType: IndicatorType.top,
+          currentIndex:_getSelectedIndex(context),
+          unselectedIconSize:20,
+          selectedIconSize: 25,
+          customBottomBarItems:[
+          CustomBottomBarItems(isAssetsImage:false, label:'Properties',icon:Icons.home_filled, ),
+          CustomBottomBarItems(isAssetsImage:false, label:'Request',icon:Icons.notifications_active ),
+          CustomBottomBarItems(isAssetsImage:false, label:'',icon: Icons.add_box ),
+          CustomBottomBarItems(isAssetsImage:false, label:'Analytics',icon:Icons.analytics ),
+          CustomBottomBarItems(isAssetsImage:false, label:'Profile',icon:Icons.account_circle ),
+        ], onTap:(item) => _onItemTapped(context, item),),
+       body: child,
+
+    );
+  }
+}
