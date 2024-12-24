@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
 import 'package:minapp/core/common/back_button.dart';
 import 'package:minapp/core/common/custom_button.dart';
@@ -34,6 +35,54 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
             child: ListView(
               padding: const EdgeInsets.all(10),
               children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    PopupMenuButton(
+                      color: Colors.white,
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                                color: ColorConstant.secondBtnColor)),
+                        child: Row(
+                          children: [
+                            Text(
+                              "Menu",
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                            Icon(Icons.arrow_drop_down_sharp)
+                          ],
+                        ),
+                      ),
+                      itemBuilder: (context) => [
+                        PopupMenuItem(
+                          value: 'delete',
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.delete,
+                                color: ColorConstant.red,
+                                size: 18,
+                              ),
+                              Text(
+                                "Delete house",
+                                style: TextStyle(color: ColorConstant.red),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                      onSelected: (value) {
+                        if (value == 'delete') {
+                          _showDeleteDialog(context);
+                        }
+                      },
+                    )
+                  ],
+                ),
                 // typeof house
                 Card(
                   elevation: 0.2,
@@ -59,113 +108,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                           )),
                           GestureDetector(
                             onTap: () {
-                              showDialog(
-                                  context: context,
-                                  barrierDismissible: false,
-                                  builder: (context) => Dialog(
-                                        backgroundColor: Colors.white,
-                                        child: Container(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height /
-                                              1.7,
-                                          padding: EdgeInsets.all(15),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            spacing: 10,
-                                            children: [
-                                              Text(
-                                                "Change House type",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyLarge!
-                                                    .copyWith(
-                                                        color: ColorConstant
-                                                            .secondBtnColor,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                              ),
-                                              Expanded(
-                                                child: GridView.builder(
-                                                  gridDelegate:
-                                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                                          crossAxisCount:
-                                                              2, // Number of columns
-                                                          childAspectRatio:
-                                                              1, // Aspect ratio of each item
-                                                          crossAxisSpacing:
-                                                              2, // Spacing between columns
-                                                          mainAxisSpacing: 4,
-                                                          mainAxisExtent: 50),
-                                                  itemCount:
-                                                      10, // Number of HouseTypeCard items
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    return HouseTypeCard(
-                                                      iconData: Icons
-                                                          .other_houses_outlined,
-                                                      title: 'private house',
-                                                      isSelected: index.isEven
-                                                          ? true
-                                                          : false,
-                                                    ); // Replace with your actual card widget
-                                                  },
-                                                ),
-                                              ),
-                                              Row(
-                                                spacing: 10,
-                                                children: [
-                                                  Expanded(
-                                                    child: ElevatedButton(
-                                                        onPressed: () {
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        style: ElevatedButton.styleFrom(
-                                                            side: BorderSide(
-                                                                color: ColorConstant
-                                                                    .secondBtnColor),
-                                                            backgroundColor:
-                                                                Colors.white),
-                                                        child: Text(
-                                                          "Cancel",
-                                                          style:
-                                                              Theme.of(context)
-                                                                  .textTheme
-                                                                  .bodyMedium!
-                                                                  .copyWith(
-                                                                    color: ColorConstant
-                                                                        .secondBtnColor,
-                                                                  ),
-                                                        )),
-                                                  ),
-                                                  Expanded(
-                                                    child: ElevatedButton(
-                                                        onPressed: () {},
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                                backgroundColor:
-                                                                    ColorConstant
-                                                                        .primaryColor),
-                                                        child: Text(
-                                                          "Select",
-                                                          style:
-                                                              Theme.of(context)
-                                                                  .textTheme
-                                                                  .bodyMedium!
-                                                                  .copyWith(
-                                                                    color: Colors
-                                                                        .white,
-                                                                  ),
-                                                        )),
-                                                  )
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ));
+                              _showHouseTypeDialog(context);
                             },
                             child: SizedBox(
                               child: Row(
@@ -450,7 +393,9 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                 children: [
                   Expanded(
                       child: CustomButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            _showDialog(context);
+                          },
                           style: ElevatedButton.styleFrom(
                               side: BorderSide(
                                   color: ColorConstant.secondBtnColor),
@@ -464,7 +409,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                   )))),
                   Expanded(
                       child: CustomButton(
-                          onPressed: () {},
+                          onPressed: () => context.goNamed('properties'),
                           style: ElevatedButton.styleFrom(
                               side:
                                   BorderSide(color: ColorConstant.primaryColor),
@@ -489,6 +434,180 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
     return Text(title,
         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
             color: ColorConstant.secondBtnColor, fontWeight: FontWeight.bold));
+  }
+
+  void _showDeleteDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        title: Text(
+          "Delete house?",
+          style: Theme.of(context)
+              .textTheme
+              .bodyMedium!
+              .copyWith(fontWeight: FontWeight.bold),
+        ),
+        content: Text("This cant be undone."),
+        actionsAlignment: MainAxisAlignment.end,
+        actionsPadding: EdgeInsets.all(10),
+        actions: [
+          CustomButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.all(0.5),
+                  side: BorderSide(
+                      color:
+                          ColorConstant.secondBtnColor.withValues(alpha: 0.5)),
+                  backgroundColor: Colors.white),
+              child: Text("Cancel",
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        color: ColorConstant.secondBtnColor,
+                      ))),
+          CustomButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.only(left: 4, right: 4),
+                  backgroundColor: ColorConstant.red),
+              child: Text("delete house",
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        color: Colors.white,
+                      )))
+        ],
+      ),
+    );
+  }
+
+  void _showHouseTypeDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Dialog(
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              child: Container(
+                height: MediaQuery.of(context).size.height / 1.7,
+                padding: EdgeInsets.all(15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: 10,
+                  children: [
+                    Text(
+                      "Change House type",
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: ColorConstant.secondBtnColor,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Expanded(
+                      child: GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2, // Number of columns
+                            childAspectRatio: 1, // Aspect ratio of each item
+                            crossAxisSpacing: 2, // Spacing between columns
+                            mainAxisSpacing: 4,
+                            mainAxisExtent: 50),
+                        itemCount: 10, // Number of HouseTypeCard items
+                        itemBuilder: (context, index) {
+                          return HouseTypeCard(
+                            iconData: Icons.other_houses_outlined,
+                            title: 'private house',
+                            isSelected: index.isEven ? true : false,
+                          ); // Replace with your actual card widget
+                        },
+                      ),
+                    ),
+                    Row(
+                      spacing: 10,
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  side: BorderSide(
+                                      color: ColorConstant.secondBtnColor),
+                                  backgroundColor: Colors.white),
+                              child: Text(
+                                "Cancel",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                      color: ColorConstant.secondBtnColor,
+                                    ),
+                              )),
+                        ),
+                        Expanded(
+                          child: ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: ColorConstant.primaryColor),
+                              child: Text(
+                                "Select",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                      color: Colors.white,
+                                    ),
+                              )),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ));
+  }
+
+  void _showDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        title: Text(
+          "Discard unsaved changes?",
+          style: Theme.of(context)
+              .textTheme
+              .bodyMedium!
+              .copyWith(fontWeight: FontWeight.bold),
+        ),
+        content: Text("This cant be undone."),
+        actionsAlignment: MainAxisAlignment.end,
+        actionsPadding: EdgeInsets.all(10),
+        actions: [
+          CustomButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.all(0.5),
+                  side: BorderSide(
+                      color:
+                          ColorConstant.secondBtnColor.withValues(alpha: 0.5)),
+                  backgroundColor: Colors.white),
+              child: Text("Discard",
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        color: ColorConstant.secondBtnColor,
+                      ))),
+          CustomButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.only(left: 4, right: 4),
+                  backgroundColor: ColorConstant.primaryColor),
+              child: Text("save changes",
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        color: Colors.white,
+                      )))
+        ],
+      ),
+    );
   }
 }
 
