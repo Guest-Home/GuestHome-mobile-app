@@ -5,13 +5,14 @@ import 'package:minapp/features/host/features/analytics/presentation/pages/analy
 import 'package:minapp/features/host/features/home/presentation/pages/home.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/profile.dart';
 import 'package:minapp/features/host/features/properties/presentation/pages/add_properties.dart';
+import 'package:minapp/features/host/features/properties/presentation/pages/listed_property_detail.dart';
 import 'package:minapp/features/host/features/properties/presentation/pages/properties.dart';
 import 'package:minapp/features/host/features/request/presentation/pages/request.dart';
 import 'package:minapp/features/onbording/presentation/pages/onbording.dart';
 
 final GoRouter router = GoRouter(
   observers: [MyNavigatorObserver()],
-  initialLocation: '/',
+  initialLocation: '/properties',
   routes: [
     GoRoute(
         name: 'onboarding',
@@ -21,6 +22,11 @@ final GoRouter router = GoRouter(
         name: 'addProperty',
         path: '/addProperty',
         builder: (context, state) => AddProperties()),
+    GoRoute(
+      name: 'propertyDetail',
+      path: '/propertyDetail',
+      builder: (context, state) => ListedPropertyDetail(),
+    ),
     ShellRoute(
       navigatorKey: GlobalKey<NavigatorState>(),
       builder: (context, state, child) {
@@ -28,9 +34,9 @@ final GoRouter router = GoRouter(
       },
       routes: [
         GoRoute(
-          name:'properties' ,
+          name: 'properties',
           path: '/properties',
-          builder: (context, state) => Properties (),
+          builder: (context, state) => Properties(),
         ),
         GoRoute(
           name: 'request',
@@ -47,7 +53,6 @@ final GoRouter router = GoRouter(
           path: '/profile',
           builder: (context, state) => const Profile(),
         ),
-
       ],
     ),
   ],

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:minapp/config/color/color.dart';
 import 'package:minapp/config/route/route.dart';
 import 'package:minapp/service_locator.dart';
-
 import 'features/onbording/presentation/bloc/on_bording_bloc.dart';
 
 void main() {
