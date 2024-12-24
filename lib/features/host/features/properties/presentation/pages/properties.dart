@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
-import '../../../../../../core/common/custom_button.dart';
 import '../widgets/property_card.dart';
 
 class Properties extends StatefulWidget {
@@ -51,7 +50,7 @@ class _PropertiesState extends State<Properties> {
                     Icons.search,
                     size: 20,
                   ),
-                  contentPadding: EdgeInsets.symmetric(horizontal:15),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 15),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide.none),

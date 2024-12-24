@@ -3,6 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:minapp/config/route/navigator_observer.dart';
 import 'package:minapp/features/host/features/analytics/presentation/pages/analytics.dart';
 import 'package:minapp/features/host/features/home/presentation/pages/home.dart';
+import 'package:minapp/features/host/features/profile/presentation/pages/account.dart';
+import 'package:minapp/features/host/features/profile/presentation/pages/general_information.dart';
+import 'package:minapp/features/host/features/profile/presentation/pages/language.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/profile.dart';
 import 'package:minapp/features/host/features/properties/presentation/pages/add_properties.dart';
 import 'package:minapp/features/host/features/properties/presentation/pages/listed_property_detail.dart';
@@ -49,10 +52,26 @@ final GoRouter router = GoRouter(
           builder: (context, state) => const Analytics(),
         ),
         GoRoute(
-          name: 'profile',
-          path: '/profile',
-          builder: (context, state) => const Profile(),
-        ),
+            name: 'profile',
+            path: '/profile',
+            builder: (context, state) => const Profile(),
+            routes: [
+              GoRoute(
+                name: 'generalInformation',
+                path: '/generalInformation',
+                builder: (context, state) => const GeneralInformation(),
+              ),
+              GoRoute(
+                name: 'language',
+                path: '/language',
+                builder: (context, state) => const Language(),
+              ),
+              GoRoute(
+                name: 'account',
+                path: '/account',
+                builder: (context, state) => const Account(),
+              ),
+            ]),
       ],
     ),
   ],

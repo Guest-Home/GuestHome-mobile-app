@@ -21,6 +21,15 @@ class Home extends StatelessWidget {
     if (location.startsWith('/profile')) {
       return 4;
     }
+    if (location.startsWith('/generalInformation')) {
+      return 4;
+    }
+    if (location.startsWith('/language')) {
+      return 4;
+    }
+    if (location.startsWith('/account')) {
+      return 4;
+    }
     return 0;
   }
 
@@ -45,35 +54,54 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: Container(
-        margin: EdgeInsets.only(top:60),
+        margin: EdgeInsets.only(top: 60),
         child: FloatingActionButton(
           autofocus: false,
           onPressed: () {
             context.goNamed('addProperty');
           },
-          backgroundColor: ColorConstant.primaryColor,elevation: 0,
-          child: Icon(Icons.add_circle_outline,size:30,color: Colors.white,),),
+          backgroundColor: ColorConstant.primaryColor,
+          elevation: 0,
+          child: Icon(
+            Icons.add_circle_outline,
+            size: 30,
+            color: Colors.white,
+          ),
+        ),
       ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
-        bottomNavigationBar:CustomLineIndicatorBottomNavbar(
-          selectedColor: ColorConstant.primaryColor,
-          unSelectedColor: ColorConstant.inActiveColor,
-          backgroundColor: Colors.white,
-          enableLineIndicator:true,
-          indicatorType: IndicatorType.top,
-          currentIndex:_getSelectedIndex(context),
-          unselectedIconSize:20,
-          selectedIconSize: 25,
-          customBottomBarItems:[
-          CustomBottomBarItems(isAssetsImage:false, label:'Properties',icon:Icons.home_filled, ),
-          CustomBottomBarItems(isAssetsImage:false, label:'Request',icon:Icons.notifications_active ),
-          CustomBottomBarItems(isAssetsImage:false, label:'',icon: Icons.add_box ),
-          CustomBottomBarItems(isAssetsImage:false, label:'Analytics',icon:Icons.analytics ),
-          CustomBottomBarItems(isAssetsImage:false, label:'Profile',icon:Icons.account_circle ),
-        ], onTap:(item) => _onItemTapped(context, item),),
-       body: child,
-
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
+      bottomNavigationBar: CustomLineIndicatorBottomNavbar(
+        selectedColor: ColorConstant.primaryColor,
+        unSelectedColor: ColorConstant.inActiveColor,
+        backgroundColor: Colors.white,
+        enableLineIndicator: true,
+        indicatorType: IndicatorType.top,
+        currentIndex: _getSelectedIndex(context),
+        unselectedIconSize: 20,
+        selectedIconSize: 25,
+        customBottomBarItems: [
+          CustomBottomBarItems(
+            isAssetsImage: false,
+            label: 'Properties',
+            icon: Icons.home_filled,
+          ),
+          CustomBottomBarItems(
+              isAssetsImage: false,
+              label: 'Request',
+              icon: Icons.notifications_active),
+          CustomBottomBarItems(
+              isAssetsImage: false, label: '', icon: Icons.add_box),
+          CustomBottomBarItems(
+              isAssetsImage: false, label: 'Analytics', icon: Icons.analytics),
+          CustomBottomBarItems(
+              isAssetsImage: false,
+              label: 'Profile',
+              icon: Icons.account_circle),
+        ],
+        onTap: (item) => _onItemTapped(context, item),
+      ),
+      body: child,
     );
   }
 }
