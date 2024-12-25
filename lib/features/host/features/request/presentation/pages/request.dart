@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:minapp/features/host/features/properties/presentation/widgets/search_filed.dart';
 import '../../../../../../config/color/color.dart';
 import '../widgets/request_card.dart';
 
@@ -38,23 +39,8 @@ class _RequestState extends State<Request> {
               collapseMode: CollapseMode.pin,
               title: Container(
                 padding: EdgeInsets.all(10),
-                child: TextFormField(
-                  cursorColor: ColorConstant.primaryColor,
-                  decoration: InputDecoration(
-                    hintText: 'Search',
-                    hintStyle: TextStyle(
-                        color: ColorConstant.inActiveColor, fontSize: 14),
-                    filled: true,
-                    fillColor: ColorConstant.cardGrey,
-                    suffixIcon: Icon(
-                      Icons.search,
-                      size: 20,
-                    ),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 15),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none),
-                  ),
+                child: searchField(
+                  onTextChnage: (value) {},
                 ),
               ),
             ),
