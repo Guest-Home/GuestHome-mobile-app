@@ -10,6 +10,7 @@ class CustomTextField extends StatelessWidget {
     required this.onTextChnage,
     required this.isMultiLine,
     required this.textInputType,
+    this.prifixIcon,
   });
 
   final String hintText;
@@ -17,6 +18,7 @@ class CustomTextField extends StatelessWidget {
   final ValueChanged<String> onTextChnage;
   final bool isMultiLine;
   final TextInputType textInputType;
+  final Widget? prifixIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,7 @@ class CustomTextField extends StatelessWidget {
         onChanged: (value) => onTextChnage(value),
         decoration: InputDecoration(
           hintText: hintText,
+          prefixIcon: prifixIcon,
           suffixIcon: surfixIcon,
           hintStyle: TextStyle(fontSize: 13),
           border: OutlineInputBorder(

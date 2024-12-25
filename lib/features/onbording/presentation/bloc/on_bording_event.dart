@@ -5,8 +5,7 @@ sealed class OnBordingEvent extends Equatable {
 }
 
 class OnBordingChangeEvent extends OnBordingEvent {
-  final int index;
-  const OnBordingChangeEvent({required this.index});
+  const OnBordingChangeEvent();
 
   @override
   List<Object?> get props => [];

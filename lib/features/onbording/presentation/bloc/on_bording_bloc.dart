@@ -10,8 +10,8 @@ class OnBordingBloc extends Bloc<OnBordingEvent, OnBordingState> {
       if (state.progress == 1.0) {
         emit(state.copyWith(progress: 0.2, index: 0));
       } else {
-        emit(
-            state.copyWith(index: event.index, progress: state.progress + 0.2));
+        emit(state.copyWith(
+            index: state.index + 1, progress: state.progress + 0.2));
       }
     });
 

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/config/route/navigator_observer.dart';
 import 'package:minapp/features/host/features/analytics/presentation/pages/analytics.dart';
+import 'package:minapp/features/host/features/auth/presentation/pages/account_setup.dart';
+import 'package:minapp/features/host/features/auth/presentation/pages/otp_verification.dart';
+import 'package:minapp/features/host/features/auth/presentation/pages/profile_setup.dart';
 import 'package:minapp/features/host/features/home/presentation/pages/home.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/account.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/general_information.dart';
@@ -15,7 +18,7 @@ import 'package:minapp/features/onbording/presentation/pages/onbording.dart';
 
 final GoRouter router = GoRouter(
   observers: [MyNavigatorObserver()],
-  initialLocation: '/properties',
+  initialLocation: '/',
   routes: [
     GoRoute(
         name: 'onboarding',
@@ -30,6 +33,22 @@ final GoRouter router = GoRouter(
       path: '/propertyDetail',
       builder: (context, state) => ListedPropertyDetail(),
     ),
+    GoRoute(
+        name: 'accountSetup',
+        path: '/accountSetup',
+        builder: (context, state) => AccountSetup(),
+        routes: [
+          GoRoute(
+            name: 'otpVerification',
+            path: '/otpVerification',
+            builder: (context, state) => OtpVerification(),
+          ),
+          GoRoute(
+            name: 'profileSetup',
+            path: '/v',
+            builder: (context, state) => ProfileSetup(),
+          ),
+        ]),
     ShellRoute(
       navigatorKey: GlobalKey<NavigatorState>(),
       builder: (context, state, child) {

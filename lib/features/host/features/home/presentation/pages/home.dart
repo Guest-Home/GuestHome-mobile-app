@@ -54,17 +54,17 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: Container(
-        margin: EdgeInsets.only(top: 60),
+        margin: EdgeInsets.only(top: 65),
         child: FloatingActionButton(
           autofocus: false,
           onPressed: () {
             context.goNamed('addProperty');
           },
           backgroundColor: ColorConstant.primaryColor,
-          elevation: 0,
+          elevation: 10,
           child: Icon(
             Icons.add_circle_outline,
-            size: 30,
+            size: 27,
             color: Colors.white,
           ),
         ),
@@ -73,12 +73,12 @@ class Home extends StatelessWidget {
       floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
       bottomNavigationBar: CustomLineIndicatorBottomNavbar(
         selectedColor: ColorConstant.primaryColor,
-        unSelectedColor: ColorConstant.inActiveColor,
+        unSelectedColor: ColorConstant.inActiveColor.withValues(alpha: 0.9),
         backgroundColor: Colors.white,
         enableLineIndicator: true,
         indicatorType: IndicatorType.top,
         currentIndex: _getSelectedIndex(context),
-        unselectedIconSize: 20,
+        unselectedIconSize: 17,
         selectedIconSize: 25,
         customBottomBarItems: [
           CustomBottomBarItems(
