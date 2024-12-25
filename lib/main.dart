@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:minapp/config/color/color.dart';
 import 'package:minapp/config/route/route.dart';
+import 'package:minapp/features/host/features/properties/presentation/bloc/add_property/add_property_bloc.dart';
 import 'package:minapp/service_locator.dart';
 import 'features/onbording/presentation/bloc/on_bording_bloc.dart';
 
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => getIt<OnBordingBloc>(),
         ),
+        BlocProvider(create: (context) => getIt<AddPropertyBloc>())
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
