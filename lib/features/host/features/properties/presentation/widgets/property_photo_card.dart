@@ -29,6 +29,7 @@ class PropertyPhotoCard extends StatelessWidget {
                   children: [
                     Expanded(
                       child: LinearProgressIndicator(
+                        color: ColorConstant.red,
                         backgroundColor: ColorConstant.primaryColor,
                         value: 1,
                         valueColor: AlwaysStoppedAnimation<Color>(
@@ -38,7 +39,7 @@ class PropertyPhotoCard extends StatelessWidget {
                     ),
                     Text("100%"),
                     Icon(
-                      Icons.delete_forever,
+                      Icons.delete_outlined,
                       size: 20,
                       color:
                           ColorConstant.secondBtnColor.withValues(alpha: 0.6),
