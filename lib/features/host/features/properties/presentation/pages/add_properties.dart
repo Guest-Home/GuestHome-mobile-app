@@ -4,10 +4,12 @@ import 'package:go_router/go_router.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/add_property/add_property_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/widgets/property_photo_card.dart';
 import '../../../../../../config/color/color.dart';
+import '../../../../../../core/common/amenitie_type_card.dart';
 import '../../../../../../core/common/back_button.dart';
 import '../../../../../../core/common/custom_button.dart';
+import '../../../../../../core/common/house_type_card.dart';
 import '../../../../../../core/common/upload_photo_widget.dart';
-import '../widgets/custom_text_field.dart';
+import '../../../../../../core/common/custom_text_field.dart';
 
 class AddProperties extends StatefulWidget {
   const AddProperties({super.key});
@@ -52,42 +54,10 @@ class _AddPropertiesState extends State<AddProperties> {
                                           crossAxisCount: 2,
                                           mainAxisExtent: 100),
                                   itemCount: 12,
-                                  itemBuilder: (context, index) => Card(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            side: BorderSide(
-                                                color: index == 0
-                                                    ? ColorConstant.primaryColor
-                                                    : ColorConstant.cardGrey)),
-                                        elevation: 0,
-                                        color: ColorConstant.cardGrey
-                                            .withValues(alpha: 0.7),
-                                        child: Container(
-                                          width: 150,
-                                          padding: const EdgeInsets.all(10),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Icon(
-                                                Icons.house,
-                                                color: ColorConstant
-                                                    .primaryColor
-                                                    .withValues(alpha: 0.8),
-                                              ),
-                                              Text(
-                                                "Private Rooms",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyMedium!
-                                                    .copyWith(
-                                                        color: ColorConstant
-                                                            .secondBtnColor),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                                  itemBuilder: (context, index) =>
+                                      HouseTypeCard(
+                                        iconData: Icons.house,
+                                        title: "Private Rooms",
                                       )))
                         ],
                       ),
@@ -137,42 +107,10 @@ class _AddPropertiesState extends State<AddProperties> {
                                           crossAxisSpacing: 10,
                                           mainAxisExtent: 100),
                                   itemCount: 12,
-                                  itemBuilder: (context, index) => Card(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            side: BorderSide(
-                                                color: index == 0
-                                                    ? ColorConstant.primaryColor
-                                                    : ColorConstant.cardGrey)),
-                                        elevation: 0,
-                                        color: ColorConstant.cardGrey
-                                            .withValues(alpha: 0.7),
-                                        child: Container(
-                                          width: 150,
-                                          padding: const EdgeInsets.all(10),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Icon(
-                                                Icons.wifi,
-                                                color: ColorConstant
-                                                    .primaryColor
-                                                    .withValues(alpha: 0.8),
-                                              ),
-                                              Text(
-                                                "WiFi",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyMedium!
-                                                    .copyWith(
-                                                        color: ColorConstant
-                                                            .secondBtnColor),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                                  itemBuilder: (context, index) =>
+                                      AmenitieTypeCard(
+                                        iconData: Icons.wifi,
+                                        title: "WiFi",
                                       )))
                         ],
                       ),

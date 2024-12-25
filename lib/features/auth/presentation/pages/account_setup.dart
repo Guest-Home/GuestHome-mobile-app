@@ -3,9 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
 import 'package:minapp/core/common/back_button.dart';
 import 'package:minapp/core/common/custom_button.dart';
-import 'package:minapp/features/host/features/properties/presentation/widgets/custom_text_field.dart';
+import 'package:minapp/core/common/custom_text_field.dart';
 
-import '../../../../../../core/common/country_code_selector.dart';
+import '../../../../core/common/country_code_selector.dart';
 
 class AccountSetup extends StatefulWidget {
   const AccountSetup({super.key});

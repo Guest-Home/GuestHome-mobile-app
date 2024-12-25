@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/core/common/upload_photo_widget.dart';
-import 'package:minapp/features/host/features/properties/presentation/widgets/custom_text_field.dart';
+import 'package:minapp/core/common/custom_text_field.dart';
 
-import '../../../../../../config/color/color.dart';
-import '../../../../../../core/common/back_button.dart';
-import '../../../../../../core/common/custom_button.dart';
-import '../../../properties/presentation/widgets/property_photo_card.dart';
+import '../../../../config/color/color.dart';
+import '../../../../core/common/back_button.dart';
+import '../../../../core/common/custom_button.dart';
+import '../../../host/features/properties/presentation/widgets/property_photo_card.dart';
 
 class ProfileSetup extends StatelessWidget {
   const ProfileSetup({super.key});
@@ -116,7 +116,8 @@ class ProfileSetup extends StatelessWidget {
                       Expanded(
                           child: CustomButton(
                               onPressed: () async {
-                                context.goNamed("properties");
+                                //  context.goNamed("properties");
+                                context.goNamed('houseType');
                               },
                               style: ElevatedButton.styleFrom(
                                   side: BorderSide(

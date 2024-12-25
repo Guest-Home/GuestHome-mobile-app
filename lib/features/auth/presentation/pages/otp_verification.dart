@@ -4,7 +4,7 @@ import 'package:minapp/config/color/color.dart';
 import 'package:minapp/core/common/back_button.dart';
 import 'package:pinput/pinput.dart';
 
-import '../../../../../../core/common/custom_button.dart';
+import '../../../../core/common/custom_button.dart';
 
 class OtpVerification extends StatelessWidget {
   const OtpVerification({super.key});

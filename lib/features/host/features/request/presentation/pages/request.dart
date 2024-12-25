@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:minapp/features/host/features/properties/presentation/widgets/search_filed.dart';
-import '../../../../../../config/color/color.dart';
 import '../widgets/request_card.dart';
 
 class Request extends StatefulWidget {
