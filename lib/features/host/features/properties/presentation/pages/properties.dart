@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:minapp/config/color/color.dart';
 import '../widgets/property_card.dart';
+import '../widgets/search_filed.dart';
 
 class Properties extends StatefulWidget {
   const Properties({super.key});
@@ -37,26 +37,10 @@ class _PropertiesState extends State<Properties> {
             centerTitle: true,
             collapseMode: CollapseMode.pin,
             title: Container(
-              padding: EdgeInsets.all(10),
-              child: TextFormField(
-                cursorColor: ColorConstant.primaryColor,
-                decoration: InputDecoration(
-                  hintText: 'Search',
-                  hintStyle: TextStyle(
-                      color: ColorConstant.inActiveColor, fontSize: 14),
-                  filled: true,
-                  fillColor: ColorConstant.cardGrey,
-                  suffixIcon: Icon(
-                    Icons.search,
-                    size: 20,
-                  ),
-                  contentPadding: EdgeInsets.symmetric(horizontal: 15),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none),
-                ),
-              ),
-            ),
+                padding: EdgeInsets.all(10),
+                child: searchField(
+                  onTextChnage: (value) {},
+                )),
           ),
         ),
         // SliverFillRemaining(
@@ -104,7 +88,7 @@ class _PropertiesState extends State<Properties> {
             (context, index) => GestureDetector(
                 onTap: () => context.goNamed('propertyDetail'),
                 child: PropertyCard()),
-            childCount: 1000,
+            childCount: 5,
           ),
         ),
       ],
