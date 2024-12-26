@@ -1,0 +1,94 @@
+import 'package:flutter/material.dart';
+
+import '../../../../../host/features/properties/presentation/widgets/search_filed.dart';
+import '../widgets/popular_house_card.dart';
+import '../widgets/section_header_text.dart';
+
+class HouseTypeDetail extends StatelessWidget {
+  const HouseTypeDetail({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            backgroundColor: Colors.white,
+            floating: true,
+            snap: true,
+            pinned: true,
+            expandedHeight: 130,
+            collapsedHeight: 130,
+            elevation: 0,
+            shadowColor: Colors.transparent,
+            scrolledUnderElevation: 0,
+            flexibleSpace: FlexibleSpaceBar(
+              centerTitle: true,
+              collapseMode: CollapseMode.pin,
+              title: Container(
+                  padding: EdgeInsets.all(10),
+                  child: Row(
+                    spacing: 20,
+                    children: [
+                      Expanded(
+                        child: searchField(
+                          onTextChnage: (value) {},
+                        ),
+                      ),
+                      Badge(
+                        child: Icon(
+                          Icons.filter_list,
+                        ),
+                      )
+                    ],
+                  )),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Column(children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: SecctionHeader(
+                  title: "Most Popular",
+                  isSeeMore: true,
+                ),
+              ),
+              SizedBox(
+                height: 300,
+                width: MediaQuery.of(context).size.width,
+                child: ListView.builder(
+                  padding: EdgeInsets.all(5),
+                  itemCount: 3,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) => PopularHouseCard(
+                    width: 300,
+                    height: 300,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(15),
+                child: SecctionHeader(
+                  title: "Nearby your location",
+                  isSeeMore: true,
+                ),
+              ),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: 10,
+                padding: EdgeInsets.all(4),
+                itemBuilder: (context, index) {
+                  return PopularHouseCard(
+                    width: MediaQuery.of(context).size.width,
+                    height: 400,
+                  );
+                },
+              ),
+            ]),
+          )
+        ],
+      ),
+    );
+  }
+}

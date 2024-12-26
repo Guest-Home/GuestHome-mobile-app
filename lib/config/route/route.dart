@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/config/route/navigator_observer.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/pages/house_type.dart';
+import 'package:minapp/features/guest/features/HousType/presentation/pages/house_type_detail.dart';
 import 'package:minapp/features/guest/features/booked/presentation/pages/booked.dart';
 import 'package:minapp/features/guest/features/guestHome/presentation/pages/guest_home.dart';
 import 'package:minapp/features/host/features/analytics/presentation/pages/analytics.dart';
@@ -21,7 +22,7 @@ import 'package:minapp/features/onbording/presentation/pages/onbording.dart';
 
 final GoRouter router = GoRouter(
   observers: [MyNavigatorObserver()],
-  initialLocation: '/',
+  initialLocation: '/houseType',
   routes: [
     GoRoute(
         name: 'onboarding',
@@ -105,10 +106,16 @@ final GoRouter router = GoRouter(
         },
         routes: [
           GoRoute(
-            name: 'houseType',
-            path: '/houseType',
-            builder: (context, state) => HouseType(),
-          ),
+              name: 'houseType',
+              path: '/houseType',
+              builder: (context, state) => HouseType(),
+              routes: [
+                GoRoute(
+                  name: 'houseTypeDetail',
+                  path: '/houseTypeDetail',
+                  builder: (context, state) => HouseTypeDetail(),
+                ),
+              ]),
           GoRoute(
             name: 'booked',
             path: '/booked',

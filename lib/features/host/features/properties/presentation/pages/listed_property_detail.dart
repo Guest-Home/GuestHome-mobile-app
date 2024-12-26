@@ -103,7 +103,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                         children: [
                           Expanded(
                               child: HouseTypeCard(
-                            iconData: Icons.other_houses_outlined,
+                            iconData: Icons.house,
                             title: 'private house',
                             isSelected: true,
                           )),
@@ -415,7 +415,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
           CustomButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.all(0.5),
+                  padding: EdgeInsets.all(10),
                   side: BorderSide(
                       color:
                           ColorConstant.secondBtnColor.withValues(alpha: 0.5)),
@@ -455,7 +455,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                   children: [
                     Text(
                       "Change House type",
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: ColorConstant.secondBtnColor,
                           fontWeight: FontWeight.bold),
                     ),
@@ -470,7 +470,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                         itemCount: 10, // Number of HouseTypeCard items
                         itemBuilder: (context, index) {
                           return HouseTypeCard(
-                            iconData: Icons.other_houses_outlined,
+                            iconData: Icons.house,
                             title: 'private house',
                             isSelected: index.isEven ? true : false,
                           ); // Replace with your actual card widget
@@ -582,7 +582,6 @@ class PropertyTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
         keyboardType: TextInputType.multiline,
-        enabled: false,
         minLines: 1,
         maxLines: null,
         decoration: InputDecoration(

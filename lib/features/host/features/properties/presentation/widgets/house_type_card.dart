@@ -34,7 +34,7 @@ class HouseTypeCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Icon(iconData,
-                color: ColorConstant.primaryColor.withValues(alpha: 0.7)),
+                color: ColorConstant.primaryColor.withValues(alpha: 0.8)),
             Expanded(
               child: Text(title,
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(

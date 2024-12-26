@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
+import 'package:minapp/features/guest/features/HousType/presentation/widgets/section_header_text.dart';
 
 import '../../../../../../core/common/house_type_card.dart';
 
@@ -37,6 +39,14 @@ class HouseType extends StatelessWidget {
                             width: MediaQuery.of(context).size.width,
                             height: 200,
                             color: ColorConstant.cardGrey,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.network(
+                                "https://media.architecturaldigest.com/photos/57e42deafe422b3e29b7e790/master/pass/JW_LosCabos_2015_MainExterior.jpg",
+                                fit: BoxFit.cover,
+                                width: MediaQuery.of(context).size.width,
+                              ),
+                            ),
                           ),
                           Positioned(
                             bottom: 5,
@@ -50,14 +60,19 @@ class HouseType extends StatelessWidget {
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyLarge!
-                                    .copyWith(fontWeight: FontWeight.w400),
+                                    .copyWith(
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.white),
                               ),
                             ),
                           )
                         ],
                       ),
                     ))),
-            sectionTitle(context, "What are you looking for?"),
+            SecctionHeader(
+              title: "What are you looking for?",
+              isSeeMore: false,
+            ),
             GridView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
@@ -67,23 +82,16 @@ class HouseType extends StatelessWidget {
                     mainAxisSpacing: 7,
                     mainAxisExtent: 100),
                 itemCount: 12,
-                itemBuilder: (context, index) => HouseTypeCard(
-                      iconData: Icons.house,
-                      title: "Private Rooms",
+                itemBuilder: (context, index) => GestureDetector(
+                      onTap: () => context.goNamed("houseTypeDetail"),
+                      child: HouseTypeCard(
+                        iconData: Icons.house,
+                        title: "Private Rooms",
+                      ),
                     ))
           ],
         ),
       ),
-    );
-  }
-
-  Text sectionTitle(BuildContext context, String title) {
-    return Text(
-      title,
-      style: Theme.of(context)
-          .textTheme
-          .bodyLarge!
-          .copyWith(fontWeight: FontWeight.bold),
     );
   }
 }
