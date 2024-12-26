@@ -37,7 +37,7 @@ class PropertyCard extends StatelessWidget {
                             children: List.generate(3,(index) => Container(width: 10,
                               height:10,
                               margin: EdgeInsets.only(right: 5),
-                              decoration: BoxDecoration(color:ColorConstant.cardGrey,borderRadius: BorderRadius.circular(40)),),),) )
+                              decoration: BoxDecoration(color:ColorConstant.cardGrey,borderRadius: BorderRadius.circular(40)),),),))
                 ],
               ),
               ListTile(

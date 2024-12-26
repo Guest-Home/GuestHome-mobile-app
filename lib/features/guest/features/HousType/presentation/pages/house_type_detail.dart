@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../host/features/properties/presentation/widgets/search_filed.dart';
 import '../widgets/popular_house_card.dart';
@@ -36,8 +37,18 @@ class HouseTypeDetail extends StatelessWidget {
                         ),
                       ),
                       Badge(
-                        child: Icon(
-                          Icons.filter_list,
+                        child: IconButton(
+                          icon: Icon(Icons.filter_list),
+                          onPressed: () => showModalBottomSheet(
+                            context: context,
+                            showDragHandle: true,
+                            backgroundColor: Colors.white,
+                            useSafeArea: true,
+                            builder: (context) => Container(
+                              color: Colors.white,
+                              height: MediaQuery.of(context).size.height,
+                            ),
+                          ),
                         ),
                       )
                     ],
@@ -60,9 +71,12 @@ class HouseTypeDetail extends StatelessWidget {
                   padding: EdgeInsets.all(5),
                   itemCount: 3,
                   scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) => PopularHouseCard(
-                    width: 300,
-                    height: 300,
+                  itemBuilder: (context, index) => GestureDetector(
+                    onTap: () => context.goNamed('houseDetail'),
+                    child: PopularHouseCard(
+                      width: 300,
+                      height: 300,
+                    ),
                   ),
                 ),
               ),
@@ -79,9 +93,12 @@ class HouseTypeDetail extends StatelessWidget {
                 itemCount: 10,
                 padding: EdgeInsets.all(4),
                 itemBuilder: (context, index) {
-                  return PopularHouseCard(
-                    width: MediaQuery.of(context).size.width,
-                    height: 400,
+                  return GestureDetector(
+                    onTap: () => context.goNamed('houseDetail'),
+                    child: PopularHouseCard(
+                      width: MediaQuery.of(context).size.width,
+                      height: 400,
+                    ),
                   );
                 },
               ),
