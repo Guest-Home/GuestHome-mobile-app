@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -21,31 +22,31 @@ class Booking extends StatelessWidget {
               child: ListView(
             padding: EdgeInsets.all(15),
             children: [
-              SecctionHeader(title: "Booking", isSeeMore: false),
-              Text("Fill out the information below and confirm your booking. "),
+              SecctionHeader(title: tr("Booking Detail"), isSeeMore: false),
+              Text(tr("Fill out the information below and confirm your booking. ")),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
-                child: stepSutTitle(context, "First Name", true),
+                child: stepSutTitle(context, tr("First Name"), true),
               ),
               CustomTextField(
-                  hintText: "first name",
+                  hintText: tr("First Name"),
                   surfixIcon: null,
                   onTextChnage: (value) {},
                   isMultiLine: false,
                   textInputType: TextInputType.text),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
-                child: stepSutTitle(context, "Last Name", true),
+                child: stepSutTitle(context,tr("Last Name"), true),
               ),
               CustomTextField(
-                  hintText: "last name",
+                  hintText: tr("Last Name"),
                   surfixIcon: null,
                   onTextChnage: (value) {},
                   isMultiLine: false,
                   textInputType: TextInputType.text),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
-                child: stepSutTitle(context, "Phone Number", true),
+                child: stepSutTitle(context,tr("Phone number"), true),
               ),
               CustomTextField(
                   hintText: "098667236",
@@ -69,7 +70,7 @@ class Booking extends StatelessWidget {
                           spacing: 10,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            stepSutTitle(context, "CheckIn", true),
+                            stepSutTitle(context,tr("Check-in"), true),
                             CustomTextField(
                                 hintText: DateTime.now().month.toString(),
                                 surfixIcon: GestureDetector(
@@ -93,7 +94,7 @@ class Booking extends StatelessWidget {
                           spacing: 10,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            stepSutTitle(context, "CheckOut", true),
+                            stepSutTitle(context, tr("Check-out"), true),
                             CustomTextField(
                                 hintText: DateTime.now().month.toString(),
                                 surfixIcon: GestureDetector(
@@ -118,7 +119,7 @@ class Booking extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
-                child: stepSutTitle(context, "Select ID type you have", true),
+                child: stepSutTitle(context,tr("Select ID type you have"), true),
               ),
               GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -169,8 +170,8 @@ class Booking extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(15),
                                 side: BorderSide(
                                     color: ColorConstant.secondBtnColor))),
-                        child: Text(
-                          "Cancel",
+                        child: Text(tr(
+                          "Cancel"),
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium!
@@ -187,8 +188,8 @@ class Booking extends StatelessWidget {
                           backgroundColor: ColorConstant.primaryColor,
                           padding: EdgeInsets.all(20),
                         ),
-                        child: Text(
-                          "Confirm Booking",
+                        child: Text(tr(
+                          "Confirm Booking"),
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium!
@@ -209,8 +210,8 @@ class Booking extends StatelessWidget {
       context: context,
       builder: (context) => AlertDialog(
           backgroundColor: Colors.white,
-          title: Text(
-            "Book pending...",
+          title: Text(tr('Book Pending')
+            ,
             style: Theme.of(context)
                 .textTheme
                 .headlineSmall!
@@ -227,8 +228,8 @@ class Booking extends StatelessWidget {
               spacing: 10,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(
-                  "You will get a call in a minute from the host or check booked menu for more information.",
+                Text(tr(
+                  "You will get a call in a minute from the host or check booked menu for more information."),
                   textAlign: TextAlign.center,
                 ),
                 Container(
@@ -241,8 +242,8 @@ class Booking extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                           backgroundColor: ColorConstant.primaryColor,
                           padding: EdgeInsets.all(15)),
-                      child: Text(
-                        "Done",
+                      child: Text(tr(
+                        "Done"),
                         style: TextStyle(color: Colors.white),
                       )),
                 )

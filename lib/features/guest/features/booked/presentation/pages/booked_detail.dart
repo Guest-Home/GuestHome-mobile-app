@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -113,7 +114,7 @@ class BookedDetail extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 11),
-              child: SecctionHeader(title: "About Host", isSeeMore: false),
+              child: SecctionHeader(title:tr("About Host"), isSeeMore: false),
             ),
             AboutHostCard(),
             Divider(
@@ -122,7 +123,7 @@ class BookedDetail extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 11),
               child:
-                  SecctionHeader(title: "About Reservations", isSeeMore: false),
+                  SecctionHeader(title:tr("About Reservations"), isSeeMore: false),
             ),
             AboutReservationsCard(),
             Divider(
@@ -130,24 +131,24 @@ class BookedDetail extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 11),
-              child: SecctionHeader(title: "Location", isSeeMore: false),
+              child: SecctionHeader(title:tr("Location"), isSeeMore: false),
             ),
             LocationMap(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 11),
               child: SecctionHeader(
-                  title: "Available facilities", isSeeMore: false),
+                  title:tr('Facilities'), isSeeMore: false),
             ),
             AvailableFacilities(),
             ListTile(
               title: SecctionHeader(
-                  title: "Booking Cancellation", isSeeMore: false),
+                  title: tr("Booking Cancellation"), isSeeMore: false),
               subtitle: Column(
                 spacing: 10,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Any cancellation policy details (e.g., “No refund for cancellations made less than 24 hours before check-in”)",
+                  Text(tr(
+                    "Any cancellation policy details (e.g., “No refund for cancellations made less than 24 hours before check-in”)"),
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   CustomButton(
@@ -161,8 +162,8 @@ class BookedDetail extends StatelessWidget {
                               side: BorderSide(
                                   color: ColorConstant.secondBtnColor)),
                           backgroundColor: Colors.white),
-                      child: Text(
-                        "Cancel the Booking",
+                      child: Text(tr(
+                        "Cancel the booking"),
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium!
@@ -182,8 +183,8 @@ class BookedDetail extends StatelessWidget {
       context: context,
       builder: (context) => AlertDialog(
           backgroundColor: Colors.white,
-          title: Text(
-            "Your Booking Has Been Canceled",
+          title: Text(tr(
+            "Your Booking Has Been Canceled"),
             textAlign: TextAlign.center,
             style: Theme.of(context)
                 .textTheme
@@ -212,8 +213,8 @@ class BookedDetail extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                           backgroundColor: ColorConstant.primaryColor,
                           padding: EdgeInsets.all(15)),
-                      child: Text(
-                        "Back to Home",
+                      child: Text(tr(
+                        "Back to home"),
                         style: TextStyle(color: Colors.white),
                       )),
                 )
@@ -234,13 +235,15 @@ class BookedDetail extends StatelessWidget {
         color: Colors.white,
         child: ListTile(
             title:
-                SecctionHeader(title: "Booking Cancellation", isSeeMore: false),
+                SecctionHeader(title:tr("Booking Cancellation"), isSeeMore: false),
             subtitle: Column(
-              spacing: 60,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                    'Are you sure you want to cancel your booking ? This action cannot be undone'),
+                Text(tr(
+                    'Are you sure you want to cancel your booking') ),
+                Text(tr(
+                    'This action cannot be undone') ),
+                SizedBox(height: 50,),
                 Row(
                   spacing: 10,
                   children: [
@@ -257,8 +260,8 @@ class BookedDetail extends StatelessWidget {
                                       color: ColorConstant.secondBtnColor),
                                   borderRadius: BorderRadius.circular(8),
                                 )),
-                            child: Text(
-                              "No",
+                            child: Text(tr("NO")
+                              ,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium!
@@ -278,8 +281,7 @@ class BookedDetail extends StatelessWidget {
                                       color: ColorConstant.secondBtnColor),
                                   borderRadius: BorderRadius.circular(8),
                                 )),
-                            child: Text(
-                              "Yes",
+                            child: Text(tr('YES'),
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium!

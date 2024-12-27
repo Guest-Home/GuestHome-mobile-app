@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
@@ -104,8 +105,7 @@ class HouseDetail extends StatelessWidget {
                   spacing: 10,
                   children: [
                     CircleAvatar(),
-                    Text(
-                      "Posted by Yonas",
+                    Text("${tr("posted by")} Yonas",
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!
@@ -118,8 +118,7 @@ class HouseDetail extends StatelessWidget {
                 color: ColorConstant.cardGrey.withValues(alpha: 0.5),
                 elevation: 0,
                 child: ListTile(
-                  title: Text(
-                    "Available facilities",
+                  title: Text(tr("Facilities"),
                     style: Theme.of(context)
                         .textTheme
                         .bodyLarge!
@@ -170,13 +169,13 @@ class HouseDetail extends StatelessWidget {
                   spacing: 10,
                   children: [
                     Text(
-                      "200 ETB",
+                      "200 ETB/",
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge!
                           .copyWith(fontWeight: FontWeight.w800),
                     ),
-                    Text("/per day")
+                    Text(tr("per day"))
                   ],
                 ),
                 Expanded(
@@ -188,8 +187,8 @@ class HouseDetail extends StatelessWidget {
                           backgroundColor: ColorConstant.primaryColor,
                           padding: EdgeInsets.all(20),
                         ),
-                        child: Text(
-                          "Book",
+                        child: Text(tr(
+                          "Book"),
                           style: Theme.of(context)
                               .textTheme
                               .bodyLarge!

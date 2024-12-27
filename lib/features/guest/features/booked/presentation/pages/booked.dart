@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -23,7 +24,7 @@ class Booked extends StatelessWidget {
           Padding(
               padding: EdgeInsets.all(1),
               child: ListTile(
-                title: SecctionHeader(title: "Booked", isSeeMore: false),
+                title: SecctionHeader(title: tr("Booked"), isSeeMore: false),
                 subtitle: Text(
                   "Here is the list of your requested booking",
                   style: Theme.of(context).textTheme.bodyMedium!,

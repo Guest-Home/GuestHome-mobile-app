@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../../config/color/color.dart';
@@ -113,12 +114,12 @@ class PopularHouseCard extends StatelessWidget {
                   RichText(
                       text: TextSpan(children: [
                     TextSpan(
-                        text: "posted By ",
+                        text:tr("posted by"),
                         style: TextStyle(
                             color: ColorConstant.secondBtnColor
                                 .withValues(alpha: 0.4))),
                     TextSpan(
-                        text: "@UserName",
+                        text: " @UserName",
                         style: TextStyle(
                             color: ColorConstant.secondBtnColor
                                 .withValues(alpha: 1)))
@@ -131,7 +132,7 @@ class PopularHouseCard extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             color: ColorConstant.secondBtnColor)),
                     TextSpan(
-                        text: "/day",
+                        text: tr("per day"),
                         style: TextStyle(
                             color: ColorConstant.secondBtnColor
                                 .withValues(alpha: 0.7))),
@@ -163,8 +164,8 @@ class PopularHouseCard extends StatelessWidget {
                   spacing: 100,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "Booking Status",
+                    Text(tr(
+                      "Booking Status"),
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge!

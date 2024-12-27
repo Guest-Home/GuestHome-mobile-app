@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class AboutReservationsCard extends StatelessWidget {
@@ -19,10 +20,13 @@ class AboutReservationsCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 10,
           children: [
-            Text("Reservation ID: 5"),
-            Text("Requested Reservation Price: 500.00"),
-            Text("Unit of Price: Birr"),
-            Text("Reservation Check in : 2024-09-27"),
+            Text(tr('Reservation ID')),
+            Text(tr('Requested Reservation Price')),
+            Text(tr('Unit of Price')),
+            Text(tr('Reservation Check in')),
+            Text(tr('Reservation Check out')),
+            Text(tr('Reservation Decision time')),
+            Text(tr('Reservation Decision')),
           ],
         ),
       ),

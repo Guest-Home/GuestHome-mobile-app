@@ -1,8 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
+import 'package:minapp/core/common/bloc/language_bloc.dart';
 import 'package:minapp/features/onbording/presentation/bloc/on_bording_bloc.dart';
+import '../widgets/language_selection.dart';
 import '../widgets/onbord_screen.dart';
 import '../widgets/progress_painter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,58 +44,7 @@ class _OnBordingState extends State<OnBording>
                           index: state.index,
                           sizing: StackFit.expand,
                           children: [
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width,
-                              child: Column(
-                                spacing: 40,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    spacing: 10,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SvgPicture.asset(
-                                        "assets/icons/language.svg",
-                                        semanticsLabel: 'language',
-                                        width: 20,
-                                        height: 20,
-                                      ),
-                                      Text(
-                                        "Select Language",
-                                        style: TextStyle(
-                                            fontSize: 20, color: Colors.white),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                      spacing: 10,
-                                      children: List.generate(
-                                        3,
-                                        (index) => Container(
-                                            width: 200,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                shape: BoxShape.rectangle,
-                                                border: Border.all(
-                                                    color: Colors.white)),
-                                            child: RadioListTile.adaptive(
-                                              value: true,
-                                              activeColor: Colors.white,
-                                              selected:
-                                                  index.isEven ? true : false,
-                                              title: Text(
-                                                state.language[index],
-                                                style: TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                              groupValue: true,
-                                              onChanged: (value) {},
-                                            )),
-                                      )),
-                                ],
-                              ),
-                            ),
+                            LanguageSelection(),
                             OnbordScreen(
                               title: "Lorem ipsum dolor sit amet consectetur.",
                               subtitle:
@@ -145,6 +97,8 @@ class _OnBordingState extends State<OnBording>
                             ),
                             trailing: GestureDetector(
                               onTap: () {
+
+                                context.setLocale(Locale('om', 'ET'));
                                 if (state.index == 4) {
                                   context
                                       .read<OnBordingBloc>()

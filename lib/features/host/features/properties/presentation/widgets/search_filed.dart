@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../../../../../config/color/color.dart';
 
@@ -16,7 +17,7 @@ class searchField extends StatelessWidget {
         decoration: InputDecoration(
           filled: true,
           fillColor: ColorConstant.cardGrey,
-          hintText: "Search",
+          hintText: tr('Search properties'),
           suffixIcon: Icon(Icons.search),
           hintStyle: TextStyle(fontSize: 13),
           border: OutlineInputBorder(

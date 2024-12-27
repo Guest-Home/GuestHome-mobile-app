@@ -1,4 +1,5 @@
 import 'package:bottom_navbar_with_indicator/bottom_navbar_with_indicator.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -48,11 +49,11 @@ class GuestHome extends StatelessWidget {
         customBottomBarItems: [
           CustomBottomBarItems(
             isAssetsImage: false,
-            label: 'Home',
+            label: tr('Home'),
             icon: Icons.home_filled,
           ),
           CustomBottomBarItems(
-              isAssetsImage: false, label: 'Booked', icon: Icons.bookmark),
+              isAssetsImage: false, label:tr('Booked'), icon: Icons.bookmark),
           CustomBottomBarItems(
               isAssetsImage: false,
               label: 'Profile',

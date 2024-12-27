@@ -25,7 +25,7 @@ import 'package:minapp/features/onbording/presentation/pages/onbording.dart';
 
 final GoRouter router = GoRouter(
   observers: [MyNavigatorObserver()],
-  initialLocation: '/houseType',
+  initialLocation: '/',
   routes: [
     GoRoute(
         name: 'onboarding',

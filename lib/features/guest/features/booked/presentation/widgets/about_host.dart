@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../../config/color/color.dart';
@@ -28,7 +29,7 @@ class AboutHostCard extends StatelessWidget {
             child: Row(
               spacing: 10,
               children: [
-                Text("Phone Number:"),
+                Text(tr("Phone number")),
                 Text(
                   "098765432",
                   style: Theme.of(context)
@@ -44,7 +45,7 @@ class AboutHostCard extends StatelessWidget {
             child: Row(
               spacing: 10,
               children: [
-                Text("Telegram UserName:"),
+                Text(tr("Telegram Username")),
                 Text(
                   "@Amanroot",
                   style: Theme.of(context)
@@ -67,8 +68,8 @@ class AboutHostCard extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100),
                           )),
-                      child: Text(
-                        "Call",
+                      child: Text(tr(
+                        "Call"),
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium!
@@ -83,8 +84,8 @@ class AboutHostCard extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100),
                           )),
-                      child: Text(
-                        "Sms",
+                      child: Text(tr(
+                        "Message"),
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium!

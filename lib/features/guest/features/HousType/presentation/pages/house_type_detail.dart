@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -60,7 +61,7 @@ class HouseTypeDetail extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: SecctionHeader(
-                  title: "Most Popular",
+                  title:tr("Most Popular"),
                   isSeeMore: true,
                 ),
               ),
@@ -84,7 +85,7 @@ class HouseTypeDetail extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.all(15),
                 child: SecctionHeader(
-                  title: "Nearby your location",
+                  title:tr('Nearby Search'),
                   isSeeMore: false,
                 ),
               ),
