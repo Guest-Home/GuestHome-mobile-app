@@ -19,6 +19,10 @@ class HouseType extends StatelessWidget {
               .bodyLarge!
               .copyWith(fontWeight: FontWeight.bold),
         ),
+        actions: [
+          Icon(Icons.notifications_none),
+          SizedBox(width: 10,)
+        ],
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(15),

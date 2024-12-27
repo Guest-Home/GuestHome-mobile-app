@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/config/route/navigator_observer.dart';
+import 'package:minapp/features/guest/features/HousType/presentation/pages/booking.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/pages/house_detail.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/pages/house_type.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/pages/house_type_detail.dart';
@@ -127,6 +128,13 @@ final GoRouter router = GoRouter(
       name: 'houseDetail',
       path: '/houseDetail',
       builder: (context, state) => HouseDetail(),
+      routes: [
+        GoRoute(
+          name: 'booking',
+          path: '/booking',
+          builder: (context, state) => Booking(),
+        ),
+      ]
     ),
   ],
 );

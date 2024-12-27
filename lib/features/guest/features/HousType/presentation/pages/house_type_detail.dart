@@ -76,6 +76,7 @@ class HouseTypeDetail extends StatelessWidget {
                     child: PopularHouseCard(
                       width: 300,
                       height: 300,
+                      hasStatus: false,
                     ),
                   ),
                 ),
@@ -84,7 +85,7 @@ class HouseTypeDetail extends StatelessWidget {
                 padding: EdgeInsets.all(15),
                 child: SecctionHeader(
                   title: "Nearby your location",
-                  isSeeMore: true,
+                  isSeeMore: false,
                 ),
               ),
               ListView.builder(
@@ -98,6 +99,7 @@ class HouseTypeDetail extends StatelessWidget {
                     child: PopularHouseCard(
                       width: MediaQuery.of(context).size.width,
                       height: 400,
+                      hasStatus: false,
                     ),
                   );
                 },

@@ -34,8 +34,9 @@ class CustomTextField extends StatelessWidget {
           hintStyle: TextStyle(fontSize: 13),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: ColorConstant.cardGrey),
+            borderSide: BorderSide(color: ColorConstant.cardGrey.withValues(alpha: 0.5)),
           ),
+
         ));
   }
 }
