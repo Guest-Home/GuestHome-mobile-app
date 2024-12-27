@@ -6,6 +6,7 @@ import 'package:minapp/features/guest/features/HousType/presentation/pages/house
 import 'package:minapp/features/guest/features/HousType/presentation/pages/house_type.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/pages/house_type_detail.dart';
 import 'package:minapp/features/guest/features/booked/presentation/pages/booked.dart';
+import 'package:minapp/features/guest/features/booked/presentation/pages/booked_detail.dart';
 import 'package:minapp/features/guest/features/guestHome/presentation/pages/guest_home.dart';
 import 'package:minapp/features/host/features/analytics/presentation/pages/analytics.dart';
 import 'package:minapp/features/auth/presentation/pages/account_setup.dart';
@@ -119,22 +120,27 @@ final GoRouter router = GoRouter(
                 ),
               ]),
           GoRoute(
-            name: 'booked',
-            path: '/booked',
-            builder: (context, state) => Booked(),
-          ),
+              name: 'booked',
+              path: '/booked',
+              builder: (context, state) => Booked(),
+              routes: [
+                GoRoute(
+                  name: 'bookedDetail',
+                  path: '/bookedDetail',
+                  builder: (context, state) => BookedDetail(),
+                ),
+              ]),
         ]),
     GoRoute(
-      name: 'houseDetail',
-      path: '/houseDetail',
-      builder: (context, state) => HouseDetail(),
-      routes: [
-        GoRoute(
-          name: 'booking',
-          path: '/booking',
-          builder: (context, state) => Booking(),
-        ),
-      ]
-    ),
+        name: 'houseDetail',
+        path: '/houseDetail',
+        builder: (context, state) => HouseDetail(),
+        routes: [
+          GoRoute(
+            name: 'booking',
+            path: '/booking',
+            builder: (context, state) => Booking(),
+          ),
+        ]),
   ],
 );

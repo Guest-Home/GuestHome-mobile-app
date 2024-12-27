@@ -6,7 +6,8 @@ class PopularHouseCard extends StatelessWidget {
   const PopularHouseCard({
     super.key,
     required this.width,
-    required this.height, required this.hasStatus,
+    required this.height,
+    required this.hasStatus,
   });
 
   final double width;
@@ -23,44 +24,54 @@ class PopularHouseCard extends StatelessWidget {
         color: Colors.white,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
-            side: BorderSide(
-                color: ColorConstant.cardGrey.withValues(alpha: 0.6))),
+            side: hasStatus
+                ? BorderSide.none
+                : BorderSide(
+                    color: ColorConstant.cardGrey.withValues(alpha: 0.6))),
         elevation: 0,
         child: Column(
           children: [
             Expanded(
-              child:Stack(children: [
-            ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-        child: Image.network(
-          "https://media.architecturaldigest.com/photos/57e42deafe422b3e29b7e790/master/pass/JW_LosCabos_2015_MainExterior.jpg",
-          fit: BoxFit.cover,
-          width: MediaQuery.of(context).size.width,
-
-        ),
-      ),
+                child: Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.network(
+                    "https://media.architecturaldigest.com/photos/57e42deafe422b3e29b7e790/master/pass/JW_LosCabos_2015_MainExterior.jpg",
+                    fit: BoxFit.cover,
+                    width: MediaQuery.of(context).size.width,
+                  ),
+                ),
                 Positioned(
                     bottom: 10,
                     left: 0,
                     right: 0,
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children:[
+                        children: [
                           Container(
                               height: 25,
-                              padding: EdgeInsets.symmetric(horizontal: 20,vertical:5),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 5),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(100),
-                                color: Colors.black.withValues(alpha: 0.4),),
-                              child:Row(children:List.generate(3, (index) => Container(width:7,height:7,
-                                margin: EdgeInsets.only(right: 5),
-                                decoration: BoxDecoration(shape: BoxShape.circle,color: Colors.white),)),)
-
-                          )
+                                color: Colors.black.withValues(alpha: 0.4),
+                              ),
+                              child: Row(
+                                children: List.generate(
+                                    3,
+                                    (index) => Container(
+                                          width: 7,
+                                          height: 7,
+                                          margin: EdgeInsets.only(right: 5),
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Colors.white),
+                                        )),
+                              ))
                         ]))
-          ],)
-
-            ),
+              ],
+            )),
             ListTile(
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -145,28 +156,40 @@ class PopularHouseCard extends StatelessWidget {
                 ],
               ),
             ),
-            if(hasStatus)
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                spacing: 100,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Booking Status",style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w400),),
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal:10,vertical: 7),
-                      decoration: BoxDecoration(
-                          color: ColorConstant.yellow,
-                        borderRadius: BorderRadius.circular(50)
-                      ),
-                      child:
-                      Center(child: Text("Pending",style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.white),)),
+            if (hasStatus)
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                  spacing: 100,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Booking Status",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(fontWeight: FontWeight.w800),
                     ),
-                  )
-                ],
-              ),
-            )
+                    Expanded(
+                      child: Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+                        decoration: BoxDecoration(
+                            color: ColorConstant.yellow,
+                            borderRadius: BorderRadius.circular(50)),
+                        child: Center(
+                            child: Text(
+                          "Pending",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(color: Colors.white),
+                        )),
+                      ),
+                    )
+                  ],
+                ),
+              )
           ],
         ),
       ),
