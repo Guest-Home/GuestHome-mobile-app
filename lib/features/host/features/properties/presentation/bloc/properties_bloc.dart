@@ -6,8 +6,6 @@ part 'properties_state.dart';
 
 class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState> {
   PropertiesBloc() : super(PropertiesInitial()) {
-    on<PropertiesEvent>((event, emit) {
-      // TODO: implement event handler
-    });
+    on<PropertiesEvent>((event, emit) {});
   }
 }

@@ -6,8 +6,6 @@ part 'booked_state.dart';
 
 class BookedBloc extends Bloc<BookedEvent, BookedState> {
   BookedBloc() : super(BookedInitial()) {
-    on<BookedEvent>((event, emit) {
-      // TODO: implement event handler
-    });
+    on<BookedEvent>((event, emit) {});
   }
 }

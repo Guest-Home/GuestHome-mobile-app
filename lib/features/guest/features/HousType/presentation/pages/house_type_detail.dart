@@ -33,7 +33,7 @@ class HouseTypeDetail extends StatelessWidget {
                     spacing: 20,
                     children: [
                       Expanded(
-                        child: searchField(
+                        child: SearchField(
                           onTextChnage: (value) {},
                         ),
                       ),
@@ -61,7 +61,7 @@ class HouseTypeDetail extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: SecctionHeader(
-                  title:tr("Most Popular"),
+                  title: tr("Most Popular"),
                   isSeeMore: true,
                 ),
               ),
@@ -85,7 +85,7 @@ class HouseTypeDetail extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.all(15),
                 child: SecctionHeader(
-                  title:tr('Nearby Search'),
+                  title: tr('Nearby Search'),
                   isSeeMore: false,
                 ),
               ),

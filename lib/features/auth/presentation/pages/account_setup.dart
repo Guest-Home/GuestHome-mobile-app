@@ -40,7 +40,7 @@ class _AccountSetupState extends State<AccountSetup> {
                 onTextChnage: (value) {},
                 isMultiLine: false,
                 prifixIcon: CountryCodeSelector(
-                  onChange: (value) => print(value.code),
+                  onChange: (value) {},
                 ),
                 textInputType: TextInputType.phone),
             Container(

@@ -6,14 +6,15 @@ part 'language_event.dart';
 part 'language_state.dart';
 
 class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
-  LanguageBloc() : super(LanguageState(selectedLanguage:AppLocal.english,locale: Locale('en','US'))) {
-    on<ChangeAppLocalEvent>((event, emit)async{
-      print("blovvvv");
-      print(event.appLocal);
-        if(event.appLocal!=state.selectedLanguage){
-          emit(LanguageState(selectedLanguage:event.appLocal,locale:getLocale(event.appLocal)));
-        }
-
+  LanguageBloc()
+      : super(LanguageState(
+            selectedLanguage: AppLocal.english, locale: Locale('en', 'US'))) {
+    on<ChangeAppLocalEvent>((event, emit) async {
+      if (event.appLocal != state.selectedLanguage) {
+        emit(LanguageState(
+            selectedLanguage: event.appLocal,
+            locale: getLocale(event.appLocal)));
+      }
     });
   }
 

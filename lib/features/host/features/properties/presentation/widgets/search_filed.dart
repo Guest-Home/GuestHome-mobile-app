@@ -2,8 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../../../../../config/color/color.dart';
 
-class searchField extends StatelessWidget {
-  const searchField({
+class SearchField extends StatelessWidget {
+  const SearchField({
     super.key,
     required this.onTextChnage,
   });

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:minapp/features/host/features/properties/presentation/widgets/search_filed.dart';
+import '../../../properties/presentation/widgets/search_filed.dart';
 import '../widgets/request_card.dart';
 
 class Request extends StatefulWidget {
@@ -38,7 +38,7 @@ class _RequestState extends State<Request> {
               collapseMode: CollapseMode.pin,
               title: Container(
                 padding: EdgeInsets.all(10),
-                child: searchField(
+                child: SearchField(
                   onTextChnage: (value) {},
                 ),
               ),

@@ -6,8 +6,6 @@ part 'houstype_state.dart';
 
 class HoustypeBloc extends Bloc<HoustypeEvent, HoustypeState> {
   HoustypeBloc() : super(HoustypeInitial()) {
-    on<HoustypeEvent>((event, emit) {
-      // TODO: implement event handler
-    });
+    on<HoustypeEvent>((event, emit) {});
   }
 }

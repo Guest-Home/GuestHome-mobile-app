@@ -1,11 +1,10 @@
 part of 'on_bording_bloc.dart';
 
 class OnBordingState extends Equatable {
-  OnBordingState({this.index = 0, this.progress = 0.2});
+  const OnBordingState({this.index = 0, this.progress = 0.2});
 
-  int index;
-  double progress;
-  List<String> language = ["English", "አማርኛ", "Afan Oromo"];
+  final int index;
+  final double progress;
 
   OnBordingState copyWith({int? index, double? progress}) {
     return OnBordingState(
@@ -19,5 +18,5 @@ class OnBordingState extends Equatable {
 }
 
 class GetStartedState extends OnBordingState {
-  GetStartedState();
+  const GetStartedState();
 }

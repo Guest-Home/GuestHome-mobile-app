@@ -106,9 +106,7 @@ class _AnalyticsState extends State<Analytics> {
                           CupertinoDatePicker(
                             mode: CupertinoDatePickerMode.date,
                             initialDateTime: DateTime.now(),
-                            onDateTimeChanged: (DateTime value) {
-                              print(value);
-                            },
+                            onDateTimeChanged: (DateTime value) {},
                           );
                         }
                       },

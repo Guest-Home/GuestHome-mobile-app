@@ -1,9 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
-import 'package:minapp/core/common/bloc/language_bloc.dart';
 import 'package:minapp/features/onbording/presentation/bloc/on_bording_bloc.dart';
 import '../widgets/language_selection.dart';
 import '../widgets/onbord_screen.dart';
@@ -97,7 +95,6 @@ class _OnBordingState extends State<OnBording>
                             ),
                             trailing: GestureDetector(
                               onTap: () {
-
                                 context.setLocale(Locale('om', 'ET'));
                                 if (state.index == 4) {
                                   context

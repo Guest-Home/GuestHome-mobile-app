@@ -47,7 +47,7 @@ class OtpVerification extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              onCompleted: (pin) => print(pin),
+              onCompleted: (pin) {},
             ),
             Text('Didn’t receive the code?\n Resend in 45 seconds'),
             Container(

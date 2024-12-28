@@ -6,8 +6,6 @@ part 'guesthome_state.dart';
 
 class GuesthomeBloc extends Bloc<GuesthomeEvent, GuesthomeState> {
   GuesthomeBloc() : super(GuesthomeInitial()) {
-    on<GuesthomeEvent>((event, emit) {
-      // TODO: implement event handler
-    });
+    on<GuesthomeEvent>((event, emit) {});
   }
 }

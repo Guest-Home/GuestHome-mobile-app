@@ -6,8 +6,6 @@ part 'analytics_state.dart';
 
 class AnalyticsBloc extends Bloc<AnalyticsEvent, AnalyticsState> {
   AnalyticsBloc() : super(AnalyticsInitial()) {
-    on<AnalyticsEvent>((event, emit) {
-      // TODO: implement event handler
-    });
+    on<AnalyticsEvent>((event, emit) {});
   }
 }

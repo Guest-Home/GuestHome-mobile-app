@@ -38,7 +38,7 @@ class _PropertiesState extends State<Properties> {
             collapseMode: CollapseMode.pin,
             title: Container(
                 padding: EdgeInsets.all(10),
-                child: searchField(
+                child: SearchField(
                   onTextChnage: (value) {},
                 )),
           ),

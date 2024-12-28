@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class ColorConstant {
-  static Color primaryColor = Color(0xfff6938ef);
-  static Color red = Color(0xffff04438);
-  static Color green = Color(0xfff12b76a);
-  static Color yellow = Color(0xffffdb022);
-  static Color secondBtnColor = Color(0xfff111827);
-  static Color inActiveColor = Color(0xfff323B49);
-  static Color cardGrey = Color(0xffff1f2f4);
+  static Color primaryColor = Color(0xff6938ef);
+  static Color red = Color(0xfff04438);
+  static Color green = Color(0xff12b76a);
+  static Color yellow = Color(0xfffdb022);
+  static Color secondBtnColor = Color(0xff111827);
+  static Color inActiveColor = Color(0xff323B49);
+  static Color cardGrey = Color(0xfff1f2f4);
 }

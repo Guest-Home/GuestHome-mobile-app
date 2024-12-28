@@ -10,9 +10,7 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
       emit(state.copyWith(step: state.step + 1));
     });
     on<BackStepEvent>((event, emit) {
-      print(state.step);
       emit(state.copyWith(step: state.step == 0 ? 0 : state.step - 1));
-      print(state.step);
     });
   }
 }

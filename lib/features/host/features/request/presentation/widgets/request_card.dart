@@ -166,9 +166,7 @@ class RequestCard extends StatelessWidget {
                             children: [
                               Expanded(
                                   child: CustomButton(
-                                onPressed: () {
-                                  print("Approved");
-                                },
+                                onPressed: () {},
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: ColorConstant.green,
                                   padding: EdgeInsets.all(10),
@@ -185,9 +183,7 @@ class RequestCard extends StatelessWidget {
                               )),
                               Expanded(
                                   child: CustomButton(
-                                onPressed: () {
-                                  print("Rejected");
-                                },
+                                onPressed: () {},
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: ColorConstant.red,
                                   padding: EdgeInsets.all(10),

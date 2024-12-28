@@ -105,7 +105,8 @@ class HouseDetail extends StatelessWidget {
                   spacing: 10,
                   children: [
                     CircleAvatar(),
-                    Text("${tr("posted by")} Yonas",
+                    Text(
+                      "${tr("posted by")} Yonas",
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!
@@ -118,7 +119,8 @@ class HouseDetail extends StatelessWidget {
                 color: ColorConstant.cardGrey.withValues(alpha: 0.5),
                 elevation: 0,
                 child: ListTile(
-                  title: Text(tr("Facilities"),
+                  title: Text(
+                    tr("Facilities"),
                     style: Theme.of(context)
                         .textTheme
                         .bodyLarge!
@@ -187,8 +189,8 @@ class HouseDetail extends StatelessWidget {
                           backgroundColor: ColorConstant.primaryColor,
                           padding: EdgeInsets.all(20),
                         ),
-                        child: Text(tr(
-                          "Book"),
+                        child: Text(
+                          tr("Book"),
                           style: Theme.of(context)
                               .textTheme
                               .bodyLarge!
@@ -209,8 +211,7 @@ class SeeMoreText extends StatefulWidget {
   final String text;
   final int maxLines;
 
-  const SeeMoreText({Key? key, required this.text, this.maxLines = 4})
-      : super(key: key);
+  const SeeMoreText({super.key, required this.text, this.maxLines = 4});
 
   @override
   _SeeMoreTextState createState() => _SeeMoreTextState();
