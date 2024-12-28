@@ -58,8 +58,10 @@ class ProfileSetup extends StatelessWidget {
                               child: RadioListTile.adaptive(
                                 selectedTileColor: ColorConstant.primaryColor,
                                 title: Row(
+                                  spacing: 10,
                                   children: [
-                                    Icon(Icons.man),
+                                    index==0?Image.asset('assets/icons/woman.png'):
+                                    Image.asset('assets/icons/man.png'),
                                     Text("Male"),
                                   ],
                                 ),
