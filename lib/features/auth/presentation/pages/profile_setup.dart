@@ -22,9 +22,7 @@ class ProfileSetup extends StatelessWidget {
           child: Column(
             children: [
               Expanded(
-                child: Column(
-                  spacing: 15,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: ListView(
                   children: [
                     Text(
                       "Profile SetUp",
@@ -33,15 +31,19 @@ class ProfileSetup extends StatelessWidget {
                           .titleLarge!
                           .copyWith(fontWeight: FontWeight.bold),
                     ),
+                    SizedBox(height:20,),
                     stepSutTitle(context, "Full Name", true),
+                    SizedBox(height:10,),
                     CustomTextField(
-                        hintText: "amanuel demelash",
+                        hintText: "full name",
                         surfixIcon: null,
                         onTextChnage: (value) {},
                         isMultiLine: false,
                         textInputType: TextInputType.text),
+                    SizedBox(height:10,),
                     stepSutTitle(context, "Gender", true),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: List.generate(
                         2,
                         (index) => Expanded(
@@ -59,10 +61,11 @@ class ProfileSetup extends StatelessWidget {
                                 selectedTileColor: ColorConstant.primaryColor,
                                 title: Row(
                                   spacing: 10,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    index==0?Image.asset('assets/icons/woman.png'):
-                                    Image.asset('assets/icons/man.png'),
-                                    Text("Male"),
+                                    index==0?Image.asset('assets/icons/woman.png',width: 15,):
+                                    Image.asset('assets/icons/man.png',width: 15,),
+                                    Text("Male",style: Theme.of(context).textTheme.bodySmall,),
                                   ],
                                 ),
                                 useCupertinoCheckmarkStyle: true,
@@ -77,9 +80,11 @@ class ProfileSetup extends StatelessWidget {
                         ),
                       ),
                     ),
+                    SizedBox(height:10,),
                     UploadPhoto(
                       ontTap: () {},
                     ),
+                    SizedBox(height:10,),
                     Card(
                         elevation: 0.2,
                         color: Colors.white,

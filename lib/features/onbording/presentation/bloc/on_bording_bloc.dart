@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'on_bording_event.dart';
 part 'on_bording_state.dart';
@@ -15,7 +16,9 @@ class OnBordingBloc extends Bloc<OnBordingEvent, OnBordingState> {
       }
     });
 
-    on<OnBordingGetStartedEvent>((event, emit) {
+    on<OnBordingGetStartedEvent>((event, emit)async{
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setBool("isFirstTimeUser", false);
       emit(GetStartedState());
     });
   }

@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../../../../config/color/color.dart';
 
@@ -21,11 +23,14 @@ class PropertyCard extends StatelessWidget {
               Stack(
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.network("https://media.architecturaldigest.com/photos/57e42deafe422b3e29b7e790/master/pass/JW_LosCabos_2015_MainExterior.jpg",
-                      fit:BoxFit.cover,
-                      width:MediaQuery.of(context).size.width,
-                      height: 210,
+                    borderRadius: BorderRadius.circular(15),
+                    child:CachedNetworkImage(
+                      imageUrl:"https://media.architecturaldigest.com/photos/57e42deafe422b3e29b7e790/master/pass/JW_LosCabos_2015_MainExterior.jpg",
+                      placeholder: (context, url) =>CupertinoActivityIndicator(),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                      fit: BoxFit.cover,
+                      width: MediaQuery.of(context).size.width,
+                      height:200,
                     ),
                   ),
                   Positioned(
@@ -52,10 +57,11 @@ class PropertyCard extends StatelessWidget {
                     'House Description goes here.Lorem ipsum dolor sit amet consectetur. Posuere vulputate gravida diam id feugiat. Suscipit et nunc tortor vivamus mattis sed est.'),
               ),
               Row(
+                spacing: 10,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Icon(
-                    Icons.location_on_rounded,
+                    Icons.location_on_outlined,
                     color: ColorConstant.primaryColor,
                   ),
                   Text(
@@ -77,7 +83,7 @@ class PropertyCard extends StatelessWidget {
                     spacing: 7,
                     children: [
                       Icon(
-                        Icons.other_houses_rounded,
+                        Icons.house_outlined,
                         color: ColorConstant.primaryColor,
                       ),
                       Text(

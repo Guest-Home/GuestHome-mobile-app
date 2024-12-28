@@ -22,11 +22,19 @@ import 'package:minapp/features/host/features/properties/presentation/pages/list
 import 'package:minapp/features/host/features/properties/presentation/pages/properties.dart';
 import 'package:minapp/features/host/features/request/presentation/pages/request.dart';
 import 'package:minapp/features/onbording/presentation/pages/onbording.dart';
+import 'package:minapp/features/onbording/presentation/pages/splash.dart';
+
 
 final GoRouter router = GoRouter(
-  observers: [MyNavigatorObserver()],
-  initialLocation: '/',
+  observers: [
+    MyNavigatorObserver()
+  ],
+  initialLocation:'/',
   routes: [
+    GoRoute(
+        name: 'splash',
+        path: '/splash',
+        builder: (context, state) => Splash()),
     GoRoute(
         name: 'onboarding',
         path: '/',
@@ -52,10 +60,25 @@ final GoRouter router = GoRouter(
           ),
           GoRoute(
             name: 'profileSetup',
-            path: '/v',
+            path: '/profileSetup',
             builder: (context, state) => ProfileSetup(),
           ),
         ]),
+    GoRoute(
+      name: 'generalInformation',
+      path: '/generalInformation',
+      builder: (context, state) => const GeneralInformation(),
+    ),
+    GoRoute(
+      name: 'language',
+      path: '/language',
+      builder: (context, state) => const Language(),
+    ),
+    GoRoute(
+      name: 'account',
+      path: '/account',
+      builder: (context, state) => const Account(),
+    ),
     ShellRoute(
       navigatorKey: GlobalKey<NavigatorState>(),
       builder: (context, state, child) {
@@ -81,23 +104,7 @@ final GoRouter router = GoRouter(
             name: 'profile',
             path: '/profile',
             builder: (context, state) => const Profile(),
-            routes: [
-              GoRoute(
-                name: 'generalInformation',
-                path: '/generalInformation',
-                builder: (context, state) => const GeneralInformation(),
-              ),
-              GoRoute(
-                name: 'language',
-                path: '/language',
-                builder: (context, state) => const Language(),
-              ),
-              GoRoute(
-                name: 'account',
-                path: '/account',
-                builder: (context, state) => const Account(),
-              ),
-            ]),
+           ),
       ],
     ),
     //Guest routes

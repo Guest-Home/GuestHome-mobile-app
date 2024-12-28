@@ -29,15 +29,15 @@ class AmenitieTypeCard extends StatelessWidget {
           children: [
             Icon(
               iconData,
-              size:36,
-              color: ColorConstant.primaryColor.withValues(alpha: 0.9),
+              size:33,
+              color: ColorConstant.primaryColor.withValues(alpha: 0.8),
             ),
             Text(
               title,
               style: Theme.of(context)
                   .textTheme
                   .bodyMedium!
-                  .copyWith(color: ColorConstant.secondBtnColor,fontWeight: FontWeight.w600),
+                  .copyWith(color: ColorConstant.secondBtnColor,),
             ),
           ],
         ),

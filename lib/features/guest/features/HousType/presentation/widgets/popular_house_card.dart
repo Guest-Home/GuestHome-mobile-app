@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../../config/color/color.dart';
@@ -25,9 +27,7 @@ class PopularHouseCard extends StatelessWidget {
         color: Colors.white,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
-            side: hasStatus
-                ? BorderSide.none
-                : BorderSide(
+            side:  BorderSide(
                     color: ColorConstant.cardGrey.withValues(alpha: 0.6))),
         elevation: 0,
         child: Column(
@@ -37,10 +37,13 @@ class PopularHouseCard extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: Image.network(
-                    "https://media.architecturaldigest.com/photos/57e42deafe422b3e29b7e790/master/pass/JW_LosCabos_2015_MainExterior.jpg",
+                  child: CachedNetworkImage(
+                    imageUrl:"https://media.architecturaldigest.com/photos/57e42deafe422b3e29b7e790/master/pass/JW_LosCabos_2015_MainExterior.jpg",
+                    placeholder: (context, url) =>CupertinoActivityIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                     fit: BoxFit.cover,
                     width: MediaQuery.of(context).size.width,
+                    height: 250,
                   ),
                 ),
                 Positioned(

@@ -42,7 +42,6 @@ class MyApp extends StatelessWidget {
       child: BlocBuilder<LanguageBloc, LanguageState>(
         buildWhen: (previous, current) => previous.locale != current.locale,
         builder: (context, state) {
-          print(context.locale);
           return MaterialApp.router(
             localizationsDelegates: [
               GlobalMaterialLocalizations.delegate,

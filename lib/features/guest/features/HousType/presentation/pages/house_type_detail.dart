@@ -58,7 +58,6 @@ class HouseTypeDetail extends StatelessWidget {
                             isDismissible: true,
                             isScrollControlled: true,
                             builder: (context) => Container(
-
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                 borderRadius: BorderRadius.only(
@@ -94,47 +93,51 @@ class HouseTypeDetail extends StatelessWidget {
                                         ],
                                       ),
                                     ),
-                                    SizedBox(
-                                      height: 80,
-                                      child: ListView.builder(
-                                        scrollDirection: Axis.horizontal,
-                                        itemBuilder: (context, index) => Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          spacing: 4,
-                                          children: [
-                                            Container(
-                                              padding: EdgeInsets.all(15),
-                                              margin: EdgeInsets.only(right: 10),
-                                              decoration: BoxDecoration(
-                                                color: ColorConstant.primaryColor,
-                                                shape: BoxShape.circle,
+                                    Expanded(child: ListView(children: [
+                                      SizedBox(
+                                        height: 80,
+                                        child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemBuilder: (context, index) => Column(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            spacing: 4,
+                                            children: [
+                                              Container(
+                                                padding: EdgeInsets.all(15),
+                                                margin: EdgeInsets.only(right: 10),
+                                                decoration: BoxDecoration(
+                                                  color: ColorConstant.cardGrey,
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: Icon(Icons.house,color: ColorConstant.secondBtnColor.withValues(alpha: 0.6),),
                                               ),
-                                              child: Icon(Icons.house),
-                                            ),
-                                            Text(
-                                              index.isEven ? "private House" : "pension",
-                                              style: Theme.of(context).textTheme.bodySmall,
-                                            )
-                                          ],
+                                              Text(
+                                                index.isEven ? "private House" : "pension",
+                                                style: Theme.of(context).textTheme.bodySmall,
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    SecctionHeader(title: tr("Price range"), isSeeMore: false),
-                                    RangeSlider(
-                                      values: RangeValues(100, 3000),
-                                      labels: RangeLabels("min", "max"),
-                                      activeColor: ColorConstant.primaryColor,
-                                      inactiveColor: Colors.grey,
-                                      min: 100,
-                                      max: 3000,
-                                      divisions: 300,
-                                      onChanged: (value) {
-                                        print(value);
-                                      },
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                                      child: Row(
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SecctionHeader(title: tr("Price range"), isSeeMore: false),
+                                      ),
+                                      RangeSlider(
+                                        values: RangeValues(100, 3000),
+                                        labels: RangeLabels("min", "max"),
+                                        activeColor: ColorConstant.primaryColor,
+                                        inactiveColor: Colors.grey,
+                                        min: 100,
+                                        max: 3000,
+                                        divisions: 300,
+                                        onChanged: (value) {
+                                          print(value);
+                                        },
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                                        child: Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Column(
@@ -169,82 +172,88 @@ class HouseTypeDetail extends StatelessWidget {
                                             ),
                                           ],
                                         ),
-                                    ),
-                                     SecctionHeader(title: tr("Location"), isSeeMore: false),
-                                    CustomTextField(hintText:tr("Addis Ababa"),
-                                        surfixIcon:PopupMenuButton<String>(
-                                          icon: Icon(Icons.arrow_drop_down),
-                                          onSelected: (String value) {},
-                                          color: Colors.white,
-                                          itemBuilder: (BuildContext context) {
-                                            return [
-                                              PopupMenuItem(
-                                                  value: "English", child: Text("English")),
-                                              PopupMenuItem(value: "አማርኛ", child: Text("አማርኛ")),
-                                              PopupMenuItem(
-                                                  value: "Afan Oromo", child: Text("Afan Oromo")),
-                                            ];
-                                          },
-                                        ),
-                                        onTextChnage:(value){},
-                                        isMultiLine:false,
-                                        textInputType:TextInputType.text),
-                                    CheckboxListTile(
-                                      activeColor: ColorConstant.green,
-                                      controlAffinity: ListTileControlAffinity.leading,
-                                      value: true,
-                                      title:Text(tr('Nearby Search'),style: Theme.of(context).textTheme.bodyMedium,),
-                                      onChanged: (value) {
-
-                                      },),
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        spacing: 15,
-                                        children: [
-                                          Expanded(
-                                              child: CustomButton(
-                                                  onPressed: () {
-                                                    context.pop();
-                                                  },
-                                                  style: ElevatedButton.styleFrom(
-                                                      backgroundColor: Colors.white,
-                                                      padding: EdgeInsets.all(20),
-                                                      shape: RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius.circular(15),
-                                                          side: BorderSide(
-                                                              color: ColorConstant.secondBtnColor))),
-                                                  child: Text(
-                                                    tr("Clear all"),
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyMedium!
-                                                        .copyWith(
-                                                        color: ColorConstant.secondBtnColor,
-                                                        fontWeight: FontWeight.w600),
-                                                  ))),
-                                          Expanded(
-                                              child: CustomButton(
-                                                  onPressed: () {
-
-                                                  },
-                                                  style: ElevatedButton.styleFrom(
-                                                    backgroundColor: ColorConstant.primaryColor,
-                                                    padding: EdgeInsets.all(20),
-                                                  ),
-                                                  child: Text(
-                                                    tr("Show"),
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyMedium!
-                                                        .copyWith(
-                                                        color: Colors.white,
-                                                        fontWeight: FontWeight.w600),
-                                                  )))
-                                        ],
                                       ),
-                                    )
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SecctionHeader(title: tr("Location"), isSeeMore: false),
+                                      ),
+                                      CustomTextField(hintText:tr("Addis Ababa"),
+                                          surfixIcon:PopupMenuButton<String>(
+                                            icon: Icon(Icons.arrow_drop_down),
+                                            onSelected: (String value) {},
+                                            color: Colors.white,
+                                            itemBuilder: (BuildContext context) {
+                                              return [
+                                                PopupMenuItem(
+                                                    value: "English", child: Text("English")),
+                                                PopupMenuItem(value: "አማርኛ", child: Text("አማርኛ")),
+                                                PopupMenuItem(
+                                                    value: "Afan Oromo", child: Text("Afan Oromo")),
+                                              ];
+                                            },
+                                          ),
+                                          onTextChnage:(value){},
+                                          isMultiLine:false,
+                                          textInputType:TextInputType.text),
+                                      CheckboxListTile(
+                                        activeColor: ColorConstant.green,
+                                        controlAffinity: ListTileControlAffinity.leading,
+                                        value: true,
+                                        title:Text(tr('Nearby Search'),style: Theme.of(context).textTheme.bodyMedium,),
+                                        onChanged: (value) {
+
+                                        },),
+                                      Container(
+                                        margin: EdgeInsets.only(top: 10),
+                                        width: MediaQuery.of(context).size.width,
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          spacing: 15,
+                                          children: [
+                                            Expanded(
+                                                child: CustomButton(
+                                                    onPressed: () {
+                                                      context.pop();
+                                                    },
+                                                    style: ElevatedButton.styleFrom(
+                                                        backgroundColor: Colors.white,
+                                                        padding: EdgeInsets.all(20),
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(15),
+                                                            side: BorderSide(
+                                                                color: ColorConstant.secondBtnColor))),
+                                                    child: Text(
+                                                      tr("Clear all"),
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyMedium!
+                                                          .copyWith(
+                                                          color: ColorConstant.secondBtnColor,
+                                                          fontWeight: FontWeight.w600),
+                                                    ))),
+                                            Expanded(
+                                                child: CustomButton(
+                                                    onPressed: () {
+
+                                                    },
+                                                    style: ElevatedButton.styleFrom(
+                                                      backgroundColor: ColorConstant.primaryColor,
+                                                      padding: EdgeInsets.all(20),
+                                                    ),
+                                                    child: Text(
+                                                      tr("Show"),
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyMedium!
+                                                          .copyWith(
+                                                          color: Colors.white,
+                                                          fontWeight: FontWeight.w600),
+                                                    )))
+                                          ],
+                                        ),
+                                      )
+                                    ],))
+
                                   ],
                                 ),
                               ),

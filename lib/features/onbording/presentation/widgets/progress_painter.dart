@@ -16,7 +16,7 @@ class ProgressPainter extends CustomPainter {
 
     // Draw the background circle
     Paint backgroundPaint = Paint()
-      ..color = Colors.grey.shade600
+      ..color = Colors.grey.shade400
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth;
     canvas.drawCircle(size.center(Offset.zero), radius, backgroundPaint);

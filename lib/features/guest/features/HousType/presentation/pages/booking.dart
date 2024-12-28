@@ -140,7 +140,7 @@ class Booking extends StatelessWidget {
                     selectedTileColor: ColorConstant.primaryColor,
                     title: Text(
                       "Passport",
-                      style: Theme.of(context).textTheme.bodyMedium,
+                      style: Theme.of(context).textTheme.bodySmall,
                     ),
                     useCupertinoCheckmarkStyle: true,
                     shape: OutlineInputBorder(
@@ -191,7 +191,7 @@ class Booking extends StatelessWidget {
                           padding: EdgeInsets.all(20),
                         ),
                         child: Text(
-                          tr("Confirm Booking"),
+                          tr("Confirm Booking"),textAlign: TextAlign.center,
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium!

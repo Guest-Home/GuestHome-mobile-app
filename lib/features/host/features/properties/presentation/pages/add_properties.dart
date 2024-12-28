@@ -287,6 +287,9 @@ class _AddPropertiesState extends State<AddProperties> {
                             child: CustomButton(
                                 onPressed: () async {
                                   if (state.step == 6) {
+                                    context
+                                        .read<AddPropertyBloc>()
+                                        .add(NextStepEvent());
                                     context.goNamed('properties');
                                   } else {
                                     context
@@ -311,9 +314,10 @@ class _AddPropertiesState extends State<AddProperties> {
               ],
             );
           },
-          buildWhen: (previous, current) => previous != current,
+          buildWhen: (previous, current) => previous.step != current.step,
           listenWhen: (previous, current) => previous.step != current.step,
           listener: (context, state) {
+            print(state.step);
             pageController.jumpToPage(state.step);
           },
         ));

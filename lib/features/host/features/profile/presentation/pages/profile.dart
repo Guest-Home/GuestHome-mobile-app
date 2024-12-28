@@ -68,6 +68,7 @@ class _ProfileState extends State<Profile> {
               ),
 
               // based on the user display either card or container
+              if(GoRouter.of(context).state!.topRoute!.name=='guestProfile')
               Card(
                 color: Colors.white,
                 elevation: 3,
@@ -91,6 +92,7 @@ class _ProfileState extends State<Profile> {
                         margin: EdgeInsets.symmetric(vertical: 10),
                        child: CustomButton(
                          onPressed: () {
+                           context.goNamed('properties');
 
                          },
                            style: ElevatedButton.styleFrom(
@@ -102,13 +104,16 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
               ),
-
+              //switch to guest button
+              if(GoRouter.of(context).state!.topRoute!.name!='guestProfile')
               Container(
                   width: MediaQuery.of(context).size.width,
                   margin:
                       EdgeInsets.only(left: 30, right: 30, bottom: 10, top: 20),
                   child: CustomButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context.goNamed('houseType');
+                      },
                       style: ElevatedButton.styleFrom(
                           side: BorderSide(color: ColorConstant.secondBtnColor),
                           backgroundColor: ColorConstant.secondBtnColor),
@@ -134,7 +139,7 @@ class _ProfileState extends State<Profile> {
                       color: ColorConstant.secondBtnColor,
                       fontWeight: FontWeight.bold)),
               ListTile(
-                onTap: () => context.goNamed('generalInformation'),
+                onTap: () => context.pushNamed('generalInformation'),
                 leading: Image.asset("assets/icons/user.png"),
                 title: Text(
                   "General Information",
@@ -143,7 +148,7 @@ class _ProfileState extends State<Profile> {
                 trailing: Icon(Icons.arrow_right_alt_outlined),
               ),
               ListTile(
-                onTap: () => context.goNamed("language"),
+                onTap: () => context.pushNamed("language"),
                 leading: Image.asset("assets/icons/lang.png"),
                 title: Text(tr(
                   "language"),
@@ -152,7 +157,7 @@ class _ProfileState extends State<Profile> {
                 trailing: Icon(Icons.arrow_right_alt_outlined),
               ),
               ListTile(
-                onTap: () => context.goNamed("account"),
+                onTap: () => context.pushNamed("account"),
                 leading:Image.asset("assets/icons/account.png"),
                 title: Text(
                   "Account",

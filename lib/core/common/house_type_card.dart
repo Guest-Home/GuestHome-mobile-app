@@ -35,7 +35,7 @@ class HouseTypeCard extends StatelessWidget {
               style: Theme.of(context)
                   .textTheme
                   .bodyMedium!
-                  .copyWith(color: ColorConstant.secondBtnColor),
+                  .copyWith(color: ColorConstant.secondBtnColor,),
             ),
           ],
         ),

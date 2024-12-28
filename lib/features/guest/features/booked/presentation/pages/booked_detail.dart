@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -44,10 +46,13 @@ class BookedDetail extends StatelessWidget {
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(1),
-                            child: Image.network(
-                              "https://media.architecturaldigest.com/photos/57e42deafe422b3e29b7e790/master/pass/JW_LosCabos_2015_MainExterior.jpg",
-                              fit: BoxFit.fill,
+                            child: CachedNetworkImage(
+                              imageUrl:"https://media.architecturaldigest.com/photos/57e42deafe422b3e29b7e790/master/pass/JW_LosCabos_2015_MainExterior.jpg",
+                              placeholder: (context, url) =>CupertinoActivityIndicator(),
+                              errorWidget: (context, url, error) => Icon(Icons.error),
+                              fit: BoxFit.cover,
                               width: MediaQuery.of(context).size.width,
+                              height: 250,
                             ),
                           ),
                           Positioned(
@@ -230,8 +235,9 @@ class BookedDetail extends StatelessWidget {
       showDragHandle: true,
       backgroundColor: Colors.white,
       useSafeArea: true,
+        isScrollControlled: true,
       builder: (context) => Container(
-        height: MediaQuery.of(context).size.height / 4,
+        height: MediaQuery.of(context).size.height / 2,
         color: Colors.white,
         child: ListTile(
             title:

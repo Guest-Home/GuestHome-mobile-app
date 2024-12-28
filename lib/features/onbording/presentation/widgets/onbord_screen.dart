@@ -34,11 +34,14 @@ class OnbordScreen extends StatelessWidget {
                   subtitle,
                   style: TextStyle(fontSize: 16,color: Colors.white.withValues(alpha: 0.6)),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top:30),
-                  child: SvgPicture.asset(image,
-                    semanticsLabel: 'language',
-                    fit: BoxFit.cover,
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top:30),
+                    child: SvgPicture.asset(image,
+                      semanticsLabel: 'language',
+                      fit: BoxFit.fill,
+                      height: MediaQuery.of(context).size.height/2,
+                    ),
                   ),
                 ),
               ],

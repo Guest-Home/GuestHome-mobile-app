@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
@@ -34,9 +36,9 @@ class HouseType extends StatelessWidget {
                 height: 200,
                 width: MediaQuery.of(context).size.width,
                 child: CarouselView(
-                    itemExtent: MediaQuery.of(context).size.width - 60,
+                    itemExtent: MediaQuery.of(context).size.width ,
                     children: List.generate(
-                      3,
+                      1,
                       (index) => Stack(
                         children: [
                           Container(
@@ -45,11 +47,14 @@ class HouseType extends StatelessWidget {
                             color: ColorConstant.cardGrey,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
-                              child: Image.network(
-                                "https://media.architecturaldigest.com/photos/57e42deafe422b3e29b7e790/master/pass/JW_LosCabos_2015_MainExterior.jpg",
+                              child: CachedNetworkImage(
+                                imageUrl:"https://media.architecturaldigest.com/photos/57e42deafe422b3e29b7e790/master/pass/JW_LosCabos_2015_MainExterior.jpg",
+                                placeholder: (context, url) =>CupertinoActivityIndicator(),
+                                errorWidget: (context, url, error) => Icon(Icons.error),
                                 fit: BoxFit.cover,
                                 width: MediaQuery.of(context).size.width,
                               ),
+
                             ),
                           ),
                           Positioned(
