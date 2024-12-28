@@ -5,10 +5,11 @@ import '../../../../../../config/color/color.dart';
 class SearchField extends StatelessWidget {
   const SearchField({
     super.key,
-    required this.onTextChnage,
+    required this.onTextChnage, required this.prifixIcon,
   });
 
   final ValueChanged<String> onTextChnage;
+  final Widget prifixIcon;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -18,7 +19,7 @@ class SearchField extends StatelessWidget {
           filled: true,
           fillColor: ColorConstant.cardGrey,
           hintText: tr('Search properties'),
-          suffixIcon: Icon(Icons.search),
+          prefixIcon: prifixIcon,
           hintStyle: TextStyle(fontSize: 13),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),

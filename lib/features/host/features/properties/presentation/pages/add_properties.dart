@@ -109,8 +109,9 @@ class _AddPropertiesState extends State<AddProperties> {
                                   itemCount: 12,
                                   itemBuilder: (context, index) =>
                                       AmenitieTypeCard(
-                                        iconData: Icons.wifi,
-                                        title: "WiFi",
+                                        iconData: Icons.local_laundry_service_outlined,
+                                        title: "Air Condition",
+
                                       )))
                         ],
                       ),

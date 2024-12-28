@@ -82,21 +82,27 @@ class Home extends StatelessWidget {
         selectedIconSize: 25,
         customBottomBarItems: [
           CustomBottomBarItems(
-            isAssetsImage: false,
+            isAssetsImage: true,
             label: 'Properties',
+            assetsImagePath: 'assets/icons/home.png',
             icon: Icons.home_filled,
           ),
           CustomBottomBarItems(
-              isAssetsImage: false,
+              isAssetsImage: true,
               label: 'Request',
+              assetsImagePath: 'assets/icons/notification.png',
               icon: Icons.notifications_active),
           CustomBottomBarItems(
               isAssetsImage: false, label: '', icon: Icons.add_box),
           CustomBottomBarItems(
-              isAssetsImage: false, label: 'Analytics', icon: Icons.analytics),
+              isAssetsImage: true,
+              label: 'Analytics',
+              assetsImagePath: 'assets/icons/anaalytics.png',
+              icon: Icons.analytics),
           CustomBottomBarItems(
-              isAssetsImage: false,
+              isAssetsImage: true,
               label: 'Profile',
+              assetsImagePath: 'assets/icons/user.png',
               icon: Icons.account_circle),
         ],
         onTap: (item) => _onItemTapped(context, item),

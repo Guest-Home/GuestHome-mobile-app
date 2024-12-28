@@ -39,6 +39,7 @@ class _PropertiesState extends State<Properties> {
             title: Container(
                 padding: EdgeInsets.all(10),
                 child: SearchField(
+                  prifixIcon: Icon(Icons.search),
                   onTextChnage: (value) {},
                 )),
           ),

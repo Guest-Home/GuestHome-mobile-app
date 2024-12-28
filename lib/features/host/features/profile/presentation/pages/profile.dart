@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
@@ -65,6 +66,43 @@ class _ProfileState extends State<Profile> {
                   )
                 ],
               ),
+
+              // based on the user display either card or container
+              Card(
+                color: Colors.white,
+                elevation: 3,
+                shadowColor: ColorConstant.cardGrey,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  side: BorderSide(color: ColorConstant.cardGrey,),
+
+                ),
+                child:
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: const EdgeInsets.all(15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: 10,
+                    children: [
+                      Text(tr("Become a Host"),style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold),),
+                      Text(tr("Join our community of hosts and start welcoming guests today"),style: Theme.of(context).textTheme.bodySmall,),
+                     Container(
+                        margin: EdgeInsets.symmetric(vertical: 10),
+                       child: CustomButton(
+                         onPressed: () {
+
+                         },
+                           style: ElevatedButton.styleFrom(
+                             padding: EdgeInsets.symmetric(horizontal:40,vertical: 15),
+                             backgroundColor: ColorConstant.primaryColor
+                           ), child:Text(tr('Become a Host'),style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.white),)),
+                     )
+                    ],
+                  ),
+                ),
+              ),
+
               Container(
                   width: MediaQuery.of(context).size.width,
                   margin:
@@ -91,13 +129,13 @@ class _ProfileState extends State<Profile> {
                                   ))
                         ],
                       ))),
-              Text("Setting",
+              Text(tr('Settings'),
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       color: ColorConstant.secondBtnColor,
                       fontWeight: FontWeight.bold)),
               ListTile(
                 onTap: () => context.goNamed('generalInformation'),
-                leading: Icon(Icons.person_2_outlined),
+                leading: Image.asset("assets/icons/user.png"),
                 title: Text(
                   "General Information",
                   style: Theme.of(context).textTheme.bodyMedium,
@@ -106,16 +144,16 @@ class _ProfileState extends State<Profile> {
               ),
               ListTile(
                 onTap: () => context.goNamed("language"),
-                leading: Icon(Icons.language_outlined),
-                title: Text(
-                  "Language/English",
+                leading: Image.asset("assets/icons/lang.png"),
+                title: Text(tr(
+                  "language"),
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 trailing: Icon(Icons.arrow_right_alt_outlined),
               ),
               ListTile(
                 onTap: () => context.goNamed("account"),
-                leading: Icon(Icons.menu_sharp),
+                leading:Image.asset("assets/icons/account.png"),
                 title: Text(
                   "Account",
                   style: Theme.of(context).textTheme.bodyMedium,

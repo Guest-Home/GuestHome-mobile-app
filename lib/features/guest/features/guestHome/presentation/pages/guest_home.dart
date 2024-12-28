@@ -18,6 +18,9 @@ class GuestHome extends StatelessWidget {
     if (location.startsWith('/booked')) {
       return 1;
     }
+    if (location.startsWith('/guestProfile')) {
+      return 2;
+    }
     return 0;
   }
 
@@ -29,6 +32,9 @@ class GuestHome extends StatelessWidget {
       case 1:
         context.go('/booked');
         break;
+      case 2:
+        context.go('/guestProfile');
+
     }
   }
 
@@ -48,15 +54,19 @@ class GuestHome extends StatelessWidget {
         selectedIconSize: 25,
         customBottomBarItems: [
           CustomBottomBarItems(
-            isAssetsImage: false,
+            isAssetsImage: true,
             label: tr('Home'),
+            assetsImagePath: 'assets/icons/home.png',
             icon: Icons.home_filled,
           ),
           CustomBottomBarItems(
-              isAssetsImage: false, label:tr('Booked'), icon: Icons.bookmark),
+              isAssetsImage: true, label:tr('Booked'),
+              assetsImagePath: 'assets/icons/booked.png',
+              icon: Icons.bookmark),
           CustomBottomBarItems(
-              isAssetsImage: false,
+              isAssetsImage: true,
               label: 'Profile',
+              assetsImagePath: 'assets/icons/user.png',
               icon: Icons.account_circle),
         ],
         onTap: (item) => _onItemTapped(context, item),

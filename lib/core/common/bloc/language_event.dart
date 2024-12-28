@@ -11,3 +11,11 @@ class ChangeAppLocalEvent extends LanguageEvent{
   List<Object?> get props =>[appLocal];
   const ChangeAppLocalEvent(this.appLocal);
 }
+
+class ChangeAppLocalSetting extends LanguageEvent{
+  final String appLocal;
+
+  @override
+  List<Object?> get props =>[appLocal];
+  const ChangeAppLocalSetting(this.appLocal);
+}

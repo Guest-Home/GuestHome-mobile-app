@@ -1,4 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:minapp/core/common/bloc/language_bloc.dart';
 
 import '../../../../../../config/color/color.dart';
 import '../../../../../../core/common/back_button.dart';
@@ -13,9 +16,10 @@ class Language extends StatelessWidget {
         leadingWidth: 27,
         automaticallyImplyLeading: false,
         leading: AppBarBackButton(),
-        title: Text(
-          'Language',
-          style: Theme.of(context)
+        title: Text(tr(
+          'language'),
+          style: Theme
+              .of(context)
               .textTheme
               .bodyLarge!
               .copyWith(fontWeight: FontWeight.bold),
@@ -27,35 +31,42 @@ class Language extends StatelessWidget {
           spacing: 15,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Language*"),
+            Text(tr('language')),
             Row(
               children: [
                 Expanded(
-                  child: TextField(
-                    readOnly: true,
-                    decoration: InputDecoration(
-                      hintText: "English",
-                      filled: true,
-                      fillColor: ColorConstant.cardGrey,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none,
-                      ),
-                      suffixIcon: PopupMenuButton<String>(
-                        icon: Icon(Icons.arrow_drop_down),
-                        onSelected: (String value) {},
-                        color: Colors.white,
-                        itemBuilder: (BuildContext context) {
-                          return [
-                            PopupMenuItem(
-                                value: "English", child: Text("English")),
-                            PopupMenuItem(value: "አማርኛ", child: Text("አማርኛ")),
-                            PopupMenuItem(
-                                value: "Afan Oromo", child: Text("Afan Oromo")),
-                          ];
-                        },
-                      ),
-                    ),
+                  child:
+                    BlocConsumer<LanguageBloc, LanguageState>(
+                    listener: (context, state) {
+                      context.setLocale(state.locale);
+                    },
+                    builder: (context, state) {
+                      return TextField(
+                        readOnly: true,
+                        decoration: InputDecoration(
+                          hintText:state.selectedLanguage.name.toString(),
+                          filled: true,
+                          fillColor: ColorConstant.cardGrey,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none,
+                          ),
+                          suffixIcon: PopupMenuButton<String>(
+                            icon: Icon(Icons.arrow_drop_down),
+                            onSelected: (String value) {
+                              context.read<LanguageBloc>().add(ChangeAppLocalSetting(value));
+                            },
+                            color: Colors.white,
+                            itemBuilder: (BuildContext context) {
+                              return AppLocal.values.map((e) =>
+                                  PopupMenuItem(
+                                      value:e.name, child: Text(e.name)),
+                                ).toList();
+                            },
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ],

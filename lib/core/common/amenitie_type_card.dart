@@ -24,18 +24,20 @@ class AmenitieTypeCard extends StatelessWidget {
         width: 150,
         padding: const EdgeInsets.all(10),
         child: Column(
+          spacing:10,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               iconData,
-              color: ColorConstant.primaryColor.withValues(alpha: 0.8),
+              size:36,
+              color: ColorConstant.primaryColor.withValues(alpha: 0.9),
             ),
             Text(
               title,
               style: Theme.of(context)
                   .textTheme
                   .bodyMedium!
-                  .copyWith(color: ColorConstant.secondBtnColor),
+                  .copyWith(color: ColorConstant.secondBtnColor,fontWeight: FontWeight.w600),
             ),
           ],
         ),

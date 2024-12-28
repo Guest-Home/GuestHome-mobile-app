@@ -130,6 +130,27 @@ final GoRouter router = GoRouter(
                   builder: (context, state) => BookedDetail(),
                 ),
               ]),
+          GoRoute(
+              name: 'guestProfile',
+              path: '/guestProfile',
+              builder: (context, state) => const Profile(),
+              routes: [
+                GoRoute(
+                  name: 'guestGeneralInformation',
+                  path: '/guestGeneralInformation',
+                  builder: (context, state) => const GeneralInformation(),
+                ),
+                GoRoute(
+                  name: 'guestLanguage',
+                  path: '/guestLanguage',
+                  builder: (context, state) => const Language(),
+                ),
+                GoRoute(
+                  name: 'guestAccount',
+                  path: '/guestAccount',
+                  builder: (context, state) => const Account(),
+                ),
+              ]),
         ]),
     GoRoute(
         name: 'houseDetail',

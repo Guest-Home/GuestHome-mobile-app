@@ -21,6 +21,7 @@ void main() async {
       ],
       path: 'assets/translations',
       fallbackLocale: Locale('en', 'US'),
+      saveLocale: false,
       child: const MyApp()));
 }
 
@@ -39,8 +40,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => getIt<AddPropertyBloc>())
       ],
       child: BlocBuilder<LanguageBloc, LanguageState>(
-        buildWhen: (previous, current) => previous.locale!=current.locale,
+        buildWhen: (previous, current) => previous.locale != current.locale,
         builder: (context, state) {
+          print(context.locale);
           return MaterialApp.router(
             localizationsDelegates: [
               GlobalMaterialLocalizations.delegate,
@@ -49,14 +51,14 @@ class MyApp extends StatelessWidget {
               EasyLocalization.of(context)!.delegate,
             ],
             supportedLocales: context.supportedLocales,
-            locale:state.locale,
+            locale: state.locale,
             debugShowCheckedModeBanner: false,
             routerConfig: router,
             title: 'Min App',
             theme: ThemeData(
               fontFamily: 'Manrope',
-              colorScheme: ColorScheme.fromSeed(
-                  seedColor: ColorConstant.primaryColor),
+              colorScheme:
+                  ColorScheme.fromSeed(seedColor: ColorConstant.primaryColor),
               useMaterial3: true,
               scaffoldBackgroundColor: Colors.white,
               appBarTheme: AppBarTheme(
