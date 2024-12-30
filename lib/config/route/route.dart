@@ -32,6 +32,23 @@ Future<GoRouter> createRouter() async {
   final GoRouter router = GoRouter(
     observers: [MyNavigatorObserver()],
     initialLocation: !isFirstTimeUser ? '/' : '/houseType',
+    errorBuilder: (context, state) => Scaffold(
+      body: Center(
+        child: Text("page not found"),
+      ),
+    ),
+    redirect: (context, state) async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      bool isLoggedIn =
+          prefs.getBool('isLogin') ?? false; // Check if the token exists
+
+      // If the user is not logged in and trying to access a protected route
+      if (!isLoggedIn && state.uri.toString() != '/accountSetup') {
+        return '/accountSetup'; // Redirect to the login page
+      }
+
+      return null; // No redirect
+    },
     routes: [
       GoRoute(
           name: 'splash',

@@ -75,11 +75,13 @@ class Booking extends StatelessWidget {
                             CustomTextField(
                                 hintText: DateTime.now().month.toString(),
                                 surfixIcon: GestureDetector(
-                                    onTap: () => showDatePicker(
-                                        context: context,
-                                        barrierColor: Colors.white,
-                                        firstDate: DateTime.now(),
-                                        lastDate: DateTime(2060)),
+                                    onTap: () {
+                                      showDatePicker(
+                                          context: context,
+                                          barrierColor: Colors.white,
+                                          firstDate: DateTime.now(),
+                                          lastDate: DateTime(2060));
+                                    },
                                     child: Icon(
                                       Icons.calendar_month,
                                       color: ColorConstant.secondBtnColor,
@@ -191,7 +193,8 @@ class Booking extends StatelessWidget {
                           padding: EdgeInsets.all(20),
                         ),
                         child: Text(
-                          tr("Confirm Booking"),textAlign: TextAlign.center,
+                          tr("Confirm Booking"),
+                          textAlign: TextAlign.center,
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium!

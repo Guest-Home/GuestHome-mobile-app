@@ -16,7 +16,7 @@ class OnBording extends StatefulWidget {
 
 class _OnBordingState extends State<OnBording>
     with SingleTickerProviderStateMixin {
-  PageController pageController = PageController(initialPage: 1);
+  PageController pageController = PageController(initialPage: 0);
   @override
   Widget build(BuildContext context) {
     return BlocListener<OnBordingBloc, OnBordingState>(
@@ -78,31 +78,36 @@ class _OnBordingState extends State<OnBording>
                           width: MediaQuery.of(context).size.width,
                           margin: EdgeInsets.only(top: 20),
                           child: ListTile(
-                              title: Row(
-                                children: List.generate(
-                                  5,
-                                  (index) => AnimatedContainer(
-                                    duration: const Duration(seconds: 1),
-                                    width: index == state.index ? 30 : 8,
-                                    height: 8,
-                                    margin: EdgeInsets.only(right: 6),
-                                    decoration: BoxDecoration(
-                                        color: index == state.index
-                                            ? Colors.white
-                                            : Colors.white
-                                                .withValues(alpha: 0.5),
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                  ),
-                                ),
-                              ),
-                              subtitle: Padding(
-                                padding:
-                                    const EdgeInsets.only(right: 20, top: 15),
-                                child: Text("Skip",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 16)),
-                              ),
+                              title: state.index == 0
+                                  ? Text("")
+                                  : Row(
+                                      children: List.generate(
+                                        5,
+                                        (index) => AnimatedContainer(
+                                          duration: const Duration(seconds: 1),
+                                          width: index == state.index ? 30 : 8,
+                                          height: 8,
+                                          margin: EdgeInsets.only(right: 6),
+                                          decoration: BoxDecoration(
+                                              color: index == state.index
+                                                  ? Colors.white
+                                                  : Colors.white
+                                                      .withValues(alpha: 0.5),
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                        ),
+                                      ),
+                                    ),
+                              subtitle: state.index == 0
+                                  ? Text("")
+                                  : Padding(
+                                      padding: const EdgeInsets.only(
+                                          right: 20, top: 15),
+                                      child: Text("Skip",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 16)),
+                                    ),
                               trailing: GestureDetector(
                                 onTap: () {
                                   if (state.index == 4) {

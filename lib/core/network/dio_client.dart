@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:minapp/core/network/auth_interceptor.dart';
 
 import '../apiConstants/api_url.dart';
 import 'log_intercepters.dart';
@@ -9,11 +10,14 @@ class DioClient {
       : _dio = Dio(
           BaseOptions(
               baseUrl: ApiUrl.baseUrl,
-              headers: {'Content-Type': 'application/json; charset=UTF-8'},
+              headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+                'x-api-key': ApiUrl.apiKey,
+              },
               responseType: ResponseType.json,
               sendTimeout: const Duration(seconds: 20),
               receiveTimeout: const Duration(seconds: 20)),
-        )..interceptors.addAll([LoggerInterceptor()]);
+        )..interceptors.addAll([AuthInterceptor(), LoggerInterceptor()]);
 
   // GET METHOD
   Future<Response> get(
