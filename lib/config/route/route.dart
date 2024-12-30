@@ -30,6 +30,7 @@ Future<GoRouter> createRouter() async {
   bool isFirstTimeUser = prefs.getBool('isFirstTimeUser ') ?? true;
 
   final GoRouter router = GoRouter(
+    debugLogDiagnostics: true,
     observers: [MyNavigatorObserver()],
     initialLocation: !isFirstTimeUser ? '/' : '/houseType',
     errorBuilder: (context, state) => Scaffold(
@@ -41,9 +42,12 @@ Future<GoRouter> createRouter() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       bool isLoggedIn =
           prefs.getBool('isLogin') ?? false; // Check if the token exists
+      // Check if the current route is '/accountSetup' or starts with '/accountSetup/'
+      bool isAccountSetupRoute =
+          state.uri.toString().startsWith('/accountSetup');
 
       // If the user is not logged in and trying to access a protected route
-      if (!isLoggedIn && state.uri.toString() != '/accountSetup') {
+      if (!isLoggedIn && !isAccountSetupRoute) {
         return '/accountSetup'; // Redirect to the login page
       }
 
@@ -74,12 +78,12 @@ Future<GoRouter> createRouter() async {
           routes: [
             GoRoute(
               name: 'otpVerification',
-              path: '/otpVerification',
+              path: 'otpVerification',
               builder: (context, state) => OtpVerification(),
             ),
             GoRoute(
               name: 'profileSetup',
-              path: '/profileSetup',
+              path: 'profileSetup',
               builder: (context, state) => ProfileSetup(),
             ),
           ]),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/core/common/upload_photo_widget.dart';
 import 'package:minapp/core/common/custom_text_field.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../config/color/color.dart';
 import '../../../../core/common/back_button.dart';
@@ -31,16 +32,22 @@ class ProfileSetup extends StatelessWidget {
                           .titleLarge!
                           .copyWith(fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height:20,),
+                    SizedBox(
+                      height: 20,
+                    ),
                     stepSutTitle(context, "Full Name", true),
-                    SizedBox(height:10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     CustomTextField(
                         hintText: "full name",
                         surfixIcon: null,
                         onTextChnage: (value) {},
                         isMultiLine: false,
                         textInputType: TextInputType.text),
-                    SizedBox(height:10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     stepSutTitle(context, "Gender", true),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -63,9 +70,20 @@ class ProfileSetup extends StatelessWidget {
                                   spacing: 10,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    index==0?Image.asset('assets/icons/woman.png',width: 15,):
-                                    Image.asset('assets/icons/man.png',width: 15,),
-                                    Text("Male",style: Theme.of(context).textTheme.bodySmall,),
+                                    index == 0
+                                        ? Image.asset(
+                                            'assets/icons/woman.png',
+                                            width: 15,
+                                          )
+                                        : Image.asset(
+                                            'assets/icons/man.png',
+                                            width: 15,
+                                          ),
+                                    Text(
+                                      "Male",
+                                      style:
+                                          Theme.of(context).textTheme.bodySmall,
+                                    ),
                                   ],
                                 ),
                                 useCupertinoCheckmarkStyle: true,
@@ -80,11 +98,15 @@ class ProfileSetup extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height:10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     UploadPhoto(
                       ontTap: () {},
                     ),
-                    SizedBox(height:10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Card(
                         elevation: 0.2,
                         color: Colors.white,
@@ -123,6 +145,11 @@ class ProfileSetup extends StatelessWidget {
                       Expanded(
                           child: CustomButton(
                               onPressed: () async {
+                                SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
+                                await prefs.setBool('isLogin',
+                                    true); // Check if the token exists
+
                                 //  context.goNamed("properties");
                                 context.goNamed('houseType');
                               },
