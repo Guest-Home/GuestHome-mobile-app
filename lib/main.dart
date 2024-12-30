@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
-import 'package:minapp/config/color/color.dart';
 import 'package:minapp/config/route/route.dart';
+import 'package:minapp/config/theme/app_theme.dart';
 import 'package:minapp/core/common/bloc/language_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/add_property/add_property_bloc.dart';
 import 'package:minapp/service_locator.dart';
@@ -49,44 +49,18 @@ class MyApp extends StatelessWidget {
         buildWhen: (previous, current) => previous.locale != current.locale,
         builder: (context, state) {
           return MaterialApp.router(
-            localizationsDelegates: [
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-              EasyLocalization.of(context)!.delegate,
-            ],
-            supportedLocales: context.supportedLocales,
-            locale: state.locale,
-            debugShowCheckedModeBanner: false,
-            routerConfig: router,
-            title: 'Min App',
-            theme: ThemeData(
-              fontFamily: 'Manrope',
-              colorScheme:
-                  ColorScheme.fromSeed(seedColor: ColorConstant.primaryColor),
-              useMaterial3: true,
-              scaffoldBackgroundColor: Colors.white,
-              appBarTheme: AppBarTheme(
-                backgroundColor: Colors.white,
-                elevation: 0,
-                scrolledUnderElevation: 0,
-              ),
-              elevatedButtonTheme: ElevatedButtonThemeData(
-                style: ButtonStyle(
-                  padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-                      EdgeInsets.all(15)),
-                  backgroundColor: WidgetStatePropertyAll<Color>(
-                    Colors.white,
-                  ),
-                  shape: WidgetStatePropertyAll<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          );
+              localizationsDelegates: [
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+                EasyLocalization.of(context)!.delegate,
+              ],
+              supportedLocales: context.supportedLocales,
+              locale: state.locale,
+              debugShowCheckedModeBanner: false,
+              routerConfig: router,
+              title: 'Min App',
+              theme: appLightTheme);
         },
       ),
     );
