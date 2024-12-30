@@ -19,7 +19,7 @@ class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
     on<ChangeAppLocalSetting>((event, emit) async {
       if (event.appLocal != state.selectedLanguage.name) {
         emit(LanguageState(
-            selectedLanguage:getLocaleFromString(event.appLocal)!,
+            selectedLanguage: getLocaleFromString(event.appLocal)!,
             locale: getLocale(getLocaleFromString(event.appLocal)!)));
       }
     });
@@ -31,8 +31,10 @@ class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
         return Locale('en', 'US');
       case AppLocal.amharic:
         return Locale('am', 'ET');
-      case AppLocal.afanOromo:
-        return Locale('om', 'ET');
+      // case AppLocal.afanOromo:
+      //   return Locale('om', 'ET');
+      default:
+        return Locale('en', 'US');
     }
   }
 
@@ -43,9 +45,10 @@ class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
 
       case 'amharic':
         return AppLocal.amharic;
-      case 'afanOromo':
-        return AppLocal.afanOromo;
+      // case 'afanOromo':
+      //   return AppLocal.afanOromo;
+      default:
+        return AppLocal.english;
     }
-    return null;
   }
 }

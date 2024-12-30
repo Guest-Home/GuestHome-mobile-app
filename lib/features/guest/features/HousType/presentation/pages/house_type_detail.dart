@@ -42,15 +42,14 @@ class HouseTypeDetail extends StatelessWidget {
                         ),
                       ),
                       Badge(
-                        label:Text("6"),
+                        label: Text("6"),
                         alignment: Alignment.topRight,
-                        offset: Offset(0.0,10.0),
-                        isLabelVisible:true,
+                        offset: Offset(0.0, 10.0),
+                        isLabelVisible: true,
                         child: IconButton(
                           iconSize: 33,
                           icon: Icon(Icons.filter_list),
-                          onPressed: () =>
-                              showModalBottomSheet(
+                          onPressed: () => showModalBottomSheet(
                             context: context,
                             showDragHandle: false,
                             backgroundColor: Colors.white,
@@ -60,14 +59,11 @@ class HouseTypeDetail extends StatelessWidget {
                             builder: (context) => Container(
                               decoration: BoxDecoration(
                                   color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(15),
-                                  topRight: Radius.circular(15)
-                                )
-                              ),
-
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(15),
+                                      topRight: Radius.circular(15))),
                               height: MediaQuery.of(context).size.height,
-                              child:Padding(
+                              child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Column(
                                   spacing: 15,
@@ -75,14 +71,17 @@ class HouseTypeDetail extends StatelessWidget {
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             tr('Filter Houses'),
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyLarge!
-                                                .copyWith(fontWeight: FontWeight.bold),
+                                                .copyWith(
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                           ),
                                           IconButton(
                                               onPressed: () => context.pop(),
@@ -93,167 +92,234 @@ class HouseTypeDetail extends StatelessWidget {
                                         ],
                                       ),
                                     ),
-                                    Expanded(child: ListView(children: [
-                                      SizedBox(
-                                        height: 80,
-                                        child: ListView.builder(
-                                          scrollDirection: Axis.horizontal,
-                                          itemBuilder: (context, index) => Column(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            spacing: 4,
-                                            children: [
-                                              Container(
-                                                padding: EdgeInsets.all(15),
-                                                margin: EdgeInsets.only(right: 10),
-                                                decoration: BoxDecoration(
-                                                  color: ColorConstant.cardGrey,
-                                                  shape: BoxShape.circle,
+                                    Expanded(
+                                        child: ListView(
+                                      children: [
+                                        SizedBox(
+                                          height: 80,
+                                          child: ListView.builder(
+                                            scrollDirection: Axis.horizontal,
+                                            itemBuilder: (context, index) =>
+                                                Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              spacing: 4,
+                                              children: [
+                                                Container(
+                                                  padding: EdgeInsets.all(15),
+                                                  margin: EdgeInsets.only(
+                                                      right: 10),
+                                                  decoration: BoxDecoration(
+                                                    color:
+                                                        ColorConstant.cardGrey,
+                                                    shape: BoxShape.circle,
+                                                  ),
+                                                  child: Icon(
+                                                    Icons.house,
+                                                    color: ColorConstant
+                                                        .secondBtnColor
+                                                        .withValues(alpha: 0.6),
+                                                  ),
                                                 ),
-                                                child: Icon(Icons.house,color: ColorConstant.secondBtnColor.withValues(alpha: 0.6),),
+                                                Text(
+                                                  index.isEven
+                                                      ? "private House"
+                                                      : "pension",
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodySmall,
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: SecctionHeader(
+                                              title: tr("Price range"),
+                                              isSeeMore: false),
+                                        ),
+                                        RangeSlider(
+                                          values: RangeValues(100, 3000),
+                                          labels: RangeLabels("min", "max"),
+                                          activeColor:
+                                              ColorConstant.primaryColor,
+                                          inactiveColor: Colors.grey,
+                                          min: 100,
+                                          max: 3000,
+                                          divisions: 300,
+                                          onChanged: (value) {},
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Column(
+                                                children: [
+                                                  Container(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 20,
+                                                              vertical: 10),
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(15),
+                                                          border: Border.all(
+                                                            color: ColorConstant
+                                                                .secondBtnColor,
+                                                          )),
+                                                      child: Text("100 ETB")),
+                                                  Text(
+                                                    tr('Minimum'),
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodySmall,
+                                                  ),
+                                                ],
                                               ),
-                                              Text(
-                                                index.isEven ? "private House" : "pension",
-                                                style: Theme.of(context).textTheme.bodySmall,
-                                              )
+                                              Column(
+                                                children: [
+                                                  Container(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 20,
+                                                              vertical: 10),
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(15),
+                                                          border: Border.all(
+                                                            color: ColorConstant
+                                                                .secondBtnColor,
+                                                          )),
+                                                      child: Text("100 ETB")),
+                                                  Text(
+                                                    tr('Maximum'),
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodySmall,
+                                                  ),
+                                                ],
+                                              ),
                                             ],
                                           ),
                                         ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: SecctionHeader(title: tr("Price range"), isSeeMore: false),
-                                      ),
-                                      RangeSlider(
-                                        values: RangeValues(100, 3000),
-                                        labels: RangeLabels("min", "max"),
-                                        activeColor: ColorConstant.primaryColor,
-                                        inactiveColor: Colors.grey,
-                                        min: 100,
-                                        max: 3000,
-                                        divisions: 300,
-                                        onChanged: (value) {
-                                          print(value);
-                                        },
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Column(
-                                              children: [
-                                                Container(
-                                                    padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-                                                    decoration:BoxDecoration(
-                                                        borderRadius: BorderRadius.circular(15),
-                                                        border:Border.all(
-                                                          color: ColorConstant.secondBtnColor,
-                                                        )
-                                                    ),
-                                                    child: Text("100 ETB")),
-                                                Text(tr('Minimum'),style: Theme.of(context).textTheme.bodySmall,),
-                                              ],
-                                            ),
-                                            Column(
-                                              children: [
-                                                Container(
-                                                    padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-                                                    decoration:BoxDecoration(
-                                                        borderRadius: BorderRadius.circular(15),
-                                                        border:Border.all(
-                                                          color: ColorConstant.secondBtnColor,
-
-                                                        )
-
-                                                    ),
-                                                    child: Text("100 ETB")),
-                                                Text(tr('Maximum'),style: Theme.of(context).textTheme.bodySmall,),
-                                              ],
-                                            ),
-                                          ],
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: SecctionHeader(
+                                              title: tr("Location"),
+                                              isSeeMore: false),
                                         ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: SecctionHeader(title: tr("Location"), isSeeMore: false),
-                                      ),
-                                      CustomTextField(hintText:tr("Addis Ababa"),
-                                          surfixIcon:PopupMenuButton<String>(
-                                            icon: Icon(Icons.arrow_drop_down),
-                                            onSelected: (String value) {},
-                                            color: Colors.white,
-                                            itemBuilder: (BuildContext context) {
-                                              return [
-                                                PopupMenuItem(
-                                                    value: "English", child: Text("English")),
-                                                PopupMenuItem(value: "አማርኛ", child: Text("አማርኛ")),
-                                                PopupMenuItem(
-                                                    value: "Afan Oromo", child: Text("Afan Oromo")),
-                                              ];
-                                            },
+                                        CustomTextField(
+                                            hintText: tr("Addis Ababa"),
+                                            surfixIcon: PopupMenuButton<String>(
+                                              icon: Icon(Icons.arrow_drop_down),
+                                              onSelected: (String value) {},
+                                              color: Colors.white,
+                                              itemBuilder:
+                                                  (BuildContext context) {
+                                                return [
+                                                  PopupMenuItem(
+                                                      value: "English",
+                                                      child: Text("English")),
+                                                  PopupMenuItem(
+                                                      value: "አማርኛ",
+                                                      child: Text("አማርኛ")),
+                                                  PopupMenuItem(
+                                                      value: "Afan Oromo",
+                                                      child:
+                                                          Text("Afan Oromo")),
+                                                ];
+                                              },
+                                            ),
+                                            onTextChnage: (value) {},
+                                            isMultiLine: false,
+                                            textInputType: TextInputType.text),
+                                        CheckboxListTile(
+                                          activeColor: ColorConstant.green,
+                                          controlAffinity:
+                                              ListTileControlAffinity.leading,
+                                          value: true,
+                                          title: Text(
+                                            tr('Nearby Search'),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium,
                                           ),
-                                          onTextChnage:(value){},
-                                          isMultiLine:false,
-                                          textInputType:TextInputType.text),
-                                      CheckboxListTile(
-                                        activeColor: ColorConstant.green,
-                                        controlAffinity: ListTileControlAffinity.leading,
-                                        value: true,
-                                        title:Text(tr('Nearby Search'),style: Theme.of(context).textTheme.bodyMedium,),
-                                        onChanged: (value) {
-
-                                        },),
-                                      Container(
-                                        margin: EdgeInsets.only(top: 10),
-                                        width: MediaQuery.of(context).size.width,
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          spacing: 15,
-                                          children: [
-                                            Expanded(
-                                                child: CustomButton(
-                                                    onPressed: () {
-                                                      context.pop();
-                                                    },
-                                                    style: ElevatedButton.styleFrom(
-                                                        backgroundColor: Colors.white,
-                                                        padding: EdgeInsets.all(20),
-                                                        shape: RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius.circular(15),
-                                                            side: BorderSide(
-                                                                color: ColorConstant.secondBtnColor))),
-                                                    child: Text(
-                                                      tr("Clear all"),
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyMedium!
-                                                          .copyWith(
-                                                          color: ColorConstant.secondBtnColor,
-                                                          fontWeight: FontWeight.w600),
-                                                    ))),
-                                            Expanded(
-                                                child: CustomButton(
-                                                    onPressed: () {
-
-                                                    },
-                                                    style: ElevatedButton.styleFrom(
-                                                      backgroundColor: ColorConstant.primaryColor,
-                                                      padding: EdgeInsets.all(20),
-                                                    ),
-                                                    child: Text(
-                                                      tr("Show"),
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyMedium!
-                                                          .copyWith(
-                                                          color: Colors.white,
-                                                          fontWeight: FontWeight.w600),
-                                                    )))
-                                          ],
+                                          onChanged: (value) {},
                                         ),
-                                      )
-                                    ],))
-
+                                        Container(
+                                          margin: EdgeInsets.only(top: 10),
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            spacing: 15,
+                                            children: [
+                                              Expanded(
+                                                  child: CustomButton(
+                                                      onPressed: () {
+                                                        context.pop();
+                                                      },
+                                                      style: ElevatedButton.styleFrom(
+                                                          backgroundColor:
+                                                              Colors.white,
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  20),
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          15),
+                                                              side: BorderSide(
+                                                                  color: ColorConstant
+                                                                      .secondBtnColor))),
+                                                      child: Text(
+                                                        tr("Clear all"),
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyMedium!
+                                                            .copyWith(
+                                                                color: ColorConstant
+                                                                    .secondBtnColor,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                      ))),
+                                              Expanded(
+                                                  child: CustomButton(
+                                                      onPressed: () {},
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                        backgroundColor:
+                                                            ColorConstant
+                                                                .primaryColor,
+                                                        padding:
+                                                            EdgeInsets.all(20),
+                                                      ),
+                                                      child: Text(
+                                                        tr("Show"),
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyMedium!
+                                                            .copyWith(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                      )))
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ))
                                   ],
                                 ),
                               ),
@@ -266,8 +332,7 @@ class HouseTypeDetail extends StatelessWidget {
             ),
           ),
           SliverToBoxAdapter(
-            child:
-            Column(children: [
+            child: Column(children: [
               Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: SecctionHeader(

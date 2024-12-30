@@ -109,9 +109,9 @@ class _AddPropertiesState extends State<AddProperties> {
                                   itemCount: 12,
                                   itemBuilder: (context, index) =>
                                       AmenitieTypeCard(
-                                        iconData: Icons.local_laundry_service_outlined,
+                                        iconData: Icons
+                                            .local_laundry_service_outlined,
                                         title: "Air Condition",
-
                                       )))
                         ],
                       ),
@@ -317,7 +317,6 @@ class _AddPropertiesState extends State<AddProperties> {
           buildWhen: (previous, current) => previous.step != current.step,
           listenWhen: (previous, current) => previous.step != current.step,
           listener: (context, state) {
-            print(state.step);
             pageController.jumpToPage(state.step);
           },
         ));

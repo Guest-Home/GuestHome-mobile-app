@@ -16,7 +16,7 @@ class OnBordingBloc extends Bloc<OnBordingEvent, OnBordingState> {
       }
     });
 
-    on<OnBordingGetStartedEvent>((event, emit)async{
+    on<OnBordingGetStartedEvent>((event, emit) async {
       final prefs = await SharedPreferences.getInstance();
       prefs.setBool("isFirstTimeUser", false);
       emit(GetStartedState());

@@ -49,7 +49,6 @@ class _AccountSetupState extends State<AccountSetup> {
               child: CustomButton(
                   onPressed: () {
                     context.goNamed('otpVerification');
-                    print("object");
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: ColorConstant.primaryColor,

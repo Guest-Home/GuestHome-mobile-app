@@ -27,12 +27,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future<GoRouter> createRouter() async {
   final prefs = await SharedPreferences.getInstance();
-  bool isFirstTimeUser = prefs.getBool('isFirstTimeUser ') ?? true;
+  bool isFirstTimeUser = prefs.getBool('isFirstTimeUser') ?? true;
 
   final GoRouter router = GoRouter(
     debugLogDiagnostics: true,
     observers: [MyNavigatorObserver()],
-    initialLocation: !isFirstTimeUser ? '/' : '/houseType',
+    initialLocation: isFirstTimeUser ? '/onboarding' : '/houseType',
     errorBuilder: (context, state) => Scaffold(
       body: Center(
         child: Text("page not found"),
@@ -45,9 +45,10 @@ Future<GoRouter> createRouter() async {
       // Check if the current route is '/accountSetup' or starts with '/accountSetup/'
       bool isAccountSetupRoute =
           state.uri.toString().startsWith('/accountSetup');
+      bool isOnbordingRoute = state.uri.toString().startsWith('/onboarding');
 
       // If the user is not logged in and trying to access a protected route
-      if (!isLoggedIn && !isAccountSetupRoute) {
+      if (!isLoggedIn && !isAccountSetupRoute && !isOnbordingRoute) {
         return '/accountSetup'; // Redirect to the login page
       }
 
@@ -60,7 +61,7 @@ Future<GoRouter> createRouter() async {
           builder: (context, state) => Splash()),
       GoRoute(
           name: 'onboarding',
-          path: '/',
+          path: '/onboarding',
           builder: (context, state) => OnBording()),
       GoRoute(
           name: 'addProperty',
