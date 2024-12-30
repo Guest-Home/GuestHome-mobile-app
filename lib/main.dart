@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
 import 'package:minapp/config/route/route.dart';
 import 'package:minapp/core/common/bloc/language_bloc.dart';
@@ -12,6 +14,9 @@ import 'features/onbording/presentation/bloc/on_bording_bloc.dart';
 void main() async {
   setup();
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  final GoRouter router = await createRouter(); // Initialize the router
+
   await EasyLocalization.ensureInitialized();
   runApp(EasyLocalization(
       supportedLocales: [
@@ -22,11 +27,12 @@ void main() async {
       path: 'assets/translations',
       fallbackLocale: Locale('en', 'US'),
       saveLocale: false,
-      child: const MyApp()));
+      child: MyApp(router: router)));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key, required this.router});
+  final GoRouter router;
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(

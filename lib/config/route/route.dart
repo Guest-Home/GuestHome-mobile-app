@@ -23,152 +23,156 @@ import 'package:minapp/features/host/features/properties/presentation/pages/prop
 import 'package:minapp/features/host/features/request/presentation/pages/request.dart';
 import 'package:minapp/features/onbording/presentation/pages/onbording.dart';
 import 'package:minapp/features/onbording/presentation/pages/splash.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+Future<GoRouter> createRouter() async {
+  final prefs = await SharedPreferences.getInstance();
+  bool isFirstTimeUser = prefs.getBool('isFirstTimeUser ') ?? true;
 
-final GoRouter router = GoRouter(
-  observers: [
-    MyNavigatorObserver()
-  ],
-  initialLocation:'/',
-  routes: [
-    GoRoute(
-        name: 'splash',
-        path: '/splash',
-        builder: (context, state) => Splash()),
-    GoRoute(
-        name: 'onboarding',
-        path: '/',
-        builder: (context, state) => OnBording()),
-    GoRoute(
-        name: 'addProperty',
-        path: '/addProperty',
-        builder: (context, state) => AddProperties()),
-    GoRoute(
-      name: 'propertyDetail',
-      path: '/propertyDetail',
-      builder: (context, state) => ListedPropertyDetail(),
-    ),
-    GoRoute(
-        name: 'accountSetup',
-        path: '/accountSetup',
-        builder: (context, state) => AccountSetup(),
-        routes: [
-          GoRoute(
-            name: 'otpVerification',
-            path: '/otpVerification',
-            builder: (context, state) => OtpVerification(),
-          ),
-          GoRoute(
-            name: 'profileSetup',
-            path: '/profileSetup',
-            builder: (context, state) => ProfileSetup(),
-          ),
-        ]),
-    GoRoute(
-      name: 'generalInformation',
-      path: '/generalInformation',
-      builder: (context, state) => const GeneralInformation(),
-    ),
-    GoRoute(
-      name: 'language',
-      path: '/language',
-      builder: (context, state) => const Language(),
-    ),
-    GoRoute(
-      name: 'account',
-      path: '/account',
-      builder: (context, state) => const Account(),
-    ),
-    ShellRoute(
-      navigatorKey: GlobalKey<NavigatorState>(),
-      builder: (context, state, child) {
-        return Home(child: child);
-      },
-      routes: [
-        GoRoute(
-          name: 'properties',
-          path: '/properties',
-          builder: (context, state) => Properties(),
-        ),
-        GoRoute(
-          name: 'request',
-          path: '/request',
-          builder: (context, state) => const Request(),
-        ),
-        GoRoute(
-          name: 'analytics',
-          path: '/analytics',
-          builder: (context, state) => const Analytics(),
-        ),
-        GoRoute(
-            name: 'profile',
-            path: '/profile',
-            builder: (context, state) => const Profile(),
-           ),
-      ],
-    ),
-    //Guest routes
-
-    ShellRoute(
+  final GoRouter router = GoRouter(
+    observers: [MyNavigatorObserver()],
+    initialLocation: !isFirstTimeUser ? '/' : '/houseType',
+    routes: [
+      GoRoute(
+          name: 'splash',
+          path: '/splash',
+          builder: (context, state) => Splash()),
+      GoRoute(
+          name: 'onboarding',
+          path: '/',
+          builder: (context, state) => OnBording()),
+      GoRoute(
+          name: 'addProperty',
+          path: '/addProperty',
+          builder: (context, state) => AddProperties()),
+      GoRoute(
+        name: 'propertyDetail',
+        path: '/propertyDetail',
+        builder: (context, state) => ListedPropertyDetail(),
+      ),
+      GoRoute(
+          name: 'accountSetup',
+          path: '/accountSetup',
+          builder: (context, state) => AccountSetup(),
+          routes: [
+            GoRoute(
+              name: 'otpVerification',
+              path: '/otpVerification',
+              builder: (context, state) => OtpVerification(),
+            ),
+            GoRoute(
+              name: 'profileSetup',
+              path: '/profileSetup',
+              builder: (context, state) => ProfileSetup(),
+            ),
+          ]),
+      GoRoute(
+        name: 'generalInformation',
+        path: '/generalInformation',
+        builder: (context, state) => const GeneralInformation(),
+      ),
+      GoRoute(
+        name: 'language',
+        path: '/language',
+        builder: (context, state) => const Language(),
+      ),
+      GoRoute(
+        name: 'account',
+        path: '/account',
+        builder: (context, state) => const Account(),
+      ),
+      ShellRoute(
         navigatorKey: GlobalKey<NavigatorState>(),
         builder: (context, state, child) {
-          return GuestHome(child: child);
+          return Home(child: child);
         },
         routes: [
           GoRoute(
-              name: 'houseType',
-              path: '/houseType',
-              builder: (context, state) => HouseType(),
-              routes: [
-                GoRoute(
-                  name: 'houseTypeDetail',
-                  path: '/houseTypeDetail',
-                  builder: (context, state) => HouseTypeDetail(),
-                ),
-              ]),
-          GoRoute(
-              name: 'booked',
-              path: '/booked',
-              builder: (context, state) => Booked(),
-              routes: [
-                GoRoute(
-                  name: 'bookedDetail',
-                  path: '/bookedDetail',
-                  builder: (context, state) => BookedDetail(),
-                ),
-              ]),
-          GoRoute(
-              name: 'guestProfile',
-              path: '/guestProfile',
-              builder: (context, state) => const Profile(),
-              routes: [
-                GoRoute(
-                  name: 'guestGeneralInformation',
-                  path: '/guestGeneralInformation',
-                  builder: (context, state) => const GeneralInformation(),
-                ),
-                GoRoute(
-                  name: 'guestLanguage',
-                  path: '/guestLanguage',
-                  builder: (context, state) => const Language(),
-                ),
-                GoRoute(
-                  name: 'guestAccount',
-                  path: '/guestAccount',
-                  builder: (context, state) => const Account(),
-                ),
-              ]),
-        ]),
-    GoRoute(
-        name: 'houseDetail',
-        path: '/houseDetail',
-        builder: (context, state) => HouseDetail(),
-        routes: [
-          GoRoute(
-            name: 'booking',
-            path: '/booking',
-            builder: (context, state) => Booking(),
+            name: 'properties',
+            path: '/properties',
+            builder: (context, state) => Properties(),
           ),
-        ]),
-  ],
-);
+          GoRoute(
+            name: 'request',
+            path: '/request',
+            builder: (context, state) => const Request(),
+          ),
+          GoRoute(
+            name: 'analytics',
+            path: '/analytics',
+            builder: (context, state) => const Analytics(),
+          ),
+          GoRoute(
+            name: 'profile',
+            path: '/profile',
+            builder: (context, state) => const Profile(),
+          ),
+        ],
+      ),
+      //Guest routes
+
+      ShellRoute(
+          navigatorKey: GlobalKey<NavigatorState>(),
+          builder: (context, state, child) {
+            return GuestHome(child: child);
+          },
+          routes: [
+            GoRoute(
+                name: 'houseType',
+                path: '/houseType',
+                builder: (context, state) => HouseType(),
+                routes: [
+                  GoRoute(
+                    name: 'houseTypeDetail',
+                    path: '/houseTypeDetail',
+                    builder: (context, state) => HouseTypeDetail(),
+                  ),
+                ]),
+            GoRoute(
+                name: 'booked',
+                path: '/booked',
+                builder: (context, state) => Booked(),
+                routes: [
+                  GoRoute(
+                    name: 'bookedDetail',
+                    path: '/bookedDetail',
+                    builder: (context, state) => BookedDetail(),
+                  ),
+                ]),
+            GoRoute(
+                name: 'guestProfile',
+                path: '/guestProfile',
+                builder: (context, state) => const Profile(),
+                routes: [
+                  GoRoute(
+                    name: 'guestGeneralInformation',
+                    path: '/guestGeneralInformation',
+                    builder: (context, state) => const GeneralInformation(),
+                  ),
+                  GoRoute(
+                    name: 'guestLanguage',
+                    path: '/guestLanguage',
+                    builder: (context, state) => const Language(),
+                  ),
+                  GoRoute(
+                    name: 'guestAccount',
+                    path: '/guestAccount',
+                    builder: (context, state) => const Account(),
+                  ),
+                ]),
+          ]),
+      GoRoute(
+          name: 'houseDetail',
+          path: '/houseDetail',
+          builder: (context, state) => HouseDetail(),
+          routes: [
+            GoRoute(
+              name: 'booking',
+              path: '/booking',
+              builder: (context, state) => Booking(),
+            ),
+          ]),
+    ],
+  );
+  return router;
+}
