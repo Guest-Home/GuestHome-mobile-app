@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../config/color/color.dart';
 
 class HouseTypeCard extends StatelessWidget {
   const HouseTypeCard({
     super.key,
-    required this.iconData,
+    required this.image,
     required this.title,
   });
 
-  final IconData iconData;
+  final String image;
   final String title;
 
   @override
@@ -24,18 +25,19 @@ class HouseTypeCard extends StatelessWidget {
         width: 150,
         padding: const EdgeInsets.all(10),
         child: Column(
+          spacing: 10,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              iconData,
-              color: ColorConstant.primaryColor.withValues(alpha: 0.8),
+            SvgPicture.asset(
+              image,
+              semanticsLabel: title,
+              fit: BoxFit.cover,
             ),
             Text(
               title,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(color: ColorConstant.secondBtnColor,),
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: ColorConstant.secondBtnColor,
+                  fontWeight: FontWeight.bold),
             ),
           ],
         ),

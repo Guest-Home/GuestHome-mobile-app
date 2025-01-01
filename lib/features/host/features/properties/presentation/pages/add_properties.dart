@@ -6,6 +6,7 @@ import 'package:minapp/features/host/features/properties/presentation/widgets/pr
 import '../../../../../../config/color/color.dart';
 import '../../../../../../core/common/amenitie_type_card.dart';
 import '../../../../../../core/common/back_button.dart';
+import '../../../../../../core/common/constants/house_type_icons.dart';
 import '../../../../../../core/common/custom_button.dart';
 import '../../../../../../core/common/house_type_card.dart';
 import '../../../../../../core/common/upload_photo_widget.dart';
@@ -49,16 +50,18 @@ class _AddPropertiesState extends State<AddProperties> {
                               context, 'What type of house do you host?'),
                           Expanded(
                               child: GridView.builder(
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 2,
-                                          mainAxisExtent: 100),
-                                  itemCount: 12,
-                                  itemBuilder: (context, index) =>
-                                      HouseTypeCard(
-                                        iconData: Icons.house,
-                                        title: "Private Rooms",
-                                      )))
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing: 7,
+                                    mainAxisSpacing: 7,
+                                    mainAxisExtent: 100),
+                            itemCount: houseTypeList.length,
+                            itemBuilder: (context, index) => HouseTypeCard(
+                              image: houseTypeIcons[houseTypeList[index]]!,
+                              title: houseTypeList[index],
+                            ),
+                          ))
                         ],
                       ),
                     ),
@@ -106,12 +109,12 @@ class _AddPropertiesState extends State<AddProperties> {
                                           crossAxisCount: 2,
                                           crossAxisSpacing: 10,
                                           mainAxisExtent: 100),
-                                  itemCount: 12,
+                                  itemCount: amenitiesList.length,
                                   itemBuilder: (context, index) =>
                                       AmenitieTypeCard(
-                                        iconData: Icons
-                                            .local_laundry_service_outlined,
-                                        title: "Air Condition",
+                                        icon: amenitiesIcon[
+                                            amenitiesList[index]]!,
+                                        title: amenitiesList[index],
                                       )))
                         ],
                       ),

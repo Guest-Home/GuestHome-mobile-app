@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../config/color/color.dart';
 
 class AmenitieTypeCard extends StatelessWidget {
   const AmenitieTypeCard({
     super.key,
-    required this.iconData,
+    required this.icon,
     required this.title,
   });
 
-  final IconData iconData;
+  final String icon;
   final String title;
 
   @override
@@ -24,20 +25,19 @@ class AmenitieTypeCard extends StatelessWidget {
         width: 150,
         padding: const EdgeInsets.all(10),
         child: Column(
-          spacing:10,
+          spacing: 10,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              iconData,
-              size:33,
-              color: ColorConstant.primaryColor.withValues(alpha: 0.8),
+            SvgPicture.asset(
+              icon,
+              semanticsLabel: title,
+              fit: BoxFit.cover,
             ),
             Text(
               title,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(color: ColorConstant.secondBtnColor,),
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: ColorConstant.secondBtnColor,
+                  fontWeight: FontWeight.bold),
             ),
           ],
         ),

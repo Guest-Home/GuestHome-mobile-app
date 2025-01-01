@@ -55,6 +55,7 @@ class Booking extends StatelessWidget {
                   onTextChnage: (value) {},
                   isMultiLine: false,
                   prifixIcon: CountryCodeSelector(
+                    onInit: (value) {},
                     onChange: (value) {},
                   ),
                   textInputType: TextInputType.phone),

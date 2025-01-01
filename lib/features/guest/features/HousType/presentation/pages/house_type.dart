@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
+import 'package:minapp/core/common/constants/house_type_icons.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/widgets/section_header_text.dart';
 
 import '../../../../../../core/common/house_type_card.dart';
@@ -23,7 +24,9 @@ class HouseType extends StatelessWidget {
         ),
         actions: [
           Icon(Icons.notifications_none),
-          SizedBox(width: 10,)
+          SizedBox(
+            width: 10,
+          )
         ],
       ),
       body: SingleChildScrollView(
@@ -36,7 +39,7 @@ class HouseType extends StatelessWidget {
                 height: 200,
                 width: MediaQuery.of(context).size.width,
                 child: CarouselView(
-                    itemExtent: MediaQuery.of(context).size.width ,
+                    itemExtent: MediaQuery.of(context).size.width,
                     children: List.generate(
                       1,
                       (index) => Stack(
@@ -48,13 +51,15 @@ class HouseType extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: CachedNetworkImage(
-                                imageUrl:"https://media.architecturaldigest.com/photos/57e42deafe422b3e29b7e790/master/pass/JW_LosCabos_2015_MainExterior.jpg",
-                                placeholder: (context, url) =>CupertinoActivityIndicator(),
-                                errorWidget: (context, url, error) => Icon(Icons.error),
+                                imageUrl:
+                                    "https://media.architecturaldigest.com/photos/57e42deafe422b3e29b7e790/master/pass/JW_LosCabos_2015_MainExterior.jpg",
+                                placeholder: (context, url) =>
+                                    CupertinoActivityIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
                                 fit: BoxFit.cover,
                                 width: MediaQuery.of(context).size.width,
                               ),
-
                             ),
                           ),
                           Positioned(
@@ -90,12 +95,12 @@ class HouseType extends StatelessWidget {
                     crossAxisSpacing: 7,
                     mainAxisSpacing: 7,
                     mainAxisExtent: 100),
-                itemCount: 12,
+                itemCount: houseTypeList.length,
                 itemBuilder: (context, index) => GestureDetector(
                       onTap: () => context.goNamed("houseTypeDetail"),
                       child: HouseTypeCard(
-                        iconData: Icons.house,
-                        title: "Private Rooms",
+                        image: houseTypeIcons[houseTypeList[index]]!,
+                        title: houseTypeList[index],
                       ),
                     ))
           ],

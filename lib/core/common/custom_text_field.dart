@@ -11,6 +11,8 @@ class CustomTextField extends StatelessWidget {
     required this.isMultiLine,
     required this.textInputType,
     this.prifixIcon,
+    this.validator,
+    this.textEditingController,
   });
 
   final String hintText;
@@ -19,24 +21,46 @@ class CustomTextField extends StatelessWidget {
   final bool isMultiLine;
   final TextInputType textInputType;
   final Widget? prifixIcon;
+  final FormFieldValidator<String>? validator;
+  final TextEditingController? textEditingController;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+        controller: textEditingController,
         keyboardType: textInputType,
         minLines: 1,
         maxLines: isMultiLine ? null : 1,
         onChanged: (value) => onTextChnage(value),
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        autocorrect: true,
+        validator: (value) => validator!(value!),
         decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.white,
           hintText: hintText,
           prefixIcon: prifixIcon,
           suffixIcon: surfixIcon,
           hintStyle: TextStyle(fontSize: 13),
+          enabled: true,
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: ColorConstant.red),
+          ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: ColorConstant.cardGrey.withValues(alpha: 0.5)),
+            borderSide: BorderSide(
+                color: ColorConstant.cardGrey.withValues(alpha: 0.1)),
           ),
-
+          disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(
+                color: ColorConstant.cardGrey.withValues(alpha: 0.2)),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: ColorConstant.primaryColor),
+          ),
         ));
   }
 }

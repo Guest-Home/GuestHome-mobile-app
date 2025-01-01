@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:minapp/config/route/route.dart';
 import 'package:minapp/config/theme/app_theme.dart';
 import 'package:minapp/core/common/bloc/language_bloc.dart';
+import 'package:minapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/add_property/add_property_bloc.dart';
 import 'package:minapp/service_locator.dart';
 import 'features/onbording/presentation/bloc/on_bording_bloc.dart';
@@ -38,12 +39,15 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => getIt<LanguageBloc>(),
+          create: (context) => sl<LanguageBloc>(),
         ),
         BlocProvider(
-          create: (context) => getIt<OnBordingBloc>(),
+          create: (context) => sl<OnBordingBloc>(),
         ),
-        BlocProvider(create: (context) => getIt<AddPropertyBloc>())
+        BlocProvider(
+          create: (context) => sl<AuthBloc>(),
+        ),
+        BlocProvider(create: (context) => sl<AddPropertyBloc>())
       ],
       child: BlocBuilder<LanguageBloc, LanguageState>(
         buildWhen: (previous, current) => previous.locale != current.locale,

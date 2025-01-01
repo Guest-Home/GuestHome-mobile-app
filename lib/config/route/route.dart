@@ -30,7 +30,6 @@ Future<GoRouter> createRouter() async {
   bool isFirstTimeUser = prefs.getBool('isFirstTimeUser') ?? true;
 
   final GoRouter router = GoRouter(
-    debugLogDiagnostics: true,
     observers: [MyNavigatorObserver()],
     initialLocation: isFirstTimeUser ? '/onboarding' : '/houseType',
     errorBuilder: (context, state) => Scaffold(
@@ -38,22 +37,22 @@ Future<GoRouter> createRouter() async {
         child: Text("page not found"),
       ),
     ),
-    redirect: (context, state) async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      bool isLoggedIn =
-          prefs.getBool('isLogin') ?? false; // Check if the token exists
-      // Check if the current route is '/accountSetup' or starts with '/accountSetup/'
-      bool isAccountSetupRoute =
-          state.uri.toString().startsWith('/accountSetup');
-      bool isOnbordingRoute = state.uri.toString().startsWith('/onboarding');
+    // redirect: (context, state) async {
+    //   SharedPreferences prefs = await SharedPreferences.getInstance();
+    //   bool isLoggedIn =
+    //       prefs.getBool('isLogin') ?? false; // Check if the token exists
+    //   // Check if the current route is '/accountSetup' or starts with '/accountSetup/'
+    //   bool isAccountSetupRoute =
+    //       state.uri.toString().startsWith('/accountSetup');
+    //   bool isOnbordingRoute = state.uri.toString().startsWith('/onboarding');
 
-      // If the user is not logged in and trying to access a protected route
-      if (!isLoggedIn && !isAccountSetupRoute && !isOnbordingRoute) {
-        return '/accountSetup'; // Redirect to the login page
-      }
+    //   // If the user is not logged in and trying to access a protected route
+    //   if (!isLoggedIn && !isAccountSetupRoute && !isOnbordingRoute) {
+    //     return '/accountSetup'; // Redirect to the login page
+    //   }
 
-      return null; // No redirect
-    },
+    //   return null; // No redirect
+    // },
     routes: [
       GoRoute(
           name: 'splash',

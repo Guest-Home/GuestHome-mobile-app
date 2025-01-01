@@ -18,7 +18,7 @@ class Validation {
 
   static phoneNumberValidation(String phone) {
     final phoneRegExp = RegExp(r'^[+0-9]');
-    if (phoneRegExp.hasMatch(phone) && phone.length > 9) {
+    if (phone.isNotEmpty && phoneRegExp.hasMatch(phone)) {
       return true;
     } else {
       return false;

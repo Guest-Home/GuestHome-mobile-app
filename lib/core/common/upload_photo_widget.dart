@@ -11,29 +11,29 @@ class UploadPhoto extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => ontTap,
+      onTap: ontTap,
       child: Container(
-        width: double.infinity,
-        padding: EdgeInsets.all(20),
+        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.all(25),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: ColorConstant.cardGrey)),
+            border: Border.all(color: ColorConstant.cardGrey, width: 2)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Icon(
-              Icons.upload,
+              Icons.upload_file,
               color: ColorConstant.primaryColor.withValues(alpha: 0.9),
             ),
             RichText(
                 text: TextSpan(children: [
               TextSpan(
-                  text: "Click to upload",
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodySmall!
-                      .copyWith(color: ColorConstant.primaryColor)),
+                  text: "Click to upload ",
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: ColorConstant.primaryColor,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline)),
               TextSpan(
                   text: "or drag and drop",
                   style: Theme.of(context)

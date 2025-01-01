@@ -7,7 +7,7 @@ class AuthInterceptor extends Interceptor {
       RequestOptions options, RequestInterceptorHandler handler) async {
     // Retrieve the token from local storage
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? authToken = prefs.getString('auth_token'); // Replace with your key
+    String? authToken = prefs.getString('access'); // Replace with your key
 
     // If the token is not null, add it to the headers
     if (authToken != null) {
@@ -18,25 +18,25 @@ class AuthInterceptor extends Interceptor {
     return super.onRequest(options, handler);
   }
 
-  @override
-  Future<void> onResponse(
-      Response response, ResponseInterceptorHandler handler) async {
-    // If the response indicates that the token has expired (e.g., 401 Unauthorized)
-    if (response.statusCode == 401) {
-      // Attempt to refresh the token
-      final newToken = await _refreshToken();
-      if (newToken != null) {
-        // Update the request with the new token
-        response.requestOptions.headers['Authorization'] = 'Bearer $newToken';
+  // @override
+  // Future<void> onResponse(
+  //     Response response, ResponseInterceptorHandler handler) async {
+  //   // If the response indicates that the token has expired (e.g., 401 Unauthorized)
+  //   if (response.statusCode == 401) {
+  //     // Attempt to refresh the token
+  //     final newToken = await _refreshToken();
+  //     if (newToken != null) {
+  //       // Update the request with the new token
+  //       response.requestOptions.headers['Authorization'] = 'Bearer $newToken';
 
-        // Retry the request
-        final retryResponse = await Dio().fetch(response.requestOptions);
-        return handler.resolve(retryResponse);
-      }
-    }
+  //       // Retry the request
+  //       final retryResponse = await Dio().fetch(response.requestOptions);
+  //       return handler.resolve(retryResponse);
+  //     }
+  //   }
 
-    return super.onResponse(response, handler);
-  }
+  //   return super.onResponse(response, handler);
+  // }
 
   Future<String?> _refreshToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
