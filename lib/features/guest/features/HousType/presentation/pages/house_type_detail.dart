@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
+import 'package:minapp/core/common/constants/house_type_icons.dart';
 import 'package:minapp/core/common/custom_text_field.dart';
 
 import '../../../../../../core/common/custom_button.dart';
@@ -54,8 +56,10 @@ class HouseTypeDetail extends StatelessWidget {
                             showDragHandle: false,
                             backgroundColor: Colors.white,
                             useSafeArea: true,
+                            elevation: 10,
                             isDismissible: true,
                             isScrollControlled: true,
+                            enableDrag: true,
                             builder: (context) => Container(
                               decoration: BoxDecoration(
                                   color: Colors.white,
@@ -83,12 +87,26 @@ class HouseTypeDetail extends StatelessWidget {
                                                     fontWeight:
                                                         FontWeight.bold),
                                           ),
-                                          IconButton(
-                                              onPressed: () => context.pop(),
-                                              icon: Icon(
-                                                Icons.cancel,
-                                                color: ColorConstant.red,
-                                              ))
+                                          Row(
+                                            children: [
+                                              Text(
+                                                tr("Close"),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium!
+                                                    .copyWith(
+                                                        color:
+                                                            ColorConstant.red),
+                                              ),
+                                              IconButton(
+                                                  onPressed: () =>
+                                                      context.pop(),
+                                                  icon: Icon(
+                                                    Icons.cancel,
+                                                    color: ColorConstant.red,
+                                                  )),
+                                            ],
+                                          )
                                         ],
                                       ),
                                     ),
@@ -96,40 +114,53 @@ class HouseTypeDetail extends StatelessWidget {
                                         child: ListView(
                                       children: [
                                         SizedBox(
-                                          height: 80,
+                                          height: 90,
                                           child: ListView.builder(
                                             scrollDirection: Axis.horizontal,
+                                            itemCount: houseTypeList.length,
                                             itemBuilder: (context, index) =>
-                                                Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              spacing: 4,
-                                              children: [
                                                 Container(
-                                                  padding: EdgeInsets.all(15),
-                                                  margin: EdgeInsets.only(
-                                                      right: 10),
-                                                  decoration: BoxDecoration(
-                                                    color:
-                                                        ColorConstant.cardGrey,
-                                                    shape: BoxShape.circle,
-                                                  ),
-                                                  child: Icon(
-                                                    Icons.house,
-                                                    color: ColorConstant
-                                                        .secondBtnColor
-                                                        .withValues(alpha: 0.6),
-                                                  ),
-                                                ),
-                                                Text(
-                                                  index.isEven
-                                                      ? "private House"
-                                                      : "pension",
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodySmall,
-                                                )
-                                              ],
+                                              margin:
+                                                  EdgeInsets.only(right: 10),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                spacing: 4,
+                                                children: [
+                                                  Container(
+                                                      padding:
+                                                          EdgeInsets.all(15),
+                                                      margin: EdgeInsets.only(
+                                                          right: 10),
+                                                      decoration: BoxDecoration(
+                                                        color: index == 0
+                                                            ? ColorConstant
+                                                                .primaryColor
+                                                                .withValues(
+                                                                    alpha: 0.5)
+                                                            : ColorConstant
+                                                                .cardGrey,
+                                                        shape: BoxShape.circle,
+                                                      ),
+                                                      child: SvgPicture.asset(
+                                                        houseTypeIcons[
+                                                            houseTypeList[
+                                                                index]]!,
+                                                        semanticsLabel:
+                                                            houseTypeList[
+                                                                index],
+                                                        fit: BoxFit.cover,
+                                                      )),
+                                                  Text(
+                                                    houseTypeList[index],
+                                                    textAlign: TextAlign.center,
+                                                    softWrap: true,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodySmall,
+                                                  )
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),

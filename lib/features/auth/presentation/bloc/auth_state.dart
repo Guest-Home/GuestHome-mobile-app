@@ -135,3 +135,30 @@ class ImagePickerError extends AuthState {
   @override
   List<Object> get props => super.props + [error];
 }
+
+class CreatingCustomerProfileLoadingState extends AuthState {
+  CreatingCustomerProfileLoadingState(AuthState currentState)
+      : super(
+            countryCode: currentState.countryCode,
+            phoneNumber: currentState.phoneNumber,
+            otpText: currentState.otpText,
+            fullName: currentState.fullName,
+            gender: currentState.gender,
+            profilePhoto: currentState.profilePhoto);
+}
+
+class CreatedCustomerProfileLodedState extends AuthState {
+  final CustomerProfileEntity customerProfileEntity;
+  CreatedCustomerProfileLodedState(
+      AuthState currentState, this.customerProfileEntity)
+      : super(
+            countryCode: currentState.countryCode,
+            phoneNumber: currentState.phoneNumber,
+            otpText: currentState.otpText,
+            fullName: currentState.fullName,
+            gender: currentState.gender,
+            profilePhoto: currentState.profilePhoto);
+
+  @override
+  List<Object> get props => super.props + [customerProfileEntity];
+}

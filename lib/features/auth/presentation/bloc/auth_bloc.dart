@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
@@ -5,10 +7,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:minapp/core/error/failure.dart';
 import 'package:minapp/core/utils/file_picker.dart';
 import 'package:minapp/features/auth/domain/entities/otp_response_entity.dart';
+import 'package:minapp/features/auth/domain/usecases/create_customer_profile_usecase.dart';
 import 'package:minapp/features/auth/domain/usecases/create_otp_usecase.dart';
 import 'package:minapp/features/auth/domain/usecases/verify_otp_usecase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../service_locator.dart';
+import '../../domain/entities/customer_profile_entity.dart';
 import '../../domain/entities/verify_otp_entity.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -75,10 +79,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       },
     );
 
-    on<CreateCustomerProfileEvent>((event, emit) {
+    on<CreateCustomerProfileEvent>((event, emit) async {
       print(state.fullName);
       print(state.gender.name);
       print(state.profilePhoto!.path);
+      emit(CreatingCustomerProfileLoadingState(state));
+      List<String> names = state.fullName.trim().split(' ');
+      Either response = await sl<CreateCustomerProfileUsecase>().call(
+          CreateCustomerParams(
+              firstName: names.first,
+              lastName: names.last,
+              gender: state.gender.name,
+              image: File(state.profilePhoto!.path)));
+      response.fold(
+        (l) => emit(OtpErrorState(state, l)),
+        (r) => emit(CreatedCustomerProfileLodedState(state, r)),
+      );
     });
   }
 

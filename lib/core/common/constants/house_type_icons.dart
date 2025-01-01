@@ -1,12 +1,12 @@
 const Map<String, String> houseTypeIcons = {
-  "Private Rooms": 'assets/icons/housetype/proom.svg',
+  "Private Room": 'assets/icons/housetype/proom.svg',
   "Apartment": 'assets/icons/housetype/apartment.svg',
   "Guest House": 'assets/icons/housetype/guesthouse.svg',
   "Pension": 'assets/icons/housetype/pension.svg',
   "Hotel and Resort": 'assets/icons/housetype/hotelR.svg',
   "Houses": 'assets/icons/housetype/houses.svg',
   "Hotel Bedroom": 'assets/icons/housetype/hotelbederoom.svg',
-  "Shared Space": 'assets/icons/housetype/sharedspace.svg',
+  "Shared spaces": 'assets/icons/housetype/sharedspace.svg',
   "Unit of Condominium": 'assets/icons/housetype/unitofcondominium.svg',
   "Warehouses": 'assets/icons/housetype/warehouse.svg',
   "Hall": 'assets/icons/housetype/hall.svg',
@@ -14,14 +14,14 @@ const Map<String, String> houseTypeIcons = {
 };
 
 const List<String> houseTypeList = [
-  "Private Rooms",
+  "Private Room",
   "Apartment",
   "Guest House",
   "Pension",
   "Hotel and Resort",
   "Houses",
   "Hotel Bedroom",
-  "Shared Space",
+  "Shared spaces",
   "Unit of Condominium",
   "Warehouses",
   "Hall",

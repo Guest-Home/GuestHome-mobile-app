@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -34,7 +35,7 @@ class HouseTypeCard extends StatelessWidget {
               fit: BoxFit.cover,
             ),
             Text(
-              title,
+              tr(title),
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: ColorConstant.secondBtnColor,
                   fontWeight: FontWeight.bold),

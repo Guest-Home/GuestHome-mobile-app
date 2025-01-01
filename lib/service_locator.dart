@@ -10,6 +10,8 @@ import 'package:minapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/add_property/add_property_bloc.dart';
 import 'package:minapp/features/onbording/presentation/bloc/on_bording_bloc.dart';
 
+import 'features/auth/domain/usecases/create_customer_profile_usecase.dart';
+
 final sl = GetIt.instance;
 void setup() async {
   //Bloc
@@ -22,6 +24,8 @@ void setup() async {
 
   sl.registerSingleton<CreateOtpUsecase>(CreateOtpUsecase());
   sl.registerSingleton<VerifyOtpUsecase>(VerifyOtpUsecase());
+  sl.registerSingleton<CreateCustomerProfileUsecase>(
+      CreateCustomerProfileUsecase());
 
   // repository
 
