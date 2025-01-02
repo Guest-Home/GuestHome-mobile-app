@@ -6,3 +6,5 @@ abstract class PropertiesEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class GetPropertiesEvent extends PropertiesEvent {}

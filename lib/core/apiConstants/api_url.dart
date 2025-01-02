@@ -8,6 +8,10 @@ class ApiUrl {
 
   static const String otp = "authapp/api/v1/otp/";
   static const String customer = "hostapp/api/v1/customer/";
+  static const String property = "hostapp/api/v1/houses/";
+  static const String propertyType = "hostapp/api/v1/property_types/";
+  static const String amenities = "hostapp/api/v1/amenities/";
+  static const String cities = "hostapp/api/v1/cities/";
 
   //host
 

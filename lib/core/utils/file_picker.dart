@@ -1,5 +1,3 @@
-import 'dart:isolate';
-
 import 'package:image_picker/image_picker.dart';
 
 class FilePicker {
@@ -7,11 +5,8 @@ class FilePicker {
 
   Future<XFile?> picImage() async {
     // make it with isolates
-    final XFile? image = await Isolate.run(
-      () async {
-        return await picker.pickImage(source: ImageSource.camera);
-      },
-    );
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
     return image;
   }
 }

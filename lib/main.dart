@@ -9,6 +9,10 @@ import 'package:minapp/config/theme/app_theme.dart';
 import 'package:minapp/core/common/bloc/language_bloc.dart';
 import 'package:minapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/add_property/add_property_bloc.dart';
+import 'package:minapp/features/host/features/properties/presentation/bloc/amenities/amenities_bloc.dart';
+import 'package:minapp/features/host/features/properties/presentation/bloc/city/city_bloc.dart';
+import 'package:minapp/features/host/features/properties/presentation/bloc/properties_bloc.dart';
+import 'package:minapp/features/host/features/properties/presentation/bloc/property_type/property_type_bloc.dart';
 import 'package:minapp/service_locator.dart';
 import 'features/onbording/presentation/bloc/on_bording_bloc.dart';
 
@@ -47,7 +51,23 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => sl<AuthBloc>(),
         ),
-        BlocProvider(create: (context) => sl<AddPropertyBloc>())
+        BlocProvider(create: (context) => sl<AddPropertyBloc>()),
+        BlocProvider(
+          create: (context) => sl<PropertiesBloc>(),
+        ),
+        BlocProvider(
+          lazy: false,
+          create: (context) =>
+              sl<PropertyTypeBloc>()..add(GetPropertyTypesEvent()),
+        ),
+        BlocProvider(
+          lazy: false,
+          create: (context) => sl<AmenitiesBloc>()..add(GetAmenityEvent()),
+        ),
+        BlocProvider(
+          lazy: false,
+          create: (context) => sl<CityBloc>()..add(GetCitiesEvent()),
+        )
       ],
       child: BlocBuilder<LanguageBloc, LanguageState>(
         buildWhen: (previous, current) => previous.locale != current.locale,

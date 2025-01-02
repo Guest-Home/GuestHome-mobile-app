@@ -17,7 +17,7 @@ class ProfilePhotoCard extends StatefulWidget {
 }
 
 class _ProfilePhotoCardState extends State<ProfilePhotoCard> {
-  String size = 'MB';
+  String size = '';
 
   Future<void> getImageSIze() async {
     // Convert XFile to File
@@ -30,9 +30,9 @@ class _ProfilePhotoCardState extends State<ProfilePhotoCard> {
   }
 
   @override
-  void initState() {
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     getImageSIze();
-    super.initState();
   }
 
   @override
@@ -67,7 +67,7 @@ class _ProfilePhotoCardState extends State<ProfilePhotoCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text("${size}MB",
+                      Text("${size} MB",
                           style: Theme.of(context).textTheme.bodyMedium),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,

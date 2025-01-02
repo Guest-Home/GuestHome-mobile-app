@@ -16,7 +16,20 @@ class OnBording extends StatefulWidget {
 
 class _OnBordingState extends State<OnBording>
     with SingleTickerProviderStateMixin {
-  PageController pageController = PageController(initialPage: 0);
+  late PageController pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    pageController = PageController(initialPage: 0);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    pageController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<OnBordingBloc, OnBordingState>(

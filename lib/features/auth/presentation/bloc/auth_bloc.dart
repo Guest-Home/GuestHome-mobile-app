@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
@@ -80,9 +78,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
 
     on<CreateCustomerProfileEvent>((event, emit) async {
-      print(state.fullName);
-      print(state.gender.name);
-      print(state.profilePhoto!.path);
       emit(CreatingCustomerProfileLoadingState(state));
       List<String> names = state.fullName.trim().split(' ');
       Either response = await sl<CreateCustomerProfileUsecase>().call(
@@ -90,7 +85,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               firstName: names.first,
               lastName: names.last,
               gender: state.gender.name,
-              image: File(state.profilePhoto!.path)));
+              image: state.profilePhoto!));
       response.fold(
         (l) => emit(OtpErrorState(state, l)),
         (r) => emit(CreatedCustomerProfileLodedState(state, r)),
@@ -102,6 +97,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.setString('access', verifyOpt.access);
     await sharedPreferences.setString('refresh', verifyOpt.refresh);
-    // await sharedPreferences.setBool('isLogin', true);
+    //await sharedPreferences.setBool('isLogin', true);
   }
 }

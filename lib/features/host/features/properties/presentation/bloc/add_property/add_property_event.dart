@@ -29,3 +29,61 @@ class AddNameEvent extends AddPropertyEvent {
     required this.name,
   });
 }
+
+class AddDescriptionEvent extends AddPropertyEvent {
+  final String description;
+  const AddDescriptionEvent({
+    required this.description,
+  });
+}
+
+class AddAmenityEvent extends AddPropertyEvent {
+  final String amenityName;
+  const AddAmenityEvent({
+    required this.amenityName,
+  });
+}
+
+class AddCityEvent extends AddPropertyEvent {
+  final String city;
+  const AddCityEvent({
+    required this.city,
+  });
+}
+
+class AddAdressNameEvent extends AddPropertyEvent {
+  final String addressName;
+  const AddAdressNameEvent({
+    required this.addressName,
+  });
+}
+
+class AddRoomNumberEvent extends AddPropertyEvent {
+  final String roomNumber;
+  const AddRoomNumberEvent({
+    required this.roomNumber,
+  });
+}
+
+class AddPriceEvent extends AddPropertyEvent {
+  final String price;
+  const AddPriceEvent({
+    required this.price,
+  });
+}
+
+class SelectPhotosEvent extends AddPropertyEvent {}
+
+class RemovePictureEvent extends AddPropertyEvent {
+  final int index;
+  const RemovePictureEvent({
+    required this.index,
+  });
+}
+
+class AdddAgentIdEvent extends AddPropertyEvent {
+  final String agentId;
+  const AdddAgentIdEvent({
+    required this.agentId,
+  });
+}

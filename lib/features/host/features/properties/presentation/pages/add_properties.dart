@@ -1,7 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/add_property/add_property_bloc.dart';
+import 'package:minapp/features/host/features/properties/presentation/bloc/amenities/amenities_bloc.dart';
+import 'package:minapp/features/host/features/properties/presentation/bloc/city/city_bloc.dart';
+import 'package:minapp/features/host/features/properties/presentation/bloc/property_type/property_type_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/widgets/property_photo_card.dart';
 import '../../../../../../config/color/color.dart';
 import '../../../../../../core/common/amenitie_type_card.dart';
@@ -20,7 +24,43 @@ class AddProperties extends StatefulWidget {
 }
 
 class _AddPropertiesState extends State<AddProperties> {
-  PageController pageController = PageController(initialPage: 0);
+  late PageController pageController;
+  late TextEditingController nameController;
+  late TextEditingController descriptionController;
+  late TextEditingController addressNmaeController;
+  late TextEditingController cityController;
+  late TextEditingController priceController;
+  late TextEditingController roomController;
+  late TextEditingController agentIdController;
+
+  final _houseFormKey = GlobalKey<FormState>();
+  final _locationFormKey = GlobalKey<FormState>();
+  final _priceFormKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    pageController = PageController(initialPage: 0);
+    nameController = TextEditingController();
+    descriptionController = TextEditingController();
+    addressNmaeController = TextEditingController();
+    cityController = TextEditingController();
+    priceController = TextEditingController();
+    roomController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    pageController.dispose();
+    nameController.dispose();
+    descriptionController.dispose();
+    addressNmaeController.dispose();
+    cityController.dispose();
+    priceController.dispose();
+    roomController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,48 +89,108 @@ class _AddPropertiesState extends State<AddProperties> {
                           stepTitleText(
                               context, 'What type of house do you host?'),
                           Expanded(
-                              child: GridView.builder(
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    crossAxisSpacing: 7,
-                                    mainAxisSpacing: 7,
-                                    mainAxisExtent: 100),
-                            itemCount: houseTypeList.length,
-                            itemBuilder: (context, index) => HouseTypeCard(
-                              image: houseTypeIcons[houseTypeList[index]]!,
-                              title: houseTypeList[index],
+                            child: BlocBuilder<PropertyTypeBloc,
+                                PropertyTypeState>(
+                              builder: (context, state) {
+                                return GridView.builder(
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2,
+                                          crossAxisSpacing: 7,
+                                          mainAxisSpacing: 7,
+                                          mainAxisExtent: 100),
+                                  itemCount: state.propertyTypes.length,
+                                  itemBuilder: (context, index) =>
+                                      GestureDetector(
+                                    onTap: () {
+                                      context.read<PropertyTypeBloc>().add(
+                                          SelectPropertyType(
+                                              propertyType:
+                                                  state.propertyTypes[index]));
+                                      context.read<AddPropertyBloc>().add(
+                                          AddHouseTypeEvent(
+                                              houseTYpe: state
+                                                  .propertyTypes[index]
+                                                  .propertyType));
+                                    },
+                                    child: AnimatedContainer(
+                                      duration: Duration(milliseconds: 100),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          border: Border.all(
+                                            color: state.selectedPropertyType ==
+                                                    state.propertyTypes[index]
+                                                ? ColorConstant.primaryColor
+                                                : Colors.white,
+                                          )),
+                                      child: HouseTypeCard(
+                                        image: houseTypeIcons[state
+                                            .propertyTypes[index]
+                                            .propertyType]!,
+                                        title: state
+                                            .propertyTypes[index].propertyType,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
-                          ))
+                          )
                         ],
                       ),
                     ),
                     // step 2
                     Container(
                       padding: EdgeInsets.all(15),
-                      child: Column(
-                        spacing: 15,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          stepTitleText(context, 'About the house'),
-                          stepSutTitle(context, "Registered House name?", true),
-                          CustomTextField(
-                            hintText: "eg Diamond Guest House",
-                            surfixIcon: null,
-                            textInputType: TextInputType.text,
-                            isMultiLine: false,
-                            onTextChnage: (value) {},
-                          ),
-                          stepSutTitle(
-                              context, "Description of the house", true),
-                          CustomTextField(
-                            hintText: "eg Diamond Guest House",
-                            surfixIcon: null,
-                            isMultiLine: false,
-                            textInputType: TextInputType.multiline,
-                            onTextChnage: (value) {},
-                          ),
-                        ],
+                      child: Form(
+                        key: _houseFormKey,
+                        child: Column(
+                          spacing: 15,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            stepTitleText(context, 'About the house'),
+                            stepSutTitle(
+                                context, "Registered House name?", true),
+                            CustomTextField(
+                              textEditingController: nameController,
+                              hintText: "eg Diamond Guest House",
+                              surfixIcon: null,
+                              textInputType: TextInputType.text,
+                              isMultiLine: false,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Please enter house name';
+                                }
+                                return null;
+                              },
+                              onTextChnage: (value) {
+                                context
+                                    .read<AddPropertyBloc>()
+                                    .add(AddNameEvent(name: value));
+                              },
+                            ),
+                            stepSutTitle(
+                                context, "Description of the house", true),
+                            CustomTextField(
+                              textEditingController: descriptionController,
+                              hintText: "eg Diamond Guest House",
+                              surfixIcon: null,
+                              isMultiLine: true,
+                              textInputType: TextInputType.multiline,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Please enter house name';
+                                }
+                                return null;
+                              },
+                              onTextChnage: (value) {
+                                context.read<AddPropertyBloc>().add(
+                                    AddDescriptionEvent(description: value));
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     // step 3
@@ -102,109 +202,195 @@ class _AddPropertiesState extends State<AddProperties> {
                         children: [
                           stepTitleText(context, 'Add Amenities '),
                           Expanded(
-                              child: GridView.builder(
+                              child: BlocBuilder<AmenitiesBloc, AmenitiesState>(
+                            builder: (context, state) {
+                              return GridView.builder(
                                   padding: EdgeInsets.all(10),
                                   gridDelegate:
                                       SliverGridDelegateWithFixedCrossAxisCount(
                                           crossAxisCount: 2,
                                           crossAxisSpacing: 10,
+                                          mainAxisSpacing: 10,
                                           mainAxisExtent: 100),
-                                  itemCount: amenitiesList.length,
+                                  itemCount: state.amenities.length,
                                   itemBuilder: (context, index) =>
-                                      AmenitieTypeCard(
-                                        icon: amenitiesIcon[
-                                            amenitiesList[index]]!,
-                                        title: amenitiesList[index],
-                                      )))
+                                      GestureDetector(
+                                        onTap: () {
+                                          context.read<AmenitiesBloc>().add(
+                                              SelectAmenityEvent(
+                                                  amenity:
+                                                      state.amenities[index]));
+                                          context.read<AddPropertyBloc>().add(
+                                              AddAmenityEvent(
+                                                  amenityName: state
+                                                      .amenities[index]
+                                                      .amenity));
+                                        },
+                                        child: AnimatedContainer(
+                                          duration: Duration(milliseconds: 100),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              border: Border.all(
+                                                  color: state.selectedAmenity
+                                                          .contains(state
+                                                              .amenities[index])
+                                                      ? ColorConstant
+                                                          .primaryColor
+                                                      : Colors.white)),
+                                          child: AmenitieTypeCard(
+                                            icon: amenitiesIcon[state
+                                                .amenities[index].amenity]!,
+                                            title:
+                                                state.amenities[index].amenity,
+                                          ),
+                                        ),
+                                      ));
+                            },
+                          ))
                         ],
                       ),
                     ),
                     // step 4
                     Container(
-                      padding: EdgeInsets.all(15),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          spacing: 15,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            stepTitleText(context, "Location"),
-                            Stack(children: [
-                              Placeholder(
-                                fallbackHeight: 340,
-                              ),
-                              Positioned(
-                                bottom: 4,
-                                left:
-                                    MediaQuery.of(context).size.width / 2 - 100,
-                                right:
-                                    MediaQuery.of(context).size.width / 2 - 100,
-                                child: CustomButton(
-                                    onPressed: () {},
-                                    style: ElevatedButton.styleFrom(
-                                      elevation: 0,
-                                      backgroundColor:
-                                          ColorConstant.primaryColor,
-                                      padding: EdgeInsets.all(1),
-                                    ),
-                                    child: Text(
-                                      "use current location",
-                                      style: TextStyle(color: Colors.white),
-                                    )),
-                              )
-                            ]),
-                            stepSutTitle(context,
-                                "Know or address  name of the place", true),
-                            CustomTextField(
-                              hintText: "eg bole ",
-                              surfixIcon: null,
-                              isMultiLine: false,
-                              textInputType: TextInputType.text,
-                              onTextChnage: (value) {},
+                        padding: EdgeInsets.all(15),
+                        child: SingleChildScrollView(
+                          child: Form(
+                            key: _locationFormKey,
+                            child: Column(
+                              spacing: 15,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                stepTitleText(context, "Location"),
+                                Stack(children: [
+                                  Placeholder(
+                                    fallbackHeight: 340,
+                                  ),
+                                  Positioned(
+                                    bottom: 4,
+                                    left:
+                                        MediaQuery.of(context).size.width / 2 -
+                                            100,
+                                    right:
+                                        MediaQuery.of(context).size.width / 2 -
+                                            100,
+                                    child: CustomButton(
+                                        onPressed: () {},
+                                        style: ElevatedButton.styleFrom(
+                                          elevation: 0,
+                                          backgroundColor:
+                                              ColorConstant.primaryColor,
+                                          padding: EdgeInsets.all(1),
+                                        ),
+                                        child: Text(
+                                          "use current location",
+                                          style: TextStyle(color: Colors.white),
+                                        )),
+                                  )
+                                ]),
+                                stepSutTitle(context,
+                                    "Know or address  name of the place", true),
+                                CustomTextField(
+                                  textEditingController: addressNmaeController,
+                                  hintText: "eg bole ",
+                                  surfixIcon: null,
+                                  isMultiLine: false,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Please enter address name';
+                                    }
+                                    return null;
+                                  },
+                                  textInputType: TextInputType.text,
+                                  onTextChnage: (value) {
+                                    context.read<AddPropertyBloc>().add(
+                                        AddAdressNameEvent(addressName: value));
+                                  },
+                                ),
+                                stepSutTitle(context,
+                                    "Please select the name of the city", true),
+                                CustomTextField(
+                                  textEditingController: cityController,
+                                  hintText: state.city,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Please enter city name';
+                                    }
+                                    return null;
+                                  },
+                                  textInputType: TextInputType.text,
+                                  surfixIcon: SizedBox(
+                                    child: CityDropDown(onSelected: (value) {
+                                      cityController.text = value;
+                                      context
+                                          .read<AddPropertyBloc>()
+                                          .add(AddCityEvent(city: value));
+                                    }),
+                                  ),
+                                  isMultiLine: false,
+                                  onTextChnage: (value) {
+                                    context
+                                        .read<AddPropertyBloc>()
+                                        .add(AddCityEvent(city: value));
+                                  },
+                                ),
+                              ],
                             ),
-                            stepSutTitle(context,
-                                "Please select the name of the city", true),
-                            CustomTextField(
-                              hintText: "eg Addis Ababa",
-                              textInputType: TextInputType.text,
-                              surfixIcon: Icon(Icons.arrow_drop_down),
-                              isMultiLine: false,
-                              onTextChnage: (value) {},
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                          ),
+                        )),
                     // step 5
                     Container(
-                      padding: EdgeInsets.all(15),
-                      child: Column(
-                        spacing: 15,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          stepTitleText(context, "Price"),
-                          stepSutTitle(
-                              context,
-                              "How many rooms do you have with the same price?",
-                              true),
-                          CustomTextField(
-                            hintText: "eg 4",
-                            surfixIcon: null,
-                            isMultiLine: false,
-                            textInputType:
-                                TextInputType.numberWithOptions(decimal: true),
-                            onTextChnage: (value) {},
+                        padding: EdgeInsets.all(15),
+                        child: Form(
+                          key: _priceFormKey,
+                          child: Column(
+                            spacing: 15,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              stepTitleText(context, "Price"),
+                              stepSutTitle(
+                                  context,
+                                  "How many rooms do you have with the same price?",
+                                  true),
+                              CustomTextField(
+                                textEditingController: roomController,
+                                hintText: "eg 4",
+                                surfixIcon: null,
+                                isMultiLine: false,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter room number';
+                                  }
+                                  return null;
+                                },
+                                textInputType: TextInputType.number,
+                                onTextChnage: (value) {
+                                  context.read<AddPropertyBloc>().add(
+                                      AddRoomNumberEvent(roomNumber: value));
+                                },
+                              ),
+                              stepSutTitle(context, 'Enter the price', true),
+                              CustomTextField(
+                                textEditingController: priceController,
+                                hintText: "500",
+                                surfixIcon: null,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter price';
+                                  }
+                                  return null;
+                                },
+                                isMultiLine: false,
+                                textInputType: TextInputType.number,
+                                onTextChnage: (value) {
+                                  context
+                                      .read<AddPropertyBloc>()
+                                      .add(AddPriceEvent(price: value));
+                                },
+                              ),
+                            ],
                           ),
-                          stepSutTitle(context, 'Enter the price', true),
-                          CustomTextField(
-                            hintText: "500",
-                            surfixIcon: null,
-                            isMultiLine: false,
-                            textInputType: TextInputType.number,
-                            onTextChnage: (value) {},
-                          ),
-                        ],
-                      ),
-                    ),
+                        )),
                     // step 6
                     Container(
                       padding: EdgeInsets.all(15),
@@ -214,11 +400,15 @@ class _AddPropertiesState extends State<AddProperties> {
                         children: [
                           stepTitleText(context, "Add Photos of the house"),
                           UploadPhoto(
-                            ontTap: () {},
+                            ontTap: () {
+                              context
+                                  .read<AddPropertyBloc>()
+                                  .add(SelectPhotosEvent());
+                            },
                           ),
                           Expanded(
                               child: ListView.builder(
-                            itemCount: 4,
+                            itemCount: state.images.length,
                             itemBuilder: (context, index) => Card(
                                 elevation: 0.2,
                                 color: Colors.white,
@@ -228,7 +418,13 @@ class _AddPropertiesState extends State<AddProperties> {
                                         color: ColorConstant.cardGrey)),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: PropertyPhotoCard(),
+                                  child: PropertyPhotoCard(
+                                    image: state.images[index],
+                                    ontap: () {
+                                      context.read<AddPropertyBloc>().add(
+                                          RemovePictureEvent(index: index));
+                                    },
+                                  ),
                                 )),
                           ))
                         ],
@@ -251,7 +447,11 @@ class _AddPropertiesState extends State<AddProperties> {
                             surfixIcon: null,
                             isMultiLine: false,
                             textInputType: TextInputType.number,
-                            onTextChnage: (value) {},
+                            onTextChnage: (value) {
+                              context
+                                  .read<AddPropertyBloc>()
+                                  .add(AdddAgentIdEvent(agentId: value));
+                            },
                           ),
                         ],
                       ),
@@ -289,15 +489,62 @@ class _AddPropertiesState extends State<AddProperties> {
                         Expanded(
                             child: CustomButton(
                                 onPressed: () async {
-                                  if (state.step == 6) {
+                                  if (state.step == 0) {
+                                    if (state.houseType.isEmpty) {
+                                      _showErrorSnackBar(
+                                          context, "Please select house type");
+                                    } else {
+                                      context
+                                          .read<AddPropertyBloc>()
+                                          .add(NextStepEvent());
+                                    }
+                                  } else if (state.step == 1) {
+                                    _houseFormKey.currentState!.validate();
+                                    if (_houseFormKey.currentState!
+                                        .validate()) {
+                                      context
+                                          .read<AddPropertyBloc>()
+                                          .add(NextStepEvent());
+                                    }
+                                  } else if (state.step == 2) {
+                                    if (state.amenities.isEmpty) {
+                                      _showErrorSnackBar(
+                                          context, "Please select amenities");
+                                    } else {
+                                      context
+                                          .read<AddPropertyBloc>()
+                                          .add(NextStepEvent());
+                                    }
+                                  } else if (state.step == 3) {
+                                    _locationFormKey.currentState!.save();
+                                    if (_locationFormKey.currentState!
+                                        .validate()) {
+                                      context
+                                          .read<AddPropertyBloc>()
+                                          .add(NextStepEvent());
+                                    }
+                                  } else if (state.step == 4) {
+                                    _priceFormKey.currentState!.save();
+                                    if (_priceFormKey.currentState!
+                                        .validate()) {
+                                      context
+                                          .read<AddPropertyBloc>()
+                                          .add(NextStepEvent());
+                                    }
+                                  } else if (state.step == 5) {
+                                    if (state.images.isEmpty) {
+                                      _showErrorSnackBar(
+                                          context, "Please select images");
+                                    } else {
+                                      context
+                                          .read<AddPropertyBloc>()
+                                          .add(NextStepEvent());
+                                    }
+                                  } else if (state.step == 6) {
                                     context
                                         .read<AddPropertyBloc>()
                                         .add(NextStepEvent());
                                     context.goNamed('properties');
-                                  } else {
-                                    context
-                                        .read<AddPropertyBloc>()
-                                        .add(NextStepEvent());
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
@@ -317,7 +564,7 @@ class _AddPropertiesState extends State<AddProperties> {
               ],
             );
           },
-          buildWhen: (previous, current) => previous.step != current.step,
+          buildWhen: (previous, current) => previous != current,
           listenWhen: (previous, current) => previous.step != current.step,
           listener: (context, state) {
             pageController.jumpToPage(state.step);
@@ -350,6 +597,43 @@ class _AddPropertiesState extends State<AddProperties> {
           .textTheme
           .bodyLarge!
           .copyWith(fontWeight: FontWeight.bold),
+    );
+  }
+
+  _showErrorSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+      backgroundColor: ColorConstant.red,
+    ));
+  }
+}
+
+class CityDropDown extends StatelessWidget {
+  const CityDropDown({
+    super.key,
+    required this.onSelected,
+  });
+
+  final ValueChanged<String> onSelected;
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<CityBloc, CityState>(
+      builder: (context, state) {
+        return PopupMenuButton<String>(
+          icon: Icon(Icons.arrow_drop_down),
+          onSelected: (value) => onSelected(value),
+          position: PopupMenuPosition.under,
+          color: Colors.white,
+          itemBuilder: (BuildContext context) {
+            return List.generate(
+              state.cities.length,
+              (index) => PopupMenuItem(
+                  value: state.cities[index].city,
+                  child: Text(tr(state.cities[index].city))),
+            );
+          },
+        );
+      },
     );
   }
 }

@@ -79,16 +79,18 @@ class AccountSetup extends StatelessWidget {
                     margin: EdgeInsets.only(top: 30),
                     width: MediaQuery.of(context).size.width,
                     child: CustomButton(
-                        onPressed: () {
-                          _formKey.currentState!.save();
-                          if (_formKey.currentState!.validate()) {
-                            context.read<AuthBloc>().add(
-                                CreateOtpEvent(phone: "+${state.phoneNumber}"));
-                          }
-                        },
+                        onPressed: state is CreatingOtpLoadingState
+                            ? () {}
+                            : () {
+                                _formKey.currentState!.save();
+                                if (_formKey.currentState!.validate()) {
+                                  context.read<AuthBloc>().add(CreateOtpEvent(
+                                      phone: "+${state.phoneNumber}"));
+                                }
+                              },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: ColorConstant.primaryColor,
-                            padding: EdgeInsets.all(15)),
+                            padding: EdgeInsets.all(20)),
                         child: state is CreatingOtpLoadingState
                             ? loading
                             : Text(

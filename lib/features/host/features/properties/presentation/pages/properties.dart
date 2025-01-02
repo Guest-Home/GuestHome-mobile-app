@@ -1,5 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:minapp/features/host/features/properties/presentation/bloc/properties_bloc.dart';
+import '../../../../../../config/color/color.dart';
+import '../../../../../../core/common/custom_button.dart';
 import '../widgets/property_card.dart';
 import '../widgets/search_filed.dart';
 
@@ -13,6 +18,8 @@ class Properties extends StatefulWidget {
 class _PropertiesState extends State<Properties> {
   @override
   Widget build(BuildContext context) {
+    context.read<PropertiesBloc>().add(GetPropertiesEvent());
+
     return Scaffold(
         body: CustomScrollView(
       slivers: [
@@ -44,55 +51,79 @@ class _PropertiesState extends State<Properties> {
                 )),
           ),
         ),
-        // SliverFillRemaining(
-        //   fillOverscroll: false,
-        //   hasScrollBody: false,
-        //   child: Container(
-        //     padding: const EdgeInsets.all(10),
-        //     child:
-        //         Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        //       Text(
-        //         'Lorem ipsum dolor sit amet consectetur. Est netus commodo mattis lectus nam lacinia hac sapien.',
-        //         textAlign: TextAlign.center,
-        //         style: Theme.of(context).textTheme.bodyLarge!,
-        //       ),
-        //       Padding(
-        //           padding: const EdgeInsets.all(20),
-        //           child:
-        // CustomButton(
-        //             style: ElevatedButton.styleFrom(
-        //                 backgroundColor: ColorConstant.primaryColor,
-        //                 padding: EdgeInsets.all(20),
-        //                 shape: RoundedRectangleBorder(
-        //                     borderRadius: BorderRadius.circular(10))),
-        //             onPressed: () => context.goNamed('addProperty'),
-        //             child: Row(
-        //               mainAxisAlignment: MainAxisAlignment.center,
-        //               children: [
-        //                 Icon(Icons.add, color: Colors.white),
-        //                 Text(
-        //                   'Add Property',
-        //                   style: Theme.of(context)
-        //                       .textTheme
-        //                       .bodyMedium!
-        //                       .copyWith(color: Colors.white),
-        //                 )
-        //               ],
-        //             ),
-        //           ))
-        //     ]),
-        //   ),
-        // ),
-
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) => GestureDetector(
-                onTap: () => context.goNamed('propertyDetail'),
-                child: PropertyCard()),
-            childCount: 5,
-          ),
-        ),
+        BlocBuilder<PropertiesBloc, PropertiesState>(
+          builder: (context, state) {
+            if (state is PropertiesLoading) {
+              return SliverToBoxAdapter(
+                child: Center(
+                  child: CupertinoActivityIndicator(),
+                ),
+              );
+            } else if (state is PropertyLoaded) {
+              if (state.properties.isEmpty) {
+                return SliverToBoxAdapter(
+                    child: Center(child: NoPropertyFound()));
+              } else {
+                return SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) => GestureDetector(
+                        onTap: () => context.goNamed('propertyDetail'),
+                        child: PropertyCard()),
+                    childCount: 5,
+                  ),
+                );
+              }
+            }
+            return SliverToBoxAdapter(
+                child: Center(
+              child: Text('Unknown state'),
+            ));
+          },
+        )
       ],
     ));
+  }
+}
+
+class NoPropertyFound extends StatelessWidget {
+  const NoPropertyFound({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Text(
+          'Lorem ipsum dolor sit amet consectetur. Est netus commodo mattis lectus nam lacinia hac sapien.',
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.bodyLarge!,
+        ),
+        Padding(
+            padding: const EdgeInsets.all(20),
+            child: CustomButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: ColorConstant.primaryColor,
+                  padding: EdgeInsets.all(20),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10))),
+              onPressed: () => context.goNamed('addProperty'),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.add, color: Colors.white),
+                  Text(
+                    'Add Property',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: Colors.white),
+                  )
+                ],
+              ),
+            ))
+      ]),
+    );
   }
 }

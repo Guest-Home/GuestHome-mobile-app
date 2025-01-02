@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:minapp/core/useCases/use_case.dart';
 import 'package:minapp/features/auth/domain/repositories/otp_repository.dart';
 import 'package:minapp/service_locator.dart';
@@ -22,7 +21,7 @@ class CreateCustomerParams extends Equatable {
   final String firstName;
   final String lastName;
   final String gender;
-  final File image;
+  final XFile image;
   const CreateCustomerParams(
       {required this.firstName,
       required this.lastName,

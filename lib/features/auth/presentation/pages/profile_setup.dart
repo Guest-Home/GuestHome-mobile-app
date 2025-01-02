@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:minapp/core/common/spin_kit_loading.dart';
 import 'package:minapp/core/common/upload_photo_widget.dart';
 import 'package:minapp/core/common/custom_text_field.dart';
 import 'package:minapp/core/utils/validator.dart';
@@ -17,6 +18,16 @@ class ProfileSetup extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _fullNameController = TextEditingController();
 
+  _showErrorSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(backgroundColor: ColorConstant.red, content: Text(message)));
+  }
+
+  _showSuccessSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(backgroundColor: ColorConstant.green, content: Text(message)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,34 +37,40 @@ class ProfileSetup extends StatelessWidget {
         body: BlocProvider.value(
             value: context.read<AuthBloc>(),
             child: BlocConsumer<AuthBloc, AuthState>(
-              listener: (context, state) {},
+              listener: (context, state) {
+                if (state is CreatedCustomerProfileLodedState) {
+                  context.goNamed('properties');
+                  _showSuccessSnackBar(context, "Profile Created Successfully");
+                } else if (state is OtpErrorState) {
+                  _showErrorSnackBar(context, state.failure.message);
+                }
+              },
               buildWhen: (previous, current) => previous != current,
               builder: (context, state) {
                 return Container(
-                  padding: EdgeInsets.all(15),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: ListView(
-                          padding: EdgeInsets.all(5),
-                          children: [
-                            Text(
-                              "Profile SetUp",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge!
-                                  .copyWith(fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Form(
-                                child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              spacing: 10,
+                    padding: EdgeInsets.all(15),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: ListView(
+                              padding: EdgeInsets.all(5),
                               children: [
+                                Text(
+                                  "Profile SetUp",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge!
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
                                 stepSutTitle(context, "Full Name", true),
+                                SizedBox(
+                                  height: 20,
+                                ),
                                 CustomTextField(
                                     textEditingController: _fullNameController,
                                     hintText: "full name",
@@ -76,6 +93,9 @@ class ProfileSetup extends StatelessWidget {
                                   height: 20,
                                 ),
                                 stepSutTitle(context, "Gender", true),
+                                SizedBox(
+                                  height: 20,
+                                ),
                                 Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: Gender.values
@@ -154,63 +174,77 @@ class ProfileSetup extends StatelessWidget {
                                                   .add(RemovePictureEvent());
                                             },
                                           )
-                                        : Text("data"))
+                                        : SizedBox.shrink())
                               ],
-                            ))
-                          ],
-                        ),
-                      ),
-                      Container(
-                          width: MediaQuery.of(context).size.width,
-                          padding: EdgeInsets.all(15),
-                          child: Row(
-                            spacing: 10,
-                            children: [
-                              Expanded(
-                                  child: CustomButton(
-                                      onPressed: () {
-                                        context.pop();
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                          side: BorderSide(
-                                              color:
-                                                  ColorConstant.secondBtnColor),
-                                          backgroundColor: Colors.white),
-                                      child: Text("Back",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium!
-                                              .copyWith(
-                                                color: ColorConstant
-                                                    .secondBtnColor,
-                                              )))),
-                              Expanded(
-                                  child: CustomButton(
-                                      onPressed: () {
-                                        _formKey.currentState!.save();
-                                        if (_formKey.currentState!.validate()) {
-                                          context.read<AuthBloc>().add(
-                                              CreateCustomerProfileEvent());
-                                        }
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                          side: BorderSide(
-                                              color:
+                            ),
+                          ),
+                          Container(
+                              width: MediaQuery.of(context).size.width,
+                              padding: EdgeInsets.all(15),
+                              child: Row(
+                                spacing: 10,
+                                children: [
+                                  Expanded(
+                                      child: CustomButton(
+                                          onPressed: () {
+                                            context.pop();
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                              side: BorderSide(
+                                                  color: ColorConstant
+                                                      .secondBtnColor),
+                                              backgroundColor: Colors.white),
+                                          child: Text("Back",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium!
+                                                  .copyWith(
+                                                    color: ColorConstant
+                                                        .secondBtnColor,
+                                                  )))),
+                                  Expanded(
+                                      child: CustomButton(
+                                          onPressed: state
+                                                  is CreatingCustomerProfileLoadingState
+                                              ? () {}
+                                              : () {
+                                                  _formKey.currentState!.save();
+                                                  if (_formKey.currentState!
+                                                      .validate()) {
+                                                    if (state.profilePhoto ==
+                                                            null ||
+                                                        state.profilePhoto!.path
+                                                            .isEmpty) {
+                                                      _showErrorSnackBar(
+                                                          context,
+                                                          "Please select a profile photo");
+                                                    } else {
+                                                      context.read<AuthBloc>().add(
+                                                          CreateCustomerProfileEvent());
+                                                    }
+                                                  }
+                                                },
+                                          style: ElevatedButton.styleFrom(
+                                              side: BorderSide(
+                                                  color: ColorConstant
+                                                      .primaryColor),
+                                              backgroundColor:
                                                   ColorConstant.primaryColor),
-                                          backgroundColor:
-                                              ColorConstant.primaryColor),
-                                      child: Text("Finish",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium!
-                                              .copyWith(
-                                                color: Colors.white,
-                                              ))))
-                            ],
-                          ))
-                    ],
-                  ),
-                );
+                                          child: state
+                                                  is CreatingCustomerProfileLoadingState
+                                              ? loading
+                                              : Text("Finish",
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyMedium!
+                                                      .copyWith(
+                                                        color: Colors.white,
+                                                      ))))
+                                ],
+                              ))
+                        ],
+                      ),
+                    ));
               },
             )));
   }

@@ -93,12 +93,16 @@ class OtpVerification extends StatelessWidget {
                       margin: EdgeInsets.only(top: 30),
                       width: MediaQuery.of(context).size.width,
                       child: CustomButton(
-                          onPressed: () {
-                            context.read<AuthBloc>().add(VerifyOtpEvent());
-                          },
+                          onPressed: state is VerifyingOtpLoadingState
+                              ? () {}
+                              : () {
+                                  context
+                                      .read<AuthBloc>()
+                                      .add(VerifyOtpEvent());
+                                },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: ColorConstant.primaryColor,
-                              padding: EdgeInsets.all(15)),
+                              padding: EdgeInsets.all(20)),
                           child: state is VerifyingOtpLoadingState
                               ? loading
                               : Text(

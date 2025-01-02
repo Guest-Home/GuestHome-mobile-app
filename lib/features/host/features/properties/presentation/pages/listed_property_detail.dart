@@ -329,12 +329,12 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                               ontTap: () {},
                             ),
                             //photo
-                            SizedBox(
-                                width: double.infinity,
-                                child: Column(
-                                  children: List.generate(
-                                      3, (index) => PropertyPhotoCard()),
-                                ))
+                            // SizedBox(
+                            //     width: double.infinity,
+                            //     child: Column(
+                            //       children: List.generate(
+                            //           3, (index) => PropertyPhotoCard()),
+                            //     ))
                           ],
                         ),
                       ),

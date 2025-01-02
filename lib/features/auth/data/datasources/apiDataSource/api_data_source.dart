@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:minapp/features/auth/data/models/customer_profile_model.dart';
@@ -57,16 +59,21 @@ class ApiDataSourceImpl implements ApiDataSource {
   @override
   Future<Either<Failure, CustomerProfileModel>> createCustomerProfile(
       CreateCustomerParams params) async {
-    // Create a FormData object
-    var formData = FormData.fromMap({
-      'firstname': params.firstName,
-      'lastname': params.lastName,
-      'gender': params.gender,
-      'profilepicture': await MultipartFile.fromFile(
-        params.image.path,
-        filename: 'profilepicture.jpg',
-      ),
+    var jsonString = jsonEncode({
+      'first_name': params.firstName,
+      'last_name': params.lastName,
     });
+    final image = File(params.image.path);
+
+    // Create a FormData object
+    final formData = FormData.fromMap({
+      'profilePicture': await MultipartFile.fromFile(image.path,
+          filename: 'profilepicture.jpg'),
+      'language': 'en',
+      'user_account': jsonString,
+      'gender': params.gender,
+    });
+
     try {
       final response =
           await sl<DioClient>().post(ApiUrl.customer, data: formData);
@@ -76,6 +83,8 @@ class ApiDataSourceImpl implements ApiDataSource {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
+      print("///////////////////");
+      print(e);
       return Left(ServerFailure(e.message.toString()));
     }
   }
