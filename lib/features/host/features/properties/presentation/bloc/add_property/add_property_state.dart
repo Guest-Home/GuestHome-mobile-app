@@ -1,7 +1,5 @@
 part of 'add_property_bloc.dart';
 
-final class AddPropertyInitial extends AddPropertyState {}
-
 class AddPropertyState extends Equatable {
   final int step;
 
@@ -31,7 +29,7 @@ class AddPropertyState extends Equatable {
     this.houseType = '',
     this.noRoom = '',
     this.price = '',
-    this.unit = '',
+    this.unit = 'Birr',
     this.agentId = '',
     this.latitude = 0.0,
     this.longitude = 0.0,
@@ -82,7 +80,75 @@ class AddPropertyState extends Equatable {
 
 class ImagePickerError extends AddPropertyState {
   final String message;
-  final AddPropertyState state;
 
-  ImagePickerError(this.state, this.message);
+  ImagePickerError(AddPropertyState currentState, this.message)
+      : super(
+          step: currentState.step,
+          title: currentState.title,
+          description: currentState.description,
+          amenities: currentState.amenities,
+          images: currentState.images,
+          address: currentState.address,
+          city: currentState.city,
+          houseType: currentState.houseType,
+          noRoom: currentState.noRoom,
+          price: currentState.price,
+          unit: currentState.unit,
+          agentId: currentState.agentId,
+          latitude: currentState.latitude,
+          longitude: currentState.longitude,
+        );
+  @override
+  List<Object> get props => super.props + [message];
+}
+
+class AddNewPropertyLoading extends AddPropertyState {
+  AddNewPropertyLoading(AddPropertyState currentState)
+      : super(
+          step: currentState.step,
+          title: currentState.title,
+          description: currentState.description,
+          amenities: currentState.amenities,
+          images: currentState.images,
+          address: currentState.address,
+          city: currentState.city,
+          houseType: currentState.houseType,
+          noRoom: currentState.noRoom,
+          price: currentState.price,
+          unit: currentState.unit,
+          agentId: currentState.agentId,
+          latitude: currentState.latitude,
+          longitude: currentState.longitude,
+        );
+}
+
+class AddNewPropertySuccess extends AddPropertyState {
+  final bool isAdded;
+  const AddNewPropertySuccess(this.isAdded);
+  @override
+  List<Object> get props => [isAdded];
+}
+
+class AddNewPropertyErrorState extends AddPropertyState {
+  final Failure failure;
+  AddNewPropertyErrorState(AddPropertyState currentState, this.failure)
+      : super(
+          step: currentState.step,
+          title: currentState.title,
+          description: currentState.description,
+          amenities: currentState.amenities,
+          images: currentState.images,
+          address: currentState.address,
+          city: currentState.city,
+          houseType: currentState.houseType,
+          noRoom: currentState.noRoom,
+          price: currentState.price,
+          unit: currentState.unit,
+          agentId: currentState.agentId,
+          latitude: currentState.latitude,
+          longitude: currentState.longitude,
+        );
+
+  @override
+  List<Object> get props => super.props + [failure];
 }

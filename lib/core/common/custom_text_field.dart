@@ -41,7 +41,9 @@ class CustomTextField extends StatelessWidget {
           hintText: hintText,
           prefixIcon: prifixIcon,
           suffixIcon: surfixIcon,
-          hintStyle: TextStyle(fontSize: 13),
+          hintStyle: TextStyle(
+              fontSize: 13,
+              color: ColorConstant.inActiveColor.withValues(alpha: 0.6)),
           enabled: true,
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),

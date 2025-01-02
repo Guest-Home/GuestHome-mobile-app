@@ -59,31 +59,42 @@ class ApiDataSourceImpl implements ApiDataSource {
   @override
   Future<Either<Failure, CustomerProfileModel>> createCustomerProfile(
       CreateCustomerParams params) async {
-    var jsonString = jsonEncode({
+    Map<String, String> jsonString = {
       'first_name': params.firstName,
       'last_name': params.lastName,
-    });
-    final image = File(params.image.path);
+    };
+    File image = File(params.image.path);
 
     // Create a FormData object
     final formData = FormData.fromMap({
-      'profilePicture': await MultipartFile.fromFile(image.path,
-          filename: 'profilepicture.jpg'),
+      if (image.path.isNotEmpty)
+        'profilePicture': await MultipartFile.fromFile(image.path,
+            filename: image.path.split('/').last),
       'language': 'en',
-      'user_account': jsonString,
       'gender': params.gender,
+      'first_name': params.firstName,
+      'last_name': params.lastName,
     });
 
     try {
-      final response =
-          await sl<DioClient>().post(ApiUrl.customer, data: formData);
-      if (response.statusCode == 200) {
+      final response = await sl<DioClient>().post(
+        ApiUrl.customer,
+        data: formData,
+        options: Options(
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        ),
+      );
+
+      if (response.statusCode == 201) {
+        print(response.data);
         return Right(CustomerProfileModel.fromJson(response.data));
       } else {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      print("///////////////////");
+      print("//////dio");
       print(e);
       return Left(ServerFailure(e.message.toString()));
     }

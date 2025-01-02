@@ -1,6 +1,13 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:minapp/core/error/failure.dart';
+import 'package:minapp/features/host/features/properties/domain/usecases/create_property_usecase.dart';
+import 'package:minapp/service_locator.dart';
 
 import '../../../../../../../core/utils/file_picker.dart';
 
@@ -80,6 +87,47 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
         final updatedAmenityList = List.of(state.images);
         updatedAmenityList.removeAt(event.index);
         emit(state.copyWith(images: updatedAmenityList));
+      },
+    );
+
+    on<ResetEvent>((event, emit) => emit(const AddPropertyState()));
+
+    // create property
+    on<AddNewPropertyEvent>(
+      (event, emit) async {
+        emit(AddNewPropertyLoading(state));
+
+        final imageMultipartFiles =
+            await Future.wait(state.images.map((image) async {
+          return await MultipartFile.fromFile(
+            File(image.path).path,
+            filename: image.path.split('/').last, // Extract the file name
+          );
+        }));
+        print("///");
+        print(imageMultipartFiles);
+
+        final FormData formData = FormData.fromMap({
+          'title': state.title,
+          'description': state.description,
+          'city': state.city,
+          'typeofHouse': state.houseType,
+          'latitude': state.latitude,
+          'longitude': state.longitude,
+          'price': state.price,
+          'unit': state.unit,
+          if (state.agentId.isNotEmpty) 'agent': state.agentId,
+          'image': imageMultipartFiles,
+          'number_of_room': state.noRoom
+        });
+        Either response = await sl<CreatePropertyUsecase>()
+            .call(CreatePropertyParam(formData: formData));
+        response.fold(
+          (l) => emit(AddNewPropertyErrorState(state, l)),
+          (r) {
+            emit(AddNewPropertySuccess(r));
+          },
+        );
       },
     );
   }

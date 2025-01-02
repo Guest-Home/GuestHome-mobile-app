@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:minapp/core/common/spin_kit_loading.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/add_property/add_property_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/amenities/amenities_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/city/city_bloc.dart';
@@ -36,6 +37,7 @@ class _AddPropertiesState extends State<AddProperties> {
   final _houseFormKey = GlobalKey<FormState>();
   final _locationFormKey = GlobalKey<FormState>();
   final _priceFormKey = GlobalKey<FormState>();
+  final _agentFormKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -47,6 +49,7 @@ class _AddPropertiesState extends State<AddProperties> {
     cityController = TextEditingController();
     priceController = TextEditingController();
     roomController = TextEditingController();
+    agentIdController = TextEditingController();
   }
 
   @override
@@ -59,6 +62,7 @@ class _AddPropertiesState extends State<AddProperties> {
     cityController.dispose();
     priceController.dispose();
     roomController.dispose();
+    agentIdController.dispose();
   }
 
   @override
@@ -432,30 +436,42 @@ class _AddPropertiesState extends State<AddProperties> {
                     ),
                     //step 7
                     Container(
-                      padding: EdgeInsets.all(15),
-                      child: Column(
-                        spacing: 15,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          stepTitleText(context, "Agent Info"),
-                          stepSutTitle(
-                              context,
-                              "Enter agent id if you don’t have click finish(optional)",
-                              false),
-                          CustomTextField(
-                            hintText: "agent id",
-                            surfixIcon: null,
-                            isMultiLine: false,
-                            textInputType: TextInputType.number,
-                            onTextChnage: (value) {
-                              context
-                                  .read<AddPropertyBloc>()
-                                  .add(AdddAgentIdEvent(agentId: value));
-                            },
+                        padding: EdgeInsets.all(15),
+                        child: Form(
+                          key: _agentFormKey,
+                          child: Column(
+                            spacing: 15,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              stepTitleText(context, "Agent Info"),
+                              stepSutTitle(
+                                  context,
+                                  "Enter agent id if you don’t have click finish(optional)",
+                                  false),
+                              CustomTextField(
+                                textEditingController: agentIdController,
+                                hintText: "agent id",
+                                surfixIcon: null,
+                                isMultiLine: false,
+                                validator: (value) {
+                                  return null;
+                                },
+                                textInputType: TextInputType.text,
+                                onTextChnage: (value) {
+                                  if (value.isEmpty) {
+                                    context
+                                        .read<AddPropertyBloc>()
+                                        .add(AdddAgentIdEvent(agentId: ''));
+                                  } else {
+                                    context
+                                        .read<AddPropertyBloc>()
+                                        .add(AdddAgentIdEvent(agentId: value));
+                                  }
+                                },
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    )
+                        ))
                   ],
                 )),
                 Container(
@@ -543,8 +559,16 @@ class _AddPropertiesState extends State<AddProperties> {
                                   } else if (state.step == 6) {
                                     context
                                         .read<AddPropertyBloc>()
-                                        .add(NextStepEvent());
-                                    context.goNamed('properties');
+                                        .add(AddNewPropertyEvent());
+
+                                    // context
+                                    //     .read<AddPropertyBloc>()
+                                    //     .add(NextStepEvent());
+                                    // context
+                                    //     .read<AddPropertyBloc>()
+                                    //     .add(ResetEvent());
+
+                                    //context.goNamed('properties');
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
@@ -552,21 +576,26 @@ class _AddPropertiesState extends State<AddProperties> {
                                         color: ColorConstant.primaryColor),
                                     backgroundColor:
                                         ColorConstant.primaryColor),
-                                child: Text(state.step != 6 ? "Next" : "Finish",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(
-                                          color: Colors.white,
-                                        ))))
+                                child: state is AddNewPropertyLoading
+                                    ? loading
+                                    : Text(state.step != 6 ? "Next" : "Finish",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium!
+                                            .copyWith(
+                                              color: Colors.white,
+                                            ))))
                       ],
                     ))
               ],
             );
           },
           buildWhen: (previous, current) => previous != current,
-          listenWhen: (previous, current) => previous.step != current.step,
+          listenWhen: (previous, current) => previous != current,
           listener: (context, state) {
+            if (state is AddNewPropertyErrorState) {
+              _showErrorSnackBar(context, state.failure.message);
+            } else if (state is AddNewPropertySuccess) {}
             pageController.jumpToPage(state.step);
           },
         ));

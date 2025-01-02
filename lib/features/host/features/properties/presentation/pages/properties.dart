@@ -62,7 +62,9 @@ class _PropertiesState extends State<Properties> {
             } else if (state is PropertyLoaded) {
               if (state.properties.isEmpty) {
                 return SliverToBoxAdapter(
-                    child: Center(child: NoPropertyFound()));
+                    child: SizedBox(
+                        height: MediaQuery.of(context).size.height / 2,
+                        child: NoPropertyFound()));
               } else {
                 return SliverList(
                   delegate: SliverChildBuilderDelegate(

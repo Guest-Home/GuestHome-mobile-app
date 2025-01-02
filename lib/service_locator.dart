@@ -16,6 +16,7 @@ import 'package:minapp/features/host/features/properties/domain/repositories/ame
 import 'package:minapp/features/host/features/properties/domain/repositories/city_repository.dart';
 import 'package:minapp/features/host/features/properties/domain/repositories/property_repository.dart';
 import 'package:minapp/features/host/features/properties/domain/repositories/property_type_repository.dart';
+import 'package:minapp/features/host/features/properties/domain/usecases/create_property_usecase.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/get_amenity_usecase.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/get_cities_usecase.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/get_properties_usecase.dart';
@@ -54,6 +55,7 @@ void setup() async {
   sl.registerSingleton<CreateCustomerProfileUsecase>(
       CreateCustomerProfileUsecase());
   sl.registerSingleton<GetPropertiesUsecase>(GetPropertiesUsecase());
+  sl.registerSingleton<CreatePropertyUsecase>(CreatePropertyUsecase());
   sl.registerSingleton<GetPropertyTypeUsecase>(GetPropertyTypeUsecase());
   sl.registerSingleton<GetAmenityUsecase>(GetAmenityUsecase());
   sl.registerSingleton<GetCitiesUsecase>(GetCitiesUsecase());
