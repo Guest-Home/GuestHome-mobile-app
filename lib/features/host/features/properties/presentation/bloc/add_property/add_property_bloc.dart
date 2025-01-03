@@ -118,7 +118,7 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
           if (state.agentId.isNotEmpty) 'agent': state.agentId,
           'image': imageMultipartFiles,
           'number_of_room': state.noRoom,
-          'amenities': state.amenities
+          'sub_description': state.amenities
         });
         Either response = await sl<CreatePropertyUsecase>()
             .call(CreatePropertyParam(formData: formData));

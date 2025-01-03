@@ -119,7 +119,7 @@ Future<GoRouter> createRouter() async {
             name: 'properties',
             path: '/properties',
             builder: (context, state) => BlocProvider(
-              create: (context) => sl<PropertiesBloc>()..add(GetPropertiesEvent()),
+              create: (context) => sl<PropertiesBloc>(),
               child:Properties(),
             ),
           ),

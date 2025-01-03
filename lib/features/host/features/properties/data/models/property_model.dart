@@ -67,35 +67,15 @@ class PropertyModel extends PropertyEntity {
         postedBy: PostedByModel.fromMap(json["postedBy"]),
         houseImage: List<HouseImageEntity>.from(
             json["houseImage"].map((x) => HouseImageModel.fromMap(x))),
-        subDescription:json["sub_description"]!=null?
-        json["sub_description"]: null,
+        subDescription:json["sub_description"],
         specificAddress: json["specificAddress"],
       );
 
-  // Map<String, dynamic> toMap() => {
-  //       "id": id,
-  //       "price": price,
-  //       "title": title,
-  //       "unit": unit,
-  //       "latitude": latitude,
-  //       "longitude": longitude,
-  //       "typeofHouse": typeofHouse,
-  //       "description": description,
-  //       "postedOn": postedOn.toIso8601String(),
-  //       "number_of_room": numberOfRoom,
-  //       "city": city,
-  //       "is_approved": isApproved,
-  //       "published": published.toIso8601String(),
-  //       "messageId": messageId,
-  //       "postedBy": postedBy.toMap(),
-  //       "houseImage": List<dynamic>.from(houseImage.map((x) => x.toMap())),
-  //       "sub_description": subDescription,
-  //       "specificAddress": specificAddress,
-  //     };
+
 }
 
 class HouseImageModel extends HouseImageEntity {
-  HouseImageModel({required id, required image, required house})
+  const HouseImageModel({required id, required image, required house})
       : super(id: id, image: image, house: house);
 
   factory HouseImageModel.fromMap(Map<String, dynamic> json) => HouseImageModel(
@@ -150,7 +130,7 @@ class PostedByModel extends PostedByEntity {
         isApproved: json["is_approved"],
         points: json["points"],
         gender: json["gender"],
-        agentModel: AgentModel.fromMap(json["agent"]),
+        agentModel: json['agent']!=null?AgentModel.fromMap(json["agent"]):null,
         language: json["language"],
       );
 }

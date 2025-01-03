@@ -48,7 +48,7 @@ class _AddPropertiesState extends State<AddProperties> {
   @override
   void initState() {
     super.initState();
-    pageController = PageController(initialPage: 3);
+    pageController = PageController(initialPage: 0);
     nameController = TextEditingController();
     descriptionController = TextEditingController();
     addressNmaeController = TextEditingController();
@@ -75,7 +75,6 @@ class _AddPropertiesState extends State<AddProperties> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leadingWidth: 27,
           leading: AppBarBackButton(
             route: "properties",
           ),
@@ -91,13 +90,14 @@ class _AddPropertiesState extends State<AddProperties> {
                   children: [
                     //step1
                     Container(
-                      padding: EdgeInsets.all(15),
+                      padding: EdgeInsets.all(16),
                       child: Column(
                         spacing: 15,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           stepTitleText(
                               context, 'What type of house do you host?'),
+                          SizedBox(height: 5,),
                           Expanded(
                             child: BlocBuilder<PropertyTypeBloc,
                                 PropertyTypeState>(
@@ -106,8 +106,8 @@ class _AddPropertiesState extends State<AddProperties> {
                                   gridDelegate:
                                       SliverGridDelegateWithFixedCrossAxisCount(
                                           crossAxisCount: 2,
-                                          crossAxisSpacing: 7,
-                                          mainAxisSpacing: 7,
+                                          crossAxisSpacing: 10,
+                                          mainAxisSpacing: 10,
                                           mainAxisExtent: 100),
                                   itemCount: state.propertyTypes.length,
                                   itemBuilder: (context, index) =>
@@ -160,8 +160,10 @@ class _AddPropertiesState extends State<AddProperties> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             stepTitleText(context, 'About the house'),
+                            SizedBox(height: 5,),
                             stepSutTitle(
                                 context, "Registered House name?", true),
+
                             CustomTextField(
                               textEditingController: nameController,
                               hintText: "eg Diamond Guest House",
@@ -180,6 +182,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                     .add(AddNameEvent(name: value));
                               },
                             ),
+                            SizedBox(height: 5,),
                             stepSutTitle(
                                 context, "Description of the house", true),
                             CustomTextField(
@@ -263,7 +266,7 @@ class _AddPropertiesState extends State<AddProperties> {
                     ),
                     // step 4
                     Container(
-                        padding: EdgeInsets.all(15),
+                        padding: EdgeInsets.all(16),
                         child: SingleChildScrollView(
                           child: Form(
                             key: _locationFormKey,
@@ -315,6 +318,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                         )),
                                   )
                                 ]),
+                                SizedBox(height: 5,),
                                 stepSutTitle(context,
                                     "Know or address  name of the place", true),
                                 CustomTextField(
@@ -334,6 +338,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                         AddAdressNameEvent(addressName: value));
                                   },
                                 ),
+                                SizedBox(height: 5,),
                                 stepSutTitle(context,
                                     "Please select the name of the city", true),
                                 CustomTextField(
@@ -367,7 +372,7 @@ class _AddPropertiesState extends State<AddProperties> {
                         )),
                     // step 5
                     Container(
-                        padding: EdgeInsets.all(15),
+                        padding: EdgeInsets.all(16),
                         child: Form(
                           key: _priceFormKey,
                           child: Column(
@@ -375,6 +380,7 @@ class _AddPropertiesState extends State<AddProperties> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               stepTitleText(context, "Price"),
+                              SizedBox(height: 5,),
                               stepSutTitle(
                                   context,
                                   "How many rooms do you have with the same price?",
@@ -397,6 +403,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                       AddRoomNumberEvent(roomNumber: value));
                                 },
                               ),
+                              SizedBox(height: 5,),
                               stepSutTitle(context, 'Enter the price', true),
                               CustomTextField(
                                 textEditingController: priceController,
@@ -422,12 +429,13 @@ class _AddPropertiesState extends State<AddProperties> {
                         )),
                     // step 6
                     Container(
-                      padding: EdgeInsets.all(15),
+                      padding: EdgeInsets.all(16),
                       child: Column(
                         spacing: 15,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           stepTitleText(context, "Add Photos of the house"),
+                          SizedBox(height: 5,),
                           UploadPhoto(
                             ontTap: () {
                               context
@@ -435,6 +443,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                   .add(SelectPhotosEvent());
                             },
                           ),
+                          SizedBox(height: 2,),
                           Expanded(
                               child: ListView.builder(
                             itemCount: state.images.length,
@@ -461,7 +470,7 @@ class _AddPropertiesState extends State<AddProperties> {
                     ),
                     //step 7
                     Container(
-                        padding: EdgeInsets.all(15),
+                        padding: EdgeInsets.all(16),
                         child: Form(
                           key: _agentFormKey,
                           child: Column(
@@ -469,6 +478,7 @@ class _AddPropertiesState extends State<AddProperties> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               stepTitleText(context, "Agent Info"),
+                              SizedBox(height: 5,),
                               stepSutTitle(
                                   context,
                                   "Enter agent id if you don’t have click finish(optional)",
@@ -517,14 +527,17 @@ class _AddPropertiesState extends State<AddProperties> {
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
+                                  elevation: 0,
                                     side: BorderSide(
                                         color: ColorConstant.secondBtnColor),
                                     backgroundColor: Colors.white),
                                 child: Text("Back",
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodyMedium!
+                                        .bodyLarge!
                                         .copyWith(
+                                      fontSize: 16,
+                                          fontWeight: FontWeight.w700,
                                           color: ColorConstant.secondBtnColor,
                                         )))),
                         Expanded(
@@ -597,6 +610,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
+                                  elevation: 0,
                                     side: BorderSide(
                                         color: ColorConstant.primaryColor),
                                     backgroundColor:
@@ -606,8 +620,10 @@ class _AddPropertiesState extends State<AddProperties> {
                                     : Text(state.step != 6 ? "Next" : "Finish",
                                         style: Theme.of(context)
                                             .textTheme
-                                            .bodyMedium!
+                                            .bodyLarge!
                                             .copyWith(
+                                          fontSize: 16,
+                                              fontWeight: FontWeight.w700,
                                               color: Colors.white,
                                             ))))
                       ],
@@ -634,9 +650,9 @@ class _AddPropertiesState extends State<AddProperties> {
           style: Theme.of(context)
               .textTheme
               .bodySmall!
-              .copyWith(fontWeight: FontWeight.bold)),
+              .copyWith(fontWeight: FontWeight.w500,fontSize: 14)),
       TextSpan(
-          text: isRequired ? "*" : '(optional)',
+          text: isRequired ? " *" : '(optional)',
           style: TextStyle(
               color: isRequired
                   ? ColorConstant.red
@@ -650,7 +666,7 @@ class _AddPropertiesState extends State<AddProperties> {
       style: Theme.of(context)
           .textTheme
           .bodyLarge!
-          .copyWith(fontWeight: FontWeight.bold),
+          .copyWith(fontWeight: FontWeight.w700,fontSize: 16),
     );
   }
 

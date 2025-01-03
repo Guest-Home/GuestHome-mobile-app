@@ -73,7 +73,7 @@ class PostedByEntity extends Equatable {
   final bool isApproved;
   final String points;
   final String gender;
-  final AgentEntity agent;
+  final AgentEntity? agent;
   final String language;
 
   const PostedByEntity({

@@ -21,7 +21,8 @@ class _PropertiesState extends State<Properties> {
   @override
   void initState() {
     super.initState();
-    // context.read<PropertiesBloc>().add(GetPropertiesEvent());
+      context.read<PropertiesBloc>().add(GetPropertiesEvent());
+
   }
   @override
   Widget build(BuildContext context) {
