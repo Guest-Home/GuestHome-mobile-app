@@ -31,8 +31,8 @@ class AddPropertyState extends Equatable {
     this.price = '',
     this.unit = 'Birr',
     this.agentId = '',
-    this.latitude = 0.0,
-    this.longitude = 0.0,
+    this.latitude = 9.02497,
+    this.longitude = 38.74689,
   });
 
   @override
@@ -47,7 +47,9 @@ class AddPropertyState extends Equatable {
         price,
         agentId,
         step,
-        images
+        images,
+        longitude,
+        latitude
       ];
 
   AddPropertyState copyWith(
@@ -61,20 +63,23 @@ class AddPropertyState extends Equatable {
       String? noRoom,
       String? price,
       String? agentId,
-      List<XFile>? images}) {
+      List<XFile>? images,
+      double? latitude,
+      double? longitude}) {
     return AddPropertyState(
-      step: step ?? this.step,
-      houseType: houseType ?? this.houseType,
-      title: title ?? this.title,
-      description: description ?? this.description,
-      amenities: amenities ?? this.amenities,
-      address: address ?? this.address,
-      city: city ?? this.city,
-      noRoom: noRoom ?? this.noRoom,
-      price: price ?? this.price,
-      agentId: agentId ?? this.agentId,
-      images: images ?? this.images,
-    );
+        step: step ?? this.step,
+        houseType: houseType ?? this.houseType,
+        title: title ?? this.title,
+        description: description ?? this.description,
+        amenities: amenities ?? this.amenities,
+        address: address ?? this.address,
+        city: city ?? this.city,
+        noRoom: noRoom ?? this.noRoom,
+        price: price ?? this.price,
+        agentId: agentId ?? this.agentId,
+        images: images ?? this.images,
+        latitude: latitude ?? this.latitude,
+        longitude: longitude ?? this.longitude);
   }
 }
 

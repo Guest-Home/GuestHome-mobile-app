@@ -25,7 +25,7 @@ class PropertyPhotoCard extends StatelessWidget {
             File(image!.path),
             width: 100,
             height: 100,
-            fit: BoxFit.contain,
+            fit: BoxFit.cover,
           ),
         ),
         Expanded(

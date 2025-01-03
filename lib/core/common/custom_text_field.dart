@@ -35,16 +35,17 @@ class CustomTextField extends StatelessWidget {
         autovalidateMode: AutovalidateMode.onUserInteraction,
         autocorrect: true,
         validator: (value) => validator!(value!),
+        cursorColor: ColorConstant.primaryColor,
         decoration: InputDecoration(
           filled: true,
           fillColor: Colors.white,
           hintText: hintText,
           prefixIcon: prifixIcon,
           suffixIcon: surfixIcon,
+          contentPadding: EdgeInsets.all(15),
           hintStyle: TextStyle(
               fontSize: 13,
-              color: ColorConstant.inActiveColor.withValues(alpha: 0.6)),
-          enabled: true,
+              color: ColorConstant.inActiveColor),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(color: ColorConstant.red),
@@ -52,12 +53,13 @@ class CustomTextField extends StatelessWidget {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(
-                color: ColorConstant.cardGrey.withValues(alpha: 0.1)),
+                color: ColorConstant.inActiveColor),
           ),
           disabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(
-                color: ColorConstant.cardGrey.withValues(alpha: 0.2)),
+
+                color: ColorConstant.inActiveColor),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),

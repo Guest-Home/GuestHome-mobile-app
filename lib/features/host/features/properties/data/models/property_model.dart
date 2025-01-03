@@ -60,12 +60,15 @@ class PropertyModel extends PropertyEntity {
         numberOfRoom: json["number_of_room"],
         city: json["city"],
         isApproved: json["is_approved"],
-        published: DateTime.parse(json["published"]),
+        published: json["published"] != null
+            ? DateTime.parse(json["published"])
+            : null,
         messageId: json["messageId"],
         postedBy: PostedByModel.fromMap(json["postedBy"]),
         houseImage: List<HouseImageEntity>.from(
             json["houseImage"].map((x) => HouseImageModel.fromMap(x))),
-        subDescription: json["sub_description"],
+        subDescription:json["sub_description"]!=null?
+        json["sub_description"]: null,
         specificAddress: json["specificAddress"],
       );
 
@@ -109,7 +112,7 @@ class HouseImageModel extends HouseImageEntity {
 }
 
 class PostedByModel extends PostedByEntity {
-  PostedByModel(
+  const PostedByModel(
       {required id,
       required userModel,
       required phoneNumber,
@@ -143,7 +146,7 @@ class PostedByModel extends PostedByEntity {
         profilePicture: json["profilePicture"],
         typeOfCustomer: json["typeOfCustomer"],
         rating: json["rating"],
-        chatId: json["chatId"],
+        chatId:json["chatId"]??'',
         isApproved: json["is_approved"],
         points: json["points"],
         gender: json["gender"],

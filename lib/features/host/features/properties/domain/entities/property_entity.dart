@@ -9,15 +9,15 @@ class PropertyEntity extends Equatable {
   final String longitude;
   final String typeofHouse;
   final String description;
-  final String postedOn;
+  final DateTime postedOn;
   final int numberOfRoom;
   final String city;
   final bool isApproved;
-  final String published;
+  final String? published;
   final int messageId;
   final PostedByEntity postedBy;
   final List<HouseImageEntity> houseImage;
-  final String subDescription;
+  final String? subDescription;
   final String specificAddress;
 
   const PropertyEntity({

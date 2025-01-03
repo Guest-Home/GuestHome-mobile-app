@@ -1,12 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:minapp/features/host/features/properties/domain/entities/property_entity.dart';
 import '../../../../../../config/color/color.dart';
 
 class PropertyCard extends StatelessWidget {
-  const PropertyCard({
+   PropertyCard({
     super.key,
+    required this.propertyEntity
   });
+
+  PropertyEntity propertyEntity;
 
   @override
   Widget build(BuildContext context) {
@@ -39,22 +43,20 @@ class PropertyCard extends StatelessWidget {
                       right: 0,
                       child:Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: List.generate(3,(index) => Container(width: 10,
+                            children: List.generate(propertyEntity.houseImage.length,(index) => Container(width: 10,
                               height:10,
                               margin: EdgeInsets.only(right: 5),
                               decoration: BoxDecoration(color:ColorConstant.cardGrey,borderRadius: BorderRadius.circular(40)),),),))
                 ],
               ),
               ListTile(
-                title: Text(
-                  'Property Name',
+                title: Text(propertyEntity.title,
                   style: Theme.of(context)
                       .textTheme
                       .bodyLarge!
                       .copyWith(fontWeight: FontWeight.bold),
                 ),
-                subtitle: Text(
-                    'House Description goes here.Lorem ipsum dolor sit amet consectetur. Posuere vulputate gravida diam id feugiat. Suscipit et nunc tortor vivamus mattis sed est.'),
+                subtitle: Text(propertyEntity.description),
               ),
               Row(
                 spacing: 10,
@@ -65,7 +67,7 @@ class PropertyCard extends StatelessWidget {
                     color: ColorConstant.primaryColor,
                   ),
                   Text(
-                    'Addis Ababa, Ethiopia',
+                    propertyEntity.specificAddress,
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         color: ColorConstant.inActiveColor,
                         fontWeight: FontWeight.bold),
@@ -87,7 +89,7 @@ class PropertyCard extends StatelessWidget {
                         color: ColorConstant.primaryColor,
                       ),
                       Text(
-                        '10',
+                        propertyEntity.numberOfRoom.toString(),
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium!
@@ -100,7 +102,7 @@ class PropertyCard extends StatelessWidget {
                     text: 'Price: ',
                     children: [
                       TextSpan(
-                        text: 'ETB 1000',
+                        text: '${propertyEntity.unit} ${propertyEntity.price}',
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             color: ColorConstant.primaryColor,
                             fontWeight: FontWeight.bold),

@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:minapp/core/common/spin_kit_loading.dart';
+import 'package:minapp/core/utils/validator.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/add_property/add_property_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/amenities/amenities_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/city/city_bloc.dart';
@@ -38,11 +42,13 @@ class _AddPropertiesState extends State<AddProperties> {
   final _locationFormKey = GlobalKey<FormState>();
   final _priceFormKey = GlobalKey<FormState>();
   final _agentFormKey = GlobalKey<FormState>();
+  final Completer<GoogleMapController> _controller =
+      Completer<GoogleMapController>();
 
   @override
   void initState() {
     super.initState();
-    pageController = PageController(initialPage: 0);
+    pageController = PageController(initialPage: 3);
     nameController = TextEditingController();
     descriptionController = TextEditingController();
     addressNmaeController = TextEditingController();
@@ -267,8 +273,21 @@ class _AddPropertiesState extends State<AddProperties> {
                               children: [
                                 stepTitleText(context, "Location"),
                                 Stack(children: [
-                                  Placeholder(
-                                    fallbackHeight: 340,
+                                  SizedBox(
+                                    height:
+                                        MediaQuery.of(context).size.height / 2,
+                                    child: GoogleMap(
+                                      mapType: MapType.normal,
+                                      initialCameraPosition: CameraPosition(
+                                        target: LatLng(
+                                            state.latitude, state.longitude),
+                                        zoom: 14.4746,
+                                      ),
+                                      onMapCreated:
+                                          (GoogleMapController controller) {
+                                        _controller.complete(controller);
+                                      },
+                                    ),
                                   ),
                                   Positioned(
                                     bottom: 4,
@@ -279,7 +298,11 @@ class _AddPropertiesState extends State<AddProperties> {
                                         MediaQuery.of(context).size.width / 2 -
                                             100,
                                     child: CustomButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          context
+                                              .read<AddPropertyBloc>()
+                                              .add(GetLocationEvent());
+                                        },
                                         style: ElevatedButton.styleFrom(
                                           elevation: 0,
                                           backgroundColor:
@@ -362,7 +385,8 @@ class _AddPropertiesState extends State<AddProperties> {
                                 surfixIcon: null,
                                 isMultiLine: false,
                                 validator: (value) {
-                                  if (value!.isEmpty) {
+                                  if (value!.isEmpty ||
+                                      !Validation.numberValidation(value)) {
                                     return 'Please enter room number';
                                   }
                                   return null;
@@ -379,7 +403,8 @@ class _AddPropertiesState extends State<AddProperties> {
                                 hintText: "500",
                                 surfixIcon: null,
                                 validator: (value) {
-                                  if (value!.isEmpty) {
+                                  if (value!.isEmpty ||
+                                      !Validation.numberValidation(value)) {
                                     return 'Please enter price';
                                   }
                                   return null;

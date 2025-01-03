@@ -52,7 +52,7 @@ class _ProfilePhotoCardState extends State<ProfilePhotoCard> {
           children: [
             CircleAvatar(
               backgroundImage: FileImage(File(widget.image!.path)),
-              radius: 46,
+              radius: 50,
               backgroundColor: ColorConstant.cardGrey,
             ),
             Expanded(
@@ -67,7 +67,7 @@ class _ProfilePhotoCardState extends State<ProfilePhotoCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text("${size} MB",
+                      Text("$size MB",
                           style: Theme.of(context).textTheme.bodyMedium),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -84,18 +84,24 @@ class _ProfilePhotoCardState extends State<ProfilePhotoCard> {
                             ),
                           ),
                           Text("100%"),
-                          GestureDetector(
-                            onTap: widget.ontap,
-                            child: Icon(
-                              Icons.delete_outlined,
-                              size: 20,
-                            ),
-                          ),
+                         SizedBox(width: 16,)
                         ],
                       )
                     ],
                   ),
                 ),
+                Positioned(
+                  bottom: 5,
+                  right: 5,
+                  child:  GestureDetector(
+                    onTap: widget.ontap,
+                    child: Icon(
+                      Icons.delete_outlined,
+                      size: 20,
+                    ),
+                  ),
+                ),
+
                 Positioned(
                   top: 5,
                   right: 5,

@@ -109,6 +109,9 @@ class PropertyApiDataSourceImpl implements PropertyApiDataSource {
   @override
   Future<Either<Failure, bool>> createProperty(
       CreatePropertyParam param) async {
+
+    print(param.formData.files);
+    print(param.formData.fields);
     try {
       final response =
           await sl<DioClient>().post(ApiUrl.property, data: param.formData);
@@ -118,7 +121,7 @@ class PropertyApiDataSourceImpl implements PropertyApiDataSource {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ServerFailure(e.response.toString()));
     }
   }
 }

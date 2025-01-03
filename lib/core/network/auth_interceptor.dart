@@ -13,10 +13,18 @@ class AuthInterceptor extends Interceptor {
     if (authToken != null) {
       options.headers['Authorization'] = 'Bearer $authToken';
     }
+    print(authToken);
     // Proceed with the request
     return super.onRequest(options, handler);
   }
+@override
+  void onError(DioException err, ErrorInterceptorHandler handler) {
+    // TODO: implement onError
+    super.onError(err, handler);
 
+    print(err.message);
+    print(err.response);
+  }
   // @override
   // Future<void> onResponse(
   //     Response response, ResponseInterceptorHandler handler) async {

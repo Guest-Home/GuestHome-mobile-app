@@ -1,11 +1,10 @@
-import 'dart:io';
-
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:minapp/core/error/failure.dart';
+import 'package:minapp/core/utils/get_location.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/create_property_usecase.dart';
 import 'package:minapp/service_locator.dart';
 
@@ -81,7 +80,10 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
         }
       },
     );
-
+    on<GetLocationEvent>((event, emit) async {
+      final loc = await GetLocation().gatePosition();
+      emit(state.copyWith(latitude: loc.latitude, longitude: loc.longitude));
+    });
     on<RemovePictureEvent>(
       (event, emit) {
         final updatedAmenityList = List.of(state.images);
@@ -100,12 +102,9 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
         final imageMultipartFiles =
             await Future.wait(state.images.map((image) async {
           return await MultipartFile.fromFile(
-            File(image.path).path,
-            filename: image.path.split('/').last, // Extract the file name
+            image.path,
           );
         }));
-        print("///");
-        print(imageMultipartFiles);
 
         final FormData formData = FormData.fromMap({
           'title': state.title,
@@ -118,7 +117,8 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
           'unit': state.unit,
           if (state.agentId.isNotEmpty) 'agent': state.agentId,
           'image': imageMultipartFiles,
-          'number_of_room': state.noRoom
+          'number_of_room': state.noRoom,
+          'amenities': state.amenities
         });
         Either response = await sl<CreatePropertyUsecase>()
             .call(CreatePropertyParam(formData: formData));

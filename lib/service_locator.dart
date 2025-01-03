@@ -7,6 +7,11 @@ import 'package:minapp/features/auth/domain/repositories/otp_repository.dart';
 import 'package:minapp/features/auth/domain/usecases/create_otp_usecase.dart';
 import 'package:minapp/features/auth/domain/usecases/verify_otp_usecase.dart';
 import 'package:minapp/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:minapp/features/host/features/profile/data/datasources/user_proile_datasource.dart';
+import 'package:minapp/features/host/features/profile/data/repositories/user_profile_repository_impl.dart';
+import 'package:minapp/features/host/features/profile/domain/repositories/user_profile_repository.dart';
+import 'package:minapp/features/host/features/profile/domain/usecases/get_user_profile_usecase.dart';
+import 'package:minapp/features/host/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:minapp/features/host/features/properties/data/datasources/property_api_data_source.dart';
 import 'package:minapp/features/host/features/properties/data/repositories/amenity_repository_impl.dart';
 import 'package:minapp/features/host/features/properties/data/repositories/city_repository_impl.dart';
@@ -47,6 +52,7 @@ void setup() async {
   sl.registerFactory<CityBloc>(
     () => CityBloc(),
   );
+  sl.registerFactory<ProfileBloc>(() => ProfileBloc(),);
 
   // usecase
 
@@ -59,6 +65,7 @@ void setup() async {
   sl.registerSingleton<GetPropertyTypeUsecase>(GetPropertyTypeUsecase());
   sl.registerSingleton<GetAmenityUsecase>(GetAmenityUsecase());
   sl.registerSingleton<GetCitiesUsecase>(GetCitiesUsecase());
+  sl.registerSingleton<GetUserProfileUseCase>(GetUserProfileUseCase());
 
   // repository
 
@@ -67,11 +74,13 @@ void setup() async {
   sl.registerSingleton<PropertyTypeRepository>(PropertyTypeRepositoryImpl());
   sl.registerSingleton<AmenityRepository>(AmenityRepositoryImpl());
   sl.registerSingleton<CityRepository>(CityRepositoryImpl());
+  sl.registerSingleton<UserProfileRepository>(UserProfileRepositoryImple());
 
   // data source
 
   sl.registerSingleton<ApiDataSource>(ApiDataSourceImpl());
   sl.registerSingleton<PropertyApiDataSource>(PropertyApiDataSourceImpl());
+  sl.registerSingleton<UserProfileDataSource>(UserProfileDataSourceImple());
 
   //dio client
   sl.registerSingleton<DioClient>(DioClient());

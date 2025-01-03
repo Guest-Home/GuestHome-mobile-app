@@ -1,31 +1,39 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:minapp/core/common/back_button.dart';
-import 'package:minapp/features/host/features/properties/presentation/pages/listed_property_detail.dart';
+import 'package:minapp/core/common/custom_text_field.dart';
 import '../../../../../../config/color/color.dart';
+import '../../../../../../core/apiConstants/api_url.dart';
+import '../../../../../../core/common/country_code_selector.dart';
 import '../../../../../../core/common/custom_button.dart';
+import '../bloc/profile_bloc.dart';
 
 class GeneralInformation extends StatelessWidget {
-  const GeneralInformation({super.key});
+   GeneralInformation({super.key});
 
-  Text subSectionText(String title) => Text(title);
+
+  Text subSectionText(String title,BuildContext context) => Text(title,style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+    fontSize: 14,fontWeight: FontWeight.w600
+  ),);
 
   Text sectionTitle(BuildContext context, String title) {
     return Text(title,
         style: Theme.of(context)
             .textTheme
             .bodyLarge!
-            .copyWith(color: ColorConstant.secondBtnColor));
+            .copyWith(fontWeight: FontWeight.w400));
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
-        leadingWidth: 27,
         automaticallyImplyLeading: false,
         leading: AppBarBackButton(),
         title: Text(
-          'Profile Setting',
+          'General Information',
           style: Theme.of(context)
               .textTheme
               .bodyLarge!
@@ -34,89 +42,122 @@ class GeneralInformation extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20),
-        child: Column(
-          spacing: 15,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            sectionTitle(context, "Profile Image"),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child:BlocProvider.value(
+            value:context.read<ProfileBloc>(),
+        child: BlocBuilder<ProfileBloc,ProfileState>(builder: (context, state) {
+          if(state is UserProfileLoadedState){
+            return  Column(
+              spacing: 15,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CircleAvatar(
-                  radius: 50,
-                ),
-                Expanded(
-                  child: Column(
-                    spacing: 10,
-                    children: [
-                      SizedBox(
-                        width: 200,
-                        child: CustomButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                                elevation: 0,
-                                padding: EdgeInsets.all(1),
-                                side: BorderSide(
-                                    color: ColorConstant.primaryColor),
-                                backgroundColor: ColorConstant.primaryColor),
-                            child: Text("Upload",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ))),
+                sectionTitle(context, "Profile Image"),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CircleAvatar(
+                      radius: 60,
+                      backgroundColor: ColorConstant.cardGrey,
+                      backgroundImage: CachedNetworkImageProvider(ApiUrl.baseUrl+state.userProfileEntity.profilePicture,
+                        headers: {
+                          'Authorization': 'Bearer ${state.token}'
+                        },
+
                       ),
-                      SizedBox(
-                        width: 200,
-                        child: CustomButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.all(1),
-                                elevation: 0,
-                                side: BorderSide(color: Colors.white),
-                                backgroundColor: ColorConstant.cardGrey),
-                            child: Text("Remove",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: ColorConstant.primaryColor,
-                                    ))),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
-            Divider(
-              thickness: 0.5,
-            ),
-            subSectionText("Full Name"),
-            PropertyTextField(hintText: "amanuel D", surfixIcon: null),
-            subSectionText("Phone number"),
-            PropertyTextField(
-                hintText: "09876654231", surfixIcon: Icon(Icons.phone)),
-            Container(
-              margin: EdgeInsets.only(top: 20),
-              width: MediaQuery.of(context).size.width,
-              child: CustomButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                      elevation: 0,
-                      padding: EdgeInsets.all(21),
-                      side: BorderSide(color: ColorConstant.primaryColor),
-                      backgroundColor: ColorConstant.primaryColor),
-                  child: Text("Save Setting",
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            fontWeight: FontWeight.bold,
+                    ),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                              width: 200,
+                              child: CustomButton(
+                                  onPressed: () {},
+                                  style: ElevatedButton.styleFrom(
+                                      elevation: 0,
+                                      padding: EdgeInsets.all(10),
+                                      side: BorderSide(
+                                          color: ColorConstant.primaryColor),
+                                      backgroundColor: ColorConstant.primaryColor),
+                                  child: Text("Upload",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ))),
+                            ),
+
+                          SizedBox(
+                              width: 200,
+                              child: CustomButton(
+                                  onPressed: () {},
+                                  style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.all(10),
+                                      elevation: 0,
+                                      side: BorderSide(color: ColorConstant.primaryColor.withValues(alpha: 0.2)),
+                                      backgroundColor: ColorConstant.cardGrey),
+                                  child: Text("Remove",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: ColorConstant.primaryColor,
+                                      ))),
+                            ),
+
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                Divider(
+                  thickness: 0.1,
+                ),
+
+                SizedBox(height: 10,),
+                subSectionText("Full Name",context),
+                CustomTextField(hintText: "${state.userProfileEntity.userAccount.firstName} ${state.userProfileEntity.userAccount.lastName}",
+                    surfixIcon:null, onTextChnage:(value) {
+                    }, isMultiLine: false, textInputType: TextInputType.text),
+                subSectionText("Phone number",context),
+                CustomTextField(hintText:state.userProfileEntity.phoneNumber,
+                    surfixIcon:null,
+                    prifixIcon: CountryCodeSelector(
+                      onInit: (value) {
+
+                      },
+                      onChange: (value) {
+
+                      },
+                    ),
+                    onTextChnage:(value) {
+                    }, isMultiLine: false, textInputType: TextInputType.phone),
+                Container(
+                  margin: EdgeInsets.only(top: 20),
+                  width: MediaQuery.of(context).size.width,
+                  child: CustomButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                          elevation: 0,
+                          padding: EdgeInsets.all(21),
+                          side: BorderSide(color: ColorConstant.primaryColor),
+                          backgroundColor: ColorConstant.primaryColor),
+                      child: Text("Save Setting",
+                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontWeight: FontWeight.w700,
                             color: Colors.white,
                           ))),
-            )
-          ],
-        ),
+                )
+              ],
+            );
+          }
+          return SizedBox.shrink();
+
+        },),
+        )
+
       ),
     );
   }

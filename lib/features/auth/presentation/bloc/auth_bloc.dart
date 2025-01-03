@@ -97,6 +97,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.setString('access', verifyOpt.access);
     await sharedPreferences.setString('refresh', verifyOpt.refresh);
-    //await sharedPreferences.setBool('isLogin', true);
+    await sharedPreferences.setBool('isLogin', true);
   }
 }

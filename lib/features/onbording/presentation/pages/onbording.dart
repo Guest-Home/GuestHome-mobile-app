@@ -42,7 +42,7 @@ class _OnBordingState extends State<OnBording>
         backgroundColor: ColorConstant.primaryColor,
         body: SafeArea(
             child: Padding(
-                padding: const EdgeInsets.only(bottom: 15),
+                padding: const EdgeInsets.all(16),
                 child: BlocConsumer<OnBordingBloc, OnBordingState>(
                   buildWhen: (previous, current) =>
                       previous.index != current.index,
@@ -89,18 +89,19 @@ class _OnBordingState extends State<OnBording>
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width,
-                          margin: EdgeInsets.only(top: 20),
+                          margin: EdgeInsets.only(top: 25),
                           child: ListTile(
+                            contentPadding: EdgeInsets.all(0),
                               title: state.index == 0
                                   ? Text("")
                                   : Row(
+                                spacing: 5,
                                       children: List.generate(
                                         5,
                                         (index) => AnimatedContainer(
                                           duration: const Duration(seconds: 1),
-                                          width: index == state.index ? 30 : 8,
+                                          width: index == state.index ? 24 : 8,
                                           height: 8,
-                                          margin: EdgeInsets.only(right: 6),
                                           decoration: BoxDecoration(
                                               color: index == state.index
                                                   ? Colors.white
@@ -142,20 +143,18 @@ class _OnBordingState extends State<OnBording>
                                     alignment: Alignment.center,
                                     child: CircleAvatar(
                                       backgroundColor: Colors.white,
-                                      radius: 25,
+                                      radius: 26,
                                       child: Icon(
                                         Icons.arrow_forward_ios_outlined,
                                         size: 25,
-                                        color: ColorConstant.secondBtnColor,
+                                        color: ColorConstant.primaryColor,
                                       ),
                                     ),
                                   ),
                                 ),
                               )),
                         ),
-                        SizedBox(
-                          height: 15,
-                        )
+
                       ],
                     );
                   },

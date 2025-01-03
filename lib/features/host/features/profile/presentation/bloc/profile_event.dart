@@ -6,3 +6,6 @@ abstract class ProfileEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+
+class GetUserProfileEvent extends ProfileEvent{}

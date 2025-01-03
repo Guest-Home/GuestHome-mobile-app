@@ -71,41 +71,45 @@ class Home extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
-      bottomNavigationBar: CustomLineIndicatorBottomNavbar(
-        selectedColor: ColorConstant.primaryColor,
-        unSelectedColor: ColorConstant.inActiveColor.withValues(alpha: 0.9),
-        backgroundColor: Colors.white,
-        enableLineIndicator: true,
-        indicatorType: IndicatorType.top,
-        currentIndex: _getSelectedIndex(context),
-        unselectedIconSize: 17,
-        selectedIconSize: 25,
-        customBottomBarItems: [
-          CustomBottomBarItems(
-            isAssetsImage: true,
-            label: 'Properties',
-            assetsImagePath: 'assets/icons/home.png',
-            icon: Icons.home_filled,
-          ),
-          CustomBottomBarItems(
+      bottomNavigationBar: Material(
+        elevation: 10,
+        shadowColor: ColorConstant.primaryColor,
+        child: CustomLineIndicatorBottomNavbar(
+          selectedColor: ColorConstant.primaryColor,
+          unSelectedColor: ColorConstant.inActiveColor.withValues(alpha: 0.9),
+          backgroundColor: Colors.white,
+          enableLineIndicator: true,
+          indicatorType: IndicatorType.top,
+          currentIndex: _getSelectedIndex(context),
+          unselectedIconSize: 17,
+          selectedIconSize: 25,
+          customBottomBarItems: [
+            CustomBottomBarItems(
               isAssetsImage: true,
-              label: 'Request',
-              assetsImagePath: 'assets/icons/notification.png',
-              icon: Icons.notifications_active),
-          CustomBottomBarItems(
-              isAssetsImage: false, label: '', icon: Icons.add_box),
-          CustomBottomBarItems(
-              isAssetsImage: true,
-              label: 'Analytics',
-              assetsImagePath: 'assets/icons/anaalytics.png',
-              icon: Icons.analytics),
-          CustomBottomBarItems(
-              isAssetsImage: true,
-              label: 'Profile',
-              assetsImagePath: 'assets/icons/user.png',
-              icon: Icons.account_circle),
-        ],
-        onTap: (item) => _onItemTapped(context, item),
+              label: 'Properties',
+              assetsImagePath: 'assets/icons/home.png',
+              icon: Icons.home_filled,
+            ),
+            CustomBottomBarItems(
+                isAssetsImage: true,
+                label: 'Request',
+                assetsImagePath: 'assets/icons/notification.png',
+                icon: Icons.notifications_active),
+            CustomBottomBarItems(
+                isAssetsImage: false, label: '', icon: Icons.add_box),
+            CustomBottomBarItems(
+                isAssetsImage: true,
+                label: 'Analytics',
+                assetsImagePath: 'assets/icons/anaalytics.png',
+                icon: Icons.analytics),
+            CustomBottomBarItems(
+                isAssetsImage: true,
+                label: 'Profile',
+                assetsImagePath: 'assets/icons/user.png',
+                icon: Icons.account_circle),
+          ],
+          onTap: (item) => _onItemTapped(context, item),
+        ),
       ),
       body: child,
     );

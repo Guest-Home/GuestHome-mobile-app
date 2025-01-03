@@ -16,10 +16,15 @@ class Properties extends StatefulWidget {
 }
 
 class _PropertiesState extends State<Properties> {
+
+
+  @override
+  void initState() {
+    super.initState();
+    // context.read<PropertiesBloc>().add(GetPropertiesEvent());
+  }
   @override
   Widget build(BuildContext context) {
-    context.read<PropertiesBloc>().add(GetPropertiesEvent());
-
     return Scaffold(
         body: CustomScrollView(
       slivers: [
@@ -35,8 +40,8 @@ class _PropertiesState extends State<Properties> {
           floating: true,
           snap: true,
           pinned: true,
-          expandedHeight: 130,
-          collapsedHeight: 130,
+          expandedHeight: 150,
+          collapsedHeight: 150,
           elevation: 0,
           shadowColor: Colors.transparent,
           scrolledUnderElevation: 0,
@@ -44,7 +49,7 @@ class _PropertiesState extends State<Properties> {
             centerTitle: true,
             collapseMode: CollapseMode.pin,
             title: Container(
-                padding: EdgeInsets.all(10),
+                padding: EdgeInsets.all(16),
                 child: SearchField(
                   prifixIcon: Icon(Icons.search),
                   onTextChnage: (value) {},
@@ -55,8 +60,11 @@ class _PropertiesState extends State<Properties> {
           builder: (context, state) {
             if (state is PropertiesLoading) {
               return SliverToBoxAdapter(
-                child: Center(
-                  child: CupertinoActivityIndicator(),
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height / 2,
+                  child: Center(
+                    child: CupertinoActivityIndicator(),
+                  ),
                 ),
               );
             } else if (state is PropertyLoaded) {
@@ -67,11 +75,14 @@ class _PropertiesState extends State<Properties> {
                         child: NoPropertyFound()));
               } else {
                 return SliverList(
+
                   delegate: SliverChildBuilderDelegate(
                     (context, index) => GestureDetector(
-                        onTap: () => context.goNamed('propertyDetail'),
-                        child: PropertyCard()),
-                    childCount: 5,
+                        onTap: () => context.goNamed('propertyDetail',extra: state.properties[index]),
+                        child: PropertyCard(
+                          propertyEntity: state.properties[index],
+                        )),
+                    childCount:state.properties.length,
                   ),
                 );
               }
@@ -100,12 +111,16 @@ class NoPropertyFound extends StatelessWidget {
         Text(
           'Lorem ipsum dolor sit amet consectetur. Est netus commodo mattis lectus nam lacinia hac sapien.',
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.bodyLarge!,
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+            fontSize: 16
+          ),
         ),
         Padding(
             padding: const EdgeInsets.all(20),
             child: CustomButton(
               style: ElevatedButton.styleFrom(
+                elevation:0,
+                  shadowColor: ColorConstant.primaryColor,
                   backgroundColor: ColorConstant.primaryColor,
                   padding: EdgeInsets.all(20),
                   shape: RoundedRectangleBorder(
@@ -120,7 +135,7 @@ class NoPropertyFound extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium!
-                        .copyWith(color: Colors.white),
+                        .copyWith(color: Colors.white,fontWeight: FontWeight.w700),
                   )
                 ],
               ),

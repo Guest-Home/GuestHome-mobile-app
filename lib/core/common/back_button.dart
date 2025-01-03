@@ -17,6 +17,6 @@ class AppBarBackButton extends StatelessWidget {
             context.pop();
           }
         },
-        child: Icon(Icons.arrow_back));
+        child: Icon(Icons.arrow_back,size: 27,));
   }
 }

@@ -4,12 +4,15 @@ import 'package:minapp/config/color/color.dart';
 import 'package:minapp/core/common/back_button.dart';
 import 'package:minapp/core/common/custom_button.dart';
 import 'package:minapp/core/common/upload_photo_widget.dart';
+import 'package:minapp/features/host/features/properties/domain/entities/property_entity.dart';
 
 import '../widgets/house_type_card.dart';
 import '../widgets/property_photo_card.dart';
 
 class ListedPropertyDetail extends StatefulWidget {
-  const ListedPropertyDetail({super.key});
+   ListedPropertyDetail({super.key,required this.propertyEntity});
+
+  PropertyEntity propertyEntity;
 
   @override
   State<ListedPropertyDetail> createState() => _ListedPropertyDetailState();

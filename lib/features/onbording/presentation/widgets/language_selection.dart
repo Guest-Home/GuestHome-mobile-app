@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +19,7 @@ class LanguageSelection extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
-            spacing: 10,
+            spacing: 8,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SvgPicture.asset(
@@ -29,45 +28,51 @@ class LanguageSelection extends StatelessWidget {
                 width: 20,
                 height: 20,
               ),
-              Text(context.tr('language')
-                ,
+              Text(
+                context.tr('language'),
                 style: TextStyle(
-                    fontSize: 20, color: Colors.white),
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16,
+                    color: Colors.white),
               ),
             ],
           ),
           BlocConsumer<LanguageBloc, LanguageState>(
             listener: (context, state) {
               context.setLocale(state.locale);
-
             },
-            buildWhen: (previous, current) => previous.selectedLanguage.name!=current.selectedLanguage.name,
+            buildWhen: (previous, current) =>
+                previous.selectedLanguage.name != current.selectedLanguage.name,
             builder: (context, state) {
               return Column(
                   spacing: 10,
-                  children:AppLocal.values.map((e) => Container(
-                      width: 200,
-                      decoration: BoxDecoration(
-                          borderRadius:
-                          BorderRadius.circular(10),
-                          shape: BoxShape.rectangle,
-                          border: Border.all(
-                              color: Colors.white)),
-                      child: RadioListTile.adaptive(
-                        value: e,
-                        activeColor: Colors.white,
-                        title: Text(e.name,
-                          style: TextStyle(
-                              color: Colors.white),
-                        ),
-                        groupValue:state.selectedLanguage,
-                        onChanged: (value){
-                          context.read<LanguageBloc>().add(ChangeAppLocalEvent(value!));
-
-
-                        },
-                      )
-                  )).toList());
+                  children: AppLocal.values
+                      .map((e) => Container(
+                          width: 238,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 24, vertical: 5),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              shape: BoxShape.rectangle,
+                              border: Border.all(color: Colors.white)),
+                          child: RadioListTile.adaptive(
+                            value: e,
+                            activeColor: Colors.white,
+                            title: Text(
+                              e.name,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(color: Colors.white),
+                            ),
+                            groupValue: state.selectedLanguage,
+                            onChanged: (value) {
+                              context
+                                  .read<LanguageBloc>()
+                                  .add(ChangeAppLocalEvent(value!));
+                            },
+                          )))
+                      .toList());
             },
           ),
         ],

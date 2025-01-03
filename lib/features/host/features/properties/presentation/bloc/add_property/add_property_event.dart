@@ -88,6 +88,8 @@ class AdddAgentIdEvent extends AddPropertyEvent {
   });
 }
 
+class GetLocationEvent extends AddPropertyEvent{}
+
 class AddNewPropertyEvent extends AddPropertyEvent {}
 
 class ResetEvent extends AddPropertyEvent {}

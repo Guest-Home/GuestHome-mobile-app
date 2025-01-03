@@ -22,7 +22,7 @@ class OtpVerification extends StatelessWidget {
             context.goNamed('profileSetup');
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 backgroundColor: ColorConstant.green,
-                content: Text("Otp Verifyed")));
+                content: Text("Otp Verified")));
           } else if (state is OtpErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 backgroundColor: ColorConstant.red,
@@ -35,82 +35,113 @@ class OtpVerification extends StatelessWidget {
                 leading: AppBarBackButton(),
               ),
               body: Padding(
-                padding: EdgeInsets.all(15),
-                child: Column(
-                  spacing: 25,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Otp Verification",
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(fontWeight: FontWeight.bold),
-                    ),
-                    RichText(
-                        textAlign: TextAlign.start,
-                        text: TextSpan(children: [
-                          TextSpan(
-                            text:
-                                'Please enter the one time password sent to your mobile number ',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                          TextSpan(
-                              text: state.phoneNumber,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(fontWeight: FontWeight.bold))
-                        ])),
-                    Center(
-                      child: Pinput(
-                        length: 6,
-                        keyboardType: TextInputType.number,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        focusedPinTheme: PinTheme(
-                          width: 56,
-                          height: 56,
-                          textStyle: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                          ),
-                          padding: EdgeInsets.only(right: 15),
-                          decoration: BoxDecoration(
-                            border:
-                                Border.all(color: ColorConstant.primaryColor),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        onCompleted: (pin) {
-                          context
-                              .read<AuthBloc>()
-                              .add(AddOtpCodeEvent(otpCode: pin));
-                        },
+                padding: EdgeInsets.all(16),
+                child: SingleChildScrollView(
+                  child: Column(
+                    spacing: 16,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Otp Verification",
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium!
+                            .copyWith(fontWeight: FontWeight.w700),
                       ),
-                    ),
-                    Text('Didn’t receive the code?\n Resend in 45 seconds'),
-                    Container(
-                      margin: EdgeInsets.only(top: 30),
-                      width: MediaQuery.of(context).size.width,
-                      child: CustomButton(
-                          onPressed: state is VerifyingOtpLoadingState
-                              ? () {}
-                              : () {
-                                  context
-                                      .read<AuthBloc>()
-                                      .add(VerifyOtpEvent());
-                                },
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: ColorConstant.primaryColor,
-                              padding: EdgeInsets.all(20)),
-                          child: state is VerifyingOtpLoadingState
-                              ? loading
-                              : Text(
-                                  "Verify",
-                                  style: TextStyle(color: Colors.white),
-                                )),
-                    )
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 3),
+                        child: RichText(
+                            textAlign: TextAlign.start,
+                            text: TextSpan(children: [
+                              TextSpan(
+                                text:
+                                    'Please enter the one time password sent to your mobile number ',
+                                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400
+                                ),
+                              ),
+                              TextSpan(
+                                  text: state.phoneNumber,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(fontWeight: FontWeight.bold))
+                            ])),
+                      ),
+                      SizedBox(height:8,),
+                      Center(
+                        child: Pinput(
+                          length: 6,
+                          keyboardType: TextInputType.number,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          focusedPinTheme: PinTheme(
+                            width: 56,
+                            height: 56,
+                            textStyle: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                            ),
+                            padding: EdgeInsets.only(right: 20),
+                            decoration: BoxDecoration(
+                              border:
+                                  Border.all(color: ColorConstant.primaryColor),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          onCompleted: (pin) {
+                            context
+                                .read<AuthBloc>()
+                                .add(AddOtpCodeEvent(otpCode: pin));
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 10,),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 3),
+                        child: RichText(
+                            textAlign: TextAlign.start,
+                            text: TextSpan(children: [
+                              TextSpan(
+                                text:
+                                'Did’t receive the code?\n Resend in ',
+                                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400
+                                ),
+                              ),
+                              TextSpan(
+                                  text:"45 second",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(fontWeight: FontWeight.bold))
+                            ])),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 30),
+                        width: MediaQuery.of(context).size.width,
+                        child: CustomButton(
+                            onPressed: state is VerifyingOtpLoadingState
+                                ? () {}
+                                : () {
+                                    context
+                                        .read<AuthBloc>()
+                                        .add(VerifyOtpEvent());
+                                  },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: ColorConstant.primaryColor,
+                                padding: EdgeInsets.symmetric(horizontal: 24,vertical: 21)),
+                            child: state is VerifyingOtpLoadingState
+                                ? loading
+                                : Text(
+                                    "Verify",
+                              style:Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.white,fontSize: 16,
+                                  fontWeight: FontWeight.w700),
+                                  )),
+                      )
+                    ],
+                  ),
                 ),
               ));
         },

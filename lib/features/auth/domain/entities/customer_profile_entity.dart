@@ -2,20 +2,20 @@ import 'package:equatable/equatable.dart';
 
 class CustomerProfileEntity extends Equatable {
   final int id;
-  final int userAccount;
+   // final int userAccount;
   final String profilePicture;
   final String phoneNumber;
   final String typeOfCustomer;
   final int rating;
-  final String chatId;
+  final String? chatId;
   final bool isApproved;
   final String points;
-  final int agentId;
+  final int? agent;
   final String language;
 
   const CustomerProfileEntity({
     required this.id,
-    required this.userAccount,
+    // required this.userAccount,
     required this.profilePicture,
     required this.phoneNumber,
     required this.typeOfCustomer,
@@ -23,14 +23,14 @@ class CustomerProfileEntity extends Equatable {
     required this.chatId,
     required this.isApproved,
     required this.points,
-    required this.agentId,
+    required this.agent,
     required this.language,
   });
 
   @override
   List<Object?> get props => [
         id,
-        userAccount,
+        // userAccount,
         profilePicture,
         phoneNumber,
         typeOfCustomer,
@@ -38,7 +38,7 @@ class CustomerProfileEntity extends Equatable {
         chatId,
         isApproved,
         points,
-        agentId,
+        agent,
         language
       ];
 }

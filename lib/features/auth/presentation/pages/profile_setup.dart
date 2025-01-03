@@ -48,7 +48,7 @@ class ProfileSetup extends StatelessWidget {
               buildWhen: (previous, current) => previous != current,
               builder: (context, state) {
                 return Container(
-                    padding: EdgeInsets.all(15),
+                    padding: EdgeInsets.all(16),
                     child: Form(
                       key: _formKey,
                       child: Column(
@@ -61,15 +61,15 @@ class ProfileSetup extends StatelessWidget {
                                   "Profile SetUp",
                                   style: Theme.of(context)
                                       .textTheme
-                                      .titleLarge!
-                                      .copyWith(fontWeight: FontWeight.bold),
+                                      .headlineSmall!
+                                      .copyWith(fontWeight: FontWeight.w700,fontSize: 20),
                                 ),
                                 SizedBox(
-                                  height: 20,
+                                  height:32,
                                 ),
                                 stepSutTitle(context, "Full Name", true),
                                 SizedBox(
-                                  height: 20,
+                                  height: 13,
                                 ),
                                 CustomTextField(
                                     textEditingController: _fullNameController,
@@ -90,11 +90,11 @@ class ProfileSetup extends StatelessWidget {
                                     isMultiLine: false,
                                     textInputType: TextInputType.text),
                                 SizedBox(
-                                  height: 20,
+                                  height: 24,
                                 ),
                                 stepSutTitle(context, "Gender", true),
                                 SizedBox(
-                                  height: 20,
+                                  height: 14,
                                 ),
                                 Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -117,13 +117,13 @@ class ProfileSetup extends StatelessWidget {
                                                               .withValues(
                                                                   alpha: 0.9))),
                                               child: SizedBox(
-                                                width: 100,
+                                                width: 80,
                                                 child: RadioListTile.adaptive(
                                                   selectedTileColor:
                                                       ColorConstant
                                                           .primaryColor,
                                                   title: Row(
-                                                    spacing: 10,
+                                                    spacing: 5,
                                                     mainAxisAlignment:
                                                         MainAxisAlignment.start,
                                                     children: [
@@ -131,7 +131,9 @@ class ProfileSetup extends StatelessWidget {
                                                         gender.assetPath,
                                                         width: 15,
                                                       ),
-                                                      Text(gender.name)
+                                                      Text(gender.name,style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                                        fontWeight: FontWeight.w400
+                                                      ),)
                                                     ],
                                                   ),
                                                   useCupertinoCheckmarkStyle:
@@ -155,7 +157,7 @@ class ProfileSetup extends StatelessWidget {
                                         )
                                         .toList()),
                                 SizedBox(
-                                  height: 10,
+                                  height: 24,
                                 ),
                                 UploadPhoto(
                                   ontTap: () {
@@ -163,6 +165,9 @@ class ProfileSetup extends StatelessWidget {
                                         .read<AuthBloc>()
                                         .add(SelectPictureEvent());
                                   },
+                                ),
+                                SizedBox(
+                                  height: 20,
                                 ),
                                 SizedBox(
                                     child: state.profilePhoto != null
@@ -190,15 +195,20 @@ class ProfileSetup extends StatelessWidget {
                                             context.pop();
                                           },
                                           style: ElevatedButton.styleFrom(
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: 24,vertical: 21
+                                            ),
                                               side: BorderSide(
+
                                                   color: ColorConstant
                                                       .secondBtnColor),
                                               backgroundColor: Colors.white),
                                           child: Text("Back",
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .bodyMedium!
+                                                  .bodyLarge!
                                                   .copyWith(
+                                                fontWeight: FontWeight.w700,
                                                     color: ColorConstant
                                                         .secondBtnColor,
                                                   )))),
@@ -225,6 +235,9 @@ class ProfileSetup extends StatelessWidget {
                                                   }
                                                 },
                                           style: ElevatedButton.styleFrom(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 24,vertical: 21
+                                              ),
                                               side: BorderSide(
                                                   color: ColorConstant
                                                       .primaryColor),
@@ -236,8 +249,9 @@ class ProfileSetup extends StatelessWidget {
                                               : Text("Finish",
                                                   style: Theme.of(context)
                                                       .textTheme
-                                                      .bodyMedium!
+                                                      .bodyLarge!
                                                       .copyWith(
+                                                    fontWeight: FontWeight.w700,
                                                         color: Colors.white,
                                                       ))))
                                 ],
@@ -256,10 +270,10 @@ class ProfileSetup extends StatelessWidget {
           text: title,
           style: Theme.of(context)
               .textTheme
-              .bodySmall!
-              .copyWith(fontWeight: FontWeight.bold)),
+              .bodyMedium!
+              .copyWith(fontWeight: FontWeight.bold,fontSize: 14)),
       TextSpan(
-          text: isRequired ? "*" : '(optional)',
+          text: isRequired ? " *" : '(optional)',
           style: TextStyle(
               color: isRequired
                   ? ColorConstant.red

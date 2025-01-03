@@ -14,23 +14,23 @@ class OnbordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
         width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.all(10),
         child: ListTile(
             title: Text(title,
                 style: TextTheme.of(context)
-                    .headlineSmall
-                    ?.copyWith(color: Colors.white)
-                //TextStyle(fontSize: 25,color: Colors.white),
+                    .headlineMedium
+                    ?.copyWith(color: Colors.white,fontSize: 24,fontWeight: FontWeight.w700)
+
                 ),
             subtitle: Column(
-              spacing: 10,
+              spacing: 14,
               children: [
                 Text(
                   subtitle,
-                  style: TextStyle(
-                      fontSize: 16, color: Colors.white.withValues(alpha: 0.6)),
+                  style:Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      fontSize: 18,fontWeight: FontWeight.w400,
+                      color: Colors.white.withValues(alpha: 0.6)),
                 ),
                 Expanded(
                   child: Padding(

@@ -13,7 +13,6 @@ class Language extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leadingWidth: 27,
         automaticallyImplyLeading: false,
         leading: AppBarBackButton(),
         title: Text(tr(

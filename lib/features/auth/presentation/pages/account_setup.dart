@@ -28,25 +28,30 @@ class AccountSetup extends StatelessWidget {
           if (state is OtpCreatedLodedState) {
             context.goNamed('otpVerification');
             ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.otpResponseEntity.message)));
+                SnackBar(content: Text(state.otpResponseEntity.message),backgroundColor: ColorConstant.green,));
+          }
+          else if(state is OtpErrorState){
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.failure.message),backgroundColor: ColorConstant.red,));
           }
         },
         buildWhen: (previous, current) => previous != current,
         builder: (context, state) {
           return Padding(
-            padding: const EdgeInsets.all(15),
+            padding: const EdgeInsets.all(16),
             child: Form(
               key: _formKey,
               child: Column(
                 spacing: 25,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(height: 10,),
                   Text(
                     "Enter your phone number",
                     style: Theme.of(context)
                         .textTheme
-                        .titleLarge!
-                        .copyWith(fontWeight: FontWeight.bold),
+                        .headlineSmall!
+                        .copyWith(fontWeight: FontWeight.w700),
                   ),
                   CustomTextField(
                       textEditingController: _phoneController,
@@ -76,7 +81,7 @@ class AccountSetup extends StatelessWidget {
                       ),
                       textInputType: TextInputType.phone),
                   Container(
-                    margin: EdgeInsets.only(top: 30),
+                    margin: EdgeInsets.only(top: 70),
                     width: MediaQuery.of(context).size.width,
                     child: CustomButton(
                         onPressed: state is CreatingOtpLoadingState
@@ -90,12 +95,13 @@ class AccountSetup extends StatelessWidget {
                               },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: ColorConstant.primaryColor,
-                            padding: EdgeInsets.all(20)),
+                            padding: EdgeInsets.symmetric(horizontal: 24,vertical: 21)),
                         child: state is CreatingOtpLoadingState
                             ? loading
                             : Text(
                                 "Verify Phone Number",
-                                style: TextStyle(color: Colors.white),
+                                style:Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.white,fontSize: 16,
+                                    fontWeight: FontWeight.w700),
                               )),
                   )
                 ],
