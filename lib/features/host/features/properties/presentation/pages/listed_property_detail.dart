@@ -1,18 +1,24 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
 import 'package:minapp/core/common/back_button.dart';
+import 'package:minapp/core/common/constants/house_type_icons.dart';
 import 'package:minapp/core/common/custom_button.dart';
+import 'package:minapp/core/common/custom_text_field.dart';
 import 'package:minapp/core/common/upload_photo_widget.dart';
 import 'package:minapp/features/host/features/properties/domain/entities/property_entity.dart';
-
+import 'package:minapp/features/host/features/properties/presentation/bloc/property_type/property_type_bloc.dart';
 import '../widgets/house_type_card.dart';
 import '../widgets/property_photo_card.dart';
+import 'add_properties.dart';
 
 class ListedPropertyDetail extends StatefulWidget {
-   ListedPropertyDetail({super.key,required this.propertyEntity});
+  const ListedPropertyDetail({super.key, required this.propertyEntity});
 
-  PropertyEntity propertyEntity;
+  final PropertyEntity propertyEntity;
 
   @override
   State<ListedPropertyDetail> createState() => _ListedPropertyDetailState();
@@ -23,7 +29,6 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leadingWidth: 27,
         title: Text(
           "Listed Property",
           style: Theme.of(context).textTheme.bodyLarge,
@@ -37,15 +42,16 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
         children: [
           Expanded(
             child: ListView(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(16),
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     PopupMenuButton(
                       color: Colors.white,
+                      popUpAnimationStyle: AnimationStyle(),
                       child: Container(
-                        padding: EdgeInsets.all(10),
+                        padding: EdgeInsets.all(8),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(
@@ -54,7 +60,12 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                           children: [
                             Text(
                               "Menu",
-                              style: Theme.of(context).textTheme.bodySmall,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500),
                             ),
                             Icon(Icons.arrow_drop_down_sharp)
                           ],
@@ -106,8 +117,9 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                         children: [
                           Expanded(
                               child: HouseTypeCard(
-                            iconData: Icons.house,
-                            title: 'private house',
+                            iconData: houseTypeIcons[
+                                widget.propertyEntity.typeofHouse]!,
+                            title: widget.propertyEntity.typeofHouse,
                             isSelected: true,
                           )),
                           GestureDetector(
@@ -127,6 +139,8 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                           .textTheme
                                           .bodyMedium!
                                           .copyWith(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
                                               color:
                                                   ColorConstant.primaryColor))
                                 ],
@@ -137,6 +151,9 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                       ),
                     ),
                   ),
+                ),
+                SizedBox(
+                  height: 16,
                 ),
                 // about the house
                 Card(
@@ -151,9 +168,14 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                         children: [
                           sectionTitle(context, 'About the house'),
                           Text(
-                            "edit",
-                            style:
-                                TextStyle(decoration: TextDecoration.underline),
+                            "Edit",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    decoration: TextDecoration.underline),
                           ),
                         ],
                       ),
@@ -164,19 +186,34 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                           spacing: 10,
                           children: [
                             subSectionText('Registered House name?'),
-                            PropertyTextField(
-                              hintText: 'MK GUEST HOME',
+                            CustomTextField(
+                              hintText: 'title',
+                              intialValue: widget.propertyEntity.title,
                               surfixIcon: null,
+                              isMultiLine: false,
+                              onTextChnage: (value) {},
+                              textInputType: TextInputType.text,
+                              prifixIcon: null,
+                            ),
+                            SizedBox(
+                              height: 5,
                             ),
                             subSectionText("Description of the house"),
-                            PropertyTextField(
+                            CustomTextField(
                                 surfixIcon: null,
-                                hintText:
-                                    'Lorem ipsum dolor sit amet consectetur. At justo nec in nunc accumsan in turpis nunc posuere. Risus eget volutpat consectetur vestibulum habitant ut proin enim proin. Cras laoreet venenatis phasellus imperdiet ipsum arcu nullam facilisi. Dui volutpat sapien elementum ipsum bibendum eget rhoncus.'),
+                                isMultiLine: true,
+                                onTextChnage: (value) {},
+                                textInputType: TextInputType.text,
+                                prifixIcon: null,
+                                intialValue: widget.propertyEntity.description,
+                                hintText: 'description'),
                           ],
                         ),
                       ),
                     )),
+                SizedBox(
+                  height: 16,
+                ),
                 // House Amenities
                 Card(
                   elevation: 0.2,
@@ -187,28 +224,31 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                   child: ListTile(
                     title: sectionTitle(context, "House Amenities"),
                     subtitle: SizedBox(
-                      height: 250,
                       child: GridView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
                         padding: EdgeInsets.all(10),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
+                            crossAxisCount: 2,
                             childAspectRatio: 1,
                             crossAxisSpacing: 2,
                             mainAxisSpacing: 4,
-                            mainAxisExtent: 50),
-                        itemCount: 12,
+                            mainAxisExtent: 55),
+                        itemCount: amenitiesList.length,
                         itemBuilder: (context, index) {
                           return HouseTypeCard(
-                            iconData: Icons.wifi,
-                            title: 'wifi',
-                            isSelected: index.isEven ? true : false,
+                            iconData: amenitiesIcon[amenitiesList[index]]!,
+                            title: amenitiesList[index],
+                            isSelected: false,
                           ); // Replace with your actual card widget
                         },
                       ),
                     ),
                   ),
                 ),
-
+                SizedBox(
+                  height: 16,
+                ),
                 //location
                 Card(
                     elevation: 0.2,
@@ -222,9 +262,14 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                         children: [
                           sectionTitle(context, 'Location'),
                           Text(
-                            "edit",
-                            style:
-                                TextStyle(decoration: TextDecoration.underline),
+                            "Edit",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    decoration: TextDecoration.underline),
                           ),
                         ],
                       ),
@@ -235,9 +280,15 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                           spacing: 10,
                           children: [
                             subSectionText('House Location'),
-                            PropertyTextField(
+                            CustomTextField(
                               hintText: 'Google map location name',
+                              intialValue:
+                                  widget.propertyEntity.latitude.toString(),
                               surfixIcon: null,
+                              isMultiLine: false,
+                              onTextChnage: (value) {},
+                              textInputType: TextInputType.text,
+                              prifixIcon: null,
                             ),
                             Align(
                               alignment: Alignment.bottomRight,
@@ -246,6 +297,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                 children: [
                                   Icon(
                                     Icons.location_pin,
+                                    size: 15,
                                     color: ColorConstant.secondBtnColor,
                                   ),
                                   Text(
@@ -259,21 +311,35 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                 ],
                               ),
                             ),
+                            SizedBox(height: 5),
                             subSectionText(
                                 "Know or address  name of the place"),
-                            PropertyTextField(
-                              hintText: 'Ayat Behind somewhere',
+                            CustomTextField(
+                              hintText: 'known address name',
+                              intialValue: widget.propertyEntity.specificAddress
+                                  .toString(),
                               surfixIcon: null,
+                              isMultiLine: false,
+                              onTextChnage: (value) {},
+                              textInputType: TextInputType.text,
+                              prifixIcon: null,
                             ),
+                            SizedBox(height: 5),
                             subSectionText("Name of the city"),
-                            PropertyTextField(
-                                hintText: "Addis Ababa",
-                                surfixIcon: Icon(Icons.keyboard_arrow_down))
+                            CustomTextField(
+                              hintText: widget.propertyEntity.city,
+                              textInputType: TextInputType.text,
+                              surfixIcon: SizedBox(
+                                child: CityDropDown(onSelected: (value) {}),
+                              ),
+                              isMultiLine: false,
+                              onTextChnage: (value) {},
+                            ),
                           ],
                         ),
                       ),
                     )),
-
+                //price
                 Card(
                     elevation: 0.2,
                     color: Colors.white,
@@ -284,7 +350,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                       title: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          sectionTitle(context, 'Location'),
+                          sectionTitle(context, 'Price'),
                           Text(
                             "edit",
                             style:
@@ -300,14 +366,29 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                           children: [
                             subSectionText(
                                 'How many rooms do you have with the same price?'),
-                            PropertyTextField(
-                              hintText: '10',
+                            CustomTextField(
+                              hintText: 'no room',
+                              intialValue:
+                                  widget.propertyEntity.numberOfRoom.toString(),
                               surfixIcon: null,
+                              isMultiLine: false,
+                              onTextChnage: (value) {},
+                              textInputType: TextInputType.text,
+                              prifixIcon: null,
                             ),
+                            SizedBox(height: 5),
                             subSectionText("Price"),
-                            PropertyTextField(
-                              hintText: '200',
-                              surfixIcon: null,
+                            CustomTextField(
+                              hintText: 'price',
+                              intialValue:
+                                  widget.propertyEntity.price.toString(),
+                              surfixIcon: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 15),
+                                  child: Text(widget.propertyEntity.unit)),
+                              isMultiLine: false,
+                              onTextChnage: (value) {},
+                              textInputType: TextInputType.text,
+                              prifixIcon: null,
                             ),
                           ],
                         ),
@@ -331,13 +412,29 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                             UploadPhoto(
                               ontTap: () {},
                             ),
-                            //photo
-                            // SizedBox(
-                            //     width: double.infinity,
-                            //     child: Column(
-                            //       children: List.generate(
-                            //           3, (index) => PropertyPhotoCard()),
-                            //     ))
+                            //  photo
+                            SizedBox(
+                                width: double.infinity,
+                                child: GridView.builder(
+                                    physics: NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    padding: EdgeInsets.all(10),
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 2,
+                                            childAspectRatio: 1,
+                                            crossAxisSpacing: 10,
+                                            mainAxisSpacing: 10,
+                                            mainAxisExtent: 100),
+                                    itemCount:
+                                        widget.propertyEntity.houseImage.length,
+                                    itemBuilder: (context, index) {
+                                      return PropertyPhotoDetail(
+                                        image: widget
+                                            .propertyEntity.houseImage[0].image,
+                                        ontap: () {},
+                                      );
+                                    }))
                           ],
                         ),
                       ),
@@ -365,6 +462,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                   .textTheme
                                   .bodyMedium!
                                   .copyWith(
+                                fontWeight: FontWeight.w700,
                                     color: ColorConstant.secondBtnColor,
                                   )))),
                   Expanded(
@@ -379,6 +477,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                   .textTheme
                                   .bodyMedium!
                                   .copyWith(
+                                fontWeight: FontWeight.w700,
                                     color: Colors.white,
                                   ))))
                 ],
@@ -388,12 +487,18 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
     );
   }
 
-  Text subSectionText(String title) => Text(title);
+  Text subSectionText(String title) => Text(
+        title,
+        style: Theme.of(context)
+            .textTheme
+            .bodyMedium!
+            .copyWith(fontSize: 14, fontWeight: FontWeight.w500),
+      );
 
   Text sectionTitle(BuildContext context, String title) {
     return Text(title,
         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-            color: ColorConstant.secondBtnColor, fontWeight: FontWeight.bold));
+            color: ColorConstant.secondBtnColor, fontWeight: FontWeight.w700));
   }
 
   void _showDeleteDialog(BuildContext context) {
@@ -404,14 +509,44 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
-        title: Text(
-          "Delete house?",
-          style: Theme.of(context)
-              .textTheme
-              .bodyMedium!
-              .copyWith(fontWeight: FontWeight.bold),
+        contentPadding: EdgeInsets.all(0),
+        content: SizedBox(
+          height: 80,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: EdgeInsets.all(9),
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    color: ColorConstant.cardGrey,
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(10),
+                        topLeft: Radius.circular(10))),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Delete house?",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    Icon(
+                      Icons.cancel_outlined,
+                      size: 15,
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text("This cant be undone."),
+              ),
+            ],
+          ),
         ),
-        content: Text("This cant be undone."),
         actionsAlignment: MainAxisAlignment.end,
         actionsPadding: EdgeInsets.all(10),
         actions: [
@@ -458,25 +593,37 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                   children: [
                     Text(
                       "Change House type",
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           color: ColorConstant.secondBtnColor,
                           fontWeight: FontWeight.bold),
                     ),
                     Expanded(
-                      child: GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2, // Number of columns
-                            childAspectRatio: 1, // Aspect ratio of each item
-                            crossAxisSpacing: 2, // Spacing between columns
-                            mainAxisSpacing: 4,
-                            mainAxisExtent: 50),
-                        itemCount: 10, // Number of HouseTypeCard items
-                        itemBuilder: (context, index) {
-                          return HouseTypeCard(
-                            iconData: Icons.house,
-                            title: 'private house',
-                            isSelected: index.isEven ? true : false,
-                          ); // Replace with your actual card widget
+                      child: BlocBuilder<PropertyTypeBloc, PropertyTypeState>(
+                        builder: (context, state) {
+                          return GridView.builder(
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2, // Number of columns
+                                    childAspectRatio:
+                                        1, // Aspect ratio of each item
+                                    crossAxisSpacing:
+                                        6, // Spacing between columns
+                                    mainAxisSpacing: 6,
+                                    mainAxisExtent: 60),
+                            itemCount: state.propertyTypes
+                                .length, // Number of HouseTypeCard items
+                            itemBuilder: (context, index) {
+                              return HouseTypeCard(
+                                iconData: houseTypeIcons[
+                                    state.propertyTypes[index].propertyType]!,
+                                title: state.propertyTypes[index].propertyType,
+                                isSelected: widget.propertyEntity.typeofHouse ==
+                                        state.propertyTypes[index].propertyType
+                                    ? true
+                                    : false,
+                              ); // Replace with your actual card widget
+                            },
+                          );
                         },
                       ),
                     ),
@@ -498,6 +645,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                     .textTheme
                                     .bodyMedium!
                                     .copyWith(
+                                      fontWeight: FontWeight.w700,
                                       color: ColorConstant.secondBtnColor,
                                     ),
                               )),
@@ -513,6 +661,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                     .textTheme
                                     .bodyMedium!
                                     .copyWith(
+                                      fontWeight: FontWeight.w700,
                                       color: Colors.white,
                                     ),
                               )),
@@ -533,21 +682,51 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
-        title: Text(
-          "Discard unsaved changes?",
-          style: Theme.of(context)
-              .textTheme
-              .bodyMedium!
-              .copyWith(fontWeight: FontWeight.bold),
+        contentPadding: EdgeInsets.all(0),
+        content: SizedBox(
+          height: 80,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: EdgeInsets.all(9),
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    color: ColorConstant.cardGrey,
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(10),
+                        topLeft: Radius.circular(10))),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Discard unsaved changes?",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    Icon(
+                      Icons.cancel_outlined,
+                      size: 15,
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text("This cant be undone."),
+              ),
+            ],
+          ),
         ),
-        content: Text("This cant be undone."),
-        actionsAlignment: MainAxisAlignment.end,
+
         actionsPadding: EdgeInsets.all(10),
         actions: [
           CustomButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.all(0.5),
+                  padding: EdgeInsets.all(0),
                   side: BorderSide(
                       color:
                           ColorConstant.secondBtnColor.withValues(alpha: 0.5)),
@@ -571,28 +750,29 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
   }
 }
 
-class PropertyTextField extends StatelessWidget {
-  const PropertyTextField({
+class PropertyPhotoDetail extends StatelessWidget {
+  const PropertyPhotoDetail({
     super.key,
-    required this.hintText,
-    required this.surfixIcon,
+    required this.image,
+    required this.ontap,
   });
-
-  final String hintText;
-  final Widget? surfixIcon;
+  final String? image;
+  final VoidCallback ontap;
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-        keyboardType: TextInputType.multiline,
-        minLines: 1,
-        maxLines: null,
-        decoration: InputDecoration(
-          hintText: hintText,
-          suffixIcon: surfixIcon,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: ColorConstant.cardGrey),
+    return ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(13),
+          child: CachedNetworkImage(
+            imageUrl:
+                image!,
+            placeholder: (context, url) => CupertinoActivityIndicator(),
+            errorWidget: (context, url, error) => Icon(Icons.error),
+            fit: BoxFit.cover,
+            width: 100,
+            height: 100,
           ),
         ));
   }

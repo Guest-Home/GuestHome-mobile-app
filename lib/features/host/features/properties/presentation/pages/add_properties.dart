@@ -599,14 +599,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                         .read<AddPropertyBloc>()
                                         .add(AddNewPropertyEvent());
 
-                                    // context
-                                    //     .read<AddPropertyBloc>()
-                                    //     .add(NextStepEvent());
-                                    // context
-                                    //     .read<AddPropertyBloc>()
-                                    //     .add(ResetEvent());
 
-                                    //context.goNamed('properties');
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
@@ -636,7 +629,14 @@ class _AddPropertiesState extends State<AddProperties> {
           listener: (context, state) {
             if (state is AddNewPropertyErrorState) {
               _showErrorSnackBar(context, state.failure.message);
-            } else if (state is AddNewPropertySuccess) {}
+            } else if (state is AddNewPropertySuccess) {
+              context.read<AddPropertyBloc>().add(NextStepEvent());
+              context.read<AddPropertyBloc>().add(ResetEvent());
+              context.goNamed('properties');
+              _showSuccessSnackBar(context, "property created");
+
+
+            }
             pageController.jumpToPage(state.step);
           },
         ));
@@ -674,6 +674,12 @@ class _AddPropertiesState extends State<AddProperties> {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message),
       backgroundColor: ColorConstant.red,
+    ));
+  }
+  _showSuccessSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+      backgroundColor: ColorConstant.green,
     ));
   }
 }

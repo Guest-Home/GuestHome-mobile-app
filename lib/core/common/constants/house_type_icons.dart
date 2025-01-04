@@ -43,13 +43,14 @@ const Map<String, String> amenitiesIcon = {
 };
 const List<String> amenitiesList = [
   "Air Conditioning",
-  "Balcony",
-  "HDTV",
-  "Heater",
-  "Kitchen",
-  "Laundry",
+  "Balcony or Terrace",
+  "TV",
+  "Heating",
+  "Kitchen Access",
+  "Laundry Facilities",
   "Private Bathroom",
-  "Shower",
-  "Wifi",
-  "WorkSpace",
+  "Hot Shower",
+  "Wi-Fi",
+  "Workspace/Desk",
+  "Done"
 ];

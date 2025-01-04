@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../../../../../config/color/color.dart';
 
@@ -10,7 +11,7 @@ class HouseTypeCard extends StatelessWidget {
     required this.isSelected,
   });
 
-  final IconData iconData;
+  final String iconData;
   final String title;
   final bool isSelected;
 
@@ -25,24 +26,33 @@ class HouseTypeCard extends StatelessWidget {
       ),
       elevation: 0,
       color: isSelected
-          ? ColorConstant.primaryColor.withValues(alpha: 0.1)
+          ? ColorConstant.primaryColor.withValues(alpha: 0.0)
           : ColorConstant.cardGrey.withValues(alpha: 0.8),
       child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Row(
-          spacing: 3,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Icon(iconData,
-                color: ColorConstant.primaryColor.withValues(alpha: 0.8)),
-            Expanded(
-              child: Text(title,
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: ColorConstant.secondBtnColor.withValues(),
-                      )),
-            ),
-          ],
+        padding: const EdgeInsets.all(16),
+        child: SizedBox(
+          child: Row(
+            spacing: 5,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                iconData,
+                semanticsLabel: title,
+                fit: BoxFit.cover,
+                width: 22,
+                height: 22,
+              ),
+
+              Expanded(
+                child: Text(title,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
+                          color: ColorConstant.secondBtnColor.withValues(),
+                        )),
+              ),
+            ],
+          ),
         ),
       ),
     );

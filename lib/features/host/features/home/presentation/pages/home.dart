@@ -53,6 +53,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset:false,
       floatingActionButton: Container(
         margin: EdgeInsets.only(top: 65),
         child: FloatingActionButton(
@@ -70,7 +71,7 @@ class Home extends StatelessWidget {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
+      floatingActionButtonAnimator: FloatingActionButtonAnimator.noAnimation,
       bottomNavigationBar: Material(
         elevation: 10,
         shadowColor: ColorConstant.primaryColor,

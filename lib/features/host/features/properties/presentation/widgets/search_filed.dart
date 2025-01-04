@@ -17,13 +17,13 @@ class SearchField extends StatelessWidget {
         onChanged: (value) => onTextChnage(value),
         decoration: InputDecoration(
           filled: true,
-          fillColor: ColorConstant.cardGrey,
+          fillColor: ColorConstant.cardGrey.withValues(alpha: 0.8),
           hintText: tr('Search properties'),
           suffixIcon: prifixIcon,
           hintStyle: TextStyle(fontSize: 13),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide.none,
+            borderSide:BorderSide.none
           ),
         ));
   }

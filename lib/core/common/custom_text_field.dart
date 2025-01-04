@@ -13,6 +13,8 @@ class CustomTextField extends StatelessWidget {
     this.prifixIcon,
     this.validator,
     this.textEditingController,
+    this.intialValue
+
   });
 
   final String hintText;
@@ -23,6 +25,7 @@ class CustomTextField extends StatelessWidget {
   final Widget? prifixIcon;
   final FormFieldValidator<String>? validator;
   final TextEditingController? textEditingController;
+  final String? intialValue;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +33,7 @@ class CustomTextField extends StatelessWidget {
         controller: textEditingController,
         keyboardType: textInputType,
         minLines: 1,
+        initialValue:intialValue,
         maxLines: isMultiLine ? null : 1,
         onChanged: (value) => onTextChnage(value),
         autovalidateMode: AutovalidateMode.onUserInteraction,
