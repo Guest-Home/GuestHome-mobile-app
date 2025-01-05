@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:minapp/core/common/bloc/language_bloc.dart';
 import 'package:minapp/core/network/dio_client.dart';
+import 'package:minapp/core/utils/connectivity_service.dart';
 import 'package:minapp/features/auth/data/datasources/apiDataSource/api_data_source.dart';
 import 'package:minapp/features/auth/data/repositories/otp_repository_impl.dart';
 import 'package:minapp/features/auth/domain/repositories/otp_repository.dart';
@@ -37,6 +38,8 @@ import 'features/auth/domain/usecases/create_customer_profile_usecase.dart';
 
 final sl = GetIt.instance;
 void setup() async {
+  // connectivity service
+  sl.registerSingleton<ConnectivityService>(ConnectivityService());
   //Bloc
   sl.registerFactory<LanguageBloc>(() => LanguageBloc());
   sl.registerFactory<OnBordingBloc>(() => OnBordingBloc());

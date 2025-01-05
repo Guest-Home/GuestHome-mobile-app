@@ -4,9 +4,10 @@ import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
 
 class Home extends StatelessWidget {
-  const Home({super.key, required this.child});
+  const Home({super.key, required this.navigationShell});
 
-  final Widget child;
+  final StatefulNavigationShell navigationShell;
+
   int _getSelectedIndex(BuildContext context) {
     final location = GoRouter.of(context).state?.path;
     if (location!.startsWith('/properties')) {
@@ -30,30 +31,15 @@ class Home extends StatelessWidget {
     if (location.startsWith('/account')) {
       return 4;
     }
+
     return 0;
   }
 
-  void _onItemTapped(BuildContext context, int index) {
-    switch (index) {
-      case 0:
-        context.go('/properties');
-        break;
-      case 1:
-        context.go('/request');
-        break;
-      case 3:
-        context.go('/analytics');
-        break;
-      case 4:
-        context.go('/profile');
-        break;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset:false,
+      resizeToAvoidBottomInset: false,
       floatingActionButton: Container(
         margin: EdgeInsets.only(top: 65),
         child: FloatingActionButton(
@@ -76,43 +62,51 @@ class Home extends StatelessWidget {
         elevation: 10,
         shadowColor: ColorConstant.primaryColor,
         child: CustomLineIndicatorBottomNavbar(
-          selectedColor: ColorConstant.primaryColor,
-          unSelectedColor: ColorConstant.inActiveColor.withValues(alpha: 0.9),
-          backgroundColor: Colors.white,
-          enableLineIndicator: true,
-          indicatorType: IndicatorType.top,
-          currentIndex: _getSelectedIndex(context),
-          unselectedIconSize: 17,
-          selectedIconSize: 25,
-          customBottomBarItems: [
-            CustomBottomBarItems(
-              isAssetsImage: true,
-              label: 'Properties',
-              assetsImagePath: 'assets/icons/home.png',
-              icon: Icons.home_filled,
-            ),
-            CustomBottomBarItems(
+            selectedColor: ColorConstant.primaryColor,
+            unSelectedColor: ColorConstant.inActiveColor.withValues(alpha: 0.9),
+            backgroundColor: Colors.white,
+            enableLineIndicator: true,
+            indicatorType: IndicatorType.top,
+            currentIndex: _getSelectedIndex(context),
+            unselectedIconSize: 17,
+            selectedIconSize: 25,
+            customBottomBarItems: [
+              CustomBottomBarItems(
                 isAssetsImage: true,
-                label: 'Request',
-                assetsImagePath: 'assets/icons/notification.png',
-                icon: Icons.notifications_active),
-            CustomBottomBarItems(
-                isAssetsImage: false, label: '', icon: Icons.add_box),
-            CustomBottomBarItems(
-                isAssetsImage: true,
-                label: 'Analytics',
-                assetsImagePath: 'assets/icons/anaalytics.png',
-                icon: Icons.analytics),
-            CustomBottomBarItems(
-                isAssetsImage: true,
-                label: 'Profile',
-                assetsImagePath: 'assets/icons/user.png',
-                icon: Icons.account_circle),
-          ],
-          onTap: (item) => _onItemTapped(context, item),
-        ),
+                label: 'Properties',
+                assetsImagePath: 'assets/icons/home.png',
+                icon: Icons.home_filled,
+              ),
+              CustomBottomBarItems(
+                  isAssetsImage: true,
+                  label: 'Request',
+                  assetsImagePath: 'assets/icons/notification.png',
+                  icon: Icons.notifications_active),
+              CustomBottomBarItems(
+                  isAssetsImage: false, label: '', icon: Icons.add_box),
+              CustomBottomBarItems(
+                  isAssetsImage: true,
+                  label: 'Analytics',
+                  assetsImagePath: 'assets/icons/anaalytics.png',
+                  icon: Icons.analytics),
+              CustomBottomBarItems(
+                  isAssetsImage: true,
+                  label: 'Profile',
+                  assetsImagePath: 'assets/icons/user.png',
+                  icon: Icons.account_circle),
+            ],
+            onTap: (item) => {
+                  if (item == 0)
+                    {navigationShell.goBranch(item)}
+                  else if (item == 1)
+                    {navigationShell.goBranch(item)}
+                  else if (item == 3)
+                    {navigationShell.goBranch(2)}
+                  else if (item == 4)
+                    {navigationShell.goBranch(3)}
+                }),
       ),
-      body: child,
+      body: navigationShell,
     );
   }
 }

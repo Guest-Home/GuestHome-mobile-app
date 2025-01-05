@@ -29,5 +29,4 @@ class UserProfileDataSourceImple implements UserProfileDataSource{
       return Left(ServerFailure(e.message.toString()));
     }
   }
-
 }

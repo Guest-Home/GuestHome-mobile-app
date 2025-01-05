@@ -14,8 +14,6 @@ import 'package:minapp/features/auth/presentation/pages/account_setup.dart';
 import 'package:minapp/features/auth/presentation/pages/otp_verification.dart';
 import 'package:minapp/features/auth/presentation/pages/profile_setup.dart';
 import 'package:minapp/features/host/features/home/presentation/pages/home.dart';
-import 'package:minapp/features/host/features/profile/domain/entities/user_profile_entity.dart';
-import 'package:minapp/features/host/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/account.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/general_information.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/language.dart';
@@ -29,7 +27,6 @@ import 'package:minapp/features/onbording/presentation/pages/onbording.dart';
 import 'package:minapp/features/onbording/presentation/pages/splash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../features/auth/presentation/bloc/auth_bloc.dart';
 import '../../features/host/features/properties/presentation/bloc/add_property/add_property_bloc.dart';
 import '../../features/host/features/properties/presentation/bloc/properties_bloc.dart';
 import '../../features/onbording/presentation/bloc/on_bording_bloc.dart';
@@ -41,8 +38,7 @@ Future<GoRouter> createRouter() async {
 
   final GoRouter router = GoRouter(
     observers: [MyNavigatorObserver()],
-   initialLocation: isFirstTimeUser ? '/onboarding' : '/properties',
-
+    initialLocation: isFirstTimeUser ? '/onboarding' : '/properties',
     errorBuilder: (context, state) => Scaffold(
       body: Center(
         child: Text("page not found"),
@@ -70,32 +66,25 @@ Future<GoRouter> createRouter() async {
           path: '/splash',
           builder: (context, state) => Splash()),
       GoRoute(
-          name: 'onboarding',
-          path: '/onboarding',
-          builder: (context, state) => BlocProvider(
-            create: (context) => sl<OnBordingBloc>(),
-            child: OnBording(),
-          ), ),
+        name: 'onboarding',
+        path: '/onboarding',
+        builder: (context, state) => BlocProvider(
+          create: (context) => sl<OnBordingBloc>(),
+          child: OnBording(),
+        ),
+      ),
       GoRoute(
-          name: 'addProperty',
-          path: '/addProperty',
-          builder: (context, state) => BlocProvider(create: (context) => sl<AddPropertyBloc>(),
-          child:AddProperties() ,
-          ),
-          ),
-      GoRoute(
-        name: 'propertyDetail',
-        path: '/propertyDetail',
-        builder: (context, state){
-          final property= state.extra as PropertyEntity;
-         return ListedPropertyDetail(propertyEntity: property,);
-        },
+        name: 'addProperty',
+        path: '/addProperty',
+        builder: (context, state) => BlocProvider(
+          create: (context) => sl<AddPropertyBloc>(),
+          child: AddProperties(),
+        ),
       ),
       GoRoute(
           name: 'accountSetup',
           path: '/accountSetup',
           builder: (context, state) => AccountSetup(),
-
           routes: [
             GoRoute(
               name: 'otpVerification',
@@ -109,59 +98,88 @@ Future<GoRouter> createRouter() async {
             ),
           ]),
 
-      ShellRoute(
-        navigatorKey: GlobalKey<NavigatorState>(),
-        builder: (context, state, child) {
-          return Home(child: child);
+      // host
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) {
+          return Home(
+              navigationShell:
+                  navigationShell); // Pass navigationShell for controlling navigation.
         },
-        routes: [
-          GoRoute(
-            name: 'properties',
-            path: '/properties',
-            builder: (context, state) => BlocProvider(
-              create: (context) => sl<PropertiesBloc>(),
-              child:Properties(),
-            ),
-          ),
-          GoRoute(
-            name: 'request',
-            path: '/request',
-            builder: (context, state) => const Request(),
-          ),
-          GoRoute(
-            name: 'analytics',
-            path: '/analytics',
-            builder: (context, state) => const Analytics(),
-          ),
-          GoRoute(
-            name: 'profile',
-            path: '/profile',
-            builder: (context, state) =>const Profile(),
-
+        branches: [
+          StatefulShellBranch(
+            navigatorKey: GlobalKey<NavigatorState>(),
             routes: [
               GoRoute(
-                name: 'generalInformation',
-                path: '/generalInformation',
-                builder: (context, state){
-
-                  return GeneralInformation();
-  }
-              ),
+                  name: 'properties',
+                  path: '/properties',
+                  builder: (context, state) => BlocProvider(
+                        create: (context) =>
+                            sl<PropertiesBloc>()..add(GetPropertiesEvent()),
+                        child: Properties(),
+                      ),
+                  routes: [
+                    GoRoute(
+                      name: 'propertyDetail',
+                      path: '/propertyDetail',
+                      builder: (context, state) {
+                        final property = state.extra as PropertyEntity;
+                        return ListedPropertyDetail(
+                          propertyEntity: property,
+                        );
+                      },
+                    ),
+                  ]),
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: GlobalKey<NavigatorState>(),
+            routes: [
               GoRoute(
-                name: 'language',
-                path: '/language',
-                builder: (context, state) => const Language(),
+                name: 'request',
+                path: '/request',
+                builder: (context, state) => const Request(),
               ),
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: GlobalKey<NavigatorState>(),
+            routes: [
               GoRoute(
-                name: 'account',
-                path: '/account',
-                builder: (context, state) => const Account(),
+                name: 'analytics',
+                path: '/analytics',
+                builder: (context, state) => const Analytics(),
               ),
-            ]
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: GlobalKey<NavigatorState>(),
+            routes: [
+              GoRoute(
+                name: 'profile',
+                path: '/profile',
+                builder: (context, state) => const Profile(),
+                routes: [
+                  GoRoute(
+                    name: 'generalInformation',
+                    path: '/generalInformation',
+                    builder: (context, state) => GeneralInformation(),
+                  ),
+                  GoRoute(
+                    name: 'language',
+                    path: '/language',
+                    builder: (context, state) => const Language(),
+                  ),
+                  GoRoute(
+                    name: 'account',
+                    path: '/account',
+                    builder: (context, state) => const Account(),
+                  ),
+                ],
+              ),
+            ],
           ),
         ],
       ),
-
 
       //Guest routes
 
@@ -199,12 +217,11 @@ Future<GoRouter> createRouter() async {
                 builder: (context, state) => const Profile(),
                 routes: [
                   GoRoute(
-                    name: 'guestGeneralInformation',
-                    path: '/guestGeneralInformation',
-                    builder: (context, state) {
-                      return GeneralInformation();
-                    }
-                  ),
+                      name: 'guestGeneralInformation',
+                      path: '/guestGeneralInformation',
+                      builder: (context, state) {
+                        return GeneralInformation();
+                      }),
                   GoRoute(
                     name: 'guestLanguage',
                     path: '/guestLanguage',

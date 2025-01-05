@@ -16,14 +16,6 @@ class Properties extends StatefulWidget {
 }
 
 class _PropertiesState extends State<Properties> {
-
-
-  @override
-  void initState() {
-    super.initState();
-      context.read<PropertiesBloc>().add(GetPropertiesEvent());
-
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,24 +68,27 @@ class _PropertiesState extends State<Properties> {
                         child: NoPropertyFound()));
               } else {
                 return SliverList(
-
                   delegate: SliverChildBuilderDelegate(
                     (context, index) => GestureDetector(
-                        onTap: () => context.goNamed('propertyDetail',extra: state.properties[index]),
+                        onTap: () => context.goNamed('propertyDetail',
+                            extra: state.properties[index]),
                         child: PropertyCard(
                           propertyEntity: state.properties[index],
                         )),
-                    childCount:state.properties.length,
+                    childCount: state.properties.length,
                   ),
                 );
               }
+            } else if (state is PropertiesError) {
+              return SliverToBoxAdapter(
+                child: SizedBox(
+                  child: Text(state.message),
+                ),
+              );
             }
-            return SliverToBoxAdapter(
-                child: Center(
-              child: Text('Unknown state'),
-            ));
+            return SliverToBoxAdapter(child: SizedBox.shrink());
           },
-        )
+        ),
       ],
     ));
   }
@@ -112,15 +107,13 @@ class NoPropertyFound extends StatelessWidget {
         Text(
           'Lorem ipsum dolor sit amet consectetur. Est netus commodo mattis lectus nam lacinia hac sapien.',
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-            fontSize: 16
-          ),
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 16),
         ),
         Padding(
             padding: const EdgeInsets.all(20),
             child: CustomButton(
               style: ElevatedButton.styleFrom(
-                elevation:0,
+                  elevation: 0,
                   shadowColor: ColorConstant.primaryColor,
                   backgroundColor: ColorConstant.primaryColor,
                   padding: EdgeInsets.all(20),
@@ -133,10 +126,8 @@ class NoPropertyFound extends StatelessWidget {
                   Icon(Icons.add, color: Colors.white),
                   Text(
                     'Add Property',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(color: Colors.white,fontWeight: FontWeight.w700),
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: Colors.white, fontWeight: FontWeight.w700),
                   )
                 ],
               ),

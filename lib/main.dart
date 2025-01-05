@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,8 +19,9 @@ import 'features/host/features/profile/presentation/bloc/profile_bloc.dart';
 import 'features/onbording/presentation/bloc/on_bording_bloc.dart';
 
 void main() async {
-  setup();
   WidgetsFlutterBinding.ensureInitialized();
+  setup();
+  // Bloc.observer=MyBlocObserver();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   final GoRouter router = await createRouter(); // Initialize the router
 
@@ -52,10 +54,10 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => sl<AuthBloc>(),
         ),
-      //  BlocProvider(create: (context) => sl<AddPropertyBloc>()),
-      //   BlocProvider(
-      //     create: (context) => sl<PropertiesBloc>(),
-      //   ),
+        //  BlocProvider(create: (context) => sl<AddPropertyBloc>()),
+        // BlocProvider(
+        //   create: (context) => sl<PropertiesBloc>(),
+        // ),
         BlocProvider(
           lazy: false,
           create: (context) =>
@@ -69,8 +71,9 @@ class MyApp extends StatelessWidget {
           lazy: false,
           create: (context) => sl<CityBloc>()..add(GetCitiesEvent()),
         ),
-       BlocProvider(
-         create: (context) => sl<ProfileBloc>()..add(GetUserProfileEvent()),)
+        BlocProvider(
+          create: (context) => sl<ProfileBloc>()..add(GetUserProfileEvent()),
+        )
       ],
       child: BlocBuilder<LanguageBloc, LanguageState>(
         buildWhen: (previous, current) => previous.locale != current.locale,
@@ -91,5 +94,31 @@ class MyApp extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+class MyBlocObserver extends BlocObserver {
+  @override
+  void onChange(BlocBase bloc, Change change) {
+    super.onChange(bloc, change);
+    if (kDebugMode) {
+      print('${bloc.runtimeType} $change');
+    }
+  }
+
+  @override
+  void onTransition(Bloc bloc, Transition transition) {
+    super.onTransition(bloc, transition);
+    if (kDebugMode) {
+      print('${bloc.runtimeType} $transition');
+    }
+  }
+
+  @override
+  void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
+    if (kDebugMode) {
+      print('${bloc.runtimeType} $error $stackTrace');
+    }
+    super.onError(bloc, error, stackTrace);
   }
 }

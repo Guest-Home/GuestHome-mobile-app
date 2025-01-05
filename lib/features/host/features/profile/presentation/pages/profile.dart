@@ -146,15 +146,19 @@ class _ProfileState extends State<Profile> {
                             //     ),
                             //   ),
                             //switch to guest button
-                            if (GoRouter.of(context).state!.topRoute!.name !=
-                                'guestProfile')
                               Container(
                                   width: MediaQuery.of(context).size.width,
                                   margin: EdgeInsets.only(
                                       left: 30, right: 30, bottom: 10, top: 20),
                                   child: CustomButton(
                                       onPressed: () {
-                                        context.goNamed('houseType');
+                                        if(  GoRouter.of(context).state!.topRoute!.name !=
+                                            'guestProfile'){
+                                          context.goNamed('houseType');
+                                        }else{
+                                          context.goNamed('properties');
+                                        }
+
                                       },
                                       style: ElevatedButton.styleFrom(
                                           side: BorderSide(
@@ -169,13 +173,22 @@ class _ProfileState extends State<Profile> {
                                             Icons.recycling,
                                             color: Colors.white,
                                           ),
+                                         GoRouter.of(context).state!.topRoute!.name !=
+                                              'guestProfile'?
                                           Text("Switch to Guest",
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodySmall!
                                                   .copyWith(
                                                 color: Colors.white,
-                                              ))
+                                              )):
+                                         Text("Switch to Host",
+                                             style: Theme.of(context)
+                                                 .textTheme
+                                                 .bodySmall!
+                                                 .copyWith(
+                                               color: Colors.white,
+                                             ))
                                         ],
                                       ))),
                           ],

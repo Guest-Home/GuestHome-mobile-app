@@ -5,12 +5,9 @@ import 'package:minapp/features/host/features/properties/domain/entities/propert
 import '../../../../../../config/color/color.dart';
 
 class PropertyCard extends StatefulWidget {
-   const PropertyCard({
-    super.key,
-    required this.propertyEntity
-  });
+  const PropertyCard({super.key, required this.propertyEntity});
 
- final PropertyEntity propertyEntity;
+  final PropertyEntity propertyEntity;
 
   @override
   State<PropertyCard> createState() => _PropertyCardState();
@@ -18,13 +15,12 @@ class PropertyCard extends StatefulWidget {
 
 class _PropertyCardState extends State<PropertyCard> {
   late CarouselController carouselController;
-  int indexItem=0;
+  int indexItem = 0;
 
   @override
   void initState() {
     super.initState();
-    carouselController=CarouselController(initialItem: 0);
-
+    carouselController = CarouselController(initialItem: 0);
   }
 
   @override
@@ -39,150 +35,154 @@ class _PropertyCardState extends State<PropertyCard> {
       margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
       color: ColorConstant.cardGrey.withValues(alpha: 1.6),
       elevation: 0,
-      child:  Padding(
+      child: Padding(
         padding: const EdgeInsets.all(4.0),
         child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            spacing: 5,
-            children: [
-              Stack(
-                children: [
-                  SizedBox(
-                    height: 220,
-                    child: CarouselView(
-                        elevation: 0,
-                        padding: EdgeInsets.all(0),
-                        controller:carouselController,
-                        reverse: true,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)
+          mainAxisAlignment: MainAxisAlignment.start,
+          spacing: 5,
+          children: [
+            Stack(
+              children: [
+                SizedBox(
+                  height: 220,
+                  child: CarouselView(
+                      elevation: 0,
+                      padding: EdgeInsets.all(0),
+                      controller: carouselController,
+                      reverse: true,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      itemExtent: MediaQuery.of(context).size.width,
+                      children: List.generate(
+                        widget.propertyEntity.houseImage.length,
+                        (index) => ClipRRect(
+                          borderRadius: BorderRadius.circular(13),
+                          child: CachedNetworkImage(
+                            imageUrl:
+                                widget.propertyEntity.houseImage[index].image,
+                            placeholder: (context, url) =>
+                                CupertinoActivityIndicator(),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
+                            fit: BoxFit.cover,
+                            width: MediaQuery.of(context).size.width,
+                            height: 220,
+                          ),
                         ),
-                        itemExtent: MediaQuery.of(context).size.width,
-                        onTap: (value) {
-                          if(value < widget.propertyEntity.houseImage.length){
-                            carouselController.jumpTo(value+1);
-                            setState(() {
-                              indexItem=value+1;
-                            });
-                          }
-                        },
-                        children:List.generate(widget.propertyEntity.houseImage.length,
-                            (index) =>ClipRRect(
-                              borderRadius: BorderRadius.circular(13),
-                              child:CachedNetworkImage(
-                                imageUrl:widget.propertyEntity.houseImage[index].image,
-                                placeholder: (context, url) =>CupertinoActivityIndicator(),
-                                errorWidget: (context, url, error) => Icon(Icons.error),
-                                fit: BoxFit.cover,
-                                width: MediaQuery.of(context).size.width,
-                                height:220,
-                              ),
-                            ), )
-
-                    ),
-                  ),
-                  Positioned(
+                      )),
+                ),
+                Positioned(
                     bottom: 10,
-                      left: 0,
-                      right: 0,
-                      child:Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: List.generate(widget.propertyEntity.houseImage.length,(index) => Container(width:8,
-                              height:8,
-                              margin: EdgeInsets.only(right: 5),
-                              decoration: BoxDecoration(color:indexItem==index? ColorConstant.cardGrey:
-                              ColorConstant.cardGrey.withValues(alpha: 0.6),
-                                  borderRadius: BorderRadius.circular(40)),),),))
+                    left: 0,
+                    right: 0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(
+                        widget.propertyEntity.houseImage.length,
+                        (index) => Container(
+                          width: 8,
+                          height: 8,
+                          margin: EdgeInsets.only(right: 5),
+                          decoration: BoxDecoration(
+                              color: indexItem == index
+                                  ? ColorConstant.cardGrey
+                                  : ColorConstant.cardGrey
+                                      .withValues(alpha: 0.6),
+                              borderRadius: BorderRadius.circular(40)),
+                        ),
+                      ),
+                    ))
+              ],
+            ),
+            ListTile(
+              title: Text(
+                widget.propertyEntity.typeofHouse,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge!
+                    .copyWith(fontWeight: FontWeight.w700, fontSize: 20),
+              ),
+              subtitle: Text(
+                widget.propertyEntity.description,
+                textAlign: TextAlign.start,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: ColorConstant.inActiveColor),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                spacing: 10,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Icon(
+                    Icons.location_on_outlined,
+                    color: ColorConstant.primaryColor.withValues(alpha: 0.8),
+                  ),
+                  Text(
+                    widget.propertyEntity.specificAddress,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: ColorConstant.inActiveColor,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ],
               ),
-              ListTile(
-                title: Text(widget.propertyEntity.typeofHouse,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyLarge!
-                      .copyWith(fontWeight: FontWeight.w700,fontSize: 20),
-                ),
-                subtitle: Text(widget.propertyEntity.description,textAlign: TextAlign.start,
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: ColorConstant.inActiveColor
-                ),),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Divider(
+                color: ColorConstant.inActiveColor.withValues(alpha: 0.2),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Row(
-                  spacing: 10,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Icon(
-                      Icons.location_on_outlined,
-                      color: ColorConstant.primaryColor.withValues(alpha: 0.8),
-                    ),
-                    Text(
-                      widget.propertyEntity.specificAddress,
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: ColorConstant.inActiveColor,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Divider(
-                  color: ColorConstant.inActiveColor.withValues(alpha: 0.2),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      spacing: 7,
-                      children: [
-                        Icon(
-                          Icons.house_outlined,
-                          color: ColorConstant.primaryColor.withValues(alpha: 0.8),
-                        ),
-                        Text(
-                          widget.propertyEntity.numberOfRoom.toString(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(color: ColorConstant.secondBtnColor),
-                        ),
-                      ],
-                    ),
-                    RichText(
-                        text: TextSpan(
-                      text: '',
-                      children: [
-                        TextSpan(
-                          text: '${widget.propertyEntity.price}',
-                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              color: ColorConstant.primaryColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        TextSpan(
-                          text: ' /night',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    spacing: 7,
+                    children: [
+                      Icon(
+                        Icons.house_outlined,
+                        color:
+                            ColorConstant.primaryColor.withValues(alpha: 0.8),
+                      ),
+                      Text(
+                        widget.propertyEntity.numberOfRoom.toString(),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(color: ColorConstant.secondBtnColor),
+                      ),
+                    ],
+                  ),
+                  RichText(
+                      text: TextSpan(
+                    text: '',
+                    children: [
+                      TextSpan(
+                        text: '${widget.propertyEntity.price}',
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: ColorConstant.primaryColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(
+                        text: ' /night',
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
                             fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: ColorConstant.inActiveColor),
-                        ),
-                      ],
-                    )),
-                  ],
-                ),
+                            fontWeight: FontWeight.w400,
+                            color: ColorConstant.inActiveColor),
+                      ),
+                    ],
+                  )),
+                ],
               ),
-            ],
+            ),
+          ],
         ),
       ),
     );

@@ -20,4 +20,6 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState> {
       );
     });
   }
+
+
 }
