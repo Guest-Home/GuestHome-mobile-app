@@ -1,12 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
 import 'package:minapp/core/common/constants/house_type_icons.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/widgets/section_header_text.dart';
 
 import '../../../../../../core/common/house_type_card.dart';
+import '../../../../../host/features/properties/presentation/bloc/property_type/property_type_bloc.dart';
 
 class HouseType extends StatelessWidget {
   const HouseType({super.key});
@@ -87,22 +89,45 @@ class HouseType extends StatelessWidget {
               title: "What are you looking for?",
               isSeeMore: false,
             ),
-            GridView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 7,
-                    mainAxisSpacing: 7,
-                    mainAxisExtent: 100),
-                itemCount: houseTypeList.length,
-                itemBuilder: (context, index) => GestureDetector(
-                      onTap: () => context.goNamed("houseTypeDetail"),
-                      child: HouseTypeCard(
-                        image: houseTypeIcons[houseTypeList[index]]!,
-                        title: houseTypeList[index],
+            BlocBuilder<PropertyTypeBloc,
+                PropertyTypeState>(
+              builder: (context, state) {
+                return GridView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  gridDelegate:
+                  SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      mainAxisExtent: 100),
+                  itemCount: state.propertyTypes.length,
+                  itemBuilder: (context, index) =>
+                      GestureDetector(
+                        onTap: () {
+                          context.goNamed("houseTypeDetail");
+                        },
+                        child: AnimatedContainer(
+                          duration: Duration(milliseconds: 100),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                              BorderRadius.circular(15),
+                              border: Border.all(
+                                color: Colors.white,
+                              )),
+                          child: HouseTypeCard(
+                            image: houseTypeIcons[state
+                                .propertyTypes[index]
+                                .propertyType]!,
+                            title: state
+                                .propertyTypes[index].propertyType,
+                          ),
+                        ),
                       ),
-                    ))
+                );
+              },
+            ),
+
           ],
         ),
       ),

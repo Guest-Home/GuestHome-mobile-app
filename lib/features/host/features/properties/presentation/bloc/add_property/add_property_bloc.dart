@@ -53,7 +53,7 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
       (event, emit) => emit(state.copyWith(city: event.city)),
     );
     on<AddAdressNameEvent>(
-      (event, emit) => emit(state.copyWith(address: event.addressName)),
+      (event, emit) => emit(state.copyWith(specificAddress: event.addressName)),
     );
     on<AddRoomNumberEvent>((event, emit) => emit(
           state.copyWith(noRoom: event.roomNumber),
@@ -118,7 +118,9 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
           if (state.agentId.isNotEmpty) 'agent': state.agentId,
           'image': imageMultipartFiles,
           'number_of_room': state.noRoom,
-          'sub_description': state.amenities
+          'sub_description': state.amenities.toList(),
+          'specificAddress':state.specificAddress
+
         });
         Either response = await sl<CreatePropertyUsecase>()
             .call(CreatePropertyParam(formData: formData));

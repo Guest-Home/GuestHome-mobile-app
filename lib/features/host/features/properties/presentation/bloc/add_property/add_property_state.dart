@@ -7,7 +7,6 @@ class AddPropertyState extends Equatable {
   final String description;
   final List<String> amenities;
   final List<XFile> images;
-  final String address;
   final String city;
   final String houseType;
   final String noRoom;
@@ -17,14 +16,16 @@ class AddPropertyState extends Equatable {
 
   final double latitude;
   final double longitude;
+  final String specificAddress;
 
-  const AddPropertyState({
+  const AddPropertyState(
+      {
     this.step = 0,
     this.title = '',
     this.description = '',
     this.amenities = const [],
     this.images = const [],
-    this.address = 'e.g Gurd Shola beside tele',
+    this.specificAddress = 'e.g Gurd Shola beside tele',
     this.city = 'Addis Ababa',
     this.houseType = '',
     this.noRoom = '',
@@ -33,7 +34,8 @@ class AddPropertyState extends Equatable {
     this.agentId = '',
     this.latitude = 9.02497,
     this.longitude = 38.74689,
-  });
+
+      });
 
   @override
   List<Object> get props => [
@@ -41,7 +43,6 @@ class AddPropertyState extends Equatable {
         title,
         description,
         amenities,
-        address,
         city,
         noRoom,
         price,
@@ -49,8 +50,9 @@ class AddPropertyState extends Equatable {
         step,
         images,
         longitude,
-        latitude
-      ];
+        latitude,
+      specificAddress,
+  ];
 
   AddPropertyState copyWith(
       {int? step,
@@ -58,28 +60,31 @@ class AddPropertyState extends Equatable {
       String? title,
       String? description,
       List<String>? amenities,
-      String? address,
+
       String? city,
       String? noRoom,
       String? price,
       String? agentId,
       List<XFile>? images,
       double? latitude,
-      double? longitude}) {
+      double? longitude,
+        String? specificAddress,
+      }) {
     return AddPropertyState(
         step: step ?? this.step,
         houseType: houseType ?? this.houseType,
         title: title ?? this.title,
         description: description ?? this.description,
         amenities: amenities ?? this.amenities,
-        address: address ?? this.address,
         city: city ?? this.city,
         noRoom: noRoom ?? this.noRoom,
         price: price ?? this.price,
         agentId: agentId ?? this.agentId,
         images: images ?? this.images,
         latitude: latitude ?? this.latitude,
-        longitude: longitude ?? this.longitude);
+        longitude: longitude ?? this.longitude,
+        specificAddress: specificAddress?? this.specificAddress
+    );
   }
 }
 
@@ -93,7 +98,6 @@ class ImagePickerError extends AddPropertyState {
           description: currentState.description,
           amenities: currentState.amenities,
           images: currentState.images,
-          address: currentState.address,
           city: currentState.city,
           houseType: currentState.houseType,
           noRoom: currentState.noRoom,
@@ -102,6 +106,7 @@ class ImagePickerError extends AddPropertyState {
           agentId: currentState.agentId,
           latitude: currentState.latitude,
           longitude: currentState.longitude,
+          specificAddress:currentState.specificAddress
         );
   @override
   List<Object> get props => super.props + [message];
@@ -115,7 +120,6 @@ class AddNewPropertyLoading extends AddPropertyState {
           description: currentState.description,
           amenities: currentState.amenities,
           images: currentState.images,
-          address: currentState.address,
           city: currentState.city,
           houseType: currentState.houseType,
           noRoom: currentState.noRoom,
@@ -124,6 +128,7 @@ class AddNewPropertyLoading extends AddPropertyState {
           agentId: currentState.agentId,
           latitude: currentState.latitude,
           longitude: currentState.longitude,
+      specificAddress:currentState.specificAddress
         );
 }
 
@@ -143,7 +148,6 @@ class AddNewPropertyErrorState extends AddPropertyState {
           description: currentState.description,
           amenities: currentState.amenities,
           images: currentState.images,
-          address: currentState.address,
           city: currentState.city,
           houseType: currentState.houseType,
           noRoom: currentState.noRoom,
@@ -152,6 +156,7 @@ class AddNewPropertyErrorState extends AddPropertyState {
           agentId: currentState.agentId,
           latitude: currentState.latitude,
           longitude: currentState.longitude,
+      specificAddress:currentState.specificAddress
         );
 
   @override

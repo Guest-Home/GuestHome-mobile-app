@@ -6,10 +6,10 @@ import 'package:go_router/go_router.dart';
 import '../../../../../../config/color/color.dart';
 
 class GuestHome extends StatelessWidget {
-  const GuestHome({super.key, required this.child});
+  const GuestHome({super.key, required this.navigationShell});
 
-  final Widget child;
-
+  final StatefulNavigationShell navigationShell;
+  
   int _getSelectedIndex(BuildContext context) {
     final location = GoRouter.of(context).state?.path;
     if (location!.startsWith('/houseType')) {
@@ -49,7 +49,7 @@ class GuestHome extends StatelessWidget {
         backgroundColor: Colors.white,
         enableLineIndicator: true,
         indicatorType: IndicatorType.top,
-        currentIndex: _getSelectedIndex(context),
+        currentIndex:navigationShell.currentIndex,
         unselectedIconSize: 17,
         selectedIconSize: 25,
         customBottomBarItems: [
@@ -69,9 +69,9 @@ class GuestHome extends StatelessWidget {
               assetsImagePath: 'assets/icons/user.png',
               icon: Icons.account_circle),
         ],
-        onTap: (item) => _onItemTapped(context, item),
+        onTap: (item) => navigationShell.goBranch(item),
       ),
-      body: child,
+      body: navigationShell,
     );
   }
 }

@@ -182,58 +182,75 @@ Future<GoRouter> createRouter() async {
       ),
 
       //Guest routes
+  StatefulShellRoute.indexedStack(
+  builder: (context, state, navigationShell) {
+  return GuestHome(
+  navigationShell:
+  navigationShell); // Pass navigationShell for controlling navigation.
+  },
+    branches: [
+            StatefulShellBranch(
+              navigatorKey: GlobalKey<NavigatorState>(),
+              routes: [
+                GoRoute(
+                    name: 'houseType',
+                    path: '/houseType',
+                    builder: (context, state) => HouseType(),
+                    routes: [
+                      GoRoute(
+                        name: 'houseTypeDetail',
+                        path: '/houseTypeDetail',
+                        builder: (context, state) => HouseTypeDetail(),
+                      ),
+                    ]),
+              ],
+            ),
+            StatefulShellBranch(
+              navigatorKey: GlobalKey<NavigatorState>(),
+              routes: [
+                GoRoute(
+                    name: 'booked',
+                    path: '/booked',
+                    builder: (context, state) => Booked(),
+                    routes: [
+                      GoRoute(
+                        name: 'bookedDetail',
+                        path: '/bookedDetail',
+                        builder: (context, state) => BookedDetail(),
+                      ),
+                    ]),
+              ],
+            ),
+            StatefulShellBranch(
+              navigatorKey: GlobalKey<NavigatorState>(),
+              routes: [
+                GoRoute(
+                    name: 'guestProfile',
+                    path: '/guestProfile',
+                    builder: (context, state) => const Profile(),
+                    routes: [
+                      GoRoute(
+                          name: 'guestGeneralInformation',
+                          path: '/guestGeneralInformation',
+                          builder: (context, state) {
+                            return GeneralInformation();
+                          }),
+                      GoRoute(
+                        name: 'guestLanguage',
+                        path: '/guestLanguage',
+                        builder: (context, state) => const Language(),
+                      ),
+                      GoRoute(
+                        name: 'guestAccount',
+                        path: '/guestAccount',
+                        builder: (context, state) => const Account(),
+                      ),
+                    ]),
+              ],
+            ),
+          ],
+          ),
 
-      ShellRoute(
-          navigatorKey: GlobalKey<NavigatorState>(),
-          builder: (context, state, child) {
-            return GuestHome(child: child);
-          },
-          routes: [
-            GoRoute(
-                name: 'houseType',
-                path: '/houseType',
-                builder: (context, state) => HouseType(),
-                routes: [
-                  GoRoute(
-                    name: 'houseTypeDetail',
-                    path: '/houseTypeDetail',
-                    builder: (context, state) => HouseTypeDetail(),
-                  ),
-                ]),
-            GoRoute(
-                name: 'booked',
-                path: '/booked',
-                builder: (context, state) => Booked(),
-                routes: [
-                  GoRoute(
-                    name: 'bookedDetail',
-                    path: '/bookedDetail',
-                    builder: (context, state) => BookedDetail(),
-                  ),
-                ]),
-            GoRoute(
-                name: 'guestProfile',
-                path: '/guestProfile',
-                builder: (context, state) => const Profile(),
-                routes: [
-                  GoRoute(
-                      name: 'guestGeneralInformation',
-                      path: '/guestGeneralInformation',
-                      builder: (context, state) {
-                        return GeneralInformation();
-                      }),
-                  GoRoute(
-                    name: 'guestLanguage',
-                    path: '/guestLanguage',
-                    builder: (context, state) => const Language(),
-                  ),
-                  GoRoute(
-                    name: 'guestAccount',
-                    path: '/guestAccount',
-                    builder: (context, state) => const Account(),
-                  ),
-                ]),
-          ]),
       GoRoute(
           name: 'houseDetail',
           path: '/houseDetail',

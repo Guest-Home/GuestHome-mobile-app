@@ -50,6 +50,7 @@ class _PropertyCardState extends State<PropertyCard> {
                       padding: EdgeInsets.all(0),
                       controller: carouselController,
                       reverse: true,
+                      backgroundColor: ColorConstant.cardGrey,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
                       itemExtent: MediaQuery.of(context).size.width,

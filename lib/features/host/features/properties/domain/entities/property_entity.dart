@@ -133,7 +133,6 @@ class AgentEntity extends Equatable {
   List<Object?> get props =>
       [id, user, profilePicture, document, isActive, sex, phoneNumber, city];
 }
-
 class UserEntity extends Equatable {
   final String firstName;
   final String lastName;

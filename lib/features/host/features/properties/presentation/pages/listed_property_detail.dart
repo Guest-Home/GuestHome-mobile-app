@@ -191,7 +191,8 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                               intialValue: widget.propertyEntity.title,
                               surfixIcon: null,
                               isMultiLine: false,
-                              onTextChnage: (value) {},
+                              onTextChnage: (value) {
+                              },
                               textInputType: TextInputType.text,
                               prifixIcon: null,
                             ),
