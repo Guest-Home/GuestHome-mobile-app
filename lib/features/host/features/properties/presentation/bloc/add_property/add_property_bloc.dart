@@ -67,10 +67,10 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
     on<SelectPhotosEvent>(
       (event, emit) async {
         try {
-          final XFile? image = await FilePicker().picImage();
-          if (image != null) {
+          final List<XFile>? images = await FilePicker().picMultipleImage();
+          if (images != null && images.isNotEmpty) {
             final updatedAmenityList = List.of(state.images);
-            updatedAmenityList.add(image);
+            updatedAmenityList.addAll(images);
             emit(state.copyWith(images: updatedAmenityList));
           } else {
             emit(ImagePickerError(state, 'No image seleced.'));
@@ -93,7 +93,6 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
     );
 
     on<ResetEvent>((event, emit) => emit(const AddPropertyState()));
-
     // create property
     on<AddNewPropertyEvent>(
       (event, emit) async {
@@ -118,10 +117,10 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
           if (state.agentId.isNotEmpty) 'agent': state.agentId,
           'image': imageMultipartFiles,
           'number_of_room': state.noRoom,
-          'sub_description': state.amenities.toList(),
-          'specificAddress':state.specificAddress
-
+          'sub_description': state.amenities.join(','),
+          'specific_address': state.specificAddress
         });
+
         Either response = await sl<CreatePropertyUsecase>()
             .call(CreatePropertyParam(formData: formData));
         response.fold(

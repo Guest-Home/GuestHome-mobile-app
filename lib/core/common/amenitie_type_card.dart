@@ -33,11 +33,15 @@ class AmenitieTypeCard extends StatelessWidget {
               semanticsLabel: title,
               fit: BoxFit.cover,
             ),
-            Text(
-              title,
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  color: ColorConstant.secondBtnColor,
-                  fontWeight: FontWeight.bold),
+            Flexible(
+              child: Text(
+                title,
+                textAlign: TextAlign.start,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: ColorConstant.secondBtnColor,
+                    fontWeight: FontWeight.bold),
+              ),
             ),
           ],
         ),

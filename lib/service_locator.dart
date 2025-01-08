@@ -12,6 +12,7 @@ import 'package:minapp/features/host/features/profile/data/datasources/user_proi
 import 'package:minapp/features/host/features/profile/data/repositories/user_profile_repository_impl.dart';
 import 'package:minapp/features/host/features/profile/domain/repositories/user_profile_repository.dart';
 import 'package:minapp/features/host/features/profile/domain/usecases/get_user_profile_usecase.dart';
+import 'package:minapp/features/host/features/profile/domain/usecases/update_user_profile_usecase.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:minapp/features/host/features/properties/data/datasources/property_api_data_source.dart';
 import 'package:minapp/features/host/features/properties/data/repositories/amenity_repository_impl.dart';
@@ -63,12 +64,14 @@ void setup() async {
   sl.registerSingleton<VerifyOtpUsecase>(VerifyOtpUsecase());
   sl.registerSingleton<CreateCustomerProfileUsecase>(
       CreateCustomerProfileUsecase());
+  sl.registerSingleton<UpdateUserProfileUseCase>(UpdateUserProfileUseCase());
   sl.registerSingleton<GetPropertiesUsecase>(GetPropertiesUsecase());
   sl.registerSingleton<CreatePropertyUsecase>(CreatePropertyUsecase());
   sl.registerSingleton<GetPropertyTypeUsecase>(GetPropertyTypeUsecase());
   sl.registerSingleton<GetAmenityUsecase>(GetAmenityUsecase());
   sl.registerSingleton<GetCitiesUsecase>(GetCitiesUsecase());
   sl.registerSingleton<GetUserProfileUseCase>(GetUserProfileUseCase());
+
 
   // repository
 

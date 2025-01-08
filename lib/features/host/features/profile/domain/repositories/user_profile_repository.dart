@@ -6,5 +6,6 @@ import 'package:minapp/features/host/features/profile/domain/entities/user_profi
 
 abstract class UserProfileRepository{
   Future<Either<Failure,UserProfileEntity>> getUserProfile();
+  Future<Either<Failure,bool>> updateUserProfile(Map<String,dynamic> userData);
 
 }

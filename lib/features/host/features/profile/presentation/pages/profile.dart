@@ -31,17 +31,19 @@ class _ProfileState extends State<Profile> {
           ),
         ),
         body: Container(
-           padding: EdgeInsets.all(20),
-          child: Column(
-            spacing: 15,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
+          padding: EdgeInsets.all(20),
+          child: SingleChildScrollView(
+            child: Column(
+              spacing: 15,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: BlocBuilder<ProfileBloc, ProfileState>(
                     builder: (context, state) {
                       if (state is UserProfileLoadingState) {
                         return SizedBox(
+                          height: 150,
                           child: Center(child: CupertinoActivityIndicator()),
                         );
                       } else if (state is UserProfileLoadedState) {
@@ -54,11 +56,12 @@ class _ProfileState extends State<Profile> {
                                 CircleAvatar(
                                   radius: 45,
                                   backgroundColor: ColorConstant.cardGrey,
-                                  backgroundImage: CachedNetworkImageProvider(ApiUrl.baseUrl+state.userProfileEntity.profilePicture,
+                                  backgroundImage: CachedNetworkImageProvider(
+                                    ApiUrl.baseUrl +
+                                        state.userProfileEntity.profilePicture,
                                     headers: {
                                       'Authorization': 'Bearer ${state.token}'
                                     },
-
                                   ),
                                 ),
                                 Column(
@@ -69,14 +72,16 @@ class _ProfileState extends State<Profile> {
                                       style: Theme.of(context)
                                           .textTheme
                                           .headlineSmall!
-                                          .copyWith(fontWeight: FontWeight.bold),
+                                          .copyWith(
+                                              fontWeight: FontWeight.bold),
                                     ),
                                     Text(
                                       state.userProfileEntity.phoneNumber,
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodySmall!
-                                          .copyWith(fontWeight: FontWeight.bold),
+                                          .copyWith(
+                                              fontWeight: FontWeight.bold),
                                     ),
                                     Text(
                                       state.userProfileEntity.typeOfCustomer,
@@ -84,7 +89,8 @@ class _ProfileState extends State<Profile> {
                                           .textTheme
                                           .bodySmall!
                                           .copyWith(
-                                          color: ColorConstant.secondBtnColor),
+                                              color:
+                                                  ColorConstant.secondBtnColor),
                                     )
                                   ],
                                 )
@@ -146,51 +152,58 @@ class _ProfileState extends State<Profile> {
                             //     ),
                             //   ),
                             //switch to guest button
-                              Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  margin: EdgeInsets.only(
-                                      left: 30, right: 30, bottom: 10, top: 20),
-                                  child: CustomButton(
-                                      onPressed: () {
-                                        if(  GoRouter.of(context).state!.topRoute!.name !=
-                                            'guestProfile'){
-                                          context.goNamed('houseType');
-                                        }else{
-                                          context.goNamed('properties');
-                                        }
-
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                          side: BorderSide(
-                                              color: ColorConstant.secondBtnColor),
-                                          backgroundColor:
-                                          ColorConstant.secondBtnColor),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        spacing: 5,
-                                        children: [
-                                          Icon(
-                                            Icons.recycling,
-                                            color: Colors.white,
-                                          ),
-                                         GoRouter.of(context).state!.topRoute!.name !=
-                                              'guestProfile'?
-                                          Text("Switch to Guest",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall!
-                                                  .copyWith(
-                                                color: Colors.white,
-                                              )):
-                                         Text("Switch to Host",
-                                             style: Theme.of(context)
-                                                 .textTheme
-                                                 .bodySmall!
-                                                 .copyWith(
-                                               color: Colors.white,
-                                             ))
-                                        ],
-                                      ))),
+                            Container(
+                                width: MediaQuery.of(context).size.width,
+                                margin: EdgeInsets.only(
+                                    left: 30, right: 30, bottom: 10, top: 20),
+                                child: CustomButton(
+                                    onPressed: () {
+                                      if (GoRouter.of(context)
+                                              .state!
+                                              .topRoute!
+                                              .name !=
+                                          'guestProfile') {
+                                        context.goNamed('houseType');
+                                      } else {
+                                        context.goNamed('properties');
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        side: BorderSide(
+                                            color:
+                                                ColorConstant.secondBtnColor),
+                                        backgroundColor:
+                                            ColorConstant.secondBtnColor),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      spacing: 5,
+                                      children: [
+                                        Icon(
+                                          Icons.recycling,
+                                          color: Colors.white,
+                                        ),
+                                        GoRouter.of(context)
+                                                    .state!
+                                                    .topRoute!
+                                                    .name !=
+                                                'guestProfile'
+                                            ? Text("Switch to Guest",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall!
+                                                    .copyWith(
+                                                      color: Colors.white,
+                                                    ))
+                                            : Text("Switch to Host",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall!
+                                                    .copyWith(
+                                                      color: Colors.white,
+                                                    ))
+                                      ],
+                                    ))),
                           ],
                         );
                       } else if (state is ProfileErrorState) {
@@ -202,40 +215,39 @@ class _ProfileState extends State<Profile> {
                     },
                   ),
                 ),
-
-
-              Text(tr('Settings'),
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      color: ColorConstant.secondBtnColor,
-                      fontWeight: FontWeight.bold)),
-              ListTile(
-                onTap: () => context.pushNamed('generalInformation'),
-                leading: Image.asset("assets/icons/user.png"),
-                title: Text(
-                  "General Information",
-                  style: Theme.of(context).textTheme.bodyMedium,
+                Text(tr('Settings'),
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: ColorConstant.secondBtnColor,
+                        fontWeight: FontWeight.bold)),
+                ListTile(
+                  onTap: () => context.pushNamed('generalInformation'),
+                  leading: Image.asset("assets/icons/user.png"),
+                  title: Text(
+                    "General Information",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  trailing: Icon(Icons.arrow_right_alt_outlined),
                 ),
-                trailing: Icon(Icons.arrow_right_alt_outlined),
-              ),
-              ListTile(
-                onTap: () => context.pushNamed("language"),
-                leading: Image.asset("assets/icons/lang.png"),
-                title: Text(
-                  tr("language"),
-                  style: Theme.of(context).textTheme.bodyMedium,
+                ListTile(
+                  onTap: () => context.pushNamed("language"),
+                  leading: Image.asset("assets/icons/lang.png"),
+                  title: Text(
+                    tr("language"),
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  trailing: Icon(Icons.arrow_right_alt_outlined),
                 ),
-                trailing: Icon(Icons.arrow_right_alt_outlined),
-              ),
-              ListTile(
-                onTap: () => context.pushNamed("account"),
-                leading: Image.asset("assets/icons/account.png"),
-                title: Text(
-                  "Account",
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-                trailing: Icon(Icons.arrow_right_alt_outlined),
-              )
-            ],
+                ListTile(
+                  onTap: () => context.pushNamed("account"),
+                  leading: Image.asset("assets/icons/account.png"),
+                  title: Text(
+                    "Account",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  trailing: Icon(Icons.arrow_right_alt_outlined),
+                )
+              ],
+            ),
           ),
         ));
   }

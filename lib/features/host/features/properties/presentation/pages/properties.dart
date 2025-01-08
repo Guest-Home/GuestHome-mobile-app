@@ -70,7 +70,7 @@ class _PropertiesState extends State<Properties> {
                 return SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (context, index) => GestureDetector(
-                        onTap: () => context.goNamed('propertyDetail',
+                        onTap: () => context.pushNamed('propertyDetail',
                             extra: state.properties[index]),
                         child: PropertyCard(
                           propertyEntity: state.properties[index],

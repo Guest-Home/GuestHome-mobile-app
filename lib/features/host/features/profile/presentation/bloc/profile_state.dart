@@ -1,7 +1,8 @@
 part of 'profile_bloc.dart';
 
 abstract class ProfileState extends Equatable {
-  const ProfileState();  
+  const ProfileState();
+
 
   @override
   List<Object> get props => [];
@@ -16,9 +17,14 @@ class UserProfileLoadedState extends ProfileState{
 
 }
 
+class UpdateUserProfileLoadingState extends ProfileState{}
+class UpdateUserProfileState extends ProfileState{
+  final bool isUpdate;
+  const UpdateUserProfileState({required this.isUpdate});
+  @override
+  List<Object> get props => [isUpdate];
+}
 class ProfileErrorState extends ProfileState{
   final Failure failure;
-
   const ProfileErrorState(this.failure);
-
 }

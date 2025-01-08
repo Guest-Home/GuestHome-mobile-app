@@ -1,6 +1,3 @@
-
-import 'dart:convert';
-import 'dart:io';
 import 'dart:isolate';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -30,7 +27,8 @@ class ApiDataSourceImpl implements ApiDataSource {
       Map<String, dynamic> otpData = {"phone_number": params.phoneNumber};
       final response = await sl<DioClient>().post(ApiUrl.otp, data: otpData);
       if (response.statusCode == 201) {
-        final createdOtP=await Isolate.run(() =>OtpResponseModel.fromJson(response.data));
+        final createdOtP =
+            await Isolate.run(() => OtpResponseModel.fromJson(response.data));
         return Right(createdOtP);
       } else {
         return Left(ServerFailure(response.data['error']));
@@ -50,7 +48,8 @@ class ApiDataSourceImpl implements ApiDataSource {
       };
       final response = await sl<DioClient>().put(ApiUrl.otp, data: otpData);
       if (response.statusCode == 200) {
-        final verify=await Isolate.run(() =>VerifyOtpModel.fromJson(response.data));
+        final verify =
+            await Isolate.run(() => VerifyOtpModel.fromJson(response.data));
         return Right(verify);
       } else {
         return Left(ServerFailure(response.data['error']));
@@ -63,12 +62,13 @@ class ApiDataSourceImpl implements ApiDataSource {
   @override
   Future<Either<Failure, CustomerProfileModel>> createCustomerProfile(
       CreateCustomerParams params) async {
-
-    MultipartFile multipartFile=await MultipartFile.fromFile(params.image.path,);
+    MultipartFile multipartFile = await MultipartFile.fromFile(
+      params.image.path,
+    );
 
     // Create a FormData object
     final formData = FormData.fromMap({
-        'profilePicture':multipartFile,
+      'profilePicture': multipartFile,
       'language': 'en',
       'gender': params.gender,
       'first_name': params.firstName,
@@ -76,13 +76,14 @@ class ApiDataSourceImpl implements ApiDataSource {
     });
 
     try {
-      final response =await sl<DioClient>().post(
+      final response = await sl<DioClient>().post(
         ApiUrl.customer,
         data: formData,
       );
       if (response.statusCode == 201) {
         print(response.data);
-       final customerProfile= await Isolate.run(() =>CustomerProfileModel.fromJson(response.data));
+        final customerProfile = await Isolate.run(
+            () => CustomerProfileModel.fromJson(response.data));
         return Right(customerProfile);
       } else {
         return Left(ServerFailure(response.data['error']));

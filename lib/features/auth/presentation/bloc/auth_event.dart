@@ -47,6 +47,12 @@ class AddFullNameEvent extends AuthEvent {
   @override
   List<Object> get props => [fullName];
 }
+class AddEmailEvent extends AuthEvent{
+  final String email;
+  const AddEmailEvent({required this.email});
+  @override
+  List<Object> get props => [email];
+}
 
 class AddGenderEvent extends AuthEvent {
   final Gender gender;

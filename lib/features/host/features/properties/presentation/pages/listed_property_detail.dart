@@ -12,7 +12,6 @@ import 'package:minapp/core/common/upload_photo_widget.dart';
 import 'package:minapp/features/host/features/properties/domain/entities/property_entity.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/property_type/property_type_bloc.dart';
 import '../widgets/house_type_card.dart';
-import '../widgets/property_photo_card.dart';
 import 'add_properties.dart';
 
 class ListedPropertyDetail extends StatefulWidget {
@@ -25,6 +24,12 @@ class ListedPropertyDetail extends StatefulWidget {
 }
 
 class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -191,8 +196,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                               intialValue: widget.propertyEntity.title,
                               surfixIcon: null,
                               isMultiLine: false,
-                              onTextChnage: (value) {
-                              },
+                              onTextChnage: (value) {},
                               textInputType: TextInputType.text,
                               prifixIcon: null,
                             ),
@@ -463,7 +467,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                   .textTheme
                                   .bodyMedium!
                                   .copyWith(
-                                fontWeight: FontWeight.w700,
+                                    fontWeight: FontWeight.w700,
                                     color: ColorConstant.secondBtnColor,
                                   )))),
                   Expanded(
@@ -478,7 +482,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                   .textTheme
                                   .bodyMedium!
                                   .copyWith(
-                                fontWeight: FontWeight.w700,
+                                    fontWeight: FontWeight.w700,
                                     color: Colors.white,
                                   ))))
                 ],
@@ -721,7 +725,6 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
             ],
           ),
         ),
-
         actionsPadding: EdgeInsets.all(10),
         actions: [
           CustomButton(
@@ -767,8 +770,7 @@ class PropertyPhotoDetail extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(13),
           child: CachedNetworkImage(
-            imageUrl:
-                image!,
+            imageUrl: image!,
             placeholder: (context, url) => CupertinoActivityIndicator(),
             errorWidget: (context, url, error) => Icon(Icons.error),
             fit: BoxFit.cover,

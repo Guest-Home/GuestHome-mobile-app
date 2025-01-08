@@ -9,4 +9,9 @@ class FilePicker {
 
     return image;
   }
+
+  Future<List<XFile>?> picMultipleImage() async {
+    final List<XFile> images = await picker.pickMultiImage();
+    return images;
+  }
 }

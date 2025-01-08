@@ -97,7 +97,9 @@ class _AddPropertiesState extends State<AddProperties> {
                         children: [
                           stepTitleText(
                               context, 'What type of house do you host?'),
-                          SizedBox(height: 5,),
+                          SizedBox(
+                            height: 5,
+                          ),
                           Expanded(
                             child: BlocBuilder<PropertyTypeBloc,
                                 PropertyTypeState>(
@@ -155,54 +157,59 @@ class _AddPropertiesState extends State<AddProperties> {
                       padding: EdgeInsets.all(15),
                       child: Form(
                         key: _houseFormKey,
-                        child: Column(
-                          spacing: 15,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            stepTitleText(context, 'About the house'),
-                            SizedBox(height: 5,),
-                            stepSutTitle(
-                                context, "Registered House name?", true),
-
-                            CustomTextField(
-                              textEditingController: nameController,
-                              hintText: "eg Diamond Guest House",
-                              surfixIcon: null,
-                              textInputType: TextInputType.text,
-                              isMultiLine: false,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Please enter house name';
-                                }
-                                return null;
-                              },
-                              onTextChnage: (value) {
-                                context
-                                    .read<AddPropertyBloc>()
-                                    .add(AddNameEvent(name: value));
-                              },
-                            ),
-                            SizedBox(height: 5,),
-                            stepSutTitle(
-                                context, "Description of the house", true),
-                            CustomTextField(
-                              textEditingController: descriptionController,
-                              hintText: "eg Diamond Guest House",
-                              surfixIcon: null,
-                              isMultiLine: true,
-                              textInputType: TextInputType.multiline,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Please enter house name';
-                                }
-                                return null;
-                              },
-                              onTextChnage: (value) {
-                                context.read<AddPropertyBloc>().add(
-                                    AddDescriptionEvent(description: value));
-                              },
-                            ),
-                          ],
+                        child: SingleChildScrollView(
+                          child: Column(
+                            spacing: 15,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              stepTitleText(context, 'About the house'),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              stepSutTitle(
+                                  context, "Registered House name?", true),
+                              CustomTextField(
+                                textEditingController: nameController,
+                                hintText: "eg Diamond Guest House",
+                                surfixIcon: null,
+                                textInputType: TextInputType.text,
+                                isMultiLine: false,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter house name';
+                                  }
+                                  return null;
+                                },
+                                onTextChnage: (value) {
+                                  context
+                                      .read<AddPropertyBloc>()
+                                      .add(AddNameEvent(name: value));
+                                },
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              stepSutTitle(
+                                  context, "Description of the house", true),
+                              CustomTextField(
+                                textEditingController: descriptionController,
+                                hintText: "eg Diamond Guest House",
+                                surfixIcon: null,
+                                isMultiLine: true,
+                                textInputType: TextInputType.multiline,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter house name';
+                                  }
+                                  return null;
+                                },
+                                onTextChnage: (value) {
+                                  context.read<AddPropertyBloc>().add(
+                                      AddDescriptionEvent(description: value));
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -318,7 +325,9 @@ class _AddPropertiesState extends State<AddProperties> {
                                         )),
                                   )
                                 ]),
-                                SizedBox(height: 5,),
+                                SizedBox(
+                                  height: 5,
+                                ),
                                 stepSutTitle(context,
                                     "Know or address  name of the place", true),
                                 CustomTextField(
@@ -338,7 +347,9 @@ class _AddPropertiesState extends State<AddProperties> {
                                         AddAdressNameEvent(addressName: value));
                                   },
                                 ),
-                                SizedBox(height: 5,),
+                                SizedBox(
+                                  height: 5,
+                                ),
                                 stepSutTitle(context,
                                     "Please select the name of the city", true),
                                 CustomTextField(
@@ -373,58 +384,64 @@ class _AddPropertiesState extends State<AddProperties> {
                     // step 5
                     Container(
                         padding: EdgeInsets.all(16),
-                        child: Form(
-                          key: _priceFormKey,
-                          child: Column(
-                            spacing: 15,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              stepTitleText(context, "Price"),
-                              SizedBox(height: 5,),
-                              stepSutTitle(
-                                  context,
-                                  "How many rooms do you have with the same price?",
-                                  true),
-                              CustomTextField(
-                                textEditingController: roomController,
-                                hintText: "eg 4",
-                                surfixIcon: null,
-                                isMultiLine: false,
-                                validator: (value) {
-                                  if (value!.isEmpty ||
-                                      !Validation.numberValidation(value)) {
-                                    return 'Please enter room number';
-                                  }
-                                  return null;
-                                },
-                                textInputType: TextInputType.number,
-                                onTextChnage: (value) {
-                                  context.read<AddPropertyBloc>().add(
-                                      AddRoomNumberEvent(roomNumber: value));
-                                },
-                              ),
-                              SizedBox(height: 5,),
-                              stepSutTitle(context, 'Enter the price', true),
-                              CustomTextField(
-                                textEditingController: priceController,
-                                hintText: "500",
-                                surfixIcon: null,
-                                validator: (value) {
-                                  if (value!.isEmpty ||
-                                      !Validation.numberValidation(value)) {
-                                    return 'Please enter price';
-                                  }
-                                  return null;
-                                },
-                                isMultiLine: false,
-                                textInputType: TextInputType.number,
-                                onTextChnage: (value) {
-                                  context
-                                      .read<AddPropertyBloc>()
-                                      .add(AddPriceEvent(price: value));
-                                },
-                              ),
-                            ],
+                        child: SingleChildScrollView(
+                          child: Form(
+                            key: _priceFormKey,
+                            child: Column(
+                              spacing: 15,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                stepTitleText(context, "Price"),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                stepSutTitle(
+                                    context,
+                                    "How many rooms do you have with the same price?",
+                                    true),
+                                CustomTextField(
+                                  textEditingController: roomController,
+                                  hintText: "eg 4",
+                                  surfixIcon: null,
+                                  isMultiLine: false,
+                                  validator: (value) {
+                                    if (value!.isEmpty ||
+                                        !Validation.numberValidation(value)) {
+                                      return 'Please enter room number';
+                                    }
+                                    return null;
+                                  },
+                                  textInputType: TextInputType.number,
+                                  onTextChnage: (value) {
+                                    context.read<AddPropertyBloc>().add(
+                                        AddRoomNumberEvent(roomNumber: value));
+                                  },
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                stepSutTitle(context, 'Enter the price', true),
+                                CustomTextField(
+                                  textEditingController: priceController,
+                                  hintText: "500",
+                                  surfixIcon: null,
+                                  validator: (value) {
+                                    if (value!.isEmpty ||
+                                        !Validation.numberValidation(value)) {
+                                      return 'Please enter price';
+                                    }
+                                    return null;
+                                  },
+                                  isMultiLine: false,
+                                  textInputType: TextInputType.number,
+                                  onTextChnage: (value) {
+                                    context
+                                        .read<AddPropertyBloc>()
+                                        .add(AddPriceEvent(price: value));
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
                         )),
                     // step 6
@@ -435,7 +452,9 @@ class _AddPropertiesState extends State<AddProperties> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           stepTitleText(context, "Add Photos of the house"),
-                          SizedBox(height: 5,),
+                          SizedBox(
+                            height: 5,
+                          ),
                           UploadPhoto(
                             ontTap: () {
                               context
@@ -443,7 +462,9 @@ class _AddPropertiesState extends State<AddProperties> {
                                   .add(SelectPhotosEvent());
                             },
                           ),
-                          SizedBox(height: 2,),
+                          SizedBox(
+                            height: 2,
+                          ),
                           Expanded(
                               child: ListView.builder(
                             itemCount: state.images.length,
@@ -478,7 +499,9 @@ class _AddPropertiesState extends State<AddProperties> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               stepTitleText(context, "Agent Info"),
-                              SizedBox(height: 5,),
+                              SizedBox(
+                                height: 5,
+                              ),
                               stepSutTitle(
                                   context,
                                   "Enter agent id if you don’t have click finish(optional)",
@@ -527,7 +550,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  elevation: 0,
+                                    elevation: 0,
                                     side: BorderSide(
                                         color: ColorConstant.secondBtnColor),
                                     backgroundColor: Colors.white),
@@ -536,7 +559,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                         .textTheme
                                         .bodyLarge!
                                         .copyWith(
-                                      fontSize: 16,
+                                          fontSize: 16,
                                           fontWeight: FontWeight.w700,
                                           color: ColorConstant.secondBtnColor,
                                         )))),
@@ -598,12 +621,10 @@ class _AddPropertiesState extends State<AddProperties> {
                                     context
                                         .read<AddPropertyBloc>()
                                         .add(AddNewPropertyEvent());
-
-
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  elevation: 0,
+                                    elevation: 0,
                                     side: BorderSide(
                                         color: ColorConstant.primaryColor),
                                     backgroundColor:
@@ -615,7 +636,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                             .textTheme
                                             .bodyLarge!
                                             .copyWith(
-                                          fontSize: 16,
+                                              fontSize: 16,
                                               fontWeight: FontWeight.w700,
                                               color: Colors.white,
                                             ))))
@@ -634,8 +655,6 @@ class _AddPropertiesState extends State<AddProperties> {
               context.read<AddPropertyBloc>().add(ResetEvent());
               context.goNamed('properties');
               _showSuccessSnackBar(context, "property created");
-
-
             }
             pageController.jumpToPage(state.step);
           },
@@ -650,7 +669,7 @@ class _AddPropertiesState extends State<AddProperties> {
           style: Theme.of(context)
               .textTheme
               .bodySmall!
-              .copyWith(fontWeight: FontWeight.w500,fontSize: 14)),
+              .copyWith(fontWeight: FontWeight.w500, fontSize: 14)),
       TextSpan(
           text: isRequired ? " *" : '(optional)',
           style: TextStyle(
@@ -666,7 +685,7 @@ class _AddPropertiesState extends State<AddProperties> {
       style: Theme.of(context)
           .textTheme
           .bodyLarge!
-          .copyWith(fontWeight: FontWeight.w700,fontSize: 16),
+          .copyWith(fontWeight: FontWeight.w700, fontSize: 16),
     );
   }
 
@@ -676,6 +695,7 @@ class _AddPropertiesState extends State<AddProperties> {
       backgroundColor: ColorConstant.red,
     ));
   }
+
   _showSuccessSnackBar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message),

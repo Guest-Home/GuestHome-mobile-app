@@ -12,6 +12,7 @@ import '../../../../../../service_locator.dart';
 
 abstract class UserProfileDataSource{
   Future<Either<Failure,UserProfileModel>> getUserProfile();
+  Future<Either<Failure,bool>> updateUserProfile(Map<String,dynamic> userData);
 }
 
 class UserProfileDataSourceImple implements UserProfileDataSource{
@@ -22,6 +23,21 @@ class UserProfileDataSourceImple implements UserProfileDataSource{
       if (response.statusCode == 200) {
         final userProfile=await Isolate.run(() =>UserProfileModel.fromJson(response.data));
         return Right(userProfile);
+      } else {
+        return Left(ServerFailure(response.data['error']));
+      }
+    } on DioException catch (e) {
+      return Left(ServerFailure(e.message.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> updateUserProfile(Map<String,dynamic> userData)async{
+    print(userData);
+    try {
+      final response = await sl<DioClient>().put(ApiUrl.updateUserAccount,data:userData );
+      if (response.statusCode == 200) {
+        return Right(true);
       } else {
         return Left(ServerFailure(response.data['error']));
       }

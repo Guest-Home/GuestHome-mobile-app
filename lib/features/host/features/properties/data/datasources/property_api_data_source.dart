@@ -1,5 +1,4 @@
 import 'dart:isolate';
-
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:minapp/features/host/features/properties/data/models/amenity_model.dart';
@@ -109,19 +108,18 @@ class PropertyApiDataSourceImpl implements PropertyApiDataSource {
   @override
   Future<Either<Failure, bool>> createProperty(
       CreatePropertyParam param) async {
-
-    print(param.formData.files);
-    print(param.formData.fields);
     try {
       final response =
-          await sl<DioClient>().post(ApiUrl.property, data: param.formData);
+          await sl<DioClient>().post(ApiUrl.property, data: param.formData,options: Options(contentType:'multipart/form-data'));
       if (response.statusCode == 201) {
         return Right(true);
       } else {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.response.toString()));
+      print("//////////////");
+      print(e.type);
+      return Left(ServerFailure(e.response!.statusMessage.toString()));
     }
   }
 }

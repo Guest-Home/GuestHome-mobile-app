@@ -13,4 +13,9 @@ class UserProfileRepositoryImple implements UserProfileRepository{
     return await sl<UserProfileDataSource>().getUserProfile();
   }
 
+  @override
+  Future<Either<Failure, bool>> updateUserProfile(Map<String,dynamic> userData)async{
+    return await sl<UserProfileDataSource>().updateUserProfile(userData);
+  }
+
 }

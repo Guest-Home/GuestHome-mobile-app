@@ -27,84 +27,99 @@ class AccountSetup extends StatelessWidget {
         listener: (context, state) {
           if (state is OtpCreatedLodedState) {
             context.goNamed('otpVerification');
-            ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.otpResponseEntity.message),backgroundColor: ColorConstant.green,));
-          }
-          else if(state is OtpErrorState){
-            ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.failure.message),backgroundColor: ColorConstant.red,));
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(state.otpResponseEntity.message),
+              backgroundColor: ColorConstant.green,
+            ));
+          } else if (state is OtpErrorState) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(state.failure.message),
+              backgroundColor: ColorConstant.red,
+            ));
           }
         },
         buildWhen: (previous, current) => previous != current,
         builder: (context, state) {
           return Padding(
             padding: const EdgeInsets.all(16),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                spacing: 25,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 10,),
-                  Text(
-                    "Enter your phone number",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineSmall!
-                        .copyWith(fontWeight: FontWeight.w700),
-                  ),
-                  CustomTextField(
-                      textEditingController: _phoneController,
-                      hintText: "988885555",
-                      surfixIcon: null,
-                      validator: (value) {
-                        if (!Validation.numberValidation(value ?? "")) {
-                          return 'Please enter a valid phone number and country code';
-                        }
-                        return null;
-                      },
-                      onTextChnage: (value) {
-                        context
-                            .read<AuthBloc>()
-                            .add(AddPhoneNumberEvent(phoneNumber: value));
-                      },
-                      isMultiLine: false,
-                      prifixIcon: CountryCodeSelector(
-                        onInit: (value) {
-                          context.read<AuthBloc>().add(CountryCodeSelectorEvent(
-                              countryCode: value.toString()));
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  spacing: 25,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "Enter your phone number",
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall!
+                          .copyWith(fontWeight: FontWeight.w700),
+                    ),
+                    CustomTextField(
+                        textEditingController: _phoneController,
+                        hintText: "988885555",
+                        surfixIcon: null,
+                        validator: (value) {
+                          if (!Validation.numberValidation(value ?? "")) {
+                            return 'Please enter a valid phone number and country code';
+                          }
+                          return null;
                         },
-                        onChange: (value) {
-                          context.read<AuthBloc>().add(CountryCodeSelectorEvent(
-                              countryCode: value.toString()));
+                        onTextChnage: (value) {
+                          context
+                              .read<AuthBloc>()
+                              .add(AddPhoneNumberEvent(phoneNumber: value));
                         },
-                      ),
-                      textInputType: TextInputType.phone),
-                  Container(
-                    margin: EdgeInsets.only(top: 70),
-                    width: MediaQuery.of(context).size.width,
-                    child: CustomButton(
-                        onPressed: state is CreatingOtpLoadingState
-                            ? () {}
-                            : () {
-                                _formKey.currentState!.save();
-                                if (_formKey.currentState!.validate()) {
-                                  context.read<AuthBloc>().add(CreateOtpEvent(
-                                      phone: "+${state.phoneNumber}"));
-                                }
-                              },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: ColorConstant.primaryColor,
-                            padding: EdgeInsets.symmetric(horizontal: 24,vertical: 21)),
-                        child: state is CreatingOtpLoadingState
-                            ? loading
-                            : Text(
-                                "Verify Phone Number",
-                                style:Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.white,fontSize: 16,
-                                    fontWeight: FontWeight.w700),
-                              )),
-                  )
-                ],
+                        isMultiLine: false,
+                        prifixIcon: CountryCodeSelector(
+                          onInit: (value) {
+                            context.read<AuthBloc>().add(
+                                CountryCodeSelectorEvent(
+                                    countryCode: value.toString()));
+                          },
+                          onChange: (value) {
+                            context.read<AuthBloc>().add(
+                                CountryCodeSelectorEvent(
+                                    countryCode: value.toString()));
+                          },
+                        ),
+                        textInputType: TextInputType.phone),
+                    Container(
+                      margin: EdgeInsets.only(top: 70),
+                      width: MediaQuery.of(context).size.width,
+                      child: CustomButton(
+                          onPressed: state is CreatingOtpLoadingState
+                              ? () {}
+                              : () {
+                                  _formKey.currentState!.save();
+                                  if (_formKey.currentState!.validate()) {
+                                    context.read<AuthBloc>().add(CreateOtpEvent(
+                                        phone: "+${state.phoneNumber}"));
+                                  }
+                                },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: ColorConstant.primaryColor,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 24, vertical: 21)),
+                          child: state is CreatingOtpLoadingState
+                              ? loading
+                              : Text(
+                                  "Verify Phone Number",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700),
+                                )),
+                    )
+                  ],
+                ),
               ),
             ),
           );

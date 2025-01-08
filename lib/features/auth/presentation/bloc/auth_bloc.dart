@@ -52,7 +52,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         if (image != null) {
           emit(state.copyWith(profilePhoto: image));
         } else {
-          emit(ImagePickerError(state, 'No image seleced.'));
+          emit(ImagePickerError(state, 'No image selected.'));
         }
       } catch (e) {
         emit(ImagePickerError(state, 'Failed to pick an image'));

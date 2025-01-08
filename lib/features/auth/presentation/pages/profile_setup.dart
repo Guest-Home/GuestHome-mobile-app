@@ -62,10 +62,12 @@ class ProfileSetup extends StatelessWidget {
                                   style: Theme.of(context)
                                       .textTheme
                                       .headlineSmall!
-                                      .copyWith(fontWeight: FontWeight.w700,fontSize: 20),
+                                      .copyWith(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 20),
                                 ),
                                 SizedBox(
-                                  height:32,
+                                  height: 32,
                                 ),
                                 stepSutTitle(context, "Full Name", true),
                                 SizedBox(
@@ -131,9 +133,16 @@ class ProfileSetup extends StatelessWidget {
                                                         gender.assetPath,
                                                         width: 15,
                                                       ),
-                                                      Text(gender.name,style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                                        fontWeight: FontWeight.w400
-                                                      ),)
+                                                      Text(
+                                                        gender.name,
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodySmall!
+                                                            .copyWith(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
+                                                      )
                                                     ],
                                                   ),
                                                   useCupertinoCheckmarkStyle:
@@ -195,11 +204,9 @@ class ProfileSetup extends StatelessWidget {
                                             context.pop();
                                           },
                                           style: ElevatedButton.styleFrom(
-                                            padding: EdgeInsets.symmetric(
-                                              horizontal: 24,vertical: 21
-                                            ),
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 24, vertical: 21),
                                               side: BorderSide(
-
                                                   color: ColorConstant
                                                       .secondBtnColor),
                                               backgroundColor: Colors.white),
@@ -208,7 +215,7 @@ class ProfileSetup extends StatelessWidget {
                                                   .textTheme
                                                   .bodyLarge!
                                                   .copyWith(
-                                                fontWeight: FontWeight.w700,
+                                                    fontWeight: FontWeight.w700,
                                                     color: ColorConstant
                                                         .secondBtnColor,
                                                   )))),
@@ -236,8 +243,7 @@ class ProfileSetup extends StatelessWidget {
                                                 },
                                           style: ElevatedButton.styleFrom(
                                               padding: EdgeInsets.symmetric(
-                                                  horizontal: 24,vertical: 21
-                                              ),
+                                                  horizontal: 24, vertical: 21),
                                               side: BorderSide(
                                                   color: ColorConstant
                                                       .primaryColor),
@@ -251,7 +257,8 @@ class ProfileSetup extends StatelessWidget {
                                                       .textTheme
                                                       .bodyLarge!
                                                       .copyWith(
-                                                    fontWeight: FontWeight.w700,
+                                                        fontWeight:
+                                                            FontWeight.w700,
                                                         color: Colors.white,
                                                       ))))
                                 ],
@@ -271,7 +278,7 @@ class ProfileSetup extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .bodyMedium!
-              .copyWith(fontWeight: FontWeight.bold,fontSize: 14)),
+              .copyWith(fontWeight: FontWeight.bold, fontSize: 14)),
       TextSpan(
           text: isRequired ? " *" : '(optional)',
           style: TextStyle(

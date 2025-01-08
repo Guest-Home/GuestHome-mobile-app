@@ -45,7 +45,7 @@ class Home extends StatelessWidget {
         child: FloatingActionButton(
           autofocus: false,
           onPressed: () {
-            context.goNamed('addProperty');
+            context.pushNamed('addProperty');
           },
           backgroundColor: ColorConstant.primaryColor,
           elevation: 10,
