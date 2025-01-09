@@ -73,7 +73,7 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
             updatedAmenityList.addAll(images);
             emit(state.copyWith(images: updatedAmenityList));
           } else {
-            emit(ImagePickerError(state, 'No image seleced.'));
+            emit(ImagePickerError(state, 'No image selected.'));
           }
         } catch (e) {
           emit(ImagePickerError(state, 'Failed to pick an image'));
@@ -118,7 +118,7 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
           'image': imageMultipartFiles,
           'number_of_room': state.noRoom,
           'sub_description': state.amenities.join(','),
-          'specific_address': state.specificAddress
+          'specificAddress': state.specificAddress
         });
 
         Either response = await sl<CreatePropertyUsecase>()

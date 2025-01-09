@@ -40,6 +40,8 @@ class CustomTextField extends StatelessWidget {
         autocorrect: true,
         validator: (value) => validator!(value!),
         cursorColor: ColorConstant.primaryColor,
+        textInputAction: TextInputAction.next,
+
         decoration: InputDecoration(
           filled: true,
           fillColor: Colors.white,
@@ -57,18 +59,22 @@ class CustomTextField extends StatelessWidget {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(
-                color: ColorConstant.inActiveColor),
+                color: ColorConstant.cardGrey),
           ),
           disabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(
-
-                color: ColorConstant.inActiveColor),
+                color: ColorConstant.cardGrey),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(color: ColorConstant.primaryColor),
           ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: ColorConstant.inActiveColor.withValues(alpha: 0.2)),
+          ),
+
         ));
   }
 }

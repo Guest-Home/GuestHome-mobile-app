@@ -17,7 +17,7 @@ class PropertyEntity extends Equatable {
   final int messageId;
   final PostedByEntity postedBy;
   final List<HouseImageEntity> houseImage;
-  final String? subDescription;
+  final List<String>? subDescription;
   final String specificAddress;
 
   const PropertyEntity({

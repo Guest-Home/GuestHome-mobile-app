@@ -39,12 +39,14 @@ class HouseTypeCard extends StatelessWidget {
                 iconData,
                 semanticsLabel: title,
                 fit: BoxFit.cover,
-                width: 22,
-                height: 22,
+                width: 25,
+                height: 25,
               ),
-
               Expanded(
                 child: Text(title,
+                    textAlign: TextAlign.start,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontWeight: FontWeight.w500,
                           fontSize: 14,

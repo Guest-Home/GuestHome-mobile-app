@@ -409,7 +409,62 @@ class _AnalyticsState extends State<Analytics> {
                 }
               }
 
-              return Text("data");
+              return   Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 10,
+                children: [
+                  sectionTitle(context, 'Key Metrics'),
+                  Wrap(
+                    children: [
+                      MetricsCard(title: 'Revenue',value: "0 ETB",),
+                      MetricsCard(title:"Active Bookings",value: "0",),
+                      MetricsCard(title: 'Occupancy Rate',value: "0%",),
+                    ],
+                  ),
+                  Container(
+                    height: 300,
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(15),
+                    child: AnalyticsChart(
+                      dailyOccupancy:{},
+                    ),
+                  ),
+                  sectionTitle(context, "Report"),
+                  ListTile(
+                    title: Text(
+                      "This is report of your property performance over time. you can download and review in PDF.",
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                    subtitle: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: ColorConstant.secondBtnColor,
+                            padding: EdgeInsets.all(10),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10))),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.download,
+                              color: Colors.white,
+                            ),
+                            Text(
+                              "Download",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(color: Colors.white),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              );
 
             },
           )

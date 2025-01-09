@@ -14,20 +14,6 @@ class PropertyCard extends StatefulWidget {
 }
 
 class _PropertyCardState extends State<PropertyCard> {
-  late CarouselController carouselController;
-  int indexItem = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    carouselController = CarouselController(initialItem: 0);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    carouselController.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +34,6 @@ class _PropertyCardState extends State<PropertyCard> {
                   child: CarouselView(
                       elevation: 0,
                       padding: EdgeInsets.all(0),
-                      controller: carouselController,
                       reverse: true,
                       backgroundColor: ColorConstant.cardGrey,
                       shape: RoundedRectangleBorder(
@@ -85,9 +70,7 @@ class _PropertyCardState extends State<PropertyCard> {
                           height: 8,
                           margin: EdgeInsets.only(right: 5),
                           decoration: BoxDecoration(
-                              color: indexItem == index
-                                  ? ColorConstant.cardGrey
-                                  : ColorConstant.cardGrey
+                              color: ColorConstant.cardGrey
                                       .withValues(alpha: 0.6),
                               borderRadius: BorderRadius.circular(40)),
                         ),

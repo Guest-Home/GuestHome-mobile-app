@@ -1,3 +1,5 @@
+import 'dart:isolate';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +12,7 @@ import 'package:minapp/core/common/custom_button.dart';
 import 'package:minapp/core/common/custom_text_field.dart';
 import 'package:minapp/core/common/upload_photo_widget.dart';
 import 'package:minapp/features/host/features/properties/domain/entities/property_entity.dart';
+import 'package:minapp/features/host/features/properties/presentation/bloc/properties_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/property_type/property_type_bloc.dart';
 import '../widgets/house_type_card.dart';
 import 'add_properties.dart';
@@ -24,10 +27,11 @@ class ListedPropertyDetail extends StatefulWidget {
 }
 
 class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
+
   @override
-  void initState() {
-    // TODO: implement initState
+  void initState(){
     super.initState();
+
   }
 
   @override
@@ -47,405 +51,407 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
         children: [
           Expanded(
             child: ListView(
-              padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    PopupMenuButton(
-                      color: Colors.white,
-                      popUpAnimationStyle: AnimationStyle(),
-                      child: Container(
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                                color: ColorConstant.secondBtnColor)),
-                        child: Row(
-                          children: [
-                            Text(
-                              "Menu",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500),
-                            ),
-                            Icon(Icons.arrow_drop_down_sharp)
-                          ],
+                PopupMenuButton(
+                  color: Colors.white,
+                  popUpAnimationStyle: AnimationStyle(),
+                  child: Container(
+                    padding: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                            color: ColorConstant.secondBtnColor)),
+                    child: Row(
+                      children: [
+                        Text(
+                          "Menu",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500),
                         ),
-                      ),
-                      itemBuilder: (context) => [
-                        PopupMenuItem(
-                          value: 'delete',
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Icon(
-                                Icons.delete,
-                                color: ColorConstant.red,
-                                size: 18,
-                              ),
-                              Text(
-                                "Delete house",
-                                style: TextStyle(color: ColorConstant.red),
-                              ),
-                            ],
-                          ),
-                        )
+                        Icon(Icons.arrow_drop_down_sharp)
                       ],
-                      onSelected: (value) {
-                        if (value == 'delete') {
-                          _showDeleteDialog(context);
-                        }
-                      },
+                    ),
+                  ),
+                  itemBuilder: (context) => [
+                    PopupMenuItem(
+                      value: 'delete',
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.delete,
+                            color: ColorConstant.red,
+                            size: 18,
+                          ),
+                          Text(
+                            "Delete house",
+                            style: TextStyle(color: ColorConstant.red),
+                          ),
+                        ],
+                      ),
                     )
                   ],
-                ),
-                // typeof house
-                Card(
-                  elevation: 0.2,
-                  color: Colors.white,
-                  margin: EdgeInsets.only(top: 10),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      side: BorderSide(color: ColorConstant.cardGrey)),
-                  child: ListTile(
-                    title: sectionTitle(
-                        context, 'What type of house do you host?'),
-                    subtitle: Padding(
-                      padding: const EdgeInsets.only(top: 14),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        spacing: 60,
-                        children: [
-                          Expanded(
-                              child: HouseTypeCard(
+                  onSelected: (value) {
+                    if (value == 'delete') {
+                      _showDeleteDialog(context);
+                    }
+                  },
+                )
+              ],
+            ),
+            // typeof house
+            Card(
+              elevation: 0.2,
+              color: Colors.white,
+              margin: EdgeInsets.only(top: 10),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  side: BorderSide(color: ColorConstant.cardGrey)),
+              child: ListTile(
+                title: sectionTitle(
+                    context, 'What type of house do you host?'),
+                subtitle: Padding(
+                  padding: const EdgeInsets.only(top: 14),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    spacing: 60,
+                    children: [
+                      Expanded(
+                          child: HouseTypeCard(
                             iconData: houseTypeIcons[
-                                widget.propertyEntity.typeofHouse]!,
+                            widget.propertyEntity.typeofHouse]!,
                             title: widget.propertyEntity.typeofHouse,
                             isSelected: true,
                           )),
-                          GestureDetector(
-                            onTap: () {
-                              _showHouseTypeDialog(context);
-                            },
-                            child: SizedBox(
-                              child: Row(
-                                spacing: 4,
-                                children: [
-                                  Icon(
-                                    Icons.change_circle_outlined,
-                                    color: ColorConstant.primaryColor,
-                                  ),
-                                  Text("Change Type",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium!
-                                          .copyWith(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                              color:
-                                                  ColorConstant.primaryColor))
-                                ],
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                // about the house
-                Card(
-                    elevation: 0.2,
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        side: BorderSide(color: ColorConstant.cardGrey)),
-                    child: ListTile(
-                      title: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          sectionTitle(context, 'About the house'),
-                          Text(
-                            "Edit",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall!
-                                .copyWith(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    decoration: TextDecoration.underline),
-                          ),
-                        ],
-                      ),
-                      subtitle: Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          spacing: 10,
-                          children: [
-                            subSectionText('Registered House name?'),
-                            CustomTextField(
-                              hintText: 'title',
-                              intialValue: widget.propertyEntity.title,
-                              surfixIcon: null,
-                              isMultiLine: false,
-                              onTextChnage: (value) {},
-                              textInputType: TextInputType.text,
-                              prifixIcon: null,
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            subSectionText("Description of the house"),
-                            CustomTextField(
-                                surfixIcon: null,
-                                isMultiLine: true,
-                                onTextChnage: (value) {},
-                                textInputType: TextInputType.text,
-                                prifixIcon: null,
-                                intialValue: widget.propertyEntity.description,
-                                hintText: 'description'),
-                          ],
-                        ),
-                      ),
-                    )),
-                SizedBox(
-                  height: 16,
-                ),
-                // House Amenities
-                Card(
-                  elevation: 0.2,
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      side: BorderSide(color: ColorConstant.cardGrey)),
-                  child: ListTile(
-                    title: sectionTitle(context, "House Amenities"),
-                    subtitle: SizedBox(
-                      child: GridView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        padding: EdgeInsets.all(10),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 1,
-                            crossAxisSpacing: 2,
-                            mainAxisSpacing: 4,
-                            mainAxisExtent: 55),
-                        itemCount: amenitiesList.length,
-                        itemBuilder: (context, index) {
-                          return HouseTypeCard(
-                            iconData: amenitiesIcon[amenitiesList[index]]!,
-                            title: amenitiesList[index],
-                            isSelected: false,
-                          ); // Replace with your actual card widget
+                      GestureDetector(
+                        onTap: () {
+                          _showHouseTypeDialog(context);
                         },
-                      ),
-                    ),
+                        child: SizedBox(
+                          child: Row(
+                            spacing: 4,
+                            children: [
+                              Icon(
+                                Icons.change_circle_outlined,
+                                color: ColorConstant.primaryColor,
+                              ),
+                              Text("Change Type",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color:
+                                      ColorConstant.primaryColor))
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
-                SizedBox(
-                  height: 16,
-                ),
-                //location
-                Card(
-                    elevation: 0.2,
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        side: BorderSide(color: ColorConstant.cardGrey)),
-                    child: ListTile(
-                      title: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          sectionTitle(context, 'Location'),
-                          Text(
-                            "Edit",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall!
-                                .copyWith(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    decoration: TextDecoration.underline),
-                          ),
-                        ],
-                      ),
-                      subtitle: Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          spacing: 10,
-                          children: [
-                            subSectionText('House Location'),
-                            CustomTextField(
-                              hintText: 'Google map location name',
-                              intialValue:
-                                  widget.propertyEntity.latitude.toString(),
-                              surfixIcon: null,
-                              isMultiLine: false,
-                              onTextChnage: (value) {},
-                              textInputType: TextInputType.text,
-                              prifixIcon: null,
-                            ),
-                            Align(
-                              alignment: Alignment.bottomRight,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Icon(
-                                    Icons.location_pin,
-                                    size: 15,
-                                    color: ColorConstant.secondBtnColor,
-                                  ),
-                                  Text(
-                                    'Change House Location',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(
-                                            color: ColorConstant.primaryColor),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 5),
-                            subSectionText(
-                                "Know or address  name of the place"),
-                            CustomTextField(
-                              hintText: 'known address name',
-                              intialValue: widget.propertyEntity.specificAddress
-                                  .toString(),
-                              surfixIcon: null,
-                              isMultiLine: false,
-                              onTextChnage: (value) {},
-                              textInputType: TextInputType.text,
-                              prifixIcon: null,
-                            ),
-                            SizedBox(height: 5),
-                            subSectionText("Name of the city"),
-                            CustomTextField(
-                              hintText: widget.propertyEntity.city,
-                              textInputType: TextInputType.text,
-                              surfixIcon: SizedBox(
-                                child: CityDropDown(onSelected: (value) {}),
-                              ),
-                              isMultiLine: false,
-                              onTextChnage: (value) {},
-                            ),
-                          ],
-                        ),
-                      ),
-                    )),
-                //price
-                Card(
-                    elevation: 0.2,
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        side: BorderSide(color: ColorConstant.cardGrey)),
-                    child: ListTile(
-                      title: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          sectionTitle(context, 'Price'),
-                          Text(
-                            "edit",
-                            style:
-                                TextStyle(decoration: TextDecoration.underline),
-                          ),
-                        ],
-                      ),
-                      subtitle: Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          spacing: 10,
-                          children: [
-                            subSectionText(
-                                'How many rooms do you have with the same price?'),
-                            CustomTextField(
-                              hintText: 'no room',
-                              intialValue:
-                                  widget.propertyEntity.numberOfRoom.toString(),
-                              surfixIcon: null,
-                              isMultiLine: false,
-                              onTextChnage: (value) {},
-                              textInputType: TextInputType.text,
-                              prifixIcon: null,
-                            ),
-                            SizedBox(height: 5),
-                            subSectionText("Price"),
-                            CustomTextField(
-                              hintText: 'price',
-                              intialValue:
-                                  widget.propertyEntity.price.toString(),
-                              surfixIcon: Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 15),
-                                  child: Text(widget.propertyEntity.unit)),
-                              isMultiLine: false,
-                              onTextChnage: (value) {},
-                              textInputType: TextInputType.text,
-                              prifixIcon: null,
-                            ),
-                          ],
-                        ),
-                      ),
-                    )),
-                // photo
-                Card(
-                    elevation: 0.2,
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        side: BorderSide(color: ColorConstant.cardGrey)),
-                    child: ListTile(
-                      title: sectionTitle(context, 'House Photo'),
-                      subtitle: Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          spacing: 10,
-                          children: [
-                            UploadPhoto(
-                              ontTap: () {},
-                            ),
-                            //  photo
-                            SizedBox(
-                                width: double.infinity,
-                                child: GridView.builder(
-                                    physics: NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    padding: EdgeInsets.all(10),
-                                    gridDelegate:
-                                        SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 2,
-                                            childAspectRatio: 1,
-                                            crossAxisSpacing: 10,
-                                            mainAxisSpacing: 10,
-                                            mainAxisExtent: 100),
-                                    itemCount:
-                                        widget.propertyEntity.houseImage.length,
-                                    itemBuilder: (context, index) {
-                                      return PropertyPhotoDetail(
-                                        image: widget
-                                            .propertyEntity.houseImage[0].image,
-                                        ontap: () {},
-                                      );
-                                    }))
-                          ],
-                        ),
-                      ),
-                    )),
-              ],
+              ),
             ),
+            SizedBox(
+              height: 16,
+            ),
+            // about the house
+            Card(
+                elevation: 0.2,
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    side: BorderSide(color: ColorConstant.cardGrey)),
+                child: ListTile(
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      sectionTitle(context, 'About the house'),
+                      Text(
+                        "Edit",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall!
+                            .copyWith(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            decoration: TextDecoration.underline),
+                      ),
+                    ],
+                  ),
+                  subtitle: Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 10,
+                      children: [
+                        subSectionText('Registered House name?'),
+                        CustomTextField(
+                          hintText: 'title',
+                          intialValue: widget.propertyEntity.title,
+                          surfixIcon: null,
+                          isMultiLine: false,
+                          onTextChnage: (value) {},
+                          textInputType: TextInputType.text,
+                          prifixIcon: null,
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        subSectionText("Description of the house"),
+                        CustomTextField(
+                            surfixIcon: null,
+                            isMultiLine: true,
+                            onTextChnage: (value) {},
+                            textInputType: TextInputType.text,
+                            prifixIcon: null,
+                            intialValue: widget.propertyEntity.description,
+                            hintText: 'description'),
+                      ],
+                    ),
+                  ),
+                )),
+            SizedBox(
+              height: 16,
+            ),
+            // House Amenities
+            Card(
+              elevation: 0.2,
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  side: BorderSide(color: ColorConstant.cardGrey)),
+              child: ListTile(
+                title: sectionTitle(context, "House Amenities"),
+                subtitle: SizedBox(
+                  child: GridView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    padding: EdgeInsets.all(10),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 1,
+                        crossAxisSpacing: 2,
+                        mainAxisSpacing: 4,
+                        mainAxisExtent: 55),
+                    itemCount:widget.propertyEntity.subDescription==null?0:
+                    widget.propertyEntity.subDescription!.length,
+                    itemBuilder: (context, index) {
+                      return HouseTypeCard(
+                        iconData: amenitiesIcon[amenitiesList[index]]!,
+                        title: amenitiesList[index],
+                        isSelected: false,
+                      ); // Replace with your actual card widget
+                    },
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 16,
+            ),
+            //location
+            Card(
+                elevation: 0.2,
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    side: BorderSide(color: ColorConstant.cardGrey)),
+                child: ListTile(
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      sectionTitle(context, 'Location'),
+                      Text(
+                        "Edit",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall!
+                            .copyWith(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            decoration: TextDecoration.underline),
+                      ),
+                    ],
+                  ),
+                  subtitle: Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 10,
+                      children: [
+                        subSectionText('House Location'),
+                        CustomTextField(
+                          hintText: 'Google map location name',
+                          intialValue:
+                          widget.propertyEntity.latitude.toString(),
+                          surfixIcon: null,
+                          isMultiLine: false,
+                          onTextChnage: (value) {},
+                          textInputType: TextInputType.text,
+                          prifixIcon: null,
+                        ),
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Icon(
+                                Icons.location_pin,
+                                size: 15,
+                                color: ColorConstant.secondBtnColor,
+                              ),
+                              Text(
+                                'Change House Location',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                    color: ColorConstant.primaryColor),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        subSectionText(
+                            "Know or address  name of the place"),
+                        CustomTextField(
+                          hintText: 'known address name',
+                          intialValue: widget.propertyEntity.specificAddress
+                              .toString(),
+                          surfixIcon: null,
+                          isMultiLine: false,
+                          onTextChnage: (value) {},
+                          textInputType: TextInputType.text,
+                          prifixIcon: null,
+                        ),
+                        SizedBox(height: 5),
+                        subSectionText("Name of the city"),
+                        CustomTextField(
+                          hintText: widget.propertyEntity.city,
+                          textInputType: TextInputType.text,
+                          surfixIcon: SizedBox(
+                            child: CityDropDown(onSelected: (value) {}),
+                          ),
+                          isMultiLine: false,
+                          onTextChnage: (value) {},
+                        ),
+                      ],
+                    ),
+                  ),
+                )),
+            //price
+            Card(
+                elevation: 0.2,
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    side: BorderSide(color: ColorConstant.cardGrey)),
+                child: ListTile(
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      sectionTitle(context, 'Price'),
+                      Text(
+                        "edit",
+                        style:
+                        TextStyle(decoration: TextDecoration.underline),
+                      ),
+                    ],
+                  ),
+                  subtitle: Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 10,
+                      children: [
+                        subSectionText(
+                            'How many rooms do you have with the same price?'),
+                        CustomTextField(
+                          hintText: 'no room',
+                          intialValue:
+                          widget.propertyEntity.numberOfRoom.toString(),
+                          surfixIcon: null,
+                          isMultiLine: false,
+                          onTextChnage: (value) {},
+                          textInputType: TextInputType.text,
+                          prifixIcon: null,
+                        ),
+                        SizedBox(height: 5),
+                        subSectionText("Price"),
+                        CustomTextField(
+                          hintText: 'price',
+                          intialValue:
+                          widget.propertyEntity.price.toString(),
+                          surfixIcon: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 15),
+                              child: Text(widget.propertyEntity.unit)),
+                          isMultiLine: false,
+                          onTextChnage: (value) {},
+                          textInputType: TextInputType.text,
+                          prifixIcon: null,
+                        ),
+                      ],
+                    ),
+                  ),
+                )),
+            // photo
+            Card(
+                elevation: 0.2,
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    side: BorderSide(color: ColorConstant.cardGrey)),
+                child: ListTile(
+                  title: sectionTitle(context, 'House Photo'),
+                  subtitle: Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      spacing: 10,
+                      children: [
+                        UploadPhoto(
+                          ontTap: () {},
+                        ),
+                        //  photo
+                        SizedBox(
+                            width: double.infinity,
+                            child: GridView.builder(
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                padding: EdgeInsets.all(10),
+                                gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    childAspectRatio: 1,
+                                    crossAxisSpacing: 10,
+                                    mainAxisSpacing: 10,
+                                    mainAxisExtent: 100),
+                                itemCount:
+                                widget.propertyEntity.houseImage.length,
+                                itemBuilder: (context, index) {
+                                  return PropertyPhotoDetail(
+                                    image: widget
+                                        .propertyEntity.houseImage[0].image,
+                                    ontap: () {},
+                                  );
+                                }))
+                      ],
+                    ),
+                  ),
+                )),
+          ],
+        ),
+
           ),
           Container(
               width: MediaQuery.of(context).size.width,
@@ -499,13 +505,11 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
             .bodyMedium!
             .copyWith(fontSize: 14, fontWeight: FontWeight.w500),
       );
-
   Text sectionTitle(BuildContext context, String title) {
     return Text(title,
         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
             color: ColorConstant.secondBtnColor, fontWeight: FontWeight.w700));
   }
-
   void _showDeleteDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -580,7 +584,6 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
       ),
     );
   }
-
   void _showHouseTypeDialog(BuildContext context) {
     showDialog(
         context: context,
@@ -678,7 +681,6 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
               ),
             ));
   }
-
   void _showDialog(BuildContext context) {
     showDialog(
       context: context,
