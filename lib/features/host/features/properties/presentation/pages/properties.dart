@@ -19,78 +19,84 @@ class _PropertiesState extends State<Properties> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          backgroundColor: Colors.white,
-          title: Text(
-            'Properties',
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge!
-                .copyWith(fontWeight: FontWeight.bold),
+        body: RefreshIndicator(
+           onRefresh: ()async{
+             context.read<PropertiesBloc>().add(GetPropertiesEvent());
+
+           },
+          child: CustomScrollView(
+                slivers: [
+          SliverAppBar(
+            backgroundColor: Colors.white,
+            title: Text(
+              'Properties',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge!
+                  .copyWith(fontWeight: FontWeight.bold),
+            ),
+            floating: true,
+            snap: true,
+            pinned: true,
+            expandedHeight: 150,
+            collapsedHeight: 150,
+            elevation: 0,
+            shadowColor: Colors.transparent,
+            scrolledUnderElevation: 0,
+            flexibleSpace: FlexibleSpaceBar(
+              centerTitle: true,
+              collapseMode: CollapseMode.pin,
+              title: Container(
+                  padding: EdgeInsets.all(16),
+                  child: SearchField(
+                    prifixIcon: Icon(Icons.search),
+                    onTextChnage: (value) {},
+                  )),
+            ),
           ),
-          floating: true,
-          snap: true,
-          pinned: true,
-          expandedHeight: 150,
-          collapsedHeight: 150,
-          elevation: 0,
-          shadowColor: Colors.transparent,
-          scrolledUnderElevation: 0,
-          flexibleSpace: FlexibleSpaceBar(
-            centerTitle: true,
-            collapseMode: CollapseMode.pin,
-            title: Container(
-                padding: EdgeInsets.all(16),
-                child: SearchField(
-                  prifixIcon: Icon(Icons.search),
-                  onTextChnage: (value) {},
-                )),
-          ),
-        ),
-        BlocBuilder<PropertiesBloc, PropertiesState>(
-          builder: (context, state) {
-            if (state is PropertiesLoading) {
-              return SliverToBoxAdapter(
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height / 2,
-                  child: Center(
-                    child: CupertinoActivityIndicator(),
-                  ),
-                ),
-              );
-            } else if (state is PropertyLoaded) {
-              if (state.properties.isEmpty) {
+          BlocBuilder<PropertiesBloc, PropertiesState>(
+            builder: (context, state) {
+              if (state is PropertiesLoading) {
                 return SliverToBoxAdapter(
-                    child: SizedBox(
-                        height: MediaQuery.of(context).size.height / 2,
-                        child: NoPropertyFound()));
-              } else {
-                return SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) => GestureDetector(
-                        onTap: () => context.pushNamed('propertyDetail',
-                            extra: state.properties[index]),
-                        child: PropertyCard(
-                          propertyEntity: state.properties[index],
-                        )),
-                    childCount: state.properties.length,
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height / 2,
+                    child: Center(
+                      child: CupertinoActivityIndicator(),
+                    ),
+                  ),
+                );
+              } else if (state is PropertyLoaded) {
+                if (state.properties.isEmpty) {
+                  return SliverToBoxAdapter(
+                      child: SizedBox(
+                          height: MediaQuery.of(context).size.height / 2,
+                          child: NoPropertyFound()));
+                } else {
+                  return SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) => GestureDetector(
+                          onTap: () => context.pushNamed('propertyDetail',
+                              extra: state.properties[index]),
+                          child: PropertyCard(
+                            propertyEntity: state.properties[index],
+                          )),
+                      childCount: state.properties.length,
+                    ),
+                  );
+                }
+              } else if (state is PropertiesError) {
+                return SliverToBoxAdapter(
+                  child: SizedBox(
+                    child: Text(state.message),
                   ),
                 );
               }
-            } else if (state is PropertiesError) {
-              return SliverToBoxAdapter(
-                child: SizedBox(
-                  child: Text(state.message),
-                ),
-              );
-            }
-            return SliverToBoxAdapter(child: SizedBox.shrink());
-          },
-        ),
-      ],
-    ));
+              return SliverToBoxAdapter(child: SizedBox.shrink());
+            },
+          ),
+                ],
+              ),
+        ));
   }
 }
 
