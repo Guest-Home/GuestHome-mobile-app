@@ -8,6 +8,11 @@ import 'package:minapp/features/auth/domain/repositories/otp_repository.dart';
 import 'package:minapp/features/auth/domain/usecases/create_otp_usecase.dart';
 import 'package:minapp/features/auth/domain/usecases/verify_otp_usecase.dart';
 import 'package:minapp/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:minapp/features/host/features/analytics/data/datasources/analytics-data_source,dart.dart';
+import 'package:minapp/features/host/features/analytics/data/repositories/occupancy_rate_repository_impl.dart';
+import 'package:minapp/features/host/features/analytics/domain/repositories/analytics_repository.dart';
+import 'package:minapp/features/host/features/analytics/domain/usecases/get_occupancy_rate_usecase.dart';
+import 'package:minapp/features/host/features/analytics/presentation/bloc/analytics_bloc.dart';
 import 'package:minapp/features/host/features/profile/data/datasources/user_proile_datasource.dart';
 import 'package:minapp/features/host/features/profile/data/repositories/user_profile_repository_impl.dart';
 import 'package:minapp/features/host/features/profile/domain/repositories/user_profile_repository.dart';
@@ -53,6 +58,7 @@ void setup() async {
   sl.registerFactory<OnBordingBloc>(() => OnBordingBloc());
   sl.registerFactory<AddPropertyBloc>(() => AddPropertyBloc());
   sl.registerFactory<AuthBloc>(() => AuthBloc());
+  sl.registerFactory<AnalyticsBloc>(() => AnalyticsBloc());
   sl.registerFactory<PropertiesBloc>(() => PropertiesBloc());
   sl.registerFactory<PropertyTypeBloc>(
     () => PropertyTypeBloc(),
@@ -82,6 +88,7 @@ void setup() async {
   sl.registerSingleton<GetRservationUseCase>(GetRservationUseCase());
   sl.registerSingleton<AcceptReservationUsecase>(AcceptReservationUsecase());
   sl.registerSingleton<RejecctReservationUseCase>(RejecctReservationUseCase());
+  sl.registerSingleton<GetOccupancyRateUseCase>(GetOccupancyRateUseCase());
 
 
   // repository
@@ -93,6 +100,7 @@ void setup() async {
   sl.registerSingleton<CityRepository>(CityRepositoryImpl());
   sl.registerSingleton<UserProfileRepository>(UserProfileRepositoryImple());
   sl.registerSingleton<ReservationRepository>(ReservationRepositoryImpl());
+  sl.registerSingleton<AnalyticsRepository>(OccupancyRateRepositoryImpl());
 
   // data source
 
@@ -100,6 +108,7 @@ void setup() async {
   sl.registerSingleton<PropertyApiDataSource>(PropertyApiDataSourceImpl());
   sl.registerSingleton<UserProfileDataSource>(UserProfileDataSourceImple());
   sl.registerSingleton<ReservationApiDataSource>(ReservationApiDataSourceImpl());
+  sl.registerSingleton<AnalyticsDataSource>(AnalyticsDataSourceImpl());
 
   //dio client
   sl.registerSingleton<DioClient>(DioClient());

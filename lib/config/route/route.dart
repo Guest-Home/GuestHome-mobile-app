@@ -9,6 +9,7 @@ import 'package:minapp/features/guest/features/HousType/presentation/pages/house
 import 'package:minapp/features/guest/features/booked/presentation/pages/booked.dart';
 import 'package:minapp/features/guest/features/booked/presentation/pages/booked_detail.dart';
 import 'package:minapp/features/guest/features/guestHome/presentation/pages/guest_home.dart';
+import 'package:minapp/features/host/features/analytics/presentation/bloc/analytics_bloc.dart';
 import 'package:minapp/features/host/features/analytics/presentation/pages/analytics.dart';
 import 'package:minapp/features/auth/presentation/pages/account_setup.dart';
 import 'package:minapp/features/auth/presentation/pages/otp_verification.dart';
@@ -151,7 +152,7 @@ Future<GoRouter> createRouter() async {
               GoRoute(
                 name: 'analytics',
                 path: '/analytics',
-                builder: (context, state) => const Analytics(),
+                builder: (context, state) =>BlocProvider(create: (context) => sl<AnalyticsBloc>()..add(GetOccupancyRateEvent()),child:const Analytics(),)
               ),
             ],
           ),

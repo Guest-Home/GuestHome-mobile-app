@@ -17,6 +17,9 @@ class ApiUrl {
   static const String rejectReservations = "/hostapp/api/v1/reservations/reject/";
   static const String acceptReservations = "/hostapp/api/v1/reservations/accept/";
 
+
+  static const String occupancyRate = "/hostapp/api/v1/occupancy_rate/";
+
   //host
 
   //guest
