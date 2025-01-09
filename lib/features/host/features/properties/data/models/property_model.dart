@@ -65,7 +65,7 @@ class PropertyModel extends PropertyEntity {
             : null,
         messageId: json["messageId"],
         postedBy: PostedByModel.fromMap(json["postedBy"]),
-        houseImage: List<HouseImageEntity>.from(
+        houseImage: List<HouseImageModel>.from(
             json["houseImage"].map((x) => HouseImageModel.fromMap(x))),
         subDescription:json["sub_description"],
         specificAddress: json["specificAddress"],

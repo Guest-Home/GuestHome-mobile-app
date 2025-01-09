@@ -13,6 +13,9 @@ class ApiUrl {
   static const String propertyType = "/hostapp/api/v1/property_types/";
   static const String amenities = "/hostapp/api/v1/amenities/";
   static const String cities = "/hostapp/api/v1/cities/";
+  static const String reservations = "/hostapp/api/v1/reservations/";
+  static const String rejectReservations = "/hostapp/api/v1/reservations/reject/";
+  static const String acceptReservations = "/hostapp/api/v1/reservations/accept/";
 
   //host
 

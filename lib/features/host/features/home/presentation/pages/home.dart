@@ -58,6 +58,7 @@ class Home extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButtonAnimator: FloatingActionButtonAnimator.noAnimation,
+
       bottomNavigationBar: Material(
         elevation: 10,
         shadowColor: ColorConstant.primaryColor,

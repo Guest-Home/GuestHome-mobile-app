@@ -33,6 +33,13 @@ import 'package:minapp/features/host/features/properties/presentation/bloc/ameni
 import 'package:minapp/features/host/features/properties/presentation/bloc/city/city_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/properties_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/property_type/property_type_bloc.dart';
+import 'package:minapp/features/host/features/request/data/datasources/reservation_remote_api.dart';
+import 'package:minapp/features/host/features/request/data/repositories/reservation_repository_impl.dart';
+import 'package:minapp/features/host/features/request/domain/repositories/reservation_repository.dart';
+import 'package:minapp/features/host/features/request/domain/usecases/accept_reserv_usecase.dart';
+import 'package:minapp/features/host/features/request/domain/usecases/get_reservation_usecase.dart';
+import 'package:minapp/features/host/features/request/domain/usecases/reject-reserv_usecase.dart';
+import 'package:minapp/features/host/features/request/presentation/bloc/request_bloc.dart';
 import 'package:minapp/features/onbording/presentation/bloc/on_bording_bloc.dart';
 
 import 'features/auth/domain/usecases/create_customer_profile_usecase.dart';
@@ -57,6 +64,7 @@ void setup() async {
     () => CityBloc(),
   );
   sl.registerFactory<ProfileBloc>(() => ProfileBloc(),);
+  sl.registerFactory<RequestBloc>(() => RequestBloc(),);
 
   // usecase
 
@@ -71,6 +79,9 @@ void setup() async {
   sl.registerSingleton<GetAmenityUsecase>(GetAmenityUsecase());
   sl.registerSingleton<GetCitiesUsecase>(GetCitiesUsecase());
   sl.registerSingleton<GetUserProfileUseCase>(GetUserProfileUseCase());
+  sl.registerSingleton<GetRservationUseCase>(GetRservationUseCase());
+  sl.registerSingleton<AcceptReservationUsecase>(AcceptReservationUsecase());
+  sl.registerSingleton<RejecctReservationUseCase>(RejecctReservationUseCase());
 
 
   // repository
@@ -81,12 +92,14 @@ void setup() async {
   sl.registerSingleton<AmenityRepository>(AmenityRepositoryImpl());
   sl.registerSingleton<CityRepository>(CityRepositoryImpl());
   sl.registerSingleton<UserProfileRepository>(UserProfileRepositoryImple());
+  sl.registerSingleton<ReservationRepository>(ReservationRepositoryImpl());
 
   // data source
 
   sl.registerSingleton<ApiDataSource>(ApiDataSourceImpl());
   sl.registerSingleton<PropertyApiDataSource>(PropertyApiDataSourceImpl());
   sl.registerSingleton<UserProfileDataSource>(UserProfileDataSourceImple());
+  sl.registerSingleton<ReservationApiDataSource>(ReservationApiDataSourceImpl());
 
   //dio client
   sl.registerSingleton<DioClient>(DioClient());

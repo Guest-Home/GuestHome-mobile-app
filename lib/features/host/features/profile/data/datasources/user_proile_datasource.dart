@@ -33,7 +33,6 @@ class UserProfileDataSourceImple implements UserProfileDataSource{
 
   @override
   Future<Either<Failure, bool>> updateUserProfile(Map<String,dynamic> userData)async{
-    print(userData);
     try {
       final response = await sl<DioClient>().put(ApiUrl.updateUserAccount,data:userData );
       if (response.statusCode == 200) {

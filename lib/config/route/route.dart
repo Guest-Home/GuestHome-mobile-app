@@ -22,6 +22,7 @@ import 'package:minapp/features/host/features/properties/domain/entities/propert
 import 'package:minapp/features/host/features/properties/presentation/pages/add_properties.dart';
 import 'package:minapp/features/host/features/properties/presentation/pages/listed_property_detail.dart';
 import 'package:minapp/features/host/features/properties/presentation/pages/properties.dart';
+import 'package:minapp/features/host/features/request/presentation/bloc/request_bloc.dart';
 import 'package:minapp/features/host/features/request/presentation/pages/request.dart';
 import 'package:minapp/features/onbording/presentation/pages/onbording.dart';
 import 'package:minapp/features/onbording/presentation/pages/splash.dart';
@@ -137,7 +138,10 @@ Future<GoRouter> createRouter() async {
               GoRoute(
                 name: 'request',
                 path: '/request',
-                builder: (context, state) => const Request(),
+                builder: (context, state) =>BlocProvider(create: (context) => sl<RequestBloc>()..add(GetReservationEvent())
+                  ,child: const Request()
+  ,)
+
               ),
             ],
           ),
