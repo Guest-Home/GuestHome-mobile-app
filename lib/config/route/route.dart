@@ -10,6 +10,7 @@ import 'package:minapp/features/guest/features/booked/presentation/pages/booked.
 import 'package:minapp/features/guest/features/booked/presentation/pages/booked_detail.dart';
 import 'package:minapp/features/guest/features/guestHome/presentation/pages/guest_home.dart';
 import 'package:minapp/features/host/features/analytics/presentation/bloc/analytics_bloc.dart';
+import 'package:minapp/features/host/features/analytics/presentation/bloc/total_property_bloc.dart';
 import 'package:minapp/features/host/features/analytics/presentation/pages/analytics.dart';
 import 'package:minapp/features/auth/presentation/pages/account_setup.dart';
 import 'package:minapp/features/auth/presentation/pages/otp_verification.dart';
@@ -152,7 +153,12 @@ Future<GoRouter> createRouter() async {
               GoRoute(
                 name: 'analytics',
                 path: '/analytics',
-                builder: (context, state) =>BlocProvider(create: (context) => sl<AnalyticsBloc>()..add(GetOccupancyRateEvent()),child:const Analytics(),)
+                builder: (context, state) =>MultiBlocProvider(providers: [
+                  BlocProvider(create: (context) =>sl<AnalyticsBloc>()..add(GetOccupancyRateEvent()),),
+                  BlocProvider(create: (context) =>sl<TotalPropertyBloc>()..add(GetTotalPropertyEvent()),),
+  ],
+  child:const Analytics(), )
+
               ),
             ],
           ),

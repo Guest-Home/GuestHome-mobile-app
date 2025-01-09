@@ -19,6 +19,7 @@ class ApiUrl {
 
 
   static const String occupancyRate = "/hostapp/api/v1/occupancy_rate/";
+  static const String totalProperty = "/hostapp/api/v1/total_number_of_property/";
 
   //host
 

@@ -11,8 +11,11 @@ import 'package:minapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:minapp/features/host/features/analytics/data/datasources/analytics-data_source,dart.dart';
 import 'package:minapp/features/host/features/analytics/data/repositories/occupancy_rate_repository_impl.dart';
 import 'package:minapp/features/host/features/analytics/domain/repositories/analytics_repository.dart';
+import 'package:minapp/features/host/features/analytics/domain/usecases/get_custom_occup_usecase.dart';
 import 'package:minapp/features/host/features/analytics/domain/usecases/get_occupancy_rate_usecase.dart';
+import 'package:minapp/features/host/features/analytics/domain/usecases/get_total_property_usecase.dart';
 import 'package:minapp/features/host/features/analytics/presentation/bloc/analytics_bloc.dart';
+import 'package:minapp/features/host/features/analytics/presentation/bloc/total_property_bloc.dart';
 import 'package:minapp/features/host/features/profile/data/datasources/user_proile_datasource.dart';
 import 'package:minapp/features/host/features/profile/data/repositories/user_profile_repository_impl.dart';
 import 'package:minapp/features/host/features/profile/domain/repositories/user_profile_repository.dart';
@@ -71,6 +74,7 @@ void setup() async {
   );
   sl.registerFactory<ProfileBloc>(() => ProfileBloc(),);
   sl.registerFactory<RequestBloc>(() => RequestBloc(),);
+  sl.registerFactory<TotalPropertyBloc>(() => TotalPropertyBloc(),);
 
   // usecase
 
@@ -89,6 +93,8 @@ void setup() async {
   sl.registerSingleton<AcceptReservationUsecase>(AcceptReservationUsecase());
   sl.registerSingleton<RejecctReservationUseCase>(RejecctReservationUseCase());
   sl.registerSingleton<GetOccupancyRateUseCase>(GetOccupancyRateUseCase());
+  sl.registerSingleton<GetTotalPropertyUsecase>(GetTotalPropertyUsecase());
+  sl.registerSingleton<GetCustomOccupancyUseCase>(GetCustomOccupancyUseCase());
 
 
   // repository

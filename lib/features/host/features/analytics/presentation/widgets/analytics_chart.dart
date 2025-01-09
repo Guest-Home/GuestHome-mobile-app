@@ -1,81 +1,97 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../../config/color/color.dart';
 
 class AnalyticsChart extends StatelessWidget {
-  const AnalyticsChart({
+   const AnalyticsChart({
     super.key,
+    required this.dailyOccupancy
   });
 
-  @override
+  final Map<String,double> dailyOccupancy;
+
+
+   List<FlSpot> _prepareSpotsAndLabels(
+       Map<String, double> data, Map<int, String> labels) {
+     List<String> sortedDates = data.keys.toList()..sort();
+     List<FlSpot> spots = [];
+     for (int i = 0; i < sortedDates.length; i++) {
+       String date = sortedDates[i];
+       double value = data[date] ?? 0.0;
+
+       // Add to spots
+       spots.add(FlSpot(i + 1, value));
+
+       // Add labels for specific intervals or the last point
+       if (i % 10 == 0 || i == sortedDates.length - 1) {
+         DateTime dateTime = DateTime.parse(date);
+         labels[i + 1] = DateFormat('MMM d').format(dateTime); // e.g., "Dec 1"
+       }
+     }
+     return spots;
+   }
+
+   @override
   Widget build(BuildContext context) {
-    return LineChart(
-      LineChartData(
-        gridData: FlGridData(show: false),
-        titlesData: FlTitlesData(
-          topTitles: AxisTitles(
-            sideTitles: SideTitles(showTitles: false), // Hide right titles
-          ),
-          rightTitles: AxisTitles(
-            sideTitles: SideTitles(showTitles: false), // Hide right titles
-          ),
-          leftTitles: AxisTitles(
-            sideTitles: SideTitles(
-              interval: 20,
-              showTitles: true,
-              getTitlesWidget: (value, meta) {
-                return Text(
-                  '${value.toInt()}%',
-                  style: Theme.of(context).textTheme.bodySmall,
-                ); // Display percentage on Y-axis
-              },
-            ),
-          ),
-          bottomTitles: AxisTitles(
-            sideTitles: SideTitles(
-              interval: 15,
-              showTitles: true,
-              getTitlesWidget: (value, meta) {
-                return Text(
-                  '${value.toInt()} jan',
-                  style: Theme.of(context).textTheme.bodySmall,
-                ); // Display day of the month on X-axis
-              },
-            ),
-          ),
-        ),
-
-        borderData: FlBorderData(
-          show: false,
-        ),
-        minX: 1, // January 1st
-        maxX: 30, // January 31st
-        minY: 0, // 0%
-        maxY: 100, // 100%
-
-        lineBarsData: [
-          LineChartBarData(
-            spots: [
-              FlSpot(1, 10), // January 1: 10%
-              FlSpot(7, 20), // January 7: 20%
-              FlSpot(14, 15), // January 14: 15%
-              FlSpot(21, 25), // January 21: 25%
-              FlSpot(28, 30), // January 28: 30%
-              FlSpot(31, 40), // January 31: 40%
-            ],
-            isCurved: true,
-            dotData: FlDotData(
-              show: true,
-            ),
-            gradient: LinearGradient(tileMode: TileMode.clamp, colors: [
-              ColorConstant.primaryColor,
-              ColorConstant.primaryColor
-            ]),
-            belowBarData: BarAreaData(show: false),
-          ),
-        ],
-      ),
-    );
+     Map<int, String> labels = {};
+     List<FlSpot> spots = _prepareSpotsAndLabels(dailyOccupancy, labels);
+     return LineChart(
+       LineChartData(
+         gridData: FlGridData(show: false),
+         titlesData: FlTitlesData(
+           rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+           topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+           leftTitles: AxisTitles(
+             sideTitles: SideTitles(
+               showTitles: true,
+               interval: 2,
+               getTitlesWidget: (value, meta) => Text(
+                 '${value.toInt()}k',
+                 style: Theme.of(context).textTheme.bodySmall,
+               ),
+             ),
+           ),
+           bottomTitles: AxisTitles(
+             sideTitles: SideTitles(
+               showTitles: true,
+               interval:10, // Show labels for every 10th point
+               getTitlesWidget: (value, meta) {
+                 String? label = labels[value.toInt()];
+                 if (label != null) {
+                   return Text(
+                     label,
+                     style: Theme.of(context).textTheme.bodySmall,
+                   );
+                 }
+                 return const Text('');
+               },
+             ),
+           ),
+         ),
+         borderData: FlBorderData(show:false
+         ),
+         lineTouchData: LineTouchData(
+           touchTooltipData: LineTouchTooltipData(
+             tooltipPadding: const EdgeInsets.all(10), // Tooltip padding
+           ),
+         ),
+         lineBarsData: [
+           LineChartBarData(
+             spots: spots,
+             isCurved: true,
+             dotData: FlDotData(show: true),
+             belowBarData: BarAreaData(show: false),
+             color:ColorConstant.primaryColor,
+           ),
+         ],
+         minX: 1,
+         maxX: spots.length.toDouble(),
+         minY: 0,
+         maxY: 10,
+         backgroundColor: ColorConstant.primaryColor.withValues(alpha: 0.02),
+       ),
+     );
   }
 }
