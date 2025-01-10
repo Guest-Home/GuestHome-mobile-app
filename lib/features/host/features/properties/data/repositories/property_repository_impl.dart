@@ -4,6 +4,7 @@ import 'package:minapp/features/host/features/properties/data/datasources/proper
 import 'package:minapp/features/host/features/properties/data/models/property_model.dart';
 import 'package:minapp/features/host/features/properties/domain/repositories/property_repository.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/create_property_usecase.dart';
+import 'package:minapp/features/host/features/properties/domain/usecases/update_property_usecase.dart';
 
 import '../../../../../../service_locator.dart';
 
@@ -22,5 +23,11 @@ class PropertyRepositoryImpl implements PropertyRepository {
   @override
   Future<Either<Failure, bool>> deleteProperty(int id) async {
     return await sl<PropertyApiDataSource>().deleteProperty(id);
+  }
+
+  @override
+  Future<Either<Failure, bool>> updateProperty(UpdatePropertyParam param)async{
+    return await sl<PropertyApiDataSource>().updateProperty(param);
+
   }
 }

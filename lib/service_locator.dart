@@ -37,6 +37,7 @@ import 'package:minapp/features/host/features/properties/domain/usecases/get_ame
 import 'package:minapp/features/host/features/properties/domain/usecases/get_cities_usecase.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/get_properties_usecase.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/get_property_type_usecase.dart';
+import 'package:minapp/features/host/features/properties/domain/usecases/update_property_usecase.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/add_property/add_property_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/amenities/amenities_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/city/city_bloc.dart';
@@ -103,6 +104,7 @@ void setup() async {
   sl.registerSingleton<GetTotalPropertyUsecase>(GetTotalPropertyUsecase());
   sl.registerSingleton<GetCustomOccupancyUseCase>(GetCustomOccupancyUseCase());
   sl.registerSingleton<DeletePropertyUsecase>(DeletePropertyUsecase());
+  sl.registerSingleton<UpdatePropertyUseCase>(UpdatePropertyUseCase());
 
   // repository
 

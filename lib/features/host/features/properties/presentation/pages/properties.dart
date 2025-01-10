@@ -38,7 +38,7 @@ class _PropertiesState extends State<Properties> {
             ),
             floating: true,
             snap: true,
-            pinned: true,
+            pinned: false,
             expandedHeight: 150,
             collapsedHeight: 150,
             elevation: 0,

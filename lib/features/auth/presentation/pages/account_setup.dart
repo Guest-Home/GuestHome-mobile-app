@@ -99,15 +99,15 @@ class AccountSetup extends StatelessWidget {
                               : () {
                                   _formKey.currentState!.save();
                                   if (_formKey.currentState!.validate()) {
-                                    context.read<AuthBloc>().add(CreateOtpEvent(
-                                        phone:"${state.countryCode}${state.phoneNumber}"));
+                                    context.read<AuthBloc>().add(CreateOtpEvent(phone:"${state.countryCode}${state.phoneNumber}"));
                                     print("${state.countryCode}${state.phoneNumber}");
+                                    // send textcontroller
                                   }
                                 },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: ColorConstant.primaryColor,
                               padding: EdgeInsets.symmetric(
-                                  horizontal: 24, vertical: 21)),
+                                  horizontal: 24, vertical: 18)),
                           child: state is CreatingOtpLoadingState
                               ? loading
                               : Text(

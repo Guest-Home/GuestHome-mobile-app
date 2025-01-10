@@ -5,6 +5,7 @@ import 'package:minapp/features/host/features/properties/data/models/amenity_mod
 import 'package:minapp/features/host/features/properties/data/models/city_model.dart';
 import 'package:minapp/features/host/features/properties/data/models/property_model.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/create_property_usecase.dart';
+import 'package:minapp/features/host/features/properties/domain/usecases/update_property_usecase.dart';
 
 import '../../../../../../core/apiConstants/api_url.dart';
 import '../../../../../../core/error/failure.dart';
@@ -19,6 +20,7 @@ abstract class PropertyApiDataSource {
   Future<Either<Failure, List<CityModel>>> getCities();
   Future<Either<Failure, bool>> createProperty(CreatePropertyParam param);
   Future<Either<Failure, bool>> deleteProperty(int id);
+  Future<Either<Failure, bool>> updateProperty(UpdatePropertyParam param);
 }
 
 class PropertyApiDataSourceImpl implements PropertyApiDataSource {
@@ -132,6 +134,22 @@ class PropertyApiDataSourceImpl implements PropertyApiDataSource {
       );
 
       return Right(true);
+    } on DioException catch (e) {
+      return Left(ServerFailure(e.response!.statusMessage.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> updateProperty(UpdatePropertyParam param,)async{
+    try {
+      final response = await sl<DioClient>().put("${ApiUrl.property}${param.id}/",
+          data: param.formData,
+          options: Options(contentType: 'multipart/form-data'));
+      if (response.statusCode == 200) {
+        return Right(true);
+      } else {
+        return Left(ServerFailure(response.data['error']));
+      }
     } on DioException catch (e) {
       return Left(ServerFailure(e.response!.statusMessage.toString()));
     }

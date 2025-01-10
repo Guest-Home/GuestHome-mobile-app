@@ -106,7 +106,6 @@ class ImagePickerError extends AddPropertyState {
   @override
   List<Object> get props => super.props + [message];
 }
-
 class AddNewPropertyLoading extends AddPropertyState {
   AddNewPropertyLoading(AddPropertyState currentState)
       : super(
@@ -125,14 +124,12 @@ class AddNewPropertyLoading extends AddPropertyState {
             longitude: currentState.longitude,
             specificAddress: currentState.specificAddress);
 }
-
 class AddNewPropertySuccess extends AddPropertyState {
   final bool isAdded;
   const AddNewPropertySuccess(this.isAdded);
   @override
   List<Object> get props => [isAdded];
 }
-
 class AddNewPropertyErrorState extends AddPropertyState {
   final Failure failure;
   AddNewPropertyErrorState(AddPropertyState currentState, this.failure)
@@ -155,7 +152,6 @@ class AddNewPropertyErrorState extends AddPropertyState {
   @override
   List<Object> get props => super.props + [failure];
 }
-
 class DeletePropertyLoading extends AddPropertyState {
   DeletePropertyLoading(AddPropertyState currentState)
       : super(
@@ -174,10 +170,34 @@ class DeletePropertyLoading extends AddPropertyState {
             longitude: currentState.longitude,
             specificAddress: currentState.specificAddress);
 }
-
 class DeletePropertySuccess extends AddPropertyState {
   final bool isDeleted;
   const DeletePropertySuccess({required this.isDeleted});
   @override
   List<Object> get props => [isDeleted];
+}
+
+class UpdatePropertyLoading extends AddPropertyState{
+  UpdatePropertyLoading(AddPropertyState currentState)
+      : super(
+      step: currentState.step,
+      title: currentState.title,
+      description: currentState.description,
+      amenities: currentState.amenities,
+      images: currentState.images,
+      city: currentState.city,
+      houseType: currentState.houseType,
+      noRoom: currentState.noRoom,
+      price: currentState.price,
+      unit: currentState.unit,
+      agentId: currentState.agentId,
+      latitude: currentState.latitude,
+      longitude: currentState.longitude,
+      specificAddress: currentState.specificAddress);
+}
+class UpdatePropertySuccess extends AddPropertyState {
+  final bool isUpdate;
+  const UpdatePropertySuccess({required this.isUpdate});
+  @override
+  List<Object> get props => [isUpdate];
 }

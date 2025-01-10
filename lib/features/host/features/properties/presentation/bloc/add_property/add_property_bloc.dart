@@ -5,8 +5,10 @@ import 'package:equatable/equatable.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:minapp/core/error/failure.dart';
 import 'package:minapp/core/utils/get_location.dart';
+import 'package:minapp/features/host/features/properties/domain/entities/property_entity.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/create_property_usecase.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/delete_property_usecase.dart';
+import 'package:minapp/features/host/features/properties/domain/usecases/update_property_usecase.dart';
 import 'package:minapp/service_locator.dart';
 
 import '../../../../../../../core/utils/file_picker.dart';
@@ -145,28 +147,21 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
     );
     on<UpdatePropertyEvent>(
       (event, emit) async {
-        final imageMultipartFiles =
-            await Future.wait(state.images.map((image) async {
-          return await MultipartFile.fromFile(
-            image.path,
-          );
-        }));
+        emit(UpdatePropertyLoading(state));
+        final formMap=event.propertyEntity;
+        if(state.images.isNotEmpty){
+          final imageMultipartFiles =
+          await Future.wait(state.images.map((image) async {
+            return await MultipartFile.fromFile(
+              image.path,
+            );
+          }));
+          formMap['image']=imageMultipartFiles;
+        }
+        final FormData formData = FormData.fromMap(formMap);
+        Either response=await sl<UpdatePropertyUseCase>().call(UpdatePropertyParam(formData: formData, id: event.id));
+        response.fold((l) => emit(AddNewPropertyErrorState(state, l)),(r) => emit(UpdatePropertySuccess(isUpdate: r)),);
 
-        final FormData formData = FormData.fromMap({
-          'title': state.title,
-          'description': state.description,
-          'city': state.city,
-          'typeofHouse': state.houseType,
-          'latitude': state.latitude,
-          'longitude': state.longitude,
-          'price': state.price,
-          'unit': state.unit,
-          if (state.agentId.isNotEmpty) 'agent': state.agentId,
-          if (state.images.isNotEmpty) 'image': imageMultipartFiles,
-          'number_of_room': state.noRoom,
-          'sub_description': state.amenities.join(','),
-          'specificAddress': state.specificAddress
-        });
       },
     );
   }

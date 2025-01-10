@@ -79,7 +79,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
         body: BlocConsumer<AddPropertyBloc, AddPropertyState>(
             listener: (context, state) {
               if (state is DeletePropertyLoading) {
-                _deletingDialog(context);
+                _deletingDialog(context,"deleting property");
               } else if (state is DeletePropertySuccess) {
                 context.pop();
                 context.read<PropertiesBloc>().add(GetPropertiesEvent());
@@ -91,6 +91,20 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                     content: Text("property deleted")));
               } else if (state is AddNewPropertyErrorState) {
                 context.pop();
+              }
+              else if(state is UpdatePropertyLoading){
+                _deletingDialog(context,"updating property");
+              }
+              else if(state is UpdatePropertySuccess){
+                context.pop();
+                context.read<AddPropertyBloc>().add(ResetEvent());
+                context.read<PropertiesBloc>().add(GetPropertiesEvent());
+                context.goNamed('properties');
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    backgroundColor: ColorConstant.green,
+                    elevation: 0,
+                    behavior: SnackBarBehavior.floating,
+                    content: Text("property update")));
               }
             },
             buildWhen: (previous, current) => previous != current,
@@ -201,6 +215,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                       },
                                       child: SizedBox(
                                         child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.end,
                                           spacing: 4,
                                           children: [
                                             Icon(
@@ -210,9 +225,9 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                             Text("Change Type",
                                                 style: Theme.of(context)
                                                     .textTheme
-                                                    .bodyMedium!
+                                                    .bodySmall!
                                                     .copyWith(
-                                                        fontSize: 14,
+                                                        fontSize: 12,
                                                         fontWeight:
                                                             FontWeight.w500,
                                                         color: ColorConstant
@@ -585,7 +600,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                               itemBuilder: (context, index) {
                                                 return PropertyPhotoDetail(
                                                   image: widget.propertyEntity
-                                                      .houseImage[0].image,
+                                                      .houseImage[index].image,
                                                   ontap: () {},
                                                 );
                                               })),
@@ -671,9 +686,23 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                             widget.propertyEntity.numberOfRoom
                                                     .toString() !=
                                                 roomController.text) {
-                                          context
-                                              .read<AddPropertyBloc>()
-                                              .add(UpdatePropertyEvent());
+                                          context.read<AddPropertyBloc>().add(UpdatePropertyEvent(
+                                            propertyEntity:{
+                                              'title':nameController.text,
+                                              'description':descriptionController.text,
+                                              'city': cityController.text,
+                                              'typeofHouse':state.houseType.isEmpty?widget.propertyEntity.typeofHouse:state.houseType,
+                                              'latitude':widget.propertyEntity.latitude,
+                                              'longitude': widget.propertyEntity.longitude,
+                                              'price':priceController.text,
+                                              'unit': widget.propertyEntity.unit,
+                                              'number_of_room':roomController.text,
+                                              'sub_description':widget.propertyEntity.subDescription,
+                                              'specificAddress':addressNmaeController.text
+                                            },
+                                            id: widget.propertyEntity.id
+                                          )
+                                          );
                                         }
                                       }
 
@@ -710,7 +739,6 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
             color: ColorConstant.secondBtnColor, fontWeight: FontWeight.w700));
   }
-
   void _showDeleteDialog(BuildContext context, int id) {
     showDialog(
       context: context,
@@ -795,8 +823,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
       ),
     );
   }
-
-  void _deletingDialog(BuildContext context) {
+  void _deletingDialog(BuildContext context,String title) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -816,7 +843,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "deleting property",
+                  title,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ),
@@ -826,7 +853,6 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
       ),
     );
   }
-
   void _showHouseTypeDialog(BuildContext context) {
     showDialog(
         context: context,
@@ -940,7 +966,6 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                   })),
             ));
   }
-
   void _showDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -999,8 +1024,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                   padding: EdgeInsets.all(0),
                   elevation: 0,
                   side: BorderSide(
-                      color:
-                          ColorConstant.secondBtnColor.withValues(alpha: 0.5)),
+                      color:ColorConstant.secondBtnColor.withValues(alpha: 0.5)),
                   backgroundColor: Colors.white),
               child: Text("Discard",
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
@@ -1008,7 +1032,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                       ))),
           CustomButton(
               onPressed: () {
-                context.read<AddPropertyBloc>().add(ResetEvent());
+
               },
               style: ElevatedButton.styleFrom(
                   elevation: 0,

@@ -29,7 +29,7 @@ class HouseTypeCard extends StatelessWidget {
           ? ColorConstant.primaryColor.withValues(alpha: 0.0)
           : ColorConstant.cardGrey.withValues(alpha: 0.8),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(13),
         child: SizedBox(
           child: Row(
             spacing: 5,
@@ -39,8 +39,8 @@ class HouseTypeCard extends StatelessWidget {
                 iconData,
                 semanticsLabel: title,
                 fit: BoxFit.cover,
-                width: 25,
-                height: 25,
+                width: 20,
+                height: 20,
               ),
               Expanded(
                 child: Text(title,
@@ -49,7 +49,7 @@ class HouseTypeCard extends StatelessWidget {
                     maxLines: 2,
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontWeight: FontWeight.w500,
-                          fontSize: 14,
+                          fontSize: 12,
                           color: ColorConstant.secondBtnColor.withValues(),
                         )),
               ),

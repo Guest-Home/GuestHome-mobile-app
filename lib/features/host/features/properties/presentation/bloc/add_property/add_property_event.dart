@@ -99,4 +99,8 @@ class DeletePropertyEvent extends AddPropertyEvent {
   const DeletePropertyEvent({required this.id});
 }
 
-class UpdatePropertyEvent extends AddPropertyEvent {}
+class UpdatePropertyEvent extends AddPropertyEvent {
+  final Map<String,dynamic> propertyEntity;
+  final int id;
+  const UpdatePropertyEvent({required this.propertyEntity,required this.id});
+}
