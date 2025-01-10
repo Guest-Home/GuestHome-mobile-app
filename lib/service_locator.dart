@@ -33,6 +33,7 @@ import 'package:minapp/features/host/features/properties/domain/repositories/pro
 import 'package:minapp/features/host/features/properties/domain/repositories/property_type_repository.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/create_property_usecase.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/delete_property_usecase.dart';
+import 'package:minapp/features/host/features/properties/domain/usecases/get_agent_usecase.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/get_amenity_usecase.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/get_cities_usecase.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/get_properties_usecase.dart';
@@ -105,6 +106,7 @@ void setup() async {
   sl.registerSingleton<GetCustomOccupancyUseCase>(GetCustomOccupancyUseCase());
   sl.registerSingleton<DeletePropertyUsecase>(DeletePropertyUsecase());
   sl.registerSingleton<UpdatePropertyUseCase>(UpdatePropertyUseCase());
+  sl.registerSingleton<GetAgentUsecase>(GetAgentUsecase());
 
   // repository
 

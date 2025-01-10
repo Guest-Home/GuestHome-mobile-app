@@ -90,6 +90,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                     behavior: SnackBarBehavior.floating,
                     content: Text("property deleted")));
               } else if (state is AddNewPropertyErrorState) {
+                context.read<AddPropertyBloc>().add(ResetEvent());
                 context.pop();
               }
               else if(state is UpdatePropertyLoading){
@@ -104,7 +105,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                     backgroundColor: ColorConstant.green,
                     elevation: 0,
                     behavior: SnackBarBehavior.floating,
-                    content: Text("property update")));
+                    content: Text("updated deleted")));
               }
             },
             buildWhen: (previous, current) => previous != current,

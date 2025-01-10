@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -14,6 +16,7 @@ import 'package:minapp/features/host/features/properties/presentation/bloc/prope
 import 'package:minapp/features/host/features/properties/presentation/bloc/property_type/property_type_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/widgets/property_photo_card.dart';
 import '../../../../../../config/color/color.dart';
+import '../../../../../../core/apiConstants/api_url.dart';
 import '../../../../../../core/common/amenitie_type_card.dart';
 import '../../../../../../core/common/back_button.dart';
 import '../../../../../../core/common/constants/house_type_icons.dart';
@@ -507,6 +510,8 @@ class _AddPropertiesState extends State<AddProperties> {
                                   context,
                                   "Enter agent id if you don’t have click finish(optional)",
                                   false),
+
+                              if(!state.agentSelected)
                               CustomTextField(
                                 textEditingController: agentIdController,
                                 hintText: "agent id",
@@ -517,17 +522,104 @@ class _AddPropertiesState extends State<AddProperties> {
                                 },
                                 textInputType: TextInputType.text,
                                 onTextChnage: (value) {
-                                  if (value.isEmpty) {
-                                    context
-                                        .read<AddPropertyBloc>()
-                                        .add(AdddAgentIdEvent(agentId: ''));
-                                  } else {
-                                    context
-                                        .read<AddPropertyBloc>()
-                                        .add(AdddAgentIdEvent(agentId: value));
+                                  if (value.isNotEmpty) {
+                                    context.read<AddPropertyBloc>().add(GetAgentEvent(agentId:int.parse(agentIdController.text)));
                                   }
+
                                 },
                               ),
+                              if(state.agentSelected)
+                                  Container(
+                                      padding: EdgeInsets.symmetric(horizontal:10,vertical:5),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(15),
+                                          border:Border.all(color: ColorConstant.cardGrey)
+                                      ),
+                                      child:Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            spacing: 6,
+                                            children: [
+                                              CircleAvatar(
+                                                radius: 15,
+                                                backgroundColor: ColorConstant.cardGrey,
+                                                backgroundImage: CachedNetworkImageProvider(
+                                                  ApiUrl.baseUrl +
+                                                      state.agentPEntity.profilePicture!,
+                                                  headers: {
+                                                    'Authorization': 'Bearer ${state.token}'
+                                                  },
+                                                ),
+                                              ),
+                                              Text("${state.agentPEntity.user!.firstName!} ${state.agentPEntity.user!.lastName!}",style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                                  color: ColorConstant.secondBtnColor,
+                                                  fontWeight: FontWeight.w500)),
+                                              Text(state.agentPEntity.id.toString(),style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                                  color: ColorConstant.secondBtnColor.withValues(alpha: 0.6)
+                                              ),),
+                                            ],),
+                                        IconButton(onPressed: (){
+                                                       context.read<AddPropertyBloc>().add(SelectAgentEvent(selected: false));
+                                                       context.read<AddPropertyBloc>().add(AdddAgentIdEvent(agentId:''));
+                                                       context.read<AddPropertyBloc>().add((RemoveSelectedAgentEvent()));
+                                                       agentIdController.text='';
+                                             }, icon:   Icon(Icons.delete,color: ColorConstant.red,))
+
+
+                                        ],)
+
+                                  ),
+
+                              SizedBox(
+                                height: 5,
+                              ),
+                              if(state is GetAgentLoading)
+                                Row(mainAxisAlignment: MainAxisAlignment.center, children: [CupertinoActivityIndicator()],),
+                              if(state.agentPEntity.id!=null && !state.agentSelected)
+                                SizedBox(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      context.read<AddPropertyBloc>().add(SelectAgentEvent(selected: true));
+                                        context.read<AddPropertyBloc>().add(AdddAgentIdEvent(agentId:state.agentPEntity.id.toString()));
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(horizontal: 12,vertical: 8),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        border:Border.all(color: ColorConstant.secondBtnColor,width: 1.2)
+                                      ),
+                                      child:Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                        Row(
+                                          spacing: 5,
+                                          children: [
+                                                CircleAvatar(
+                                                radius: 15,
+                                                backgroundColor: ColorConstant.cardGrey,
+                                                backgroundImage: CachedNetworkImageProvider(
+                                                ApiUrl.baseUrl +
+                                                state.agentPEntity.profilePicture!,
+                                                headers: {
+                                                'Authorization': 'Bearer ${state.token}'
+                                                },
+                                                ),
+                                                ),
+                                                Text("${state.agentPEntity.user!.firstName!} ${state.agentPEntity.user!.lastName!}",style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                                color: ColorConstant.secondBtnColor,
+                                                fontWeight: FontWeight.w500)),
+                                                ],),
+                                          Text(state.agentPEntity.id.toString(),style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                              color: ColorConstant.secondBtnColor.withValues(alpha: 0.6)
+                                          ),),
+
+                                                ],)
+
+                                    ),
+                                  ),
+                                )
+
                             ],
                           ),
                         ))

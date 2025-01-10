@@ -112,7 +112,7 @@ class AgentEntity extends Equatable {
   final int id;
   final UserEntity user;
   final String profilePicture;
-  final String document;
+  final String? document;
   final bool isActive;
   final String sex;
   final String phoneNumber;

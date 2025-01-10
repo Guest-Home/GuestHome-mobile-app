@@ -8,10 +8,13 @@ import 'package:minapp/core/utils/get_location.dart';
 import 'package:minapp/features/host/features/properties/domain/entities/property_entity.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/create_property_usecase.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/delete_property_usecase.dart';
+import 'package:minapp/features/host/features/properties/domain/usecases/get_agent_usecase.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/update_property_usecase.dart';
 import 'package:minapp/service_locator.dart';
 
 import '../../../../../../../core/utils/file_picker.dart';
+import '../../../../../../../core/utils/get_token.dart';
+import '../../../domain/entities/agent_entity.dart';
 
 part 'add_property_event.dart';
 part 'add_property_state.dart';
@@ -164,5 +167,18 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
 
       },
     );
+
+    on<GetAgentEvent>((event, emit)async{
+     emit(GetAgentLoading(state));
+     Either response=await sl<GetAgentUsecase>().call(event.agentId);
+     final token=await GetToken().getUserToken();
+     response.fold((l) => emit(AddNewPropertyErrorState(state,l)),(r){
+
+       emit(state.copyWith(agentPEntity: r,token: token));
+     }, );
+
+    },);
+    on<SelectAgentEvent>((event, emit) => emit(state.copyWith(agentSelected: event.selected)),);
+    on<RemoveSelectedAgentEvent>((event, emit) => emit(state.copyWith(agentPEntity:const AgentPEntity())),);
   }
 }

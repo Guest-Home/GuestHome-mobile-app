@@ -18,6 +18,10 @@ class AddPropertyState extends Equatable {
   final double longitude;
   final String specificAddress;
 
+  final AgentPEntity agentPEntity;
+  final String token;
+  final bool agentSelected;
+
   const AddPropertyState({
     this.step = 0,
     this.title = '',
@@ -33,6 +37,9 @@ class AddPropertyState extends Equatable {
     this.agentId = '',
     this.latitude = 9.02497,
     this.longitude = 38.74689,
+    this.token='',
+    this.agentSelected=false,
+    this.agentPEntity=const AgentPEntity()
   });
 
   @override
@@ -50,6 +57,9 @@ class AddPropertyState extends Equatable {
         longitude,
         latitude,
         specificAddress,
+    agentPEntity,
+    agentSelected,
+    token
       ];
 
   AddPropertyState copyWith({
@@ -66,6 +76,9 @@ class AddPropertyState extends Equatable {
     double? latitude,
     double? longitude,
     String? specificAddress,
+    AgentPEntity? agentPEntity,
+    String? token,
+    bool? agentSelected,
   }) {
     return AddPropertyState(
         step: step ?? this.step,
@@ -80,7 +93,11 @@ class AddPropertyState extends Equatable {
         images: images ?? this.images,
         latitude: latitude ?? this.latitude,
         longitude: longitude ?? this.longitude,
-        specificAddress: specificAddress ?? this.specificAddress);
+        specificAddress: specificAddress ?? this.specificAddress,
+        agentPEntity: agentPEntity??this.agentPEntity,
+      token: token??this.token,
+      agentSelected:agentSelected??this.agentSelected
+    );
   }
 }
 
@@ -102,7 +119,8 @@ class ImagePickerError extends AddPropertyState {
             agentId: currentState.agentId,
             latitude: currentState.latitude,
             longitude: currentState.longitude,
-            specificAddress: currentState.specificAddress);
+            specificAddress: currentState.specificAddress,
+  );
   @override
   List<Object> get props => super.props + [message];
 }
@@ -122,7 +140,11 @@ class AddNewPropertyLoading extends AddPropertyState {
             agentId: currentState.agentId,
             latitude: currentState.latitude,
             longitude: currentState.longitude,
-            specificAddress: currentState.specificAddress);
+            specificAddress: currentState.specificAddress,
+      agentPEntity: currentState.agentPEntity,
+      token: currentState.token,
+      agentSelected: currentState.agentSelected
+  );
 }
 class AddNewPropertySuccess extends AddPropertyState {
   final bool isAdded;
@@ -147,6 +169,9 @@ class AddNewPropertyErrorState extends AddPropertyState {
             agentId: currentState.agentId,
             latitude: currentState.latitude,
             longitude: currentState.longitude,
+      agentPEntity: currentState.agentPEntity,
+      token: currentState.token,
+      agentSelected: currentState.agentSelected,
             specificAddress: currentState.specificAddress);
 
   @override
@@ -200,4 +225,26 @@ class UpdatePropertySuccess extends AddPropertyState {
   const UpdatePropertySuccess({required this.isUpdate});
   @override
   List<Object> get props => [isUpdate];
+}
+class GetAgentLoading extends AddPropertyState{
+  GetAgentLoading(AddPropertyState currentState)
+      : super(
+      step: currentState.step,
+      title: currentState.title,
+      description: currentState.description,
+      amenities: currentState.amenities,
+      images: currentState.images,
+      city: currentState.city,
+      houseType: currentState.houseType,
+      noRoom: currentState.noRoom,
+      price: currentState.price,
+      unit: currentState.unit,
+      agentId: currentState.agentId,
+      latitude: currentState.latitude,
+      longitude: currentState.longitude,
+      specificAddress: currentState.specificAddress,
+    agentPEntity: currentState.agentPEntity,
+    token: currentState.token,
+    agentSelected: currentState.agentSelected
+  );
 }

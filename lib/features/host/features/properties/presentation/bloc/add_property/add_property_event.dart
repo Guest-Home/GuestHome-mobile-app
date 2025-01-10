@@ -104,3 +104,15 @@ class UpdatePropertyEvent extends AddPropertyEvent {
   final int id;
   const UpdatePropertyEvent({required this.propertyEntity,required this.id});
 }
+
+class GetAgentEvent extends AddPropertyEvent{
+  final int agentId;
+  const GetAgentEvent({required this.agentId});
+}
+class SelectAgentEvent extends AddPropertyEvent{
+  final bool selected;
+  const SelectAgentEvent({required this.selected});
+}
+class RemoveSelectedAgentEvent extends AddPropertyEvent{
+
+}

@@ -33,6 +33,7 @@ class _PropertyCardState extends State<PropertyCard> {
                       elevation: 0,
                       padding: EdgeInsets.all(0),
                       reverse: true,
+
                       backgroundColor: ColorConstant.cardGrey,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
@@ -71,7 +72,7 @@ class _PropertyCardState extends State<PropertyCard> {
                           margin: EdgeInsets.only(right: 5),
                           decoration: BoxDecoration(
                               color:
-                                  ColorConstant.cardGrey.withValues(alpha: 0.6),
+                                  ColorConstant.cardGrey.withValues(alpha: 0.9),
                               borderRadius: BorderRadius.circular(40)),
                         ),
                       ),

@@ -11,6 +11,7 @@ import '../../../../../../core/apiConstants/api_url.dart';
 import '../../../../../../core/error/failure.dart';
 import '../../../../../../core/network/dio_client.dart';
 import '../../../../../../service_locator.dart';
+import '../models/agent_model.dart';
 import '../models/property_type_model.dart';
 
 abstract class PropertyApiDataSource {
@@ -21,6 +22,7 @@ abstract class PropertyApiDataSource {
   Future<Either<Failure, bool>> createProperty(CreatePropertyParam param);
   Future<Either<Failure, bool>> deleteProperty(int id);
   Future<Either<Failure, bool>> updateProperty(UpdatePropertyParam param);
+  Future<Either<Failure, AgentPModel>> getAgent(int id);
 }
 
 class PropertyApiDataSourceImpl implements PropertyApiDataSource {
@@ -41,7 +43,7 @@ class PropertyApiDataSourceImpl implements PropertyApiDataSource {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ServerFailure(e.response!.data.toString()));
     }
   }
 
@@ -62,7 +64,7 @@ class PropertyApiDataSourceImpl implements PropertyApiDataSource {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ServerFailure(e.response!.data.toString()));
     }
   }
 
@@ -83,7 +85,7 @@ class PropertyApiDataSourceImpl implements PropertyApiDataSource {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ServerFailure(e.response!.data.toString()));
     }
   }
 
@@ -104,7 +106,7 @@ class PropertyApiDataSourceImpl implements PropertyApiDataSource {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ServerFailure(e.response!.data.toString()));
     }
   }
 
@@ -121,7 +123,6 @@ class PropertyApiDataSourceImpl implements PropertyApiDataSource {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      print(e.message);
       return Left(ServerFailure(e.response!.statusMessage.toString()));
     }
   }
@@ -140,9 +141,12 @@ class PropertyApiDataSourceImpl implements PropertyApiDataSource {
   }
 
   @override
-  Future<Either<Failure, bool>> updateProperty(UpdatePropertyParam param,)async{
+  Future<Either<Failure, bool>> updateProperty(
+    UpdatePropertyParam param,
+  ) async {
     try {
-      final response = await sl<DioClient>().put("${ApiUrl.property}${param.id}/",
+      final response = await sl<DioClient>().put(
+          "${ApiUrl.property}${param.id}/",
           data: param.formData,
           options: Options(contentType: 'multipart/form-data'));
       if (response.statusCode == 200) {
@@ -152,6 +156,25 @@ class PropertyApiDataSourceImpl implements PropertyApiDataSource {
       }
     } on DioException catch (e) {
       return Left(ServerFailure(e.response!.statusMessage.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, AgentPModel>> getAgent(int id) async {
+    try {
+      final response = await sl<DioClient>().get("${ApiUrl.agent}$id/");
+      if (response.statusCode == 200) {
+        AgentPModel agent = await Isolate.run(
+          () {
+            return AgentPModel.fromMap(response.data);
+          },
+        );
+        return Right(agent);
+      } else {
+        return Left(ServerFailure(response.data['error']));
+      }
+    } on DioException catch (e) {
+      return Left(ServerFailure(e.response!.data['msg'].toString()));
     }
   }
 }

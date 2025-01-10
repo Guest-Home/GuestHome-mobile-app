@@ -7,6 +7,7 @@ import 'package:minapp/features/host/features/properties/domain/usecases/create_
 import 'package:minapp/features/host/features/properties/domain/usecases/update_property_usecase.dart';
 
 import '../../../../../../service_locator.dart';
+import '../models/agent_model.dart';
 
 class PropertyRepositoryImpl implements PropertyRepository {
   @override
@@ -26,8 +27,13 @@ class PropertyRepositoryImpl implements PropertyRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> updateProperty(UpdatePropertyParam param)async{
+  Future<Either<Failure, bool>> updateProperty(
+      UpdatePropertyParam param) async {
     return await sl<PropertyApiDataSource>().updateProperty(param);
+  }
 
+  @override
+  Future<Either<Failure, AgentPModel>> getAgent(int id) async {
+    return await sl<PropertyApiDataSource>().getAgent(id);
   }
 }

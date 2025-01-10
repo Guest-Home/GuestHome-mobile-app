@@ -14,6 +14,7 @@ class AuthInterceptor extends Interceptor {
       options.headers['Authorization'] = 'Bearer $authToken';
     }
 
+    print(authToken);
     // Proceed with the request
     return super.onRequest(options, handler);
   }
