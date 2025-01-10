@@ -13,26 +13,39 @@ part 'analytics_state.dart';
 
 class AnalyticsBloc extends Bloc<AnalyticsEvent, AnalyticsState> {
   AnalyticsBloc() : super(AnalyticsInitial()) {
-
-    on<GetOccupancyRateEvent>((event, emit)async{
+    on<GetOccupancyRateEvent>((event, emit) async {
       emit(OccupancyRateLoadingState());
-      Either response= await sl<GetOccupancyRateUseCase>().call();
-      response.fold((l) =>emit(AnalyticsErrorState(failure: l, currentState: state,))
-          ,(r) => emit(state.copyWith(occupancyRateEntity: r)));
+      Either response = await sl<GetOccupancyRateUseCase>().call();
+      response.fold(
+          (l) => emit(AnalyticsErrorState(
+                failure: l,
+                currentState: state,
+              )),
+          (r) => emit(state.copyWith(occupancyRateEntity: r)));
     });
 
-    on<GetCustomOccupancyEvent>((event, emit)async{
-         emit(CustomOccupancyRateLoadingState(state));
-         Map<String,dynamic> dates={
-           'startDate':state.customStartDate,
-           'endDate':state.customEndDate,
-         };
-         print(dates);
-         Either response=await sl<GetCustomOccupancyUseCase>().call(dates);
-         response.fold((l) => emit(AnalyticsErrorState(failure: l, currentState: state)),(r) => emit(state.copyWith(customOccupancyEntity: r,selectedDate: "custom")),);
+    on<GetCustomOccupancyEvent>(
+      (event, emit) async {
+        emit(CustomOccupancyRateLoadingState(state));
+        Map<String, dynamic> dates = {
+          'startDate': state.customStartDate,
+          'endDate': state.customEndDate,
+        };
 
-    },);
-    on<ChangeOccupancyDateEvent>((event, emit) => emit(state.copyWith(selectedDate: event.date)),);
-    on<AddCustomDateEvent>((event, emit) => emit(state.copyWith(customStartDate: event.startDate,customEndDate: event.endDate)),);
+        Either response = await sl<GetCustomOccupancyUseCase>().call(dates);
+        response.fold(
+          (l) => emit(AnalyticsErrorState(failure: l, currentState: state)),
+          (r) => emit(
+              state.copyWith(customOccupancyEntity: r, selectedDate: "custom")),
+        );
+      },
+    );
+    on<ChangeOccupancyDateEvent>(
+      (event, emit) => emit(state.copyWith(selectedDate: event.date)),
+    );
+    on<AddCustomDateEvent>(
+      (event, emit) => emit(state.copyWith(
+          customStartDate: event.startDate, customEndDate: event.endDate)),
+    );
   }
 }

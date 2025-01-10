@@ -67,6 +67,7 @@ class _RequestState extends State<Request> {
                   if (state.reservation.results!.isEmpty) {
                     return SliverToBoxAdapter(
                         child: SizedBox(
+                          height: MediaQuery.of(context).size.height/2,
                       child: Center(
                         child: Text("no reservation found"),
                       ),

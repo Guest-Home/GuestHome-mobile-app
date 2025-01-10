@@ -43,7 +43,9 @@ class Home extends StatelessWidget {
       floatingActionButton: Container(
         margin: EdgeInsets.only(top: 65),
         child: FloatingActionButton(
-
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8)
+          ),
           autofocus: false,
           onPressed: () {
             context.pushNamed('addProperty');

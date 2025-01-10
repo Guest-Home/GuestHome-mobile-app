@@ -81,7 +81,6 @@ class ApiDataSourceImpl implements ApiDataSource {
         data: formData,
       );
       if (response.statusCode == 201) {
-        print(response.data);
         final customerProfile = await Isolate.run(
             () => CustomerProfileModel.fromJson(response.data));
         return Right(customerProfile);
@@ -89,7 +88,6 @@ class ApiDataSourceImpl implements ApiDataSource {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      print(e.response);
       return Left(ServerFailure(e.response.toString()));
     }
   }

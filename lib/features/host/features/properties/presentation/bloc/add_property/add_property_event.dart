@@ -88,8 +88,15 @@ class AdddAgentIdEvent extends AddPropertyEvent {
   });
 }
 
-class GetLocationEvent extends AddPropertyEvent{}
+class GetLocationEvent extends AddPropertyEvent {}
 
 class AddNewPropertyEvent extends AddPropertyEvent {}
 
 class ResetEvent extends AddPropertyEvent {}
+
+class DeletePropertyEvent extends AddPropertyEvent {
+  final int id;
+  const DeletePropertyEvent({required this.id});
+}
+
+class UpdatePropertyEvent extends AddPropertyEvent {}

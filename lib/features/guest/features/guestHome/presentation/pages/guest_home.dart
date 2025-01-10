@@ -9,34 +9,6 @@ class GuestHome extends StatelessWidget {
   const GuestHome({super.key, required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
-  
-  int _getSelectedIndex(BuildContext context) {
-    final location = GoRouter.of(context).state?.path;
-    if (location!.startsWith('/houseType')) {
-      return 0;
-    }
-    if (location.startsWith('/booked')) {
-      return 1;
-    }
-    if (location.startsWith('/guestProfile')) {
-      return 2;
-    }
-    return 0;
-  }
-
-  void _onItemTapped(BuildContext context, int index) {
-    switch (index) {
-      case 0:
-        context.go('/houseType');
-        break;
-      case 1:
-        context.go('/booked');
-        break;
-      case 2:
-        context.go('/guestProfile');
-
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +21,7 @@ class GuestHome extends StatelessWidget {
         backgroundColor: Colors.white,
         enableLineIndicator: true,
         indicatorType: IndicatorType.top,
-        currentIndex:navigationShell.currentIndex,
+        currentIndex: navigationShell.currentIndex,
         unselectedIconSize: 17,
         selectedIconSize: 25,
         customBottomBarItems: [
@@ -60,7 +32,8 @@ class GuestHome extends StatelessWidget {
             icon: Icons.home_filled,
           ),
           CustomBottomBarItems(
-              isAssetsImage: true, label:tr('Booked'),
+              isAssetsImage: true,
+              label: tr('Booked'),
               assetsImagePath: 'assets/icons/booked.png',
               icon: Icons.bookmark),
           CustomBottomBarItems(

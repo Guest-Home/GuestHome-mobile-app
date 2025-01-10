@@ -9,5 +9,5 @@ abstract class PropertyRepository {
   // Future<Either<Failure, Property>> getProperty(String id);
   Future<Either<Failure, bool>> createProperty(CreatePropertyParam param);
   // Future<Either<Failure, Property>> updateProperty(Property property);
-  // Future<Either<Failure, Property>> deleteProperty(String id);
+  Future<Either<Failure, bool>> deleteProperty(int id);
 }

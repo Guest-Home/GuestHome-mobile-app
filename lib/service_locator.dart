@@ -8,7 +8,7 @@ import 'package:minapp/features/auth/domain/repositories/otp_repository.dart';
 import 'package:minapp/features/auth/domain/usecases/create_otp_usecase.dart';
 import 'package:minapp/features/auth/domain/usecases/verify_otp_usecase.dart';
 import 'package:minapp/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:minapp/features/host/features/analytics/data/datasources/analytics-data_source,dart.dart';
+import 'package:minapp/features/host/features/analytics/data/datasources/analytics_data_source.dart';
 import 'package:minapp/features/host/features/analytics/data/repositories/occupancy_rate_repository_impl.dart';
 import 'package:minapp/features/host/features/analytics/domain/repositories/analytics_repository.dart';
 import 'package:minapp/features/host/features/analytics/domain/usecases/get_custom_occup_usecase.dart';
@@ -32,6 +32,7 @@ import 'package:minapp/features/host/features/properties/domain/repositories/cit
 import 'package:minapp/features/host/features/properties/domain/repositories/property_repository.dart';
 import 'package:minapp/features/host/features/properties/domain/repositories/property_type_repository.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/create_property_usecase.dart';
+import 'package:minapp/features/host/features/properties/domain/usecases/delete_property_usecase.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/get_amenity_usecase.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/get_cities_usecase.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/get_properties_usecase.dart';
@@ -46,7 +47,7 @@ import 'package:minapp/features/host/features/request/data/repositories/reservat
 import 'package:minapp/features/host/features/request/domain/repositories/reservation_repository.dart';
 import 'package:minapp/features/host/features/request/domain/usecases/accept_reserv_usecase.dart';
 import 'package:minapp/features/host/features/request/domain/usecases/get_reservation_usecase.dart';
-import 'package:minapp/features/host/features/request/domain/usecases/reject-reserv_usecase.dart';
+import 'package:minapp/features/host/features/request/domain/usecases/reject_reserv_usecase.dart';
 import 'package:minapp/features/host/features/request/presentation/bloc/request_bloc.dart';
 import 'package:minapp/features/onbording/presentation/bloc/on_bording_bloc.dart';
 
@@ -72,9 +73,15 @@ void setup() async {
   sl.registerFactory<CityBloc>(
     () => CityBloc(),
   );
-  sl.registerFactory<ProfileBloc>(() => ProfileBloc(),);
-  sl.registerFactory<RequestBloc>(() => RequestBloc(),);
-  sl.registerFactory<TotalPropertyBloc>(() => TotalPropertyBloc(),);
+  sl.registerFactory<ProfileBloc>(
+    () => ProfileBloc(),
+  );
+  sl.registerFactory<RequestBloc>(
+    () => RequestBloc(),
+  );
+  sl.registerFactory<TotalPropertyBloc>(
+    () => TotalPropertyBloc(),
+  );
 
   // usecase
 
@@ -95,7 +102,7 @@ void setup() async {
   sl.registerSingleton<GetOccupancyRateUseCase>(GetOccupancyRateUseCase());
   sl.registerSingleton<GetTotalPropertyUsecase>(GetTotalPropertyUsecase());
   sl.registerSingleton<GetCustomOccupancyUseCase>(GetCustomOccupancyUseCase());
-
+  sl.registerSingleton<DeletePropertyUsecase>(DeletePropertyUsecase());
 
   // repository
 
@@ -113,7 +120,8 @@ void setup() async {
   sl.registerSingleton<ApiDataSource>(ApiDataSourceImpl());
   sl.registerSingleton<PropertyApiDataSource>(PropertyApiDataSourceImpl());
   sl.registerSingleton<UserProfileDataSource>(UserProfileDataSourceImple());
-  sl.registerSingleton<ReservationApiDataSource>(ReservationApiDataSourceImpl());
+  sl.registerSingleton<ReservationApiDataSource>(
+      ReservationApiDataSourceImpl());
   sl.registerSingleton<AnalyticsDataSource>(AnalyticsDataSourceImpl());
 
   //dio client

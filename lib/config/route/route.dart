@@ -30,8 +30,6 @@ import 'package:minapp/features/onbording/presentation/pages/onbording.dart';
 import 'package:minapp/features/onbording/presentation/pages/splash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../features/host/features/properties/presentation/bloc/add_property/add_property_bloc.dart';
-import '../../features/host/features/properties/presentation/bloc/properties_bloc.dart';
 import '../../features/onbording/presentation/bloc/on_bording_bloc.dart';
 import '../../service_locator.dart';
 
@@ -79,10 +77,17 @@ Future<GoRouter> createRouter() async {
       GoRoute(
         name: 'addProperty',
         path: '/addProperty',
-        builder: (context, state) => BlocProvider(
-          create: (context) => sl<AddPropertyBloc>(),
-          child: AddProperties(),
-        ),
+        builder: (context, state) => AddProperties(),
+      ),
+      GoRoute(
+        name: 'propertyDetail',
+        path: '/propertyDetail',
+        builder: (context, state) {
+          final property = state.extra as PropertyEntity;
+          return ListedPropertyDetail(
+            propertyEntity: property,
+          );
+        },
       ),
       GoRoute(
           name: 'accountSetup',
@@ -113,53 +118,44 @@ Future<GoRouter> createRouter() async {
             navigatorKey: GlobalKey<NavigatorState>(),
             routes: [
               GoRoute(
-                  name: 'properties',
-                  path: '/properties',
+                name: 'properties',
+                path: '/properties',
+                builder: (context, state) => Properties(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: GlobalKey<NavigatorState>(),
+            routes: [
+              GoRoute(
+                  name: 'request',
+                  path: '/request',
                   builder: (context, state) => BlocProvider(
                         create: (context) =>
-                            sl<PropertiesBloc>()..add(GetPropertiesEvent()),
-                        child: Properties(),
-                      ),
-                  routes: [
-                    GoRoute(
-                      name: 'propertyDetail',
-                      path: '/propertyDetail',
-                      builder: (context, state) {
-                        final property = state.extra as PropertyEntity;
-                        return ListedPropertyDetail(
-                          propertyEntity: property,
-                        );
-                      },
-                    ),
-                  ]),
+                            sl<RequestBloc>()..add(GetReservationEvent()),
+                        child: const Request(),
+                      )),
             ],
           ),
           StatefulShellBranch(
             navigatorKey: GlobalKey<NavigatorState>(),
             routes: [
               GoRoute(
-                name: 'request',
-                path: '/request',
-                builder: (context, state) =>BlocProvider(create: (context) => sl<RequestBloc>()..add(GetReservationEvent())
-                  ,child: const Request()
-  ,)
-
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            navigatorKey: GlobalKey<NavigatorState>(),
-            routes: [
-              GoRoute(
-                name: 'analytics',
-                path: '/analytics',
-                builder: (context, state) =>MultiBlocProvider(providers: [
-                  BlocProvider(create: (context) =>sl<AnalyticsBloc>()..add(GetOccupancyRateEvent()),),
-                  BlocProvider(create: (context) =>sl<TotalPropertyBloc>()..add(GetTotalPropertyEvent()),),
-  ],
-  child:const Analytics(), )
-
-              ),
+                  name: 'analytics',
+                  path: '/analytics',
+                  builder: (context, state) => MultiBlocProvider(
+                        providers: [
+                          BlocProvider(
+                            create: (context) => sl<AnalyticsBloc>()
+                              ..add(GetOccupancyRateEvent()),
+                          ),
+                          BlocProvider(
+                            create: (context) => sl<TotalPropertyBloc>()
+                              ..add(GetTotalPropertyEvent()),
+                          ),
+                        ],
+                        child: const Analytics(),
+                      )),
             ],
           ),
           StatefulShellBranch(
@@ -193,74 +189,74 @@ Future<GoRouter> createRouter() async {
       ),
 
       //Guest routes
-  StatefulShellRoute.indexedStack(
-  builder: (context, state, navigationShell) {
-  return GuestHome(
-  navigationShell:
-  navigationShell); // Pass navigationShell for controlling navigation.
-  },
-    branches: [
-            StatefulShellBranch(
-              navigatorKey: GlobalKey<NavigatorState>(),
-              routes: [
-                GoRoute(
-                    name: 'houseType',
-                    path: '/houseType',
-                    builder: (context, state) => HouseType(),
-                    routes: [
-                      GoRoute(
-                        name: 'houseTypeDetail',
-                        path: '/houseTypeDetail',
-                        builder: (context, state) => HouseTypeDetail(),
-                      ),
-                    ]),
-              ],
-            ),
-            StatefulShellBranch(
-              navigatorKey: GlobalKey<NavigatorState>(),
-              routes: [
-                GoRoute(
-                    name: 'booked',
-                    path: '/booked',
-                    builder: (context, state) => Booked(),
-                    routes: [
-                      GoRoute(
-                        name: 'bookedDetail',
-                        path: '/bookedDetail',
-                        builder: (context, state) => BookedDetail(),
-                      ),
-                    ]),
-              ],
-            ),
-            StatefulShellBranch(
-              navigatorKey: GlobalKey<NavigatorState>(),
-              routes: [
-                GoRoute(
-                    name: 'guestProfile',
-                    path: '/guestProfile',
-                    builder: (context, state) => const Profile(),
-                    routes: [
-                      GoRoute(
-                          name: 'guestGeneralInformation',
-                          path: '/guestGeneralInformation',
-                          builder: (context, state) {
-                            return GeneralInformation();
-                          }),
-                      GoRoute(
-                        name: 'guestLanguage',
-                        path: '/guestLanguage',
-                        builder: (context, state) => const Language(),
-                      ),
-                      GoRoute(
-                        name: 'guestAccount',
-                        path: '/guestAccount',
-                        builder: (context, state) => const Account(),
-                      ),
-                    ]),
-              ],
-            ),
-          ],
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) {
+          return GuestHome(
+              navigationShell:
+                  navigationShell); // Pass navigationShell for controlling navigation.
+        },
+        branches: [
+          StatefulShellBranch(
+            navigatorKey: GlobalKey<NavigatorState>(),
+            routes: [
+              GoRoute(
+                  name: 'houseType',
+                  path: '/houseType',
+                  builder: (context, state) => HouseType(),
+                  routes: [
+                    GoRoute(
+                      name: 'houseTypeDetail',
+                      path: '/houseTypeDetail',
+                      builder: (context, state) => HouseTypeDetail(),
+                    ),
+                  ]),
+            ],
           ),
+          StatefulShellBranch(
+            navigatorKey: GlobalKey<NavigatorState>(),
+            routes: [
+              GoRoute(
+                  name: 'booked',
+                  path: '/booked',
+                  builder: (context, state) => Booked(),
+                  routes: [
+                    GoRoute(
+                      name: 'bookedDetail',
+                      path: '/bookedDetail',
+                      builder: (context, state) => BookedDetail(),
+                    ),
+                  ]),
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: GlobalKey<NavigatorState>(),
+            routes: [
+              GoRoute(
+                  name: 'guestProfile',
+                  path: '/guestProfile',
+                  builder: (context, state) => const Profile(),
+                  routes: [
+                    GoRoute(
+                        name: 'guestGeneralInformation',
+                        path: '/guestGeneralInformation',
+                        builder: (context, state) {
+                          return GeneralInformation();
+                        }),
+                    GoRoute(
+                      name: 'guestLanguage',
+                      path: '/guestLanguage',
+                      builder: (context, state) => const Language(),
+                    ),
+                    GoRoute(
+                      name: 'guestAccount',
+                      path: '/guestAccount',
+                      builder: (context, state) => const Account(),
+                    ),
+                  ]),
+            ],
+          ),
+        ],
+      ),
 
       GoRoute(
           name: 'houseDetail',

@@ -29,11 +29,13 @@ class AccountSetup extends StatelessWidget {
             context.goNamed('otpVerification');
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(state.otpResponseEntity.message),
+              behavior: SnackBarBehavior.floating,
               backgroundColor: ColorConstant.green,
             ));
           } else if (state is OtpErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(state.failure.message),
+              behavior: SnackBarBehavior.floating,
               backgroundColor: ColorConstant.red,
             ));
           }
@@ -98,7 +100,8 @@ class AccountSetup extends StatelessWidget {
                                   _formKey.currentState!.save();
                                   if (_formKey.currentState!.validate()) {
                                     context.read<AuthBloc>().add(CreateOtpEvent(
-                                        phone: "+${state.phoneNumber}"));
+                                        phone:"${state.countryCode}${state.phoneNumber}"));
+                                    print("${state.countryCode}${state.phoneNumber}");
                                   }
                                 },
                           style: ElevatedButton.styleFrom(

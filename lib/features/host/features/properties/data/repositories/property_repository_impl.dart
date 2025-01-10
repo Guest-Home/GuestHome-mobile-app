@@ -18,4 +18,9 @@ class PropertyRepositoryImpl implements PropertyRepository {
       CreatePropertyParam param) async {
     return await sl<PropertyApiDataSource>().createProperty(param);
   }
+
+  @override
+  Future<Either<Failure, bool>> deleteProperty(int id) async {
+    return await sl<PropertyApiDataSource>().deleteProperty(id);
+  }
 }

@@ -14,6 +14,8 @@ import 'package:minapp/features/host/features/properties/presentation/bloc/city/
 import 'package:minapp/features/host/features/properties/presentation/bloc/property_type/property_type_bloc.dart';
 import 'package:minapp/service_locator.dart';
 import 'features/host/features/profile/presentation/bloc/profile_bloc.dart';
+import 'features/host/features/properties/presentation/bloc/add_property/add_property_bloc.dart';
+import 'features/host/features/properties/presentation/bloc/properties_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,14 +47,13 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => sl<LanguageBloc>(),
         ),
-
         BlocProvider(
           create: (context) => sl<AuthBloc>(),
         ),
-        //  BlocProvider(create: (context) => sl<AddPropertyBloc>()),
-        // BlocProvider(
-        //   create: (context) => sl<PropertiesBloc>(),
-        // ),
+        BlocProvider(create: (context) => sl<AddPropertyBloc>()),
+        BlocProvider(
+          create: (context) => sl<PropertiesBloc>()..add(GetPropertiesEvent()),
+        ),
         BlocProvider(
           lazy: false,
           create: (context) =>

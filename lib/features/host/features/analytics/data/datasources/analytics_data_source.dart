@@ -1,5 +1,3 @@
-
-
 import 'dart:isolate';
 
 import 'package:dartz/dartz.dart';
@@ -13,22 +11,21 @@ import '../../../../../../core/error/failure.dart';
 import '../../../../../../core/network/dio_client.dart';
 import '../../../../../../service_locator.dart';
 
-abstract class AnalyticsDataSource{
-  Future<Either<Failure,OccupancyRateModel>> getOccupancyRate();
-  Future<Either<Failure,TotalNumberOfPropertyModel>> getTotalProperty();
-  Future<Either<Failure,CustomOccupancyRateModel>> getCustomOccupancyRate(Map<String,dynamic> dates);
-
-
-
+abstract class AnalyticsDataSource {
+  Future<Either<Failure, OccupancyRateModel>> getOccupancyRate();
+  Future<Either<Failure, TotalNumberOfPropertyModel>> getTotalProperty();
+  Future<Either<Failure, CustomOccupancyRateModel>> getCustomOccupancyRate(
+      Map<String, dynamic> dates);
 }
-class AnalyticsDataSourceImpl extends AnalyticsDataSource{
+
+class AnalyticsDataSourceImpl extends AnalyticsDataSource {
   @override
-  Future<Either<Failure, OccupancyRateModel>> getOccupancyRate()async{
+  Future<Either<Failure, OccupancyRateModel>> getOccupancyRate() async {
     try {
       final response = await sl<DioClient>().get(ApiUrl.occupancyRate);
       if (response.statusCode == 200) {
         final occupancyRate = await Isolate.run(
-              () {
+          () {
             return OccupancyRateModel.fromJson(response.data);
           },
         );
@@ -42,12 +39,12 @@ class AnalyticsDataSourceImpl extends AnalyticsDataSource{
   }
 
   @override
-  Future<Either<Failure, TotalNumberOfPropertyModel>> getTotalProperty()async{
+  Future<Either<Failure, TotalNumberOfPropertyModel>> getTotalProperty() async {
     try {
       final response = await sl<DioClient>().get(ApiUrl.totalProperty);
       if (response.statusCode == 200) {
         final totalProperty = await Isolate.run(
-              () {
+          () {
             return TotalNumberOfPropertyModel.fromMap(response.data);
           },
         );
@@ -61,17 +58,17 @@ class AnalyticsDataSourceImpl extends AnalyticsDataSource{
   }
 
   @override
-  Future<Either<Failure, CustomOccupancyRateModel>> getCustomOccupancyRate(Map<String,dynamic> dates)async{
-    final startDate=dates['startDate'];
-    final endDate=dates['endDate'];
-    print("////");
-    print(startDate);
-    print(endDate);
+  Future<Either<Failure, CustomOccupancyRateModel>> getCustomOccupancyRate(
+      Map<String, dynamic> dates) async {
+    final startDate = dates['startDate'];
+    final endDate = dates['endDate'];
+
     try {
-      final response = await sl<DioClient>().get("${ApiUrl.occupancyRate}?start_date=$startDate&end_date=$endDate");
+      final response = await sl<DioClient>().get(
+          "${ApiUrl.occupancyRate}?start_date=$startDate&end_date=$endDate");
       if (response.statusCode == 200) {
         final occupancyRate = await Isolate.run(
-              () {
+          () {
             return CustomOccupancyRateModel.fromMap(response.data);
           },
         );
@@ -83,5 +80,4 @@ class AnalyticsDataSourceImpl extends AnalyticsDataSource{
       return Left(ServerFailure(e.toString()));
     }
   }
-
 }

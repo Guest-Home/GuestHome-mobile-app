@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:minapp/features/host/features/properties/domain/entities/property_entity.dart';
 import '../../../../../../config/color/color.dart';
@@ -14,7 +13,6 @@ class PropertyCard extends StatefulWidget {
 }
 
 class _PropertyCardState extends State<PropertyCard> {
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -46,8 +44,10 @@ class _PropertyCardState extends State<PropertyCard> {
                           child: CachedNetworkImage(
                             imageUrl:
                                 widget.propertyEntity.houseImage[index].image,
-                            placeholder: (context, url) =>
-                                CupertinoActivityIndicator(),
+                            placeholder: (context, url) => Icon(
+                              Icons.photo,
+                              color: ColorConstant.inActiveColor,
+                            ),
                             errorWidget: (context, url, error) =>
                                 Icon(Icons.error),
                             fit: BoxFit.cover,
@@ -70,8 +70,8 @@ class _PropertyCardState extends State<PropertyCard> {
                           height: 8,
                           margin: EdgeInsets.only(right: 5),
                           decoration: BoxDecoration(
-                              color: ColorConstant.cardGrey
-                                      .withValues(alpha: 0.6),
+                              color:
+                                  ColorConstant.cardGrey.withValues(alpha: 0.6),
                               borderRadius: BorderRadius.circular(40)),
                         ),
                       ),
@@ -130,7 +130,7 @@ class _PropertyCardState extends State<PropertyCard> {
                     spacing: 7,
                     children: [
                       Icon(
-                        Icons.house_outlined,
+                        Icons.home_outlined,
                         color:
                             ColorConstant.primaryColor.withValues(alpha: 0.8),
                       ),

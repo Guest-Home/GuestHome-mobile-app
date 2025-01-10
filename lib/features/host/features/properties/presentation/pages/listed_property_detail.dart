@@ -1,5 +1,3 @@
-import 'dart:isolate';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,11 +8,14 @@ import 'package:minapp/core/common/back_button.dart';
 import 'package:minapp/core/common/constants/house_type_icons.dart';
 import 'package:minapp/core/common/custom_button.dart';
 import 'package:minapp/core/common/custom_text_field.dart';
+import 'package:minapp/core/common/spin_kit_loading.dart';
 import 'package:minapp/core/common/upload_photo_widget.dart';
 import 'package:minapp/features/host/features/properties/domain/entities/property_entity.dart';
+import 'package:minapp/features/host/features/properties/presentation/bloc/add_property/add_property_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/properties_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/property_type/property_type_bloc.dart';
 import '../widgets/house_type_card.dart';
+import '../widgets/property_photo_card.dart';
 import 'add_properties.dart';
 
 class ListedPropertyDetail extends StatefulWidget {
@@ -27,475 +28,674 @@ class ListedPropertyDetail extends StatefulWidget {
 }
 
 class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
+  late TextEditingController nameController;
+  late TextEditingController descriptionController;
+  late TextEditingController addressNmaeController;
+  late TextEditingController cityController;
+  late TextEditingController priceController;
+  late TextEditingController roomController;
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
+    nameController = TextEditingController(text: widget.propertyEntity.title);
+    descriptionController =
+        TextEditingController(text: widget.propertyEntity.description);
+    addressNmaeController =
+        TextEditingController(text: widget.propertyEntity.specificAddress);
+    cityController = TextEditingController(text: widget.propertyEntity.city);
+    priceController =
+        TextEditingController(text: widget.propertyEntity.price.toString());
+    roomController = TextEditingController(
+        text: widget.propertyEntity.numberOfRoom.toString());
+  }
 
+  @override
+  void dispose() {
+    super.dispose();
+    nameController.dispose();
+    descriptionController.dispose();
+    addressNmaeController.dispose();
+    cityController.dispose();
+    priceController.dispose();
+    roomController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Listed Property",
-          style: Theme.of(context).textTheme.bodyLarge,
+        appBar: AppBar(
+          title: Text(
+            "Listed Property",
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
+          leading: AppBarBackButton(
+            route: "properties",
+          ),
+          scrolledUnderElevation: 0,
         ),
-        leading: AppBarBackButton(
-          route: "properties",
-        ),
-        scrolledUnderElevation: 0,
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                PopupMenuButton(
-                  color: Colors.white,
-                  popUpAnimationStyle: AnimationStyle(),
-                  child: Container(
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                            color: ColorConstant.secondBtnColor)),
-                    child: Row(
-                      children: [
-                        Text(
-                          "Menu",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        Icon(Icons.arrow_drop_down_sharp)
-                      ],
-                    ),
-                  ),
-                  itemBuilder: (context) => [
-                    PopupMenuItem(
-                      value: 'delete',
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+        body: BlocConsumer<AddPropertyBloc, AddPropertyState>(
+            listener: (context, state) {
+              if (state is DeletePropertyLoading) {
+                _deletingDialog(context);
+              } else if (state is DeletePropertySuccess) {
+                context.pop();
+                context.read<PropertiesBloc>().add(GetPropertiesEvent());
+                context.goNamed('properties');
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    backgroundColor: ColorConstant.green,
+                    elevation: 0,
+                    behavior: SnackBarBehavior.floating,
+                    content: Text("property deleted")));
+              } else if (state is AddNewPropertyErrorState) {
+                context.pop();
+              }
+            },
+            buildWhen: (previous, current) => previous != current,
+            listenWhen: (previous, current) => previous != current,
+            builder: (context, state) => Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView(
+                        padding: const EdgeInsets.all(16),
                         children: [
-                          Icon(
-                            Icons.delete,
-                            color: ColorConstant.red,
-                            size: 18,
-                          ),
-                          Text(
-                            "Delete house",
-                            style: TextStyle(color: ColorConstant.red),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                  onSelected: (value) {
-                    if (value == 'delete') {
-                      _showDeleteDialog(context);
-                    }
-                  },
-                )
-              ],
-            ),
-            // typeof house
-            Card(
-              elevation: 0.2,
-              color: Colors.white,
-              margin: EdgeInsets.only(top: 10),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  side: BorderSide(color: ColorConstant.cardGrey)),
-              child: ListTile(
-                title: sectionTitle(
-                    context, 'What type of house do you host?'),
-                subtitle: Padding(
-                  padding: const EdgeInsets.only(top: 14),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    spacing: 60,
-                    children: [
-                      Expanded(
-                          child: HouseTypeCard(
-                            iconData: houseTypeIcons[
-                            widget.propertyEntity.typeofHouse]!,
-                            title: widget.propertyEntity.typeofHouse,
-                            isSelected: true,
-                          )),
-                      GestureDetector(
-                        onTap: () {
-                          _showHouseTypeDialog(context);
-                        },
-                        child: SizedBox(
-                          child: Row(
-                            spacing: 4,
-                            children: [
-                              Icon(
-                                Icons.change_circle_outlined,
-                                color: ColorConstant.primaryColor,
-                              ),
-                              Text("Change Type",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!
-                                      .copyWith(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color:
-                                      ColorConstant.primaryColor))
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            // about the house
-            Card(
-                elevation: 0.2,
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    side: BorderSide(color: ColorConstant.cardGrey)),
-                child: ListTile(
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      sectionTitle(context, 'About the house'),
-                      Text(
-                        "Edit",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall!
-                            .copyWith(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            decoration: TextDecoration.underline),
-                      ),
-                    ],
-                  ),
-                  subtitle: Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: 10,
-                      children: [
-                        subSectionText('Registered House name?'),
-                        CustomTextField(
-                          hintText: 'title',
-                          intialValue: widget.propertyEntity.title,
-                          surfixIcon: null,
-                          isMultiLine: false,
-                          onTextChnage: (value) {},
-                          textInputType: TextInputType.text,
-                          prifixIcon: null,
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        subSectionText("Description of the house"),
-                        CustomTextField(
-                            surfixIcon: null,
-                            isMultiLine: true,
-                            onTextChnage: (value) {},
-                            textInputType: TextInputType.text,
-                            prifixIcon: null,
-                            intialValue: widget.propertyEntity.description,
-                            hintText: 'description'),
-                      ],
-                    ),
-                  ),
-                )),
-            SizedBox(
-              height: 16,
-            ),
-            // House Amenities
-            Card(
-              elevation: 0.2,
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  side: BorderSide(color: ColorConstant.cardGrey)),
-              child: ListTile(
-                title: sectionTitle(context, "House Amenities"),
-                subtitle: SizedBox(
-                  child: GridView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    padding: EdgeInsets.all(10),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 1,
-                        crossAxisSpacing: 2,
-                        mainAxisSpacing: 4,
-                        mainAxisExtent: 55),
-                    itemCount:widget.propertyEntity.subDescription==null?0:
-                    widget.propertyEntity.subDescription!.length,
-                    itemBuilder: (context, index) {
-                      return HouseTypeCard(
-                        iconData: amenitiesIcon[amenitiesList[index]]!,
-                        title: amenitiesList[index],
-                        isSelected: false,
-                      ); // Replace with your actual card widget
-                    },
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            //location
-            Card(
-                elevation: 0.2,
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    side: BorderSide(color: ColorConstant.cardGrey)),
-                child: ListTile(
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      sectionTitle(context, 'Location'),
-                      Text(
-                        "Edit",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall!
-                            .copyWith(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            decoration: TextDecoration.underline),
-                      ),
-                    ],
-                  ),
-                  subtitle: Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: 10,
-                      children: [
-                        subSectionText('House Location'),
-                        CustomTextField(
-                          hintText: 'Google map location name',
-                          intialValue:
-                          widget.propertyEntity.latitude.toString(),
-                          surfixIcon: null,
-                          isMultiLine: false,
-                          onTextChnage: (value) {},
-                          textInputType: TextInputType.text,
-                          prifixIcon: null,
-                        ),
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: Row(
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Icon(
-                                Icons.location_pin,
-                                size: 15,
-                                color: ColorConstant.secondBtnColor,
-                              ),
-                              Text(
-                                'Change House Location',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(
-                                    color: ColorConstant.primaryColor),
-                              ),
+                              PopupMenuButton(
+                                color: Colors.white,
+                                popUpAnimationStyle: AnimationStyle(),
+                                child: Container(
+                                  padding: EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                          color: ColorConstant.secondBtnColor)),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "Menu",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall!
+                                            .copyWith(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500),
+                                      ),
+                                      Icon(Icons.arrow_drop_down_sharp)
+                                    ],
+                                  ),
+                                ),
+                                itemBuilder: (context) => [
+                                  PopupMenuItem(
+                                    value: 'delete',
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Icon(
+                                          Icons.delete,
+                                          color: ColorConstant.red,
+                                          size: 18,
+                                        ),
+                                        Text(
+                                          "Delete house",
+                                          style: TextStyle(
+                                              color: ColorConstant.red),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                                onSelected: (value) {
+                                  if (value == 'delete') {
+                                    _showDeleteDialog(
+                                        context, widget.propertyEntity.id);
+                                  }
+                                },
+                              )
                             ],
                           ),
-                        ),
-                        SizedBox(height: 5),
-                        subSectionText(
-                            "Know or address  name of the place"),
-                        CustomTextField(
-                          hintText: 'known address name',
-                          intialValue: widget.propertyEntity.specificAddress
-                              .toString(),
-                          surfixIcon: null,
-                          isMultiLine: false,
-                          onTextChnage: (value) {},
-                          textInputType: TextInputType.text,
-                          prifixIcon: null,
-                        ),
-                        SizedBox(height: 5),
-                        subSectionText("Name of the city"),
-                        CustomTextField(
-                          hintText: widget.propertyEntity.city,
-                          textInputType: TextInputType.text,
-                          surfixIcon: SizedBox(
-                            child: CityDropDown(onSelected: (value) {}),
+                          // typeof house
+                          Card(
+                            elevation: 0.2,
+                            color: Colors.white,
+                            margin: EdgeInsets.only(top: 10),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                side:
+                                    BorderSide(color: ColorConstant.cardGrey)),
+                            child: ListTile(
+                              title: sectionTitle(
+                                  context, 'What type of house do you host?'),
+                              subtitle: Padding(
+                                padding: const EdgeInsets.only(top: 14),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  spacing: 60,
+                                  children: [
+                                    Expanded(
+                                        child: state.houseType.isEmpty
+                                            ? HouseTypeCard(
+                                                iconData: houseTypeIcons[widget
+                                                    .propertyEntity
+                                                    .typeofHouse]!,
+                                                title: widget
+                                                    .propertyEntity.typeofHouse,
+                                                isSelected: true,
+                                              )
+                                            : HouseTypeCard(
+                                                iconData: houseTypeIcons[
+                                                    state.houseType]!,
+                                                title: state.houseType,
+                                                isSelected: true,
+                                              )),
+                                    GestureDetector(
+                                      onTap: () {
+                                        _showHouseTypeDialog(context);
+                                      },
+                                      child: SizedBox(
+                                        child: Row(
+                                          spacing: 4,
+                                          children: [
+                                            Icon(
+                                              Icons.change_circle_outlined,
+                                              color: ColorConstant.primaryColor,
+                                            ),
+                                            Text("Change Type",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium!
+                                                    .copyWith(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: ColorConstant
+                                                            .primaryColor))
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
                           ),
-                          isMultiLine: false,
-                          onTextChnage: (value) {},
-                        ),
-                      ],
-                    ),
-                  ),
-                )),
-            //price
-            Card(
-                elevation: 0.2,
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    side: BorderSide(color: ColorConstant.cardGrey)),
-                child: ListTile(
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      sectionTitle(context, 'Price'),
-                      Text(
-                        "edit",
-                        style:
-                        TextStyle(decoration: TextDecoration.underline),
-                      ),
-                    ],
-                  ),
-                  subtitle: Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: 10,
-                      children: [
-                        subSectionText(
-                            'How many rooms do you have with the same price?'),
-                        CustomTextField(
-                          hintText: 'no room',
-                          intialValue:
-                          widget.propertyEntity.numberOfRoom.toString(),
-                          surfixIcon: null,
-                          isMultiLine: false,
-                          onTextChnage: (value) {},
-                          textInputType: TextInputType.text,
-                          prifixIcon: null,
-                        ),
-                        SizedBox(height: 5),
-                        subSectionText("Price"),
-                        CustomTextField(
-                          hintText: 'price',
-                          intialValue:
-                          widget.propertyEntity.price.toString(),
-                          surfixIcon: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 15),
-                              child: Text(widget.propertyEntity.unit)),
-                          isMultiLine: false,
-                          onTextChnage: (value) {},
-                          textInputType: TextInputType.text,
-                          prifixIcon: null,
-                        ),
-                      ],
-                    ),
-                  ),
-                )),
-            // photo
-            Card(
-                elevation: 0.2,
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    side: BorderSide(color: ColorConstant.cardGrey)),
-                child: ListTile(
-                  title: sectionTitle(context, 'House Photo'),
-                  subtitle: Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      spacing: 10,
-                      children: [
-                        UploadPhoto(
-                          ontTap: () {},
-                        ),
-                        //  photo
-                        SizedBox(
-                            width: double.infinity,
-                            child: GridView.builder(
-                                physics: NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                padding: EdgeInsets.all(10),
-                                gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    childAspectRatio: 1,
-                                    crossAxisSpacing: 10,
-                                    mainAxisSpacing: 10,
-                                    mainAxisExtent: 100),
-                                itemCount:
-                                widget.propertyEntity.houseImage.length,
-                                itemBuilder: (context, index) {
-                                  return PropertyPhotoDetail(
-                                    image: widget
-                                        .propertyEntity.houseImage[0].image,
-                                    ontap: () {},
-                                  );
-                                }))
-                      ],
-                    ),
-                  ),
-                )),
-          ],
-        ),
+                          SizedBox(
+                            height: 16,
+                          ),
+                          // about the house
+                          Card(
+                              elevation: 0.2,
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  side: BorderSide(
+                                      color: ColorConstant.cardGrey)),
+                              child: ListTile(
+                                title: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    sectionTitle(context, 'About the house'),
+                                    Text(
+                                      "Edit",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                              decoration:
+                                                  TextDecoration.underline),
+                                    ),
+                                  ],
+                                ),
+                                subtitle: Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    spacing: 10,
+                                    children: [
+                                      subSectionText('Registered House name?'),
+                                      CustomTextField(
+                                        hintText: 'title',
+                                        textEditingController: nameController,
+                                        surfixIcon: null,
+                                        isMultiLine: false,
+                                        onTextChnage: (value) {},
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
+                                            return 'Please enter house name';
+                                          }
+                                          return null;
+                                        },
+                                        textInputType: TextInputType.text,
+                                        prifixIcon: null,
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      subSectionText(
+                                          "Description of the house"),
+                                      CustomTextField(
+                                          surfixIcon: null,
+                                          isMultiLine: true,
+                                          onTextChnage: (value) {},
+                                          textInputType: TextInputType.text,
+                                          validator: (value) {
+                                            if (value!.isEmpty) {
+                                              return 'Please enter house description';
+                                            }
+                                            return null;
+                                          },
+                                          prifixIcon: null,
+                                          textEditingController:
+                                              descriptionController,
+                                          hintText: 'description'),
+                                    ],
+                                  ),
+                                ),
+                              )),
+                          SizedBox(
+                            height: 16,
+                          ),
+                          // House Amenities
+                          Card(
+                            elevation: 0.2,
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                side:
+                                    BorderSide(color: ColorConstant.cardGrey)),
+                            child: ListTile(
+                              title: sectionTitle(context, "House Amenities"),
+                              subtitle: SizedBox(
+                                child: GridView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  padding: EdgeInsets.all(10),
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2,
+                                          childAspectRatio: 1,
+                                          crossAxisSpacing: 2,
+                                          mainAxisSpacing: 4,
+                                          mainAxisExtent: 55),
+                                  itemCount:
+                                      widget.propertyEntity.subDescription ==
+                                              null
+                                          ? 0
+                                          : widget.propertyEntity
+                                              .subDescription!.length,
+                                  itemBuilder: (context, index) {
+                                    return HouseTypeCard(
+                                      iconData:
+                                          amenitiesIcon[amenitiesList[index]]!,
+                                      title: amenitiesList[index],
+                                      isSelected: false,
+                                    ); // Replace with your actual card widget
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 16,
+                          ),
+                          //location
+                          Card(
+                              elevation: 0.2,
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  side: BorderSide(
+                                      color: ColorConstant.cardGrey)),
+                              child: ListTile(
+                                title: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    sectionTitle(context, 'Location'),
+                                    Text(
+                                      "Edit",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                              decoration:
+                                                  TextDecoration.underline),
+                                    ),
+                                  ],
+                                ),
+                                subtitle: Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    spacing: 10,
+                                    children: [
+                                      subSectionText('House Location'),
+                                      CustomTextField(
+                                        hintText: 'Google map location name',
+                                        textEditingController:
+                                            addressNmaeController,
+                                        surfixIcon: null,
+                                        isMultiLine: false,
+                                        onTextChnage: (value) {},
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
+                                            return 'Please enter location';
+                                          }
+                                          return null;
+                                        },
+                                        textInputType: TextInputType.text,
+                                        prifixIcon: null,
+                                      ),
+                                      Align(
+                                        alignment: Alignment.bottomRight,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Icon(
+                                              Icons.location_pin,
+                                              size: 15,
+                                              color:
+                                                  ColorConstant.secondBtnColor,
+                                            ),
+                                            Text(
+                                              'Change House Location',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium!
+                                                  .copyWith(
+                                                      color: ColorConstant
+                                                          .primaryColor),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(height: 5),
+                                      subSectionText(
+                                          "Know or address  name of the place"),
+                                      CustomTextField(
+                                        hintText: 'known address name',
+                                        textEditingController:
+                                            addressNmaeController,
+                                        surfixIcon: null,
+                                        isMultiLine: false,
+                                        onTextChnage: (value) {},
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
+                                            return 'Please enter location';
+                                          }
+                                          return null;
+                                        },
+                                        textInputType: TextInputType.text,
+                                        prifixIcon: null,
+                                      ),
+                                      SizedBox(height: 5),
+                                      subSectionText("Name of the city"),
+                                      CustomTextField(
+                                        hintText: widget.propertyEntity.city,
+                                        textInputType: TextInputType.text,
+                                        textEditingController: cityController,
+                                        surfixIcon: SizedBox(
+                                          child:
+                                              CityDropDown(onSelected: (value) {
+                                            cityController.text = value;
+                                            context
+                                                .read<AddPropertyBloc>()
+                                                .add(AddCityEvent(city: value));
+                                          }),
+                                        ),
+                                        isMultiLine: false,
+                                        onTextChnage: (value) {},
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
+                                            return 'Please select city';
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )),
+                          //price
+                          Card(
+                              elevation: 0.2,
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  side: BorderSide(
+                                      color: ColorConstant.cardGrey)),
+                              child: ListTile(
+                                title: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    sectionTitle(context, 'Price'),
+                                    Text(
+                                      "edit",
+                                      style: TextStyle(
+                                          decoration: TextDecoration.underline),
+                                    ),
+                                  ],
+                                ),
+                                subtitle: Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    spacing: 10,
+                                    children: [
+                                      subSectionText(
+                                          'How many rooms do you have with the same price?'),
+                                      CustomTextField(
+                                        hintText: 'no room',
+                                        textEditingController: roomController,
+                                        surfixIcon: null,
+                                        isMultiLine: false,
+                                        onTextChnage: (value) {},
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
+                                            return 'Please enter number of houses';
+                                          }
+                                          return null;
+                                        },
+                                        textInputType: TextInputType.number,
+                                        prifixIcon: null,
+                                      ),
+                                      SizedBox(height: 5),
+                                      subSectionText("Price"),
+                                      CustomTextField(
+                                        hintText: 'price',
+                                        textEditingController: priceController,
+                                        surfixIcon: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 15),
+                                            child: Text(
+                                                widget.propertyEntity.unit)),
+                                        isMultiLine: false,
+                                        onTextChnage: (value) {},
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
+                                            return 'Please enter price';
+                                          }
+                                          return null;
+                                        },
+                                        textInputType: TextInputType.number,
+                                        prifixIcon: null,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )),
+                          // photo
+                          Card(
+                              elevation: 0.2,
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  side: BorderSide(
+                                      color: ColorConstant.cardGrey)),
+                              child: ListTile(
+                                title: sectionTitle(context, 'House Photo'),
+                                subtitle: Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    spacing: 10,
+                                    children: [
+                                      UploadPhoto(
+                                        ontTap: () {
+                                          context
+                                              .read<AddPropertyBloc>()
+                                              .add(SelectPhotosEvent());
+                                        },
+                                      ),
+                                      //  photo
+                                      SizedBox(
+                                          width: double.infinity,
+                                          child: GridView.builder(
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
+                                              shrinkWrap: true,
+                                              padding: EdgeInsets.all(10),
+                                              gridDelegate:
+                                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                                      crossAxisCount: 4,
+                                                      childAspectRatio: 1,
+                                                      crossAxisSpacing: 10,
+                                                      mainAxisSpacing: 10,
+                                                      mainAxisExtent: 60),
+                                              itemCount: widget.propertyEntity
+                                                  .houseImage.length,
+                                              itemBuilder: (context, index) {
+                                                return PropertyPhotoDetail(
+                                                  image: widget.propertyEntity
+                                                      .houseImage[0].image,
+                                                  ontap: () {},
+                                                );
+                                              })),
 
-          ),
-          Container(
-              width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.all(17),
-              child: Row(
-                spacing: 10,
-                children: [
-                  Expanded(
-                      child: CustomButton(
-                          onPressed: () {
-                            _showDialog(context);
-                          },
-                          style: ElevatedButton.styleFrom(
-                              side: BorderSide(
-                                  color: ColorConstant.secondBtnColor),
-                              backgroundColor: Colors.white),
-                          child: Text("Cancel",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
-                                    fontWeight: FontWeight.w700,
-                                    color: ColorConstant.secondBtnColor,
-                                  )))),
-                  Expanded(
-                      child: CustomButton(
-                          onPressed: () => context.goNamed('properties'),
-                          style: ElevatedButton.styleFrom(
-                              side:
-                                  BorderSide(color: ColorConstant.primaryColor),
-                              backgroundColor: ColorConstant.primaryColor),
-                          child: Text("Save Changes",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.white,
-                                  ))))
-                ],
-              ))
-        ],
-      ),
-    );
+                                      ListView.builder(
+                                        physics: NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemCount: state.images.length,
+                                        itemBuilder: (context, index) => Card(
+                                            elevation: 0.2,
+                                            color: Colors.white,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                side: BorderSide(
+                                                    color: ColorConstant
+                                                        .cardGrey)),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: PropertyPhotoCard(
+                                                image: state.images[index],
+                                                ontap: () {
+                                                  context
+                                                      .read<AddPropertyBloc>()
+                                                      .add(RemovePictureEvent(
+                                                          index: index));
+                                                },
+                                              ),
+                                            )),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )),
+                        ],
+                      ),
+                    ),
+                    Container(
+                        width: MediaQuery.of(context).size.width,
+                        padding: EdgeInsets.all(17),
+                        child: Row(
+                          spacing: 10,
+                          children: [
+                            Expanded(
+                                child: CustomButton(
+                                    onPressed: () {
+                                      _showDialog(context);
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        side: BorderSide(
+                                            color:
+                                                ColorConstant.secondBtnColor),
+                                        backgroundColor: Colors.white),
+                                    child: Text("Cancel",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium!
+                                            .copyWith(
+                                              fontWeight: FontWeight.w700,
+                                              color:
+                                                  ColorConstant.secondBtnColor,
+                                            )))),
+                            Expanded(
+                                child: CustomButton(
+                                    onPressed: () {
+                                      _formKey.currentState!.save();
+                                      if (_formKey.currentState!.validate()) {
+                                        if (widget.propertyEntity.typeofHouse !=
+                                                state.houseType ||
+                                            widget.propertyEntity.title !=
+                                                nameController.text ||
+                                            widget.propertyEntity.description !=
+                                                descriptionController.text ||
+                                            widget.propertyEntity
+                                                    .specificAddress !=
+                                                addressNmaeController.text ||
+                                            widget.propertyEntity.city !=
+                                                cityController.text ||
+                                            widget.propertyEntity.price
+                                                    .toString() !=
+                                                priceController.text ||
+                                            widget.propertyEntity.numberOfRoom
+                                                    .toString() !=
+                                                roomController.text) {
+                                          context
+                                              .read<AddPropertyBloc>()
+                                              .add(UpdatePropertyEvent());
+                                        }
+                                      }
+
+                                      //  context.goNamed('properties');
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        side: BorderSide(
+                                            color: ColorConstant.primaryColor),
+                                        backgroundColor:
+                                            ColorConstant.primaryColor),
+                                    child: Text("Save Changes",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium!
+                                            .copyWith(
+                                              fontWeight: FontWeight.w700,
+                                              color: Colors.white,
+                                            ))))
+                          ],
+                        ))
+                  ],
+                ))));
   }
 
   Text subSectionText(String title) => Text(
@@ -510,9 +710,11 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
             color: ColorConstant.secondBtnColor, fontWeight: FontWeight.w700));
   }
-  void _showDeleteDialog(BuildContext context) {
+
+  void _showDeleteDialog(BuildContext context, int id) {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) => AlertDialog(
         backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(
@@ -560,9 +762,12 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
         actionsPadding: EdgeInsets.all(10),
         actions: [
           CustomButton(
-              onPressed: () {},
+              onPressed: () {
+                context.pop();
+              },
               style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.all(10),
+                  elevation: 0,
                   side: BorderSide(
                       color:
                           ColorConstant.secondBtnColor.withValues(alpha: 0.5)),
@@ -572,8 +777,14 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                         color: ColorConstant.secondBtnColor,
                       ))),
           CustomButton(
-              onPressed: () {},
+              onPressed: () {
+                context
+                    .read<AddPropertyBloc>()
+                    .add(DeletePropertyEvent(id: id));
+                context.pop();
+              },
               style: ElevatedButton.styleFrom(
+                  elevation: 0,
                   padding: EdgeInsets.only(left: 4, right: 4),
                   backgroundColor: ColorConstant.red),
               child: Text("delete house",
@@ -584,6 +795,38 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
       ),
     );
   }
+
+  void _deletingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        contentPadding: EdgeInsets.all(15),
+        content: SizedBox(
+          height: 80,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              loadingWithPrimary,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "deleting property",
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   void _showHouseTypeDialog(BuildContext context) {
     showDialog(
         context: context,
@@ -593,94 +836,111 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               child: Container(
-                height: MediaQuery.of(context).size.height / 1.7,
-                padding: EdgeInsets.all(15),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 10,
-                  children: [
-                    Text(
-                      "Change House type",
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: ColorConstant.secondBtnColor,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Expanded(
-                      child: BlocBuilder<PropertyTypeBloc, PropertyTypeState>(
-                        builder: (context, state) {
-                          return GridView.builder(
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2, // Number of columns
-                                    childAspectRatio:
-                                        1, // Aspect ratio of each item
-                                    crossAxisSpacing:
-                                        6, // Spacing between columns
-                                    mainAxisSpacing: 6,
-                                    mainAxisExtent: 60),
-                            itemCount: state.propertyTypes
-                                .length, // Number of HouseTypeCard items
-                            itemBuilder: (context, index) {
-                              return HouseTypeCard(
+                  height: MediaQuery.of(context).size.height / 1.7,
+                  padding: EdgeInsets.all(15),
+                  child: BlocBuilder<PropertyTypeBloc, PropertyTypeState>(
+                      builder: (context, state) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 10,
+                      children: [
+                        Text(
+                          "Change House type",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(
+                                  color: ColorConstant.secondBtnColor,
+                                  fontWeight: FontWeight.bold),
+                        ),
+                        Expanded(
+                            child: GridView.builder(
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2, // Number of columns
+                                  childAspectRatio:
+                                      1, // Aspect ratio of each item
+                                  crossAxisSpacing:
+                                      6, // Spacing between columns
+                                  mainAxisSpacing: 6,
+                                  mainAxisExtent: 60),
+                          itemCount: state.propertyTypes
+                              .length, // Number of HouseTypeCard items
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                context.read<PropertyTypeBloc>().add(
+                                    SelectPropertyType(
+                                        propertyType:
+                                            state.propertyTypes[index]));
+                              },
+                              child: HouseTypeCard(
                                 iconData: houseTypeIcons[
                                     state.propertyTypes[index].propertyType]!,
                                 title: state.propertyTypes[index].propertyType,
-                                isSelected: widget.propertyEntity.typeofHouse ==
-                                        state.propertyTypes[index].propertyType
+                                isSelected: state.selectedPropertyType ==
+                                        state.propertyTypes[index]
                                     ? true
                                     : false,
-                              ); // Replace with your actual card widget
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                    Row(
-                      spacing: 10,
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  side: BorderSide(
-                                      color: ColorConstant.secondBtnColor),
-                                  backgroundColor: Colors.white),
-                              child: Text(
-                                "Cancel",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(
-                                      fontWeight: FontWeight.w700,
-                                      color: ColorConstant.secondBtnColor,
-                                    ),
-                              )),
-                        ),
-                        Expanded(
-                          child: ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: ColorConstant.primaryColor),
-                              child: Text(
-                                "Select",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.white,
-                                    ),
-                              )),
+                              ),
+                            ); // Replace with your actual card widget
+                          },
+                        )),
+                        Row(
+                          spacing: 10,
+                          children: [
+                            Expanded(
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      side: BorderSide(
+                                          color: ColorConstant.secondBtnColor),
+                                      backgroundColor: Colors.white),
+                                  child: Text(
+                                    "Cancel",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          fontWeight: FontWeight.w700,
+                                          color: ColorConstant.secondBtnColor,
+                                        ),
+                                  )),
+                            ),
+                            Expanded(
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    context.read<AddPropertyBloc>().add(
+                                        AddHouseTypeEvent(
+                                            houseTYpe: state
+                                                .selectedPropertyType!
+                                                .propertyType));
+                                    context.pop();
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          ColorConstant.primaryColor),
+                                  child: Text(
+                                    "Select",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white,
+                                        ),
+                                  )),
+                            )
+                          ],
                         )
                       ],
-                    )
-                  ],
-                ),
-              ),
+                    );
+                  })),
             ));
   }
+
   void _showDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -730,9 +990,14 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
         actionsPadding: EdgeInsets.all(10),
         actions: [
           CustomButton(
-              onPressed: () {},
+              onPressed: () {
+                context.pop();
+                context.pop();
+                context.read<AddPropertyBloc>().add(ResetEvent());
+              },
               style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.all(0),
+                  elevation: 0,
                   side: BorderSide(
                       color:
                           ColorConstant.secondBtnColor.withValues(alpha: 0.5)),
@@ -742,8 +1007,11 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                         color: ColorConstant.secondBtnColor,
                       ))),
           CustomButton(
-              onPressed: () {},
+              onPressed: () {
+                context.read<AddPropertyBloc>().add(ResetEvent());
+              },
               style: ElevatedButton.styleFrom(
+                  elevation: 0,
                   padding: EdgeInsets.only(left: 4, right: 4),
                   backgroundColor: ColorConstant.primaryColor),
               child: Text("save changes",

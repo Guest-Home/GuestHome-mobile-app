@@ -1,5 +1,3 @@
-
-import 'dart:convert';
 import 'dart:isolate';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -9,23 +7,21 @@ import '../../../../../../core/apiConstants/api_url.dart';
 import '../../../../../../core/error/failure.dart';
 import '../../../../../../core/network/dio_client.dart';
 import '../../../../../../service_locator.dart';
-import '../../domain/entities/reservation_entity.dart';
 
-abstract class ReservationApiDataSource{
+abstract class ReservationApiDataSource {
   Future<Either<Failure, ReservationModel>> getReservation();
-  Future<Either<Failure,bool>> acceptReservation(int id);
-  Future<Either<Failure,bool>> rejectReservation(int id);
+  Future<Either<Failure, bool>> acceptReservation(int id);
+  Future<Either<Failure, bool>> rejectReservation(int id);
 }
 
-
-class ReservationApiDataSourceImpl implements ReservationApiDataSource{
+class ReservationApiDataSourceImpl implements ReservationApiDataSource {
   @override
-  Future<Either<Failure, ReservationModel>> getReservation()async{
+  Future<Either<Failure, ReservationModel>> getReservation() async {
     try {
       final response = await sl<DioClient>().get(ApiUrl.reservations);
       if (response.statusCode == 200) {
         final reservation = await Isolate.run(
-              () {
+          () {
             return reservationFromMap(response.data);
           },
         );
@@ -39,9 +35,10 @@ class ReservationApiDataSourceImpl implements ReservationApiDataSource{
   }
 
   @override
-  Future<Either<Failure, bool>> acceptReservation(int id)async{
+  Future<Either<Failure, bool>> acceptReservation(int id) async {
     try {
-      final response = await sl<DioClient>().put("${ApiUrl.acceptReservations}$id/");
+      final response =
+          await sl<DioClient>().put("${ApiUrl.acceptReservations}$id/");
       if (response.statusCode == 200) {
         return Right(true);
       } else {
@@ -53,9 +50,10 @@ class ReservationApiDataSourceImpl implements ReservationApiDataSource{
   }
 
   @override
-  Future<Either<Failure, bool>> rejectReservation(int id)async{
+  Future<Either<Failure, bool>> rejectReservation(int id) async {
     try {
-      final response = await sl<DioClient>().put("${ApiUrl.rejectReservations}$id/");
+      final response =
+          await sl<DioClient>().put("${ApiUrl.rejectReservations}$id/");
       if (response.statusCode == 200) {
         return Right(true);
       } else {
@@ -65,5 +63,4 @@ class ReservationApiDataSourceImpl implements ReservationApiDataSource{
       return Left(ServerFailure(e.response!.data['msg']!));
     }
   }
-
 }

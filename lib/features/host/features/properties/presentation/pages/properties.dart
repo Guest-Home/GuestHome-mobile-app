@@ -20,9 +20,10 @@ class _PropertiesState extends State<Properties> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: RefreshIndicator(
+          backgroundColor: ColorConstant.primaryColor,
+          color: Colors.white,
            onRefresh: ()async{
              context.read<PropertiesBloc>().add(GetPropertiesEvent());
-
            },
           child: CustomScrollView(
                 slivers: [

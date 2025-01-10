@@ -20,12 +20,12 @@ class ProfileSetup extends StatelessWidget {
 
   _showErrorSnackBar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(backgroundColor: ColorConstant.red, content: Text(message)));
+        SnackBar(backgroundColor: ColorConstant.red, behavior: SnackBarBehavior.floating, content: Text(message)));
   }
 
   _showSuccessSnackBar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(backgroundColor: ColorConstant.green, content: Text(message)));
+        SnackBar(backgroundColor: ColorConstant.green, behavior: SnackBarBehavior.floating, content: Text(message)));
   }
 
   @override

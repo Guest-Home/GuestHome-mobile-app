@@ -10,6 +10,7 @@ import 'package:minapp/core/utils/validator.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/add_property/add_property_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/amenities/amenities_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/city/city_bloc.dart';
+import 'package:minapp/features/host/features/properties/presentation/bloc/properties_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/property_type/property_type_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/widgets/property_photo_card.dart';
 import '../../../../../../config/color/color.dart';
@@ -653,6 +654,7 @@ class _AddPropertiesState extends State<AddProperties> {
             } else if (state is AddNewPropertySuccess) {
               context.read<AddPropertyBloc>().add(NextStepEvent());
               context.read<AddPropertyBloc>().add(ResetEvent());
+              context.read<PropertiesBloc>().add(GetPropertiesEvent());
               context.goNamed('properties');
               _showSuccessSnackBar(context, "property created");
             }
@@ -692,6 +694,8 @@ class _AddPropertiesState extends State<AddProperties> {
   _showErrorSnackBar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message),
+      behavior: SnackBarBehavior.floating,
+      elevation: 0,
       backgroundColor: ColorConstant.red,
     ));
   }
@@ -699,6 +703,8 @@ class _AddPropertiesState extends State<AddProperties> {
   _showSuccessSnackBar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message),
+      behavior: SnackBarBehavior.floating,
+      elevation: 0,
       backgroundColor: ColorConstant.green,
     ));
   }
@@ -718,7 +724,7 @@ class CityDropDown extends StatelessWidget {
         return PopupMenuButton<String>(
           icon: Icon(Icons.arrow_drop_down),
           onSelected: (value) => onSelected(value),
-          position: PopupMenuPosition.under,
+          position: PopupMenuPosition.over,
           color: Colors.white,
           itemBuilder: (BuildContext context) {
             return List.generate(

@@ -18,8 +18,7 @@ class AddPropertyState extends Equatable {
   final double longitude;
   final String specificAddress;
 
-  const AddPropertyState(
-      {
+  const AddPropertyState({
     this.step = 0,
     this.title = '',
     this.description = '',
@@ -34,8 +33,7 @@ class AddPropertyState extends Equatable {
     this.agentId = '',
     this.latitude = 9.02497,
     this.longitude = 38.74689,
-
-      });
+  });
 
   @override
   List<Object> get props => [
@@ -51,25 +49,24 @@ class AddPropertyState extends Equatable {
         images,
         longitude,
         latitude,
-      specificAddress,
-  ];
+        specificAddress,
+      ];
 
-  AddPropertyState copyWith(
-      {int? step,
-      String? houseType,
-      String? title,
-      String? description,
-      List<String>? amenities,
-
-      String? city,
-      String? noRoom,
-      String? price,
-      String? agentId,
-      List<XFile>? images,
-      double? latitude,
-      double? longitude,
-        String? specificAddress,
-      }) {
+  AddPropertyState copyWith({
+    int? step,
+    String? houseType,
+    String? title,
+    String? description,
+    List<String>? amenities,
+    String? city,
+    String? noRoom,
+    String? price,
+    String? agentId,
+    List<XFile>? images,
+    double? latitude,
+    double? longitude,
+    String? specificAddress,
+  }) {
     return AddPropertyState(
         step: step ?? this.step,
         houseType: houseType ?? this.houseType,
@@ -83,8 +80,7 @@ class AddPropertyState extends Equatable {
         images: images ?? this.images,
         latitude: latitude ?? this.latitude,
         longitude: longitude ?? this.longitude,
-        specificAddress: specificAddress?? this.specificAddress
-    );
+        specificAddress: specificAddress ?? this.specificAddress);
   }
 }
 
@@ -93,21 +89,20 @@ class ImagePickerError extends AddPropertyState {
 
   ImagePickerError(AddPropertyState currentState, this.message)
       : super(
-          step: currentState.step,
-          title: currentState.title,
-          description: currentState.description,
-          amenities: currentState.amenities,
-          images: currentState.images,
-          city: currentState.city,
-          houseType: currentState.houseType,
-          noRoom: currentState.noRoom,
-          price: currentState.price,
-          unit: currentState.unit,
-          agentId: currentState.agentId,
-          latitude: currentState.latitude,
-          longitude: currentState.longitude,
-          specificAddress:currentState.specificAddress
-        );
+            step: currentState.step,
+            title: currentState.title,
+            description: currentState.description,
+            amenities: currentState.amenities,
+            images: currentState.images,
+            city: currentState.city,
+            houseType: currentState.houseType,
+            noRoom: currentState.noRoom,
+            price: currentState.price,
+            unit: currentState.unit,
+            agentId: currentState.agentId,
+            latitude: currentState.latitude,
+            longitude: currentState.longitude,
+            specificAddress: currentState.specificAddress);
   @override
   List<Object> get props => super.props + [message];
 }
@@ -115,21 +110,20 @@ class ImagePickerError extends AddPropertyState {
 class AddNewPropertyLoading extends AddPropertyState {
   AddNewPropertyLoading(AddPropertyState currentState)
       : super(
-          step: currentState.step,
-          title: currentState.title,
-          description: currentState.description,
-          amenities: currentState.amenities,
-          images: currentState.images,
-          city: currentState.city,
-          houseType: currentState.houseType,
-          noRoom: currentState.noRoom,
-          price: currentState.price,
-          unit: currentState.unit,
-          agentId: currentState.agentId,
-          latitude: currentState.latitude,
-          longitude: currentState.longitude,
-      specificAddress:currentState.specificAddress
-        );
+            step: currentState.step,
+            title: currentState.title,
+            description: currentState.description,
+            amenities: currentState.amenities,
+            images: currentState.images,
+            city: currentState.city,
+            houseType: currentState.houseType,
+            noRoom: currentState.noRoom,
+            price: currentState.price,
+            unit: currentState.unit,
+            agentId: currentState.agentId,
+            latitude: currentState.latitude,
+            longitude: currentState.longitude,
+            specificAddress: currentState.specificAddress);
 }
 
 class AddNewPropertySuccess extends AddPropertyState {
@@ -143,22 +137,47 @@ class AddNewPropertyErrorState extends AddPropertyState {
   final Failure failure;
   AddNewPropertyErrorState(AddPropertyState currentState, this.failure)
       : super(
-          step: currentState.step,
-          title: currentState.title,
-          description: currentState.description,
-          amenities: currentState.amenities,
-          images: currentState.images,
-          city: currentState.city,
-          houseType: currentState.houseType,
-          noRoom: currentState.noRoom,
-          price: currentState.price,
-          unit: currentState.unit,
-          agentId: currentState.agentId,
-          latitude: currentState.latitude,
-          longitude: currentState.longitude,
-      specificAddress:currentState.specificAddress
-        );
+            step: currentState.step,
+            title: currentState.title,
+            description: currentState.description,
+            amenities: currentState.amenities,
+            images: currentState.images,
+            city: currentState.city,
+            houseType: currentState.houseType,
+            noRoom: currentState.noRoom,
+            price: currentState.price,
+            unit: currentState.unit,
+            agentId: currentState.agentId,
+            latitude: currentState.latitude,
+            longitude: currentState.longitude,
+            specificAddress: currentState.specificAddress);
 
   @override
   List<Object> get props => super.props + [failure];
+}
+
+class DeletePropertyLoading extends AddPropertyState {
+  DeletePropertyLoading(AddPropertyState currentState)
+      : super(
+            step: currentState.step,
+            title: currentState.title,
+            description: currentState.description,
+            amenities: currentState.amenities,
+            images: currentState.images,
+            city: currentState.city,
+            houseType: currentState.houseType,
+            noRoom: currentState.noRoom,
+            price: currentState.price,
+            unit: currentState.unit,
+            agentId: currentState.agentId,
+            latitude: currentState.latitude,
+            longitude: currentState.longitude,
+            specificAddress: currentState.specificAddress);
+}
+
+class DeletePropertySuccess extends AddPropertyState {
+  final bool isDeleted;
+  const DeletePropertySuccess({required this.isDeleted});
+  @override
+  List<Object> get props => [isDeleted];
 }

@@ -1,10 +1,3 @@
-// To parse this JSON data, do
-//
-//     final reservation = reservationFromMap(jsonString);
-
-import 'dart:convert';
-
-import 'package:minapp/features/host/features/request/domain/entities/reservation_entity.dart';
 
 ReservationModel reservationFromMap(Map<String,dynamic> str) => ReservationModel.fromMap(str);
 

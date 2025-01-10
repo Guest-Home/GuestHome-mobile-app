@@ -38,9 +38,12 @@ class HouseDetail extends StatelessWidget {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(1),
                               child: CachedNetworkImage(
-                                imageUrl:"https://media.architecturaldigest.com/photos/57e42deafe422b3e29b7e790/master/pass/JW_LosCabos_2015_MainExterior.jpg",
-                                placeholder: (context, url) =>CupertinoActivityIndicator(),
-                                errorWidget: (context, url, error) => Icon(Icons.error),
+                                imageUrl:
+                                    "https://media.architecturaldigest.com/photos/57e42deafe422b3e29b7e790/master/pass/JW_LosCabos_2015_MainExterior.jpg",
+                                placeholder: (context, url) =>
+                                    CupertinoActivityIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
                                 fit: BoxFit.cover,
                                 width: MediaQuery.of(context).size.width,
                               ),
@@ -122,8 +125,8 @@ class HouseDetail extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: SecctionHeader(title:  tr("Facilities"),
-                     isSeeMore: false),
+                child:
+                    SecctionHeader(title: tr("Facilities"), isSeeMore: false),
               ),
               AvailableFacilities(),
             ],
@@ -186,9 +189,10 @@ class SeeMoreText extends StatefulWidget {
   const SeeMoreText({super.key, required this.text, this.maxLines = 4});
 
   @override
-  _SeeMoreTextState createState() => _SeeMoreTextState();
+  SeeMoreTextState createState() => SeeMoreTextState();
 }
-class _SeeMoreTextState extends State<SeeMoreText> {
+
+class SeeMoreTextState extends State<SeeMoreText> {
   bool _isExpanded = true;
 
   @override

@@ -67,11 +67,9 @@ class PropertyModel extends PropertyEntity {
         postedBy: PostedByModel.fromMap(json["postedBy"]),
         houseImage: List<HouseImageModel>.from(
             json["houseImage"].map((x) => HouseImageModel.fromMap(x))),
-        subDescription:json["sub_description"]?.toString().split(',').toList(),
+        subDescription: json["sub_description"]?.toString().split(',').toList(),
         specificAddress: json["specificAddress"],
       );
-
-
 }
 
 class HouseImageModel extends HouseImageEntity {
@@ -126,17 +124,18 @@ class PostedByModel extends PostedByEntity {
         profilePicture: json["profilePicture"],
         typeOfCustomer: json["typeOfCustomer"],
         rating: json["rating"],
-        chatId:json["chatId"]??'',
+        chatId: json["chatId"] ?? '',
         isApproved: json["is_approved"],
         points: json["points"],
         gender: json["gender"],
-        agentModel: json['agent']!=null?AgentModel.fromMap(json["agent"]):null,
+        agentModel:
+            json['agent'] != null ? AgentModel.fromMap(json["agent"]) : null,
         language: json["language"],
       );
 }
 
 class AgentModel extends AgentEntity {
-  AgentModel(
+  const AgentModel(
       {required id,
       required userModel,
       required profilePicture,

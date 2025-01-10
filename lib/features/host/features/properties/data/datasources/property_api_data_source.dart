@@ -18,6 +18,7 @@ abstract class PropertyApiDataSource {
   Future<Either<Failure, List<AmenityModel>>> getAmenity();
   Future<Either<Failure, List<CityModel>>> getCities();
   Future<Either<Failure, bool>> createProperty(CreatePropertyParam param);
+  Future<Either<Failure, bool>> deleteProperty(int id);
 }
 
 class PropertyApiDataSourceImpl implements PropertyApiDataSource {
@@ -109,16 +110,29 @@ class PropertyApiDataSourceImpl implements PropertyApiDataSource {
   Future<Either<Failure, bool>> createProperty(
       CreatePropertyParam param) async {
     try {
-      final response =
-          await sl<DioClient>().post(ApiUrl.property, data: param.formData,options: Options(contentType:'multipart/form-data'));
+      final response = await sl<DioClient>().post(ApiUrl.property,
+          data: param.formData,
+          options: Options(contentType: 'multipart/form-data'));
       if (response.statusCode == 201) {
         return Right(true);
       } else {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      print("//////////////");
-      print(e.type);
+      print(e.message);
+      return Left(ServerFailure(e.response!.statusMessage.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> deleteProperty(int id) async {
+    try {
+      await sl<DioClient>().delete(
+        "${ApiUrl.property}$id/",
+      );
+
+      return Right(true);
+    } on DioException catch (e) {
       return Left(ServerFailure(e.response!.statusMessage.toString()));
     }
   }
