@@ -8,6 +8,11 @@ import 'package:minapp/features/auth/domain/repositories/otp_repository.dart';
 import 'package:minapp/features/auth/domain/usecases/create_otp_usecase.dart';
 import 'package:minapp/features/auth/domain/usecases/verify_otp_usecase.dart';
 import 'package:minapp/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:minapp/features/guest/features/HousType/data/datasources/house_data_source.dart';
+import 'package:minapp/features/guest/features/HousType/data/repositories/house_repository_impl.dart';
+import 'package:minapp/features/guest/features/HousType/domain/repositories/house_repository.dart';
+import 'package:minapp/features/guest/features/HousType/domain/usecases/get_house_bytype_usecase.dart';
+import 'package:minapp/features/guest/features/HousType/presentation/bloc/houstype_bloc.dart';
 import 'package:minapp/features/host/features/analytics/data/datasources/analytics_data_source.dart';
 import 'package:minapp/features/host/features/analytics/data/repositories/occupancy_rate_repository_impl.dart';
 import 'package:minapp/features/host/features/analytics/domain/repositories/analytics_repository.dart';
@@ -38,12 +43,14 @@ import 'package:minapp/features/host/features/properties/domain/usecases/get_ame
 import 'package:minapp/features/host/features/properties/domain/usecases/get_cities_usecase.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/get_properties_usecase.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/get_property_type_usecase.dart';
+import 'package:minapp/features/host/features/properties/domain/usecases/search_property_usecase.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/update_property_usecase.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/add_property/add_property_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/amenities/amenities_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/city/city_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/properties_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/property_type/property_type_bloc.dart';
+import 'package:minapp/features/host/features/properties/presentation/bloc/search_property/search_property_bloc.dart';
 import 'package:minapp/features/host/features/request/data/datasources/reservation_remote_api.dart';
 import 'package:minapp/features/host/features/request/data/repositories/reservation_repository_impl.dart';
 import 'package:minapp/features/host/features/request/domain/repositories/reservation_repository.dart';
@@ -84,6 +91,13 @@ void setup() async {
   sl.registerFactory<TotalPropertyBloc>(
     () => TotalPropertyBloc(),
   );
+  sl.registerFactory<SearchPropertyBloc>(
+    () => SearchPropertyBloc(),
+  );
+
+  sl.registerFactory<HoustypeBloc>(
+    () => HoustypeBloc(),
+  );
 
   // usecase
 
@@ -107,6 +121,9 @@ void setup() async {
   sl.registerSingleton<DeletePropertyUsecase>(DeletePropertyUsecase());
   sl.registerSingleton<UpdatePropertyUseCase>(UpdatePropertyUseCase());
   sl.registerSingleton<GetAgentUsecase>(GetAgentUsecase());
+  sl.registerSingleton<SearchPropertyUseCase>(SearchPropertyUseCase());
+
+  sl.registerSingleton<GetHouseBytypeUsecase>(GetHouseBytypeUsecase());
 
   // repository
 
@@ -118,6 +135,7 @@ void setup() async {
   sl.registerSingleton<UserProfileRepository>(UserProfileRepositoryImple());
   sl.registerSingleton<ReservationRepository>(ReservationRepositoryImpl());
   sl.registerSingleton<AnalyticsRepository>(OccupancyRateRepositoryImpl());
+  sl.registerSingleton<HouseRepository>(HouseRepositoryImpl());
 
   // data source
 
@@ -127,6 +145,7 @@ void setup() async {
   sl.registerSingleton<ReservationApiDataSource>(
       ReservationApiDataSourceImpl());
   sl.registerSingleton<AnalyticsDataSource>(AnalyticsDataSourceImpl());
+  sl.registerSingleton<HouseDataSource>(HouseDataSourceImpl());
 
   //dio client
   sl.registerSingleton<DioClient>(DioClient());

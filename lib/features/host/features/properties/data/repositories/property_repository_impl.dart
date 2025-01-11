@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:minapp/core/error/failure.dart';
 import 'package:minapp/features/host/features/properties/data/datasources/property_api_data_source.dart';
 import 'package:minapp/features/host/features/properties/data/models/property_model.dart';
+import 'package:minapp/features/host/features/properties/domain/entities/property_entity.dart';
 import 'package:minapp/features/host/features/properties/domain/repositories/property_repository.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/create_property_usecase.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/update_property_usecase.dart';
@@ -35,5 +36,10 @@ class PropertyRepositoryImpl implements PropertyRepository {
   @override
   Future<Either<Failure, AgentPModel>> getAgent(int id) async {
     return await sl<PropertyApiDataSource>().getAgent(id);
+  }
+
+  @override
+  Future<Either<Failure, List<PropertyEntity>>> searchProperty(String name)async{
+    return await sl<PropertyApiDataSource>().searchProperty(name);
   }
 }

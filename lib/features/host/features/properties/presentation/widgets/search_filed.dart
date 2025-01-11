@@ -15,6 +15,7 @@ class SearchField extends StatelessWidget {
     return TextFormField(
         keyboardType: TextInputType.text,
         onChanged: (value) => onTextChnage(value),
+        enabled: false,
         decoration: InputDecoration(
           filled: true,
           fillColor: ColorConstant.cardGrey.withValues(alpha: 0.8),

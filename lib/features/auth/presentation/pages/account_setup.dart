@@ -99,9 +99,7 @@ class AccountSetup extends StatelessWidget {
                               : () {
                                   _formKey.currentState!.save();
                                   if (_formKey.currentState!.validate()) {
-                                    context.read<AuthBloc>().add(CreateOtpEvent(phone:"${state.countryCode}${state.phoneNumber}"));
-                                    print("${state.countryCode}${state.phoneNumber}");
-                                    // send textcontroller
+                                    context.read<AuthBloc>().add(CreateOtpEvent(phone:"${state.countryCode}${_phoneController.text}"));
                                   }
                                 },
                           style: ElevatedButton.styleFrom(

@@ -6,7 +6,7 @@ class ApiUrl {
       "B53duKdPa_0FlTCWjeHLkpL_AxFqy7qDwZrmE7mfU2csLwhMU1dhRGPARm1GtJzh2_8qEB6GGiTBtx_qR0KbFII1BGkoSmugIm8LyVU9cK9HFT8iALzdOT6F6RZw1zXK19K8JA";
 
   // Auth
-
+  static const String refresh = "/auth/api/v1/token/refresh/";
   static const String otp = "/authapp/api/v1/otp/";
   static const String customer = "/hostapp/api/v1/customer/";
   static const String updateUserAccount = "/authapp/api/v1/user_account_update/";
@@ -22,6 +22,7 @@ class ApiUrl {
   static const String occupancyRate = "/hostapp/api/v1/occupancy_rate/";
   static const String totalProperty = "/hostapp/api/v1/total_number_of_property/";
   static const String agent = "/hostapp/api/v1/agent/";
+  static const String hostHouseSearch = "/hostapp/api/v1/houses_search/";
 
   //host
 

@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/properties_bloc.dart';
 import '../../../../../../config/color/color.dart';
 import '../../../../../../core/common/custom_button.dart';
+import '../../../../../../service_locator.dart';
+import '../bloc/search_property/search_property_bloc.dart';
 import '../widgets/property_card.dart';
 import '../widgets/search_filed.dart';
 
@@ -20,13 +22,13 @@ class _PropertiesState extends State<Properties> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: RefreshIndicator(
-          backgroundColor: ColorConstant.primaryColor,
-          color: Colors.white,
-           onRefresh: ()async{
-             context.read<PropertiesBloc>().add(GetPropertiesEvent());
-           },
-          child: CustomScrollView(
-                slivers: [
+      backgroundColor: ColorConstant.primaryColor,
+      color: Colors.white,
+      onRefresh: () async {
+        context.read<PropertiesBloc>().add(GetPropertiesEvent());
+      },
+      child: CustomScrollView(
+        slivers: [
           SliverAppBar(
             backgroundColor: Colors.white,
             title: Text(
@@ -49,9 +51,14 @@ class _PropertiesState extends State<Properties> {
               collapseMode: CollapseMode.pin,
               title: Container(
                   padding: EdgeInsets.all(16),
-                  child: SearchField(
-                    prifixIcon: Icon(Icons.search),
-                    onTextChnage: (value) {},
+                  child: BlocProvider(
+                    create: (context) => sl<SearchPropertyBloc>(),
+                    child: BlocBuilder<SearchPropertyBloc, SearchPropertyState>(
+                      buildWhen: (previous, current) => previous!=current,
+                      builder: (context, state) {
+                        return CustomSearchAnchor(state: state,);
+                      },
+                    ),
                   )),
             ),
           ),
@@ -95,9 +102,68 @@ class _PropertiesState extends State<Properties> {
               return SliverToBoxAdapter(child: SizedBox.shrink());
             },
           ),
-                ],
-              ),
-        ));
+        ],
+      ),
+    ));
+  }
+}
+
+class CustomSearchAnchor extends StatefulWidget {
+  const CustomSearchAnchor({
+    super.key,
+    required this.state
+  });
+
+  final SearchPropertyState state;
+  @override
+  State<CustomSearchAnchor> createState() => _CustomSearchAnchorState();
+}
+
+class _CustomSearchAnchorState extends State<CustomSearchAnchor> {
+  @override
+  Widget build(BuildContext context) {
+    return SearchAnchor(
+      dividerColor: ColorConstant.cardGrey,
+      isFullScreen: true,
+      viewHintText: 'search',
+      viewLeading: IconButton(
+          onPressed: () {
+            context.read<SearchPropertyBloc>().add(ResetEvent());
+            context.pop();
+          },
+          icon: const Icon(Icons.arrow_back_ios)),
+      viewOnChanged: (value) {
+        if (value.isNotEmpty) {
+          context.read<SearchPropertyBloc>().add(SearchEvent(name: value));
+        }
+      },
+      builder: (context, controller) => SearchField(
+        prifixIcon: Icon(Icons.search),
+        onTextChnage: (value) {},
+      ),
+      suggestionsBuilder: (context, controller) =>[],
+      viewBuilder: (suggestions) {
+        final state = widget.state;
+        // React to the current state
+        if (state is SearchPropertyLoading) {
+          return Center(
+            child: CupertinoActivityIndicator(),
+          );
+        } else if (state is SearchPropertyLoaded) {
+
+          return state.properties.isNotEmpty? GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+            ),
+            itemCount:state.properties.length,
+            itemBuilder: (context, index) {
+              return Text(state.properties[index].title); // Replace with your UI
+            },
+          ): Center(child: Text("no property found"));
+        }
+        return Center(child: Text("search property"));
+      },
+    );
   }
 }
 

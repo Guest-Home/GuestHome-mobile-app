@@ -5,7 +5,6 @@ import 'package:equatable/equatable.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:minapp/core/error/failure.dart';
 import 'package:minapp/core/utils/get_location.dart';
-import 'package:minapp/features/host/features/properties/domain/entities/property_entity.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/create_property_usecase.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/delete_property_usecase.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/get_agent_usecase.dart';
@@ -151,34 +150,44 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
     on<UpdatePropertyEvent>(
       (event, emit) async {
         emit(UpdatePropertyLoading(state));
-        final formMap=event.propertyEntity;
-        if(state.images.isNotEmpty){
+        final formMap = event.propertyEntity;
+        if (state.images.isNotEmpty) {
           final imageMultipartFiles =
-          await Future.wait(state.images.map((image) async {
+              await Future.wait(state.images.map((image) async {
             return await MultipartFile.fromFile(
               image.path,
             );
           }));
-          formMap['image']=imageMultipartFiles;
+          formMap['image'] = imageMultipartFiles;
         }
         final FormData formData = FormData.fromMap(formMap);
-        Either response=await sl<UpdatePropertyUseCase>().call(UpdatePropertyParam(formData: formData, id: event.id));
-        response.fold((l) => emit(AddNewPropertyErrorState(state, l)),(r) => emit(UpdatePropertySuccess(isUpdate: r)),);
-
+        Either response = await sl<UpdatePropertyUseCase>()
+            .call(UpdatePropertyParam(formData: formData, id: event.id));
+        response.fold(
+          (l) => emit(AddNewPropertyErrorState(state, l)),
+          (r) => emit(UpdatePropertySuccess(isUpdate: r)),
+        );
       },
     );
 
-    on<GetAgentEvent>((event, emit)async{
-     emit(GetAgentLoading(state));
-     Either response=await sl<GetAgentUsecase>().call(event.agentId);
-     final token=await GetToken().getUserToken();
-     response.fold((l) => emit(AddNewPropertyErrorState(state,l)),(r){
-
-       emit(state.copyWith(agentPEntity: r,token: token));
-     }, );
-
-    },);
-    on<SelectAgentEvent>((event, emit) => emit(state.copyWith(agentSelected: event.selected)),);
-    on<RemoveSelectedAgentEvent>((event, emit) => emit(state.copyWith(agentPEntity:const AgentPEntity())),);
+    on<GetAgentEvent>(
+      (event, emit) async {
+        emit(GetAgentLoading(state));
+        Either response = await sl<GetAgentUsecase>().call(event.agentId);
+        final token = await GetToken().getUserToken();
+        response.fold(
+          (l) => emit(AddNewPropertyErrorState(state, l)),
+          (r) {
+            emit(state.copyWith(agentPEntity: r, token: token));
+          },
+        );
+      },
+    );
+    on<SelectAgentEvent>(
+      (event, emit) => emit(state.copyWith(agentSelected: event.selected)),
+    );
+    on<RemoveSelectedAgentEvent>(
+      (event, emit) => emit(state.copyWith(agentPEntity: const AgentPEntity())),
+    );
   }
 }

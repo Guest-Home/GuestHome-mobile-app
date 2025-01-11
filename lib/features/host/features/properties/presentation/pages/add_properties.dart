@@ -510,116 +510,178 @@ class _AddPropertiesState extends State<AddProperties> {
                                   context,
                                   "Enter agent id if you don’t have click finish(optional)",
                                   false),
-
-                              if(!state.agentSelected)
-                              CustomTextField(
-                                textEditingController: agentIdController,
-                                hintText: "agent id",
-                                surfixIcon: null,
-                                isMultiLine: false,
-                                validator: (value) {
-                                  return null;
-                                },
-                                textInputType: TextInputType.text,
-                                onTextChnage: (value) {
-                                  if (value.isNotEmpty) {
-                                    context.read<AddPropertyBloc>().add(GetAgentEvent(agentId:int.parse(agentIdController.text)));
-                                  }
-
-                                },
-                              ),
-                              if(state.agentSelected)
-                                  Container(
-                                      padding: EdgeInsets.symmetric(horizontal:10,vertical:5),
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(15),
-                                          border:Border.all(color: ColorConstant.cardGrey)
-                                      ),
-                                      child:Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(
-                                            spacing: 6,
-                                            children: [
-                                              CircleAvatar(
-                                                radius: 15,
-                                                backgroundColor: ColorConstant.cardGrey,
-                                                backgroundImage: CachedNetworkImageProvider(
-                                                  ApiUrl.baseUrl +
-                                                      state.agentPEntity.profilePicture!,
-                                                  headers: {
-                                                    'Authorization': 'Bearer ${state.token}'
-                                                  },
-                                                ),
+                              if (!state.agentSelected)
+                                CustomTextField(
+                                  textEditingController: agentIdController,
+                                  hintText: "agent id",
+                                  surfixIcon: null,
+                                  isMultiLine: false,
+                                  validator: (value) {
+                                    return null;
+                                  },
+                                  textInputType: TextInputType.text,
+                                  onTextChnage: (value) {
+                                    if (value.isNotEmpty) {
+                                      context.read<AddPropertyBloc>().add(
+                                          GetAgentEvent(
+                                              agentId: int.parse(
+                                                  agentIdController.text)));
+                                    }
+                                  },
+                                ),
+                              if (state.agentSelected)
+                                Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 5),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        border: Border.all(
+                                            color: ColorConstant.cardGrey)),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          spacing: 6,
+                                          children: [
+                                            CircleAvatar(
+                                              radius: 15,
+                                              backgroundColor:
+                                                  ColorConstant.cardGrey,
+                                              backgroundImage:
+                                                  CachedNetworkImageProvider(
+                                                ApiUrl.baseUrl +
+                                                    state.agentPEntity
+                                                        .profilePicture!,
+                                                headers: {
+                                                  'Authorization':
+                                                      'Bearer ${state.token}'
+                                                },
                                               ),
-                                              Text("${state.agentPEntity.user!.firstName!} ${state.agentPEntity.user!.lastName!}",style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                                  color: ColorConstant.secondBtnColor,
-                                                  fontWeight: FontWeight.w500)),
-                                              Text(state.agentPEntity.id.toString(),style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                                  color: ColorConstant.secondBtnColor.withValues(alpha: 0.6)
-                                              ),),
-                                            ],),
-                                        IconButton(onPressed: (){
-                                                       context.read<AddPropertyBloc>().add(SelectAgentEvent(selected: false));
-                                                       context.read<AddPropertyBloc>().add(AdddAgentIdEvent(agentId:''));
-                                                       context.read<AddPropertyBloc>().add((RemoveSelectedAgentEvent()));
-                                                       agentIdController.text='';
-                                             }, icon:   Icon(Icons.delete,color: ColorConstant.red,))
-
-
-                                        ],)
-
-                                  ),
-
+                                            ),
+                                            Text(
+                                                "${state.agentPEntity.user!.firstName!} ${state.agentPEntity.user!.lastName!}",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge!
+                                                    .copyWith(
+                                                        color: ColorConstant
+                                                            .secondBtnColor,
+                                                        fontWeight:
+                                                            FontWeight.w500)),
+                                            Text(
+                                              state.agentPEntity.id.toString(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium!
+                                                  .copyWith(
+                                                      color: ColorConstant
+                                                          .secondBtnColor
+                                                          .withValues(
+                                                              alpha: 0.6)),
+                                            ),
+                                          ],
+                                        ),
+                                        IconButton(
+                                            onPressed: () {
+                                              context
+                                                  .read<AddPropertyBloc>()
+                                                  .add(SelectAgentEvent(
+                                                      selected: false));
+                                              context
+                                                  .read<AddPropertyBloc>()
+                                                  .add(AdddAgentIdEvent(
+                                                      agentId: ''));
+                                              context.read<AddPropertyBloc>().add(
+                                                  (RemoveSelectedAgentEvent()));
+                                              agentIdController.text = '';
+                                            },
+                                            icon: Icon(
+                                              Icons.delete,
+                                              color: ColorConstant.red,
+                                            ))
+                                      ],
+                                    )),
                               SizedBox(
                                 height: 5,
                               ),
-                              if(state is GetAgentLoading)
-                                Row(mainAxisAlignment: MainAxisAlignment.center, children: [CupertinoActivityIndicator()],),
-                              if(state.agentPEntity.id!=null && !state.agentSelected)
+                              if (state is GetAgentLoading)
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [CupertinoActivityIndicator()],
+                                ),
+                              if (state.agentPEntity.id != null &&
+                                  !state.agentSelected)
                                 SizedBox(
                                   child: GestureDetector(
                                     onTap: () {
-                                      context.read<AddPropertyBloc>().add(SelectAgentEvent(selected: true));
-                                        context.read<AddPropertyBloc>().add(AdddAgentIdEvent(agentId:state.agentPEntity.id.toString()));
+                                      context.read<AddPropertyBloc>().add(
+                                          SelectAgentEvent(selected: true));
+                                      context.read<AddPropertyBloc>().add(
+                                          AdddAgentIdEvent(
+                                              agentId: state.agentPEntity.id
+                                                  .toString()));
                                     },
                                     child: Container(
-                                      padding: EdgeInsets.symmetric(horizontal: 12,vertical: 8),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        border:Border.all(color: ColorConstant.secondBtnColor,width: 1.2)
-                                      ),
-                                      child:Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                        Row(
-                                          spacing: 5,
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 12, vertical: 8),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            border: Border.all(
+                                                color: ColorConstant
+                                                    .secondBtnColor,
+                                                width: 1.2)),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
+                                            Row(
+                                              spacing: 5,
+                                              children: [
                                                 CircleAvatar(
-                                                radius: 15,
-                                                backgroundColor: ColorConstant.cardGrey,
-                                                backgroundImage: CachedNetworkImageProvider(
-                                                ApiUrl.baseUrl +
-                                                state.agentPEntity.profilePicture!,
-                                                headers: {
-                                                'Authorization': 'Bearer ${state.token}'
-                                                },
+                                                  radius: 15,
+                                                  backgroundColor:
+                                                      ColorConstant.cardGrey,
+                                                  backgroundImage:
+                                                      CachedNetworkImageProvider(
+                                                    ApiUrl.baseUrl +
+                                                        state.agentPEntity
+                                                            .profilePicture!,
+                                                    headers: {
+                                                      'Authorization':
+                                                          'Bearer ${state.token}'
+                                                    },
+                                                  ),
                                                 ),
-                                                ),
-                                                Text("${state.agentPEntity.user!.firstName!} ${state.agentPEntity.user!.lastName!}",style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                                color: ColorConstant.secondBtnColor,
-                                                fontWeight: FontWeight.w500)),
-                                                ],),
-                                          Text(state.agentPEntity.id.toString(),style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                              color: ColorConstant.secondBtnColor.withValues(alpha: 0.6)
-                                          ),),
-
-                                                ],)
-
-                                    ),
+                                                Text(
+                                                    "${state.agentPEntity.user!.firstName!} ${state.agentPEntity.user!.lastName!}",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyLarge!
+                                                        .copyWith(
+                                                            color: ColorConstant
+                                                                .secondBtnColor,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500)),
+                                              ],
+                                            ),
+                                            Text(
+                                              state.agentPEntity.id.toString(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium!
+                                                  .copyWith(
+                                                      color: ColorConstant
+                                                          .secondBtnColor
+                                                          .withValues(
+                                                              alpha: 0.6)),
+                                            ),
+                                          ],
+                                        )),
                                   ),
                                 )
-
                             ],
                           ),
                         ))

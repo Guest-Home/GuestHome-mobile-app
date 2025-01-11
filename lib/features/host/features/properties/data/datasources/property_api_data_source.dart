@@ -23,6 +23,8 @@ abstract class PropertyApiDataSource {
   Future<Either<Failure, bool>> deleteProperty(int id);
   Future<Either<Failure, bool>> updateProperty(UpdatePropertyParam param);
   Future<Either<Failure, AgentPModel>> getAgent(int id);
+  Future<Either<Failure,List<PropertyModel>>> searchProperty(String name);
+
 }
 
 class PropertyApiDataSourceImpl implements PropertyApiDataSource {
@@ -175,6 +177,27 @@ class PropertyApiDataSourceImpl implements PropertyApiDataSource {
       }
     } on DioException catch (e) {
       return Left(ServerFailure(e.response!.data['msg'].toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<PropertyModel>>> searchProperty(String name)async{
+    try {
+      final response = await sl<DioClient>().get("${ApiUrl.hostHouseSearch}?query=$name");
+      if (response.statusCode == 200) {
+        final properties = await Isolate.run(
+              () {
+            return (response.data as List)
+                .map((e) => PropertyModel.fromMap(e))
+                .toList();
+          },
+        );
+        return Right(properties);
+      } else {
+        return Left(ServerFailure(response.data['error']));
+      }
+    } on DioException catch (e) {
+      return Left(ServerFailure(e.response!.data.toString()));
     }
   }
 }

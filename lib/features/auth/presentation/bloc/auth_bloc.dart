@@ -69,7 +69,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         response.fold(
           (l) => emit(OtpErrorState(state, l)),
           (r) async {
-            emit(VerifyedOtpLodedState(state, r));
+            emit(VerifyedOtpLodedState(state,r));
             // store token
             await _storeTokens(r);
           },

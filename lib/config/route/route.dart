@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/config/route/navigator_observer.dart';
+import 'package:minapp/features/guest/features/HousType/presentation/bloc/houstype_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/pages/booking.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/pages/house_detail.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/pages/house_type.dart';
@@ -39,7 +40,7 @@ Future<GoRouter> createRouter() async {
 
   final GoRouter router = GoRouter(
     observers: [MyNavigatorObserver()],
-    initialLocation: isFirstTimeUser ? '/onboarding' : '/properties',
+    initialLocation: isFirstTimeUser ? '/onboarding' : '/houseType',
     errorBuilder: (context, state) => Scaffold(
       body: Center(
         child: Text("page not found"),
@@ -205,10 +206,16 @@ Future<GoRouter> createRouter() async {
                   builder: (context, state) => HouseType(),
                   routes: [
                     GoRoute(
-                      name: 'houseTypeDetail',
-                      path: '/houseTypeDetail',
-                      builder: (context, state) => HouseTypeDetail(),
-                    ),
+                        name: 'houseTypeDetail',
+                        path: '/houseTypeDetail',
+                        builder: (context, state) {
+                          final name = state.extra as String;
+                          return BlocProvider(
+                            create: (context) => sl<HoustypeBloc>()
+                              ..add(GetPropertyByHouseTypeEvent(name: name)),
+                            child: HouseTypeDetail(),
+                          );
+                        }),
                   ]),
             ],
           ),

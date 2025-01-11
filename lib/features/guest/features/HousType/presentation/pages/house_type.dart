@@ -34,11 +34,12 @@ class HouseType extends StatelessWidget {
       body: SingleChildScrollView(
         padding: EdgeInsets.all(15),
         child: Column(
-          spacing: 10,
+          spacing: 15,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            //carousel
             SizedBox(
-                height: 200,
+                height: MediaQuery.of(context).size.height * 0.32,
                 width: MediaQuery.of(context).size.width,
                 child: CarouselView(
                     itemExtent: MediaQuery.of(context).size.width,
@@ -48,7 +49,7 @@ class HouseType extends StatelessWidget {
                         children: [
                           Container(
                             width: MediaQuery.of(context).size.width,
-                            height: 200,
+                            height: MediaQuery.of(context).size.height * 0.32,
                             color: ColorConstant.cardGrey,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
@@ -66,7 +67,7 @@ class HouseType extends StatelessWidget {
                           ),
                           Positioned(
                             bottom: 5,
-                            left: 20,
+                            left: 13,
                             right: 20,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -77,7 +78,8 @@ class HouseType extends StatelessWidget {
                                     .textTheme
                                     .bodyLarge!
                                     .copyWith(
-                                        fontWeight: FontWeight.w400,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
                                         color: Colors.white),
                               ),
                             ),
@@ -89,45 +91,40 @@ class HouseType extends StatelessWidget {
               title: "What are you looking for?",
               isSeeMore: false,
             ),
-            BlocBuilder<PropertyTypeBloc,
-                PropertyTypeState>(
+            // house type
+            BlocBuilder<PropertyTypeBloc, PropertyTypeState>(
               builder: (context, state) {
                 return GridView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  gridDelegate:
-                  SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 13,
+                      mainAxisSpacing: 13,
                       mainAxisExtent: 100),
                   itemCount: state.propertyTypes.length,
-                  itemBuilder: (context, index) =>
-                      GestureDetector(
-                        onTap: () {
-                          context.goNamed("houseTypeDetail");
-                        },
-                        child: AnimatedContainer(
-                          duration: Duration(milliseconds: 100),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                              BorderRadius.circular(15),
-                              border: Border.all(
-                                color: Colors.white,
-                              )),
-                          child: HouseTypeCard(
-                            image: houseTypeIcons[state
-                                .propertyTypes[index]
-                                .propertyType]!,
-                            title: state
-                                .propertyTypes[index].propertyType,
-                          ),
-                        ),
+                  itemBuilder: (context, index) => GestureDetector(
+                    onTap: () {
+                      context.goNamed("houseTypeDetail",
+                          extra: state.propertyTypes[index].propertyType);
+                    },
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds: 100),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(
+                            color: Colors.white,
+                          )),
+                      child: HouseTypeCard(
+                        image: houseTypeIcons[
+                            state.propertyTypes[index].propertyType]!,
+                        title: state.propertyTypes[index].propertyType,
                       ),
+                    ),
+                  ),
                 );
               },
             ),
-
           ],
         ),
       ),

@@ -20,12 +20,12 @@ class OtpVerification extends StatelessWidget {
         listener: (context, state) {
           if (state is VerifyedOtpLodedState) {
             if (state.verifyOtpEntity.hasProfile) {
-              context.goNamed('properties');
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   backgroundColor: ColorConstant.green,
                   elevation: 0,
                   behavior: SnackBarBehavior.floating,
                   content: Text("Otp Verified")));
+              context.goNamed('properties');
             } else {
               context.goNamed('profileSetup');
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -34,7 +34,8 @@ class OtpVerification extends StatelessWidget {
                   behavior: SnackBarBehavior.floating,
                   content: Text("Otp Verified")));
             }
-          } else if (state is OtpErrorState) {
+          }
+          if (state is OtpErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 backgroundColor: ColorConstant.red,
                 behavior: SnackBarBehavior.floating,

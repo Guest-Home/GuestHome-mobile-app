@@ -31,10 +31,10 @@ class ApiDataSourceImpl implements ApiDataSource {
             await Isolate.run(() => OtpResponseModel.fromJson(response.data));
         return Right(createdOtP);
       } else {
-        return Left(ServerFailure(response.data['error']));
+        return Left(ServerFailure(response.data['Error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.response.toString()));
+      return Left(ServerFailure(e.response!.data.toString()));
     }
   }
 
@@ -52,10 +52,10 @@ class ApiDataSourceImpl implements ApiDataSource {
             await Isolate.run(() => VerifyOtpModel.fromJson(response.data));
         return Right(verify);
       } else {
-        return Left(ServerFailure(response.data['error']));
+        return Left(ServerFailure(response.data['Error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.response.toString()));
+      return Left(ServerFailure(e.response!.data.toString()));
     }
   }
 
@@ -85,10 +85,10 @@ class ApiDataSourceImpl implements ApiDataSource {
             () => CustomerProfileModel.fromJson(response.data));
         return Right(customerProfile);
       } else {
-        return Left(ServerFailure(response.data['error']));
+        return Left(ServerFailure(response.data['Error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.response.toString()));
+      return Left(ServerFailure(e.response!.data.toString()));
     }
   }
 }
