@@ -17,11 +17,12 @@ class HouseDataSourceImpl implements HouseDataSource {
   @override
   Future<Either<Failure, GpropertyModel>> getPropertyByType(String name) async {
     try {
-      final response = await sl<DioClient>().get(ApiUrl.property);
+      final response = await sl<DioClient>().get("${ApiUrl.propertyByType}?category=$name");
       if (response.statusCode == 200) {
         final properties = await Isolate.run(
           () {
-            return GpropertyModel.fromMap(response.data);
+            return gpropertyModelFromMap(response.data);
+            // GpropertyModel.fromMap(response.data);
           },
         );
         return Right(properties);

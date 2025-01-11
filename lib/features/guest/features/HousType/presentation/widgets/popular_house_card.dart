@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:minapp/features/guest/features/HousType/domain/entities/g_property_entity.dart';
 
 import '../../../../../../config/color/color.dart';
 
@@ -11,43 +11,55 @@ class PopularHouseCard extends StatelessWidget {
     required this.width,
     required this.height,
     required this.hasStatus,
+    required this.property
   });
 
   final double width;
   final double? height;
   final bool hasStatus;
+  final ResultEntity property;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       width: width,
-      height: height,
-      child: Card(
-        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        color: Colors.white,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-            side:  BorderSide(
-                    color: ColorConstant.cardGrey.withValues(alpha: 0.6))),
-        elevation: 0,
-        child: Column(
+      height: MediaQuery.of(context).size.height*0.6,
+      margin: EdgeInsets.only(bottom: 20),
+      child:
+        Column(
           children: [
             Expanded(
                 child: Stack(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: CachedNetworkImage(
-                    imageUrl:"https://media.architecturaldigest.com/photos/57e42deafe422b3e29b7e790/master/pass/JW_LosCabos_2015_MainExterior.jpg",
-                    placeholder: (context, url) =>CupertinoActivityIndicator(),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
-                    fit: BoxFit.cover,
-                    width: MediaQuery.of(context).size.width,
-                    height: 250,
-                  ),
-                ),
+                CarouselView(
+                    elevation: 0,
+                    padding: EdgeInsets.all(0),
+                    reverse: false,
+                    backgroundColor: ColorConstant.cardGrey,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    itemExtent: MediaQuery.of(context).size.width,
+                    children: List.generate(
+                     property.houseImage!.length,
+                          (index) => ClipRRect(
+                        borderRadius: BorderRadius.circular(13),
+                        child: CachedNetworkImage(
+                          imageUrl:
+                         property.houseImage![index].image!,
+                          placeholder: (context, url) => Icon(
+                            Icons.photo,
+                            color: ColorConstant.inActiveColor,
+                          ),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
+                          fit: BoxFit.cover,
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height*0.6,
+                        ),
+                      ),
+                    )),
                 Positioned(
-                    bottom: 10,
+                    bottom: 8,
                     left: 0,
                     right: 0,
                     child: Row(
@@ -63,7 +75,7 @@ class PopularHouseCard extends StatelessWidget {
                               ),
                               child: Row(
                                 children: List.generate(
-                                    3,
+                                    property.houseImage!.length,
                                     (index) => Container(
                                           width: 7,
                                           height: 7,
@@ -79,20 +91,23 @@ class PopularHouseCard extends StatelessWidget {
             ListTile(
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                spacing: 10,
                 children: [
-                  Text(
-                    "Hasset Pension",
+                  Text(property.title!,
+                    textAlign:TextAlign.start,
+                    overflow: TextOverflow.ellipsis,
                     style: Theme.of(context)
                         .textTheme
                         .bodyLarge!
-                        .copyWith(fontWeight: FontWeight.bold),
+                        .copyWith(fontWeight: FontWeight.w600,fontSize: 18),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
+                    spacing: 2,
                     children: [
                       Icon(
                         Icons.star,
-                        size: 18,
+                        size: 20,
                         color: ColorConstant.yellow,
                       ),
                       Text(
@@ -100,7 +115,7 @@ class PopularHouseCard extends StatelessWidget {
                         style: Theme.of(context)
                             .textTheme
                             .bodySmall!
-                            .copyWith(fontWeight: FontWeight.bold),
+                            .copyWith(fontWeight: FontWeight.w700,fontSize: 13),
                       )
                     ],
                   ),
@@ -108,21 +123,30 @@ class PopularHouseCard extends StatelessWidget {
               ),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: 6,
+                spacing: 7,
                 children: [
-                  Text("Wifi, Kitchen",
-                      style: TextStyle(
-                          color: ColorConstant.secondBtnColor
-                              .withValues(alpha: 0.4))),
+                  Text(property.subDescription!.toString(),
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.ellipsis,
+                      style:Theme.of(context).textTheme.bodySmall!.copyWith(
+                        fontSize: 14,
+                   fontWeight: FontWeight.w400,
+    color: ColorConstant.secondBtnColor
+        .withValues(alpha: 0.4)
+    )
+                  ),
                   RichText(
                       text: TextSpan(children: [
                     TextSpan(
                         text:tr("posted by"),
-                        style: TextStyle(
-                            color: ColorConstant.secondBtnColor
-                                .withValues(alpha: 0.4))),
+                           style:Theme.of(context).textTheme.bodySmall!.copyWith(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: ColorConstant.secondBtnColor
+                          .withValues(alpha: 0.4)
+                  )),
                     TextSpan(
-                        text: " @UserName",
+                        text: " @${property.postedBy!.userAccount!.firstName} ${property.postedBy!.userAccount!.lastName}",
                         style: TextStyle(
                             color: ColorConstant.secondBtnColor
                                 .withValues(alpha: 1)))
@@ -130,12 +154,13 @@ class PopularHouseCard extends StatelessWidget {
                   RichText(
                       text: TextSpan(children: [
                     TextSpan(
-                        text: "300 ETB ",
+                        text: "${property.price} ${property.unit} ",
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                            fontWeight: FontWeight.w700,
                             color: ColorConstant.secondBtnColor)),
                     TextSpan(
-                        text: tr("per day"),
+                        text: tr("/ day"),
                         style: TextStyle(
                             color: ColorConstant.secondBtnColor
                                 .withValues(alpha: 0.7))),
@@ -146,13 +171,14 @@ class PopularHouseCard extends StatelessWidget {
                     children: [
                       Icon(
                         Icons.location_pin,
-                        size: 19,
+                        size: 21,
                         color: ColorConstant.secondBtnColor,
                       ),
                       Text(
-                        "Addis Ababa,Ethiopia",
+                        "${property.specificAddress!}, ${property.city!}",
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14,
                             color: ColorConstant.secondBtnColor),
                       )
                     ],
@@ -196,7 +222,7 @@ class PopularHouseCard extends StatelessWidget {
               )
           ],
         ),
-      ),
+
     );
   }
 }

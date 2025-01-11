@@ -11,4 +11,11 @@ class HoustypeInitial extends HoustypeState {}
 
 class HouseTypeLoadingState extends HoustypeState {}
 
-class HouseTYpeLoadedState extends HoustypeState {}
+class HouseTYpeLoadedState extends HoustypeState {
+  final GpropertyEntity properties;
+  const HouseTYpeLoadedState({required this.properties});
+}
+class HouseTYpeErrorState extends HoustypeState {
+  final Failure failure;
+  const HouseTYpeErrorState({required this.failure});
+}

@@ -34,11 +34,12 @@ class Booked extends StatelessWidget {
             child: ListView.builder(
               itemBuilder: (context, index) => GestureDetector(
                 onTap: () => context.goNamed('bookedDetail'),
-                child: PopularHouseCard(
-                  width: MediaQuery.of(context).size.width,
-                  height: 400,
-                  hasStatus: true,
-                ),
+                child: Text("data")
+                // PopularHouseCard(
+                //   width: MediaQuery.of(context).size.width,
+                //   height: 400,
+                //   hasStatus: true,
+                // ),
               ),
             ),
           ),

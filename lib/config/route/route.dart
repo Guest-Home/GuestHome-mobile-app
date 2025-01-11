@@ -211,11 +211,26 @@ Future<GoRouter> createRouter() async {
                         builder: (context, state) {
                           final name = state.extra as String;
                           return BlocProvider(
-                            create: (context) => sl<HoustypeBloc>()
-                              ..add(GetPropertyByHouseTypeEvent(name: name)),
-                            child: HouseTypeDetail(),
+                            create: (context) => sl<HoustypeBloc>(),
+                            child: HouseTypeDetail(
+                              name: name,
+                            ),
                           );
-                        }),
+                        },
+                        routes: [
+                          GoRoute(
+                              name: 'houseDetail',
+                              path: '/houseDetail',
+                              builder: (context, state) => HouseDetail(),
+                              routes: [
+                                GoRoute(
+                                  name: 'booking',
+                                  path: '/booking',
+                                  builder: (context, state) => Booking(),
+                                ),
+                              ]),
+                        ]
+                        ),
                   ]),
             ],
           ),
@@ -265,17 +280,7 @@ Future<GoRouter> createRouter() async {
         ],
       ),
 
-      GoRoute(
-          name: 'houseDetail',
-          path: '/houseDetail',
-          builder: (context, state) => HouseDetail(),
-          routes: [
-            GoRoute(
-              name: 'booking',
-              path: '/booking',
-              builder: (context, state) => Booking(),
-            ),
-          ]),
+
     ],
   );
   return router;

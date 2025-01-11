@@ -24,7 +24,8 @@ class ApiUrl {
   static const String agent = "/hostapp/api/v1/agent/";
   static const String hostHouseSearch = "/hostapp/api/v1/houses_search/";
 
-  //host
 
   //guest
+  static const String propertyByType = "/guestapp/api/v1/properties_by_type/";
+
 }
