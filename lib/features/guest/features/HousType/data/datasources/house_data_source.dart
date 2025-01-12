@@ -11,6 +11,8 @@ import '../../../../../../core/network/dio_client.dart';
 
 abstract class HouseDataSource {
   Future<Either<Failure, GpropertyModel>> getPropertyByType(String name);
+  Future<Either<Failure, GpropertyModel>> getPopularProperty();
+
 }
 
 class HouseDataSourceImpl implements HouseDataSource {
@@ -23,6 +25,25 @@ class HouseDataSourceImpl implements HouseDataSource {
           () {
             return gpropertyModelFromMap(response.data);
             // GpropertyModel.fromMap(response.data);
+          },
+        );
+        return Right(properties);
+      } else {
+        return Left(ServerFailure(response.data['error']));
+      }
+    } on DioException catch (e) {
+      return Left(ServerFailure(e.response!.data.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, GpropertyModel>> getPopularProperty()async{
+    try {
+      final response = await sl<DioClient>().get(ApiUrl.tradingProperty);
+      if (response.statusCode == 200) {
+        final properties = await Isolate.run(
+              () {
+            return gpropertyModelFromMap(response.data);
           },
         );
         return Right(properties);

@@ -27,5 +27,6 @@ class ApiUrl {
 
   //guest
   static const String propertyByType = "/guestapp/api/v1/properties_by_type/";
+  static const String tradingProperty = "/guestapp/api/v1/property_trending/";
 
 }

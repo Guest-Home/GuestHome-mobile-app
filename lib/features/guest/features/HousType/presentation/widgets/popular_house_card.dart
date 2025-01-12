@@ -11,12 +11,16 @@ class PopularHouseCard extends StatelessWidget {
     required this.width,
     required this.height,
     required this.hasStatus,
-    required this.property
+    required this.property,
+    required this.showBorder,
+    required this.showIndicator
   });
 
   final double width;
   final double? height;
   final bool hasStatus;
+  final bool showBorder;
+  final bool showIndicator;
   final ResultEntity property;
 
   @override
@@ -25,6 +29,13 @@ class PopularHouseCard extends StatelessWidget {
       width: width,
       height: MediaQuery.of(context).size.height*0.6,
       margin: EdgeInsets.only(bottom: 20),
+      // decoration: BoxDecoration(
+      //   borderRadius: BorderRadius.circular(10),
+      //   border: showBorder?Border.all(
+      //     width:0.4,
+      //     color: ColorConstant.cardGrey
+      //   ):Border.all(color: Colors.transparent)
+      // ),
       child:
         Column(
           children: [
@@ -37,12 +48,11 @@ class PopularHouseCard extends StatelessWidget {
                     reverse: false,
                     backgroundColor: ColorConstant.cardGrey,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
+                        borderRadius:showBorder? BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)):BorderRadius.circular(10)),
                     itemExtent: MediaQuery.of(context).size.width,
                     children: List.generate(
                      property.houseImage!.length,
                           (index) => ClipRRect(
-                        borderRadius: BorderRadius.circular(13),
                         child: CachedNetworkImage(
                           imageUrl:
                          property.houseImage![index].image!,
@@ -58,6 +68,7 @@ class PopularHouseCard extends StatelessWidget {
                         ),
                       ),
                     )),
+                if(showIndicator)
                 Positioned(
                     bottom: 8,
                     left: 0,
@@ -111,7 +122,7 @@ class PopularHouseCard extends StatelessWidget {
                         color: ColorConstant.yellow,
                       ),
                       Text(
-                        "4.0/5.0",
+                        "${property.postedBy!.rating}/5.0",
                         style: Theme.of(context)
                             .textTheme
                             .bodySmall!

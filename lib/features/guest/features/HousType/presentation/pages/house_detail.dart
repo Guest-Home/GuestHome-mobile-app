@@ -2,167 +2,226 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
 import 'package:minapp/core/common/back_button.dart';
+import 'package:minapp/core/common/constants/house_type_icons.dart';
 import 'package:minapp/core/common/custom_button.dart';
+import 'package:minapp/features/guest/features/HousType/domain/entities/g_property_entity.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/widgets/section_header_text.dart';
-import 'package:minapp/features/guest/features/booked/presentation/widgets/available_facilities.dart';
 
 class HouseDetail extends StatelessWidget {
-  const HouseDetail({super.key});
+  const HouseDetail({super.key,required this.property});
+
+  final ResultEntity property;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: AppBarBackButton(
-          route: "houseTypeDetail",
-        ),
+        leading: AppBarBackButton(),
       ),
       body: Column(
-        spacing: 10,
+        spacing: 15,
         children: [
           Expanded(
               child: ListView(
             padding: EdgeInsets.all(15),
             children: [
               SizedBox(
-                  height: 200,
+                  height: MediaQuery.of(context).size.height * 0.34,
                   width: MediaQuery.of(context).size.width,
-                  child: CarouselView(
-                      itemExtent: MediaQuery.of(context).size.width,
-                      children: [
-                        Stack(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(1),
-                              child: CachedNetworkImage(
-                                imageUrl:
-                                    "https://media.architecturaldigest.com/photos/57e42deafe422b3e29b7e790/master/pass/JW_LosCabos_2015_MainExterior.jpg",
-                                placeholder: (context, url) =>
-                                    CupertinoActivityIndicator(),
-                                errorWidget: (context, url, error) =>
-                                    Icon(Icons.error),
-                                fit: BoxFit.cover,
-                                width: MediaQuery.of(context).size.width,
-                              ),
-                            ),
-                            Positioned(
-                                bottom: 10,
-                                left: 0,
-                                right: 0,
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                          height: 25,
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 20, vertical: 5),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(100),
-                                            color: Colors.black
-                                                .withValues(alpha: 0.4),
-                                          ),
-                                          child: Row(
-                                            children: List.generate(
-                                                3,
-                                                (index) => Container(
-                                                      width: 7,
-                                                      height: 7,
-                                                      margin: EdgeInsets.only(
-                                                          right: 5),
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          color: Colors.white),
-                                                    )),
-                                          ))
-                                    ]))
-                          ],
-                        )
-                      ])),
+                  child:Stack(
+       children: [
+         CarouselView(
+    itemExtent: MediaQuery.of(context).size.width,
+    children: List.generate(
+    property.houseImage!.length,
+    (index) =>
+    ClipRRect(
+    borderRadius: BorderRadius.circular(10),
+    child: CachedNetworkImage(
+    imageUrl:property.houseImage![index].image!,
+    placeholder: (context, url) =>
+    CupertinoActivityIndicator(),
+    errorWidget: (context, url, error) =>
+    Icon(Icons.error),
+    fit: BoxFit.cover,
+    width: MediaQuery.of(context).size.width,
+    ),
+    ),
+    )),
+         Positioned(
+             bottom: 10,
+             left: 0,
+             right: 0,
+             child: Row(
+                 mainAxisAlignment: MainAxisAlignment.center,
+                 children: [
+                   Container(
+                       height: 25,
+                       padding: EdgeInsets.symmetric(
+                           horizontal: 20, vertical: 5),
+                       decoration: BoxDecoration(
+                         borderRadius:
+                         BorderRadius.circular(100),
+                         color: Colors.black
+                             .withValues(alpha: 0.4),
+                       ),
+                       child: Row(
+                         children: List.generate(
+                             property.houseImage!.length,
+                                 (index) => Container(
+                               width: 7,
+                               height: 7,
+                               margin: EdgeInsets.only(
+                                   right: 5),
+                               decoration: BoxDecoration(
+                                   shape:
+                                   BoxShape.circle,
+                                   color:index==0?Colors.white:ColorConstant.cardGrey.withValues(alpha: 0.6)),
+                             )),
+                       ))
+                 ]))
+    ],
+    )
+
+    ),
               ListTile(
                   title: SecctionHeader(
-                      title: 'Stylish Guest House', isSeeMore: false),
+                      title:property.title!, isSeeMore: false),
                   subtitle: SeeMoreText(
-                    text:
-                        'Lorem ipsum dolor sit amet consectetur. Purus elit susp endisse massa turpis et amet. Dignissim diam vel odio risus .Lorem ipsum dolor sit amet consectetur. Purus elit suspe ndisse massa turpis et amet. Dignissim   Readmore.',
+                    text:property.description!,
                     maxLines: 4,
                   )),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
                 child: Row(
                   spacing: 5,
                   children: [
                     Icon(
                       Icons.location_pin,
-                      size: 19,
+                      size: 17,
                     ),
-                    Text(
-                      "Addis Ababa, Ayat",
-                      style: Theme.of(context).textTheme.bodyMedium,
+                    Text(property.specificAddress!,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w600),
                     )
                   ],
                 ),
               ),
+              SizedBox(height: 10,),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   spacing: 10,
                   children: [
-                    CircleAvatar(),
+                    CircleAvatar(
+                      radius: 20,
+                      backgroundColor: ColorConstant.cardGrey,
+                      child: Text(property.postedBy!.userAccount!.firstName!.substring(0,1).toUpperCase()+property.postedBy!.userAccount!.lastName!.substring(0,1).toUpperCase()),),
                     Text(
-                      "${tr("posted by")} Yonas",
+                      "${tr("posted by")} ${property.postedBy!.userAccount!.firstName!}",
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!
-                          .copyWith(fontWeight: FontWeight.bold),
+                          .copyWith(fontWeight: FontWeight.w600),
                     )
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child:
-                    SecctionHeader(title: tr("Facilities"), isSeeMore: false),
-              ),
-              AvailableFacilities(),
+              Card(
+                elevation: 0,
+                color: ColorConstant.cardGrey.withValues(alpha: 0.2),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    side:
+                    BorderSide(color: ColorConstant.cardGrey.withValues(alpha:0))),
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: 10,
+                    children: [
+                      Text(tr("Facilities"),style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontWeight: FontWeight.w600),),
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Wrap(
+                          spacing: 30,
+                          runSpacing: 20,
+                          children: List.generate(
+                            property.subDescription!.split(',').length,
+                                (index){
+                              final facilities=property.subDescription!.split(',');
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                spacing: 1,
+                                children: [
+                                  Container(
+                                      padding: EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+
+                                          shape: BoxShape.circle,),
+                                      child:SvgPicture.asset(
+                                        amenitiesIcon[facilities[index]]!,
+                                        fit: BoxFit.cover,
+                                        width: 25,
+                                        height: 25,
+                                      )
+                                  ),
+                                  Text(facilities[index],style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 10
+                                  ),)
+                                ],
+                              );
+                                }
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
             ],
           )),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Divider(),
+            child: Divider(color: ColorConstant.cardGrey.withValues(alpha: 0.9),),
           ),
           Container(
             width: MediaQuery.of(context).size.width,
             padding: EdgeInsets.all(15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              spacing: 15,
+              spacing: 30,
               children: [
                 Row(
-                  spacing: 10,
+                  spacing:3,
                   children: [
                     Text(
-                      "200 ETB/",
+                      "200 ETB",
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge!
-                          .copyWith(fontWeight: FontWeight.w800),
+                          .copyWith(fontWeight: FontWeight.w800,fontSize: 16),
                     ),
-                    Text(tr("per day"))
+                    Text(tr("per day"),style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      fontWeight: FontWeight.w400,
+                      color: ColorConstant.inActiveColor
+                    ),)
                   ],
                 ),
                 Expanded(
                     child: CustomButton(
                         onPressed: () {
-                          context.goNamed('booking');
+                          context.push('/booking',extra: property.id);
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: ColorConstant.primaryColor,
-                          padding: EdgeInsets.all(20),
+                          padding: EdgeInsets.all(18),
                         ),
                         child: Text(
                           tr("Book"),
@@ -207,6 +266,10 @@ class SeeMoreTextState extends State<SeeMoreText> {
           softWrap: true,
           maxLines: _isExpanded ? null : widget.maxLines,
           overflow: TextOverflow.ellipsis,
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+            fontSize: 12,
+            fontWeight: FontWeight.w400
+          ),
         ),
         GestureDetector(
           onTap: () {
@@ -216,7 +279,7 @@ class SeeMoreTextState extends State<SeeMoreText> {
           },
           child: Text(
             _isExpanded ? 'See More' : 'See Less',
-            style: textTheme.bodyMedium?.copyWith(
+            style: textTheme.bodySmall?.copyWith(
               color: ColorConstant.primaryColor,
               fontWeight: FontWeight.bold,
             ),

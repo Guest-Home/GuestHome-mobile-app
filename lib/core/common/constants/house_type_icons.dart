@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 const Map<String, String> houseTypeIcons = {
   "Private Room": 'assets/icons/housetype/proom.svg',
   "Apartment": 'assets/icons/housetype/apartment.svg',
@@ -53,4 +55,10 @@ const List<String> amenitiesList = [
   "Wi-Fi",
   "Workspace/Desk",
   "Done"
+];
+const List<Color> amenityColor=[
+  Colors.green,
+  Colors.limeAccent,
+  Colors.white70
+
 ];

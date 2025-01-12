@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/config/route/navigator_observer.dart';
+import 'package:minapp/features/guest/features/HousType/domain/entities/g_property_entity.dart';
+import 'package:minapp/features/guest/features/HousType/presentation/bloc/booking/booking_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/houstype_bloc.dart';
+import 'package:minapp/features/guest/features/HousType/presentation/bloc/popular_property/popular_property_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/pages/booking.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/pages/house_detail.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/pages/house_type.dart';
@@ -210,26 +213,15 @@ Future<GoRouter> createRouter() async {
                         path: '/houseTypeDetail',
                         builder: (context, state) {
                           final name = state.extra as String;
-                          return BlocProvider(
-                            create: (context) => sl<HoustypeBloc>(),
-                            child: HouseTypeDetail(
-                              name: name,
-                            ),
-                          );
+                          return MultiBlocProvider(providers:[
+                            BlocProvider(create: (context) => sl<HoustypeBloc>()..add(GetPropertyByHouseTypeEvent(name:name),)),
+                            BlocProvider(create: (context) => sl<PopularPropertyBloc>()..add(GetPopularPropertyEvent()),),
+                          ],
+                              child:HouseTypeDetail(
+                                name: name,
+                              ), );
+
                         },
-                        routes: [
-                          GoRoute(
-                              name: 'houseDetail',
-                              path: '/houseDetail',
-                              builder: (context, state) => HouseDetail(),
-                              routes: [
-                                GoRoute(
-                                  name: 'booking',
-                                  path: '/booking',
-                                  builder: (context, state) => Booking(),
-                                ),
-                              ]),
-                        ]
                         ),
                   ]),
             ],
@@ -278,6 +270,24 @@ Future<GoRouter> createRouter() async {
             ],
           ),
         ],
+      ),
+      GoRoute(
+          name: 'houseDetail',
+          path: '/houseDetail',
+          builder: (context, state){
+            final property = state.extra as ResultEntity;
+          return HouseDetail(property:property,);
+            },
+      ),
+      GoRoute(
+        name: 'booking',
+        path: '/booking',
+        builder: (context, state){
+          final id=state.extra as int;
+    return BlocProvider(create:(context) => sl<BookingBloc>(),child: Booking(id: id,),);
+  }
+
+
       ),
 
 

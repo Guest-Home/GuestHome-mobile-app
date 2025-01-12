@@ -12,7 +12,10 @@ import 'package:minapp/features/guest/features/HousType/data/datasources/house_d
 import 'package:minapp/features/guest/features/HousType/data/repositories/house_repository_impl.dart';
 import 'package:minapp/features/guest/features/HousType/domain/repositories/house_repository.dart';
 import 'package:minapp/features/guest/features/HousType/domain/usecases/get_house_bytype_usecase.dart';
+import 'package:minapp/features/guest/features/HousType/domain/usecases/get_popular_property_usecase.dart';
+import 'package:minapp/features/guest/features/HousType/presentation/bloc/booking/booking_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/houstype_bloc.dart';
+import 'package:minapp/features/guest/features/HousType/presentation/bloc/popular_property/popular_property_bloc.dart';
 import 'package:minapp/features/host/features/analytics/data/datasources/analytics_data_source.dart';
 import 'package:minapp/features/host/features/analytics/data/repositories/occupancy_rate_repository_impl.dart';
 import 'package:minapp/features/host/features/analytics/domain/repositories/analytics_repository.dart';
@@ -98,7 +101,12 @@ void setup() async {
   sl.registerFactory<HoustypeBloc>(
     () => HoustypeBloc(),
   );
-
+  sl.registerFactory<BookingBloc>(
+    () => BookingBloc(),
+  );
+  sl.registerFactory<PopularPropertyBloc>(
+        () => PopularPropertyBloc(),
+  );
   // usecase
 
   sl.registerSingleton<CreateOtpUsecase>(CreateOtpUsecase());
@@ -124,6 +132,7 @@ void setup() async {
   sl.registerSingleton<SearchPropertyUseCase>(SearchPropertyUseCase());
 
   sl.registerSingleton<GetHouseBytypeUsecase>(GetHouseBytypeUsecase());
+  sl.registerSingleton<GetPopularPropertyUseCase>(GetPopularPropertyUseCase());
 
   // repository
 

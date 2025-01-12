@@ -94,6 +94,9 @@ class HouseType extends StatelessWidget {
             // house type
             BlocBuilder<PropertyTypeBloc, PropertyTypeState>(
               builder: (context, state) {
+                if(state.propertyTypes.isEmpty){
+                  return Center(child: Text("no property found"),);
+                }
                 return GridView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,

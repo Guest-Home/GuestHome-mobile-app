@@ -4,4 +4,5 @@ import 'package:minapp/features/guest/features/HousType/domain/entities/g_proper
 
 abstract class HouseRepository {
   Future<Either<Failure, GpropertyEntity>> getPropertyByType(String name);
+  Future<Either<Failure, GpropertyEntity>> getPopularProperty();
 }

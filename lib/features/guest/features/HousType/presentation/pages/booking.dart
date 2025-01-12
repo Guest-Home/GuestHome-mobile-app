@@ -1,213 +1,308 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/core/common/custom_text_field.dart';
+import 'package:minapp/core/utils/validator.dart';
+import 'package:minapp/features/guest/features/HousType/presentation/bloc/booking/booking_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/widgets/section_header_text.dart';
 
 import '../../../../../../config/color/color.dart';
+import '../../../../../../core/common/back_button.dart';
 import '../../../../../../core/common/country_code_selector.dart';
 import '../../../../../../core/common/custom_button.dart';
 
 class Booking extends StatelessWidget {
-  const Booking({super.key});
+   Booking({super.key,required this.id});
+final int id;
+
+  final _formKey=GlobalKey<FormState>();
+  TextEditingController checkInController=TextEditingController();
+  TextEditingController checkOutController=TextEditingController();
+  TextEditingController fNameController=TextEditingController();
+  TextEditingController lNameController=TextEditingController();
+  TextEditingController phoneController=TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Column(
-        children: [
-          Expanded(
-              child: ListView(
-            padding: EdgeInsets.all(15),
-            children: [
-              SecctionHeader(title: tr("Booking Detail"), isSeeMore: false),
-              Text(tr(
-                  "Fill out the information below and confirm your booking. ")),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: stepSutTitle(context, tr("First Name"), true),
-              ),
-              CustomTextField(
-                  hintText: tr("First Name"),
-                  surfixIcon: null,
-                  onTextChnage: (value) {},
-                  isMultiLine: false,
-                  textInputType: TextInputType.text),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: stepSutTitle(context, tr("Last Name"), true),
-              ),
-              CustomTextField(
-                  hintText: tr("Last Name"),
-                  surfixIcon: null,
-                  onTextChnage: (value) {},
-                  isMultiLine: false,
-                  textInputType: TextInputType.text),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: stepSutTitle(context, tr("Phone number"), true),
-              ),
-              CustomTextField(
-                  hintText: "098667236",
-                  surfixIcon: null,
-                  onTextChnage: (value) {},
-                  isMultiLine: false,
-                  prifixIcon: CountryCodeSelector(
-                    onInit: (value) {},
-                    onChange: (value) {},
-                  ),
-                  textInputType: TextInputType.phone),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: SizedBox(
-                  height: 100,
-                  child: Row(
-                    spacing: 15,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Column(
-                          spacing: 10,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            stepSutTitle(context, tr("Check-in"), true),
-                            CustomTextField(
-                                hintText: DateTime.now().month.toString(),
-                                surfixIcon: GestureDetector(
-                                    onTap: () {
-                                      showDatePicker(
-                                          context: context,
-                                          barrierColor: Colors.white,
-                                          firstDate: DateTime.now(),
-                                          lastDate: DateTime(2060));
-                                    },
-                                    child: Icon(
-                                      Icons.calendar_month,
-                                      color: ColorConstant.secondBtnColor,
-                                    )),
-                                onTextChnage: (value) {},
-                                isMultiLine: false,
-                                textInputType: TextInputType.text),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Column(
-                          spacing: 10,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            stepSutTitle(context, tr("Check-out"), true),
-                            CustomTextField(
-                                hintText: DateTime.now().month.toString(),
-                                surfixIcon: GestureDetector(
-                                    onTap: () => showDatePicker(
-                                        context: context,
-                                        barrierColor: Colors.white,
-                                        firstDate: DateTime.now(),
-                                        lastDate: DateTime(2060)),
-                                    child: Icon(
-                                      Icons.calendar_month,
-                                      color: ColorConstant.secondBtnColor,
-                                    )),
-                                onTextChnage: (value) {},
-                                isMultiLine: false,
-                                textInputType: TextInputType.text),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child:
-                    stepSutTitle(context, tr("Select ID type you have"), true),
-              ),
-              GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, mainAxisExtent: 80),
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: 4,
-                itemBuilder: (context, index) => Card(
-                  color: Colors.white,
-                  elevation: 0,
-                  shape: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide:
-                          BorderSide(color: ColorConstant.primaryColor)),
-                  child: RadioListTile.adaptive(
-                    selectedTileColor: ColorConstant.primaryColor,
-                    title: Text(
-                      "Passport",
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                    useCupertinoCheckmarkStyle: true,
-                    shape: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    value: true,
-                    groupValue: true,
-                    onChanged: (value) {},
-                  ),
-                ),
-              ),
-            ],
-          )),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            padding: EdgeInsets.all(15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              spacing: 15,
-              children: [
-                Expanded(
-                    child: CustomButton(
-                        onPressed: () {
-                          context.pop();
-                        },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            padding: EdgeInsets.all(20),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                side: BorderSide(
-                                    color: ColorConstant.secondBtnColor))),
-                        child: Text(
-                          tr("Cancel"),
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(
-                                  color: ColorConstant.secondBtnColor,
-                                  fontWeight: FontWeight.w600),
-                        ))),
-                Expanded(
-                    child: CustomButton(
-                        onPressed: () {
-                          showBookedDialog(context);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: ColorConstant.primaryColor,
-                          padding: EdgeInsets.all(20),
-                        ),
-                        child: Text(
-                          tr("Confirm Booking"),
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600),
-                        )))
-              ],
-            ),
-          )
-        ],
+      appBar: AppBar(
+        leading: AppBarBackButton(),
       ),
+      body: Padding(
+        padding: const EdgeInsets.all(5),
+        child:Form(
+          key:_formKey ,
+          child:BlocBuilder<BookingBloc,BookingState>(
+            buildWhen: (previous, current) => previous!=current,
+            builder: (context, state) =>
+        Column(
+          children: [
+            Expanded(
+                child:
+
+                ListView(
+              padding: EdgeInsets.all(15),
+              children: [
+                SecctionHeader(title: tr("Booking Detail"), isSeeMore: false),
+                Text(tr(
+                    "Fill out the information below and confirm your booking. "),style: Theme.of(context).textTheme.bodyMedium
+                  !.copyWith(
+                  fontWeight: FontWeight.w400,
+                ),),
+                SizedBox(height: 10,),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 13),
+                  child: stepSutTitle(context, tr("First Name"), true),
+                ),
+                CustomTextField(
+                    hintText: tr("First Name"),
+                    surfixIcon: null,
+                    textEditingController: fNameController,
+                    onTextChnage: (value) {
+                      context.read<BookingBloc>().add(AddFirstNameEvent(fName: value));
+                    },
+                    isMultiLine: false,
+                    validator: (value) {
+                      if(value!.isEmpty || !Validation.validateName(value)){
+                        return "please add valid name";
+                      }
+                      return null;
+                    },
+                    textInputType: TextInputType.text),
+                SizedBox(height: 10,),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 13),
+                  child: stepSutTitle(context, tr("Last Name"), true),
+                ),
+                CustomTextField(
+                    hintText: tr("Last Name"),
+                    surfixIcon: null,
+                    textEditingController: lNameController,
+                    onTextChnage: (value) {
+                      context.read<BookingBloc>().add(AddLastNameEvent(lName: value));
+                    },
+                    isMultiLine: false,
+                    validator: (value) {
+                      if(value!.isEmpty || !Validation.validateName(value)){
+                        return "please add valid name";
+                      }
+                      return null;
+                    },
+                    textInputType: TextInputType.text),
+                SizedBox(height:16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: stepSutTitle(context, tr("Phone number"), true),
+                ),
+                CustomTextField(
+                    hintText: "098667236",
+                    textEditingController: phoneController,
+                    surfixIcon: null,
+                    onTextChnage: (value) {
+                      context.read<BookingBloc>().add(AddPhoneEvent(phone: value));
+                    },
+                    isMultiLine: false,
+                    prifixIcon: CountryCodeSelector(
+                      onInit: (value) {
+                        context.read<BookingBloc>().add(AddCountryCodeEvent(code:value.code!));
+                      },
+                      onChange: (value) {},
+                    ),
+                    validator: (value) {
+                      if(value!.isEmpty){
+                        return "please add valid phone number";
+                      }
+                      return null;
+                    },
+                    textInputType: TextInputType.phone),
+                SizedBox(height:16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: SizedBox(
+
+                    child: Row(
+                      spacing: 15,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            spacing: 10,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              stepSutTitle(context, tr("Check-in"), true),
+                              CustomTextField(
+                                enabled: true,
+                                  hintText: DateTime.now().month.toString(),
+                                  surfixIcon:  GestureDetector(
+                                        onTap: ()async{
+                                       DateTime? time=  await showDatePicker(
+                                              context: context,
+                                              firstDate: DateTime.now(),
+                                              lastDate: DateTime(2060));
+                                        if(time!=null){
+                                          context.read<BookingBloc>().add(AddCheckInEvent(checkIn: time.toString()));
+                                          checkInController.text=time.toString();
+                                        }
+                                        },
+                                        child: Icon(
+                                          Icons.calendar_month,
+                                          size: 20,
+                                          color: ColorConstant.secondBtnColor,
+                                        )),
+                                  textEditingController: checkInController,
+                                  onTextChnage: (value) {},
+                                  validator: (value) {
+                                    if(value!.isEmpty){
+                                      return "add checkIn";
+                                    }
+                                    return null;
+                                  },
+                                  isMultiLine: false,
+                                  textInputType: TextInputType.text),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            spacing: 10,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              stepSutTitle(context, tr("Check-out"), true),
+                              CustomTextField(
+                                  hintText: DateTime.now().month.toString(),
+                                  surfixIcon: GestureDetector(
+                                      onTap: ()async{
+                                        DateTime? time=  await showDatePicker(
+                                            context: context,
+                                            firstDate: DateTime.now(),
+                                            lastDate: DateTime(2060));
+                                        if(time!=null){
+                                          context.read<BookingBloc>().add(AddCheckOutEvent(checkOut: time.toString()));
+                                          checkOutController.text=time.toString();
+                                        }
+                                      },
+                                      child: Icon(
+                                        size: 20,
+                                        Icons.calendar_month,
+                                        color: ColorConstant.secondBtnColor,
+                                      )),
+                                  validator: (value) {
+                                    if(value!.isEmpty){
+                                      return "add checkout";
+                                    }
+                                    return null;
+                                  },
+                                  onTextChnage: (value) {},
+                                  textEditingController: checkOutController,
+                                  isMultiLine: false,
+                                  textInputType: TextInputType.text),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child:stepSutTitle(context, tr("Select ID type you have"), true),
+                ),
+                SizedBox(height: 10,),
+                GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                    mainAxisExtent: 60,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10),
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount:IdType.values.length,
+                  itemBuilder: (context, index){
+                    final id = IdType.values[index];
+                  return   RadioListTile.adaptive(
+                          activeColor: ColorConstant.primaryColor,
+                          selectedTileColor: ColorConstant.primaryColor,
+                          title: Text(
+                            id.name,
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                          useCupertinoCheckmarkStyle: true,
+                          shape: OutlineInputBorder(
+                            borderSide: BorderSide(color:state.idType.name==id.name?ColorConstant.primaryColor: ColorConstant.cardGrey),
+                              borderRadius: BorderRadius.circular(10)),
+                          value: id,
+                          groupValue:state.idType,
+                          onChanged: (value) {
+                            context.read<BookingBloc>().add(AddIdEvent(id:id));
+                          },
+
+
+                    );
+                  }
+
+                ),
+              ],
+            ),),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              padding: EdgeInsets.all(15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                spacing: 15,
+                children: [
+                  Expanded(
+                      child: CustomButton(
+                          onPressed: () {
+                            context.pop();
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              padding: EdgeInsets.all(20),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  side: BorderSide(
+                                      color: ColorConstant.secondBtnColor))),
+                          child: Text(
+                            tr("Cancel"),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                    color: ColorConstant.secondBtnColor,
+                                    fontWeight: FontWeight.w600),
+                          ))),
+                  Expanded(
+                      child: CustomButton(
+                          onPressed: () {
+                           // showBookedDialog(context);
+                            _formKey.currentState!.save();
+                            if(_formKey.currentState!.validate()){
+                              context.read<BookingBloc>().add(BookEvent());
+
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: ColorConstant.primaryColor,
+                            padding: EdgeInsets.all(20),
+                          ),
+                          child: Text(
+                            tr("Confirm Booking"),
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600),
+                          )))
+                ],
+              ),
+            )
+          ],
+        ),
+      ),))
     );
   }
 
@@ -267,7 +362,7 @@ class Booking extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .bodyMedium!
-              .copyWith(fontWeight: FontWeight.bold)),
+              .copyWith(fontWeight: FontWeight.w500,fontSize: 14)),
       TextSpan(
           text: isRequired ? "*" : '(optional)',
           style: TextStyle(

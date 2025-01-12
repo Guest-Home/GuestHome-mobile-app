@@ -11,4 +11,10 @@ class HouseRepositoryImpl implements HouseRepository {
   Future<Either<Failure, GpropertyModel>> getPropertyByType(String name) async {
     return await sl<HouseDataSource>().getPropertyByType(name);
   }
+
+  @override
+  Future<Either<Failure, GpropertyModel>> getPopularProperty()async {
+    return await sl<HouseDataSource>().getPopularProperty();
+
+  }
 }

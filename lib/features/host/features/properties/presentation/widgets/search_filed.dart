@@ -20,7 +20,7 @@ class SearchField extends StatelessWidget {
           filled: true,
           fillColor: ColorConstant.cardGrey.withValues(alpha: 0.8),
           hintText: tr('Search properties'),
-          suffixIcon: prifixIcon,
+          prefixIcon: prifixIcon,
           hintStyle: TextStyle(fontSize: 13),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),

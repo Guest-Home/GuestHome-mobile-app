@@ -13,6 +13,7 @@ class CustomTextField extends StatelessWidget {
       this.prifixIcon,
       this.validator,
       this.textEditingController,
+        this.enabled,
       this.intialValue});
 
   final String hintText;
@@ -24,10 +25,12 @@ class CustomTextField extends StatelessWidget {
   final FormFieldValidator<String>? validator;
   final TextEditingController? textEditingController;
   final String? intialValue;
+  final bool? enabled;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: enabled??true,
         controller: textEditingController,
         keyboardType: textInputType,
         minLines: 1,
