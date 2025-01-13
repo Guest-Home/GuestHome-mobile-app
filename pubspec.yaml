@@ -41,6 +41,7 @@ dependencies:
   google_maps_flutter: ^2.10.0
   connectivity_plus: ^6.1.1
   intl: ^0.19.0
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   flutter_test:
@@ -58,6 +59,7 @@ flutter:
     - assets/icons/
     - assets/icons/housetype/
     - assets/icons/amenities/
+    - assets/icons/camenities/
     - assets/translations/
 
   # An image asset can refer to one or more resolution-specific "variants", see

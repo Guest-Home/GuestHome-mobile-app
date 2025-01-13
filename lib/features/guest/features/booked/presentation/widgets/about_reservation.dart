@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:minapp/core/utils/date_converter.dart';
 
 class AboutReservationsCard extends StatelessWidget {
   const AboutReservationsCard({
@@ -30,8 +31,8 @@ class AboutReservationsCard extends StatelessWidget {
             resText(context, '${tr('Requested Reservation Price')}: $price'),
 
             resText(context, '${tr('Unit of Price')}: $unit'),
-            resText(context, '${tr('Reservation Check in')}: $checkIn'),
-            resText(context, '${tr('Reservation Check out')}: $checkOut'),
+            resText(context, '${tr('Reservation Check in')}:  ${DateConverter().formatDateRange(checkIn)}'),
+            resText(context, '${tr('Reservation Check out')}: ${DateConverter().formatDateRange(checkOut)}'),
             resText(context, '${tr('Reservation Decision time')}: $decisionTime'),
             resText(context, "${tr('Reservation Decision')}: $decision"),
           ],

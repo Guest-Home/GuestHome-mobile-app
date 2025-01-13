@@ -1,6 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:minapp/core/utils/call_and_sms.dart';
 import 'package:minapp/features/guest/features/booked/domain/entities/my_booking_entity.dart';
+import 'package:path/path.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../../config/color/color.dart';
 import '../../../../../../core/common/custom_button.dart';
@@ -77,7 +80,9 @@ class AboutHostCard extends StatelessWidget {
             children: [
               Expanded(
                   child: CustomButton(
-                      onPressed: () {},
+                      onPressed: ()async{
+                       makePhoneCall(userEntity.phoneNumber!);
+                      },
                       style: ElevatedButton.styleFrom(
                           elevation: 0,
                           padding: EdgeInsets.all(4),
@@ -94,7 +99,9 @@ class AboutHostCard extends StatelessWidget {
                       ))),
               Expanded(
                   child: CustomButton(
-                      onPressed: () {},
+                      onPressed: () {
+                      sendSMS(userEntity.phoneNumber!, "");
+                      },
                       style: ElevatedButton.styleFrom(
                           elevation: 0,
                           padding: EdgeInsets.all(4),

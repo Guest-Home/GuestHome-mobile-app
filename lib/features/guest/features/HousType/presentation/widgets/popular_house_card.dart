@@ -26,7 +26,7 @@ class PopularHouseCard extends StatelessWidget {
     return Container(
       width: width,
       height: MediaQuery.of(context).size.height*0.6,
-      margin: EdgeInsets.only(bottom: 20),
+      margin: EdgeInsets.only(bottom: 5),
       child:
         Column(
           children: [

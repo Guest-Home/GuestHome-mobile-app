@@ -312,5 +312,26 @@ Future<GoRouter> createRouter() async {
           }),
     ],
   );
+
   return router;
+}
+
+CustomTransitionPage<T> createCustomTransition<T>({
+  required Widget child,
+  LocalKey? key,
+}) {
+  return CustomTransitionPage<T>(
+    key: key,
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return FadeTransition(
+        opacity: animation.drive(
+          Tween<double>(begin: 0.0, end: 1.0).chain(
+            CurveTween(curve: Curves.easeInOut), // Smoother animation
+          ),
+        ),
+        child: child,
+      );
+    },
+  );
 }

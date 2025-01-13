@@ -210,7 +210,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                   }
                                   return SizedBox(
                                     height: MediaQuery.of(context).size.height *
-                                        0.4,
+                                        0.43,
                                     width: MediaQuery.of(context).size.width,
                                     child: ListView.builder(
                                       itemCount:

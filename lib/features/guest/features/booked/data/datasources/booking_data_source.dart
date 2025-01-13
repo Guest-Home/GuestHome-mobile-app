@@ -42,14 +42,14 @@ class BookingDataSourceImpl extends BookingDataSource{
   Future<Either<Failure, bool>> cancelMyBookings(int id)async{
 
     try {
-    final response = await sl<DioClient>().put("${ApiUrl.propertyBooking}$id/");
+    final response = await sl<DioClient>().put("${ApiUrl.cancelBooking}$id/");
     if (response.statusCode == 200) {
     return Right(true);
     } else {
     return Left(ServerFailure(response.data['error']));
     }
     } on DioException catch (e) {
-    return Left(ServerFailure(e.response!.data.toString()));
+    return Left(ServerFailure(e.response!.data['msg'].toString()));
     }
   }
 

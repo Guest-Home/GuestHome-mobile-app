@@ -13,6 +13,7 @@ import '../../../../../../core/common/back_button.dart';
 import '../../../../../../core/common/country_code_selector.dart';
 import '../../../../../../core/common/custom_button.dart';
 import '../../../../../../core/common/spin_kit_loading.dart';
+import '../../../../../../core/utils/date_converter.dart';
 
 class Booking extends StatelessWidget {
    Booking({super.key,required this.id});
@@ -160,7 +161,7 @@ final int id;
                                               lastDate: DateTime(2060));
                                         if(time!=null){
                                           context.read<BookingBloc>().add(AddCheckInEvent(checkIn: time.toString()));
-                                          checkInController.text=time.toString();
+                                          checkInController.text=DateConverter().formatDateRange(time.toString());
                                         }
                                         },
                                         child: Icon(
@@ -197,7 +198,7 @@ final int id;
                                             lastDate: DateTime(2060));
                                         if(time!=null){
                                           context.read<BookingBloc>().add(AddCheckOutEvent(checkOut: time.toString()));
-                                          checkOutController.text=time.toString();
+                                          checkOutController.text=DateConverter().formatDateRange(time.toString());
                                         }
                                       },
                                       child: Icon(

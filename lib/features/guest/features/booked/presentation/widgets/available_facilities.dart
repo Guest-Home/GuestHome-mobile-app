@@ -33,7 +33,7 @@ class AvailableFacilities extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: Wrap(
-                  spacing: 30,
+                  spacing: 20,
                   runSpacing: 20,
                   children: List.generate(
                      subDesc.split(',').length,
@@ -50,10 +50,10 @@ class AvailableFacilities extends StatelessWidget {
 
                                   shape: BoxShape.circle,),
                                 child:SvgPicture.asset(
-                                  amenitiesIcon[facilities[index]]!,
+                                  camenitiesIcon[facilities[index]]!,
                                   fit: BoxFit.cover,
-                                  width: 25,
-                                  height: 25,
+                                  width:33,
+                                  height:33,
                                 )
                             ),
                             Text(facilities[index],style: Theme.of(context).textTheme.bodySmall!.copyWith(
