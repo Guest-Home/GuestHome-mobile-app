@@ -85,7 +85,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               firstName: names.first,
               lastName: names.last,
               gender: state.gender.name,
-              image: state.profilePhoto!));
+              image: state.profilePhoto!,
+            typeOfCustomer: 'Guest'
+          ));
       response.fold(
         (l) => emit(OtpErrorState(state, l)),
         (r) => emit(CreatedCustomerProfileLodedState(state, r)),

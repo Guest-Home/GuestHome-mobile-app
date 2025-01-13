@@ -16,6 +16,7 @@ import 'package:minapp/features/host/features/properties/presentation/bloc/prope
 import '../../../../../../core/common/back_button.dart';
 import '../../../../../../core/common/custom_button.dart';
 import '../../../../../../core/common/spin_kit_loading.dart';
+import '../../../../../../core/utils/get_token.dart';
 import '../../../../../host/features/properties/presentation/pages/add_properties.dart';
 import '../../../../../host/features/properties/presentation/widgets/search_filed.dart';
 import '../widgets/popular_house_card.dart';
@@ -25,6 +26,7 @@ class HouseTypeDetail extends StatefulWidget {
   HouseTypeDetail({super.key, required this.name});
 
   final String name;
+
 
   TextEditingController cityController = TextEditingController();
 
@@ -218,10 +220,14 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder: (context, index) =>
                                           GestureDetector(
-                                        onTap: () => context.push(
-                                            '/houseDetail',
-                                            extra: state
-                                                .properties.results![index]),
+                                        onTap: ()async{
+                                         final token= await GetToken().getUserToken();
+                                          context.push(
+                                              '/houseDetail/$token',
+                                              extra: state
+                                                  .properties.results![index],);
+                                        },
+
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 10, vertical: 15),

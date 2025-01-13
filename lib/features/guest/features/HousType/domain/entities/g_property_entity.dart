@@ -72,6 +72,7 @@ class PostedByEntity extends Equatable {
   String? typeOfCustomer;
   int? rating;
   String? language;
+  String?profilePicture;
 
   PostedByEntity({
     this.id,
@@ -79,10 +80,11 @@ class PostedByEntity extends Equatable {
     this.typeOfCustomer,
     this.rating,
     this.language,
+    this.profilePicture
   });
 
   @override
-  List<Object?> get props =>[id,userAccount,typeOfCustomer,rating,language];
+  List<Object?> get props =>[id,userAccount,typeOfCustomer,rating,language,profilePicture];
 
 }
 

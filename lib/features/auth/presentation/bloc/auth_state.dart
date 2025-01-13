@@ -64,7 +64,6 @@ class CreatingOtpLoadingState extends AuthState {
             gender: currentState.gender,
             profilePhoto: currentState.profilePhoto);
 }
-
 class OtpCreatedLodedState extends AuthState {
   final OtpResponseEntity otpResponseEntity;
   OtpCreatedLodedState(AuthState currentState, this.otpResponseEntity)
@@ -79,7 +78,6 @@ class OtpCreatedLodedState extends AuthState {
   @override
   List<Object> get props => super.props + [otpResponseEntity];
 }
-
 class OtpErrorState extends AuthState {
   final Failure failure;
   OtpErrorState(AuthState currentState, this.failure)
@@ -94,7 +92,6 @@ class OtpErrorState extends AuthState {
   @override
   List<Object> get props => super.props + [failure];
 }
-
 class VerifyingOtpLoadingState extends AuthState {
   VerifyingOtpLoadingState(AuthState currentState)
       : super(

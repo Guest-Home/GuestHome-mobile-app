@@ -54,6 +54,7 @@ class HouseEntity extends Equatable {
   List<HouseImageEntity>? houseImage;
   String? subDescription;
   String? specificAddress;
+  String? description;
 
   HouseEntity({
     this.id,
@@ -66,10 +67,12 @@ class HouseEntity extends Equatable {
     this.houseImage,
     this.subDescription,
     this.specificAddress,
+    this.description
   });
 
   @override
-  List<Object?> get props =>[id,price,title,unit,typeofHouse,city,postedBy,houseImage,subDescription,specificAddress];
+  List<Object?> get props =>[id,price,title,unit,typeofHouse,city,postedBy,houseImage,subDescription,
+    specificAddress,description];
   }
 
 class HouseImageEntity extends Equatable{
@@ -93,6 +96,7 @@ class PostedByEntity extends Equatable {
   String? typeOfCustomer;
   int? rating;
   String? language;
+  String? profilePicture;
 
   PostedByEntity({
     this.id,
@@ -100,10 +104,11 @@ class PostedByEntity extends Equatable {
     this.typeOfCustomer,
     this.rating,
     this.language,
+    this.profilePicture
   });
 
   @override
-  List<Object?> get props =>[id,userAccount,typeOfCustomer,rating,language];
+  List<Object?> get props =>[id,userAccount,typeOfCustomer,rating,language,profilePicture];
 }
 class PostedByUserAccountEntity extends Equatable {
   int? id;

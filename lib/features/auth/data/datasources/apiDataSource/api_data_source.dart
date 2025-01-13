@@ -73,6 +73,7 @@ class ApiDataSourceImpl implements ApiDataSource {
       'gender': params.gender,
       'first_name': params.firstName,
       'last_name': params.lastName,
+      'typeOfCustomer':params.typeOfCustomer
     });
 
     try {

@@ -10,6 +10,8 @@ import 'package:minapp/features/guest/features/HousType/presentation/widgets/sec
 import 'package:minapp/features/guest/features/booked/presentation/bloc/booked_bloc.dart';
 import 'package:minapp/features/guest/features/booked/presentation/widgets/booked_card.dart';
 
+import '../../../../../../core/utils/get_token.dart';
+
 class Booked extends StatelessWidget {
   const Booked({super.key});
 
@@ -54,7 +56,11 @@ class Booked extends StatelessWidget {
                padding: EdgeInsets.all(10),
                itemCount: state.booking.results!.length,
                itemBuilder: (context, index) => GestureDetector(
-                   onTap: () => context.goNamed('bookedDetail',extra: state.booking.results![index]),
+                   onTap: ()async{
+                     final token= await GetToken().getUserToken();
+                     context.goNamed('bookedDetail',pathParameters: {'token': token},extra: state.booking.results![index]);
+                   },
+
                    child:
                  BookedCard(
                    width: MediaQuery.of(context).size.width,

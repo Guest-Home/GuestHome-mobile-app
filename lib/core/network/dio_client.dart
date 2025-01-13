@@ -1,7 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:minapp/core/network/auth_interceptor.dart';
+import 'package:minapp/core/network/retry_on_connection_changeInterceptor.dart';
 
+import '../../service_locator.dart';
 import '../apiConstants/api_url.dart';
+import '../utils/connectivity_service.dart';
 import 'log_intercepters.dart';
 
 class DioClient {
@@ -19,7 +22,7 @@ class DioClient {
               receiveTimeout: const Duration(seconds: 20)),
         )..interceptors.addAll([
             AuthInterceptor(), LoggerInterceptor(),
-            // RetryOnConnectionChangeInterceptor(sl<ConnectivityService>())
+           //  RetryOnConnectionChangeInterceptor(sl<ConnectivityService>())
           ]);
 
   // GET METHOD

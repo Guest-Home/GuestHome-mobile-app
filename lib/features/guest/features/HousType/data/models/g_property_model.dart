@@ -78,6 +78,7 @@ class PostedBy extends PostedByEntity {
     required super.typeOfCustomer,
     required super.rating,
     required super.language,
+    required super.profilePicture
   });
 
   factory PostedBy.fromMap(Map<String, dynamic> json) => PostedBy(
@@ -86,6 +87,7 @@ class PostedBy extends PostedByEntity {
         typeOfCustomer: json["typeOfCustomer"],
         rating: json["rating"],
         language: json["language"],
+        profilePicture: json['profilePicture']
       );
 }
 

@@ -194,7 +194,6 @@ Future<GoRouter> createRouter() async {
           ),
         ],
       ),
-
       //Guest routes
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
@@ -250,10 +249,11 @@ Future<GoRouter> createRouter() async {
                   routes: [
                     GoRoute(
                       name: 'bookedDetail',
-                      path: '/bookedDetail',
+                      path: 'bookedDetail/:token',
                       builder: (context, state){
                         final property = state.extra as ResultBookingEntity;
-                       return BookedDetail(property: property,);
+                        final token = state.pathParameters['token'];
+                       return BookedDetail(property: property,token:token!);
                       },
                     ),
                   ]),
@@ -290,11 +290,13 @@ Future<GoRouter> createRouter() async {
       ),
       GoRoute(
         name: 'houseDetail',
-        path: '/houseDetail',
+        path: '/houseDetail/:token',
         builder: (context, state) {
           final property = state.extra as ResultEntity;
+          final token = state.pathParameters['token'];
           return HouseDetail(
             property: property,
+            token: token!,
           );
         },
       ),

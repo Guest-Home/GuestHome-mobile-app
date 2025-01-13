@@ -20,9 +20,10 @@ import '../widgets/available_facilities.dart';
 import '../widgets/location_map.dart';
 
 class BookedDetail extends StatelessWidget {
-  const BookedDetail({super.key, required this.property});
+  const BookedDetail({super.key, required this.property,required this.token});
 
   final ResultBookingEntity property;
+  final String token;
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +112,7 @@ class BookedDetail extends StatelessWidget {
                   title: SecctionHeader(
                       title: property.house!.title!, isSeeMore: false),
                   subtitle: SeeMoreText(
-                    text: property.house!.subDescription!,
+                    text: property.house!.description!,
                     maxLines: 4,
                   )),
               Padding(
@@ -144,6 +145,8 @@ class BookedDetail extends StatelessWidget {
               ),
               AboutHostCard(
                 userEntity: property.user!,
+                token: token,
+                image: property.house!.postedBy!.profilePicture!,
               ),
               Divider(
                 thickness: 0.6,

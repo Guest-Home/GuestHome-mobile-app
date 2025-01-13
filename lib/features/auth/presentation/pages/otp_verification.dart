@@ -18,11 +18,13 @@ class OtpVerification extends StatelessWidget {
     return BlocProvider.value(
       value: context.read<AuthBloc>(),
       child: BlocConsumer<AuthBloc, AuthState>(
+        buildWhen: (previous, current) => previous!=current,
+        listenWhen: (previous, current) => previous!=current,
         listener: (context, state) {
           if (state is VerifyedOtpLodedState) {
-            if (state.verifyOtpEntity.hasProfile) {
+            if (state.verifyOtpEntity.hasProfile==true) {
               showSuccessSnackBar(context, "Otp Verified");
-              context.goNamed('properties');
+              context.pushReplacementNamed('houseType');
             } else {
               context.goNamed('profileSetup');
               showSuccessSnackBar(context, "Otp Verified");

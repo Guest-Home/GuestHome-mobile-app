@@ -1,20 +1,21 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:minapp/core/utils/call_and_sms.dart';
 import 'package:minapp/features/guest/features/booked/domain/entities/my_booking_entity.dart';
-import 'package:path/path.dart';
-import 'package:url_launcher/url_launcher.dart';
-
 import '../../../../../../config/color/color.dart';
+import '../../../../../../core/apiConstants/api_url.dart';
 import '../../../../../../core/common/custom_button.dart';
 
 class AboutHostCard extends StatelessWidget {
   const AboutHostCard({
     super.key,
-    required this.userEntity
+    required this.userEntity, required this.image, required this.token
   });
 
   final UserEntity userEntity;
+  final String image;
+  final String token;
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +29,13 @@ class AboutHostCard extends StatelessWidget {
         spacing: 10,
         children: [
           ListTile(
-            leading: CircleAvatar(
+            leading:  CircleAvatar(
+              radius: 20,
               backgroundColor: ColorConstant.cardGrey,
+              backgroundImage: CachedNetworkImageProvider(
+                ApiUrl.baseUrl + image,
+                headers: {'Authorization': 'Bearer $token'},
+              ),
             ),
             title: Text("${userEntity.userAccount!.firstName!} ${userEntity.userAccount!.lastName!}",style: Theme.of(context).textTheme
               .bodyMedium!.copyWith(

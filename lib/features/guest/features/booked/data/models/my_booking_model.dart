@@ -52,6 +52,7 @@ class House extends HouseEntity{
     required super.houseImage,
     required super.subDescription,
     required super.specificAddress,
+    required super.description
 });
 
   factory House.fromMap(Map<String, dynamic> json) => House(
@@ -65,6 +66,7 @@ class House extends HouseEntity{
     houseImage: List<HouseImage>.from(json["houseImage"].map((x) => HouseImage.fromMap(x))),
     subDescription: json["sub_description"],
     specificAddress: json["specificAddress"],
+    description: json["description"]
   );
 }
 
@@ -89,6 +91,7 @@ class PostedBy extends PostedByEntity {
     required super.typeOfCustomer,
     required super.rating,
     required super.language,
+    required super.profilePicture
   });
 
   factory PostedBy.fromMap(Map<String, dynamic> json) => PostedBy(
@@ -97,6 +100,7 @@ class PostedBy extends PostedByEntity {
     typeOfCustomer: json["typeOfCustomer"],
     rating: json["rating"],
     language: json["language"],
+    profilePicture: json['profilePicture']
   );
 }
 
