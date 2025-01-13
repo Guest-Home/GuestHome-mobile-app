@@ -54,7 +54,7 @@ class _ProfileState extends State<Profile> {
                               spacing: 10,
                               children: [
                                 CircleAvatar(
-                                  radius: 45,
+                                  radius: 40,
                                   backgroundColor: ColorConstant.cardGrey,
                                   backgroundImage: CachedNetworkImageProvider(
                                     ApiUrl.baseUrl +
@@ -73,7 +73,8 @@ class _ProfileState extends State<Profile> {
                                           .textTheme
                                           .headlineSmall!
                                           .copyWith(
-                                              fontWeight: FontWeight.bold),
+                                        fontSize: 21,
+                                              fontWeight: FontWeight.w700),
                                     ),
                                     Text(
                                       state.userProfileEntity.phoneNumber,
@@ -221,7 +222,6 @@ class _ProfileState extends State<Profile> {
                         fontWeight: FontWeight.bold)),
                 ListTile(
                   onTap: (){
-                   print (GoRouter.of(context).routerDelegate.state!.name);
                    if(GoRouter.of(context).routerDelegate.state!.name=='guestProfile'){
                       context.pushNamed('guestGeneralInformation');
                    }else{
@@ -232,7 +232,9 @@ class _ProfileState extends State<Profile> {
                   leading: Image.asset("assets/icons/user.png"),
                   title: Text(
                     "General Information",
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontWeight: FontWeight.w400
+                    ),
                   ),
                   trailing: Icon(Icons.arrow_right_alt_outlined),
                 ),

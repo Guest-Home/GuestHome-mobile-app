@@ -25,14 +25,12 @@ class PopularHouseCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width,
-      height: MediaQuery.of(context).size.height*0.6,
       margin: EdgeInsets.only(bottom: 5),
       child:
         Column(
           children: [
             Expanded(
-                child: Stack(
-              children: [
+                child:
                 CarouselView(
                     elevation: 0,
                     padding: EdgeInsets.all(0),
@@ -55,41 +53,11 @@ class PopularHouseCard extends StatelessWidget {
                               Icon(Icons.error),
                           fit: BoxFit.cover,
                           width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height*0.6,
+                          height:300,
                         ),
                       ),
                     )),
-                if(showIndicator)
-                Positioned(
-                    bottom: 8,
-                    left: 0,
-                    right: 0,
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                              height: 25,
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 5),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                color: Colors.black.withValues(alpha: 0.4),
-                              ),
-                              child: Row(
-                                children: List.generate(
-                                    property.houseImage!.length,
-                                    (index) => Container(
-                                          width: 7,
-                                          height: 7,
-                                          margin: EdgeInsets.only(right: 5),
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: Colors.white),
-                                        )),
-                              ))
-                        ]))
-              ],
-            )),
+              ),
             ListTile(
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

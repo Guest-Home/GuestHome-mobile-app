@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:minapp/core/common/back_button.dart';
 import 'package:minapp/core/common/custom_text_field.dart';
 import 'package:minapp/core/common/spin_kit_loading.dart';
+import 'package:minapp/core/utils/show_snack_bar.dart';
 import 'package:minapp/core/utils/validator.dart';
 import '../../../../../../config/color/color.dart';
 import '../../../../../../core/apiConstants/api_url.dart';
@@ -39,21 +40,6 @@ class GeneralInformation extends StatelessWidget {
 
   final _formKey = GlobalKey<FormState>();
 
-  _showErrorSnackBar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(message),
-      behavior: SnackBarBehavior.floating,
-      backgroundColor: ColorConstant.red,
-    ));
-  }
-
-  _showSuccessSnackBar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(message),
-      behavior: SnackBarBehavior.floating,
-      backgroundColor: ColorConstant.green,
-    ));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,9 +58,9 @@ class GeneralInformation extends StatelessWidget {
       body: BlocListener<ProfileBloc, ProfileState>(
         listener: (context, state) {
           if (state is ProfileErrorState) {
-            _showErrorSnackBar(context, 'unable to update');
+            showErrorSnackBar(context, 'unable to update');
           } else if (state is UpdateUserProfileState && state.isUpdate) {
-            _showSuccessSnackBar(context, "profile updated");
+            showSuccessSnackBar(context, "profile updated");
             context.read<ProfileBloc>().add(GetUserProfileEvent());
           }
         },
@@ -107,12 +93,11 @@ class GeneralInformation extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               CircleAvatar(
-                                radius: 60,
+                                radius: 50,
                                 backgroundColor: ColorConstant.cardGrey,
                                 backgroundImage: CachedNetworkImageProvider(
                                   ApiUrl.baseUrl +
-                                      state.userProfileEntity.profilePicture,
-                                  headers: {
+                                      state.userProfileEntity.profilePicture, headers: {
                                     'Authorization': 'Bearer ${state.token}'
                                   },
                                 ),
@@ -259,7 +244,7 @@ class GeneralInformation extends StatelessWidget {
                                 },
                                 style: ElevatedButton.styleFrom(
                                     elevation: 0,
-                                    padding: EdgeInsets.all(21),
+                                    padding: EdgeInsets.all(17),
                                     side: BorderSide(
                                         color: ColorConstant.primaryColor),
                                     backgroundColor:

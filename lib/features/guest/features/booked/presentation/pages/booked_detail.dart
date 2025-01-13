@@ -297,7 +297,7 @@ class BookedDetail extends StatelessWidget {
       useSafeArea: true,
       isScrollControlled: true,
       builder: (context) => Container(
-        height: MediaQuery.of(context).size.height * 0.28,
+        height: MediaQuery.of(context).size.height * 0.33,
         color: Colors.white,
         child: ListTile(
             title: Text(

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:minapp/config/color/color.dart';
 
 import '../../../../core/common/bloc/language_bloc.dart';
 
@@ -58,6 +59,8 @@ class LanguageSelection extends StatelessWidget {
                           child: RadioListTile.adaptive(
                             value: e,
                             activeColor: Colors.white,
+                            tileColor: Colors.transparent,
+                            selectedTileColor: Colors.white,
                             title: Text(
                               e.name,
                               style: Theme.of(context)

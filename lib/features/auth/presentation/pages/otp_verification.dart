@@ -24,7 +24,7 @@ class OtpVerification extends StatelessWidget {
           if (state is VerifyedOtpLodedState) {
             if (state.verifyOtpEntity.hasProfile==true) {
               showSuccessSnackBar(context, "Otp Verified");
-              context.pushReplacementNamed('houseType');
+              context.goNamed('houseType');
             } else {
               context.goNamed('profileSetup');
               showSuccessSnackBar(context, "Otp Verified");

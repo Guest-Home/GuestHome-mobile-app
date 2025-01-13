@@ -9,7 +9,7 @@ void sendSMS(String phoneNumber, String message) async {
     queryParameters: {'body': message}, // Optional
   );
   if (await canLaunchUrl(smsUri)) {
-    await launchUrl(smsUri);
+    await launchUrl(smsUri,mode: LaunchMode.externalApplication);
   } else {
     throw 'Could not launch $smsUri';
   }
@@ -21,7 +21,7 @@ void makePhoneCall(String phoneNumber) async {
     path: phoneNumber,
   );
   if (await canLaunchUrl(phoneUri)) {
-    await launchUrl(phoneUri);
+    await launchUrl(phoneUri,mode: LaunchMode.externalApplication);
   } else {
     throw 'Could not launch $phoneUri';
   }

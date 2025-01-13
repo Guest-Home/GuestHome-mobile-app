@@ -57,8 +57,7 @@ Future<GoRouter> createRouter() async {
       bool isLoggedIn =
           prefs.getBool('isLogin') ?? false; // Check if the token exists
       // Check if the current route is '/accountSetup' or starts with '/accountSetup/'
-      bool isAccountSetupRoute =
-          state.uri.toString().startsWith('/accountSetup');
+      bool isAccountSetupRoute =state.uri.toString().startsWith('/accountSetup');
       bool isOnbordingRoute = state.uri.toString().startsWith('/onboarding');
 
       // If the user is not logged in and trying to access a protected route
@@ -103,7 +102,7 @@ Future<GoRouter> createRouter() async {
           routes: [
             GoRoute(
               name: 'otpVerification',
-              path: 'otpVerification',
+              path: '/otpVerification',
               builder: (context, state) => OtpVerification(),
             ),
             GoRoute(

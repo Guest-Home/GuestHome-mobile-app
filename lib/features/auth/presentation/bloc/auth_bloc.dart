@@ -97,8 +97,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _storeTokens(VerifyOtpEntity verifyOpt) async {
     final sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.setBool('isLogin', true);
     await sharedPreferences.setString('access', verifyOpt.access);
     await sharedPreferences.setString('refresh', verifyOpt.refresh);
-    await sharedPreferences.setBool('isLogin', true);
   }
 }

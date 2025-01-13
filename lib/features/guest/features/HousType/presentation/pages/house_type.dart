@@ -95,7 +95,23 @@ class HouseType extends StatelessWidget {
             BlocBuilder<PropertyTypeBloc, PropertyTypeState>(
               builder: (context, state) {
                 if(state.propertyTypes.isEmpty){
-                  return Center(child: Text("no property found"),);
+                  return Center(
+                    child: Column(
+                      children: [
+                        Image.asset("assets/icons/Inboxe.png",
+                          width: 80,
+                          height: 80,
+                        ),
+                        Text(
+                          "property type not found",
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall,
+                        ),
+                      ],
+                    ),
+                  );
                 }
                 return GridView.builder(
                   physics: NeverScrollableScrollPhysics(),

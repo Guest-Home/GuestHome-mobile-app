@@ -69,8 +69,23 @@ class _RequestState extends State<Request> {
                         child: SizedBox(
                           height: MediaQuery.of(context).size.height/2,
                       child: Center(
-                        child: Text("no reservation found"),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                        Image.asset("assets/icons/Inboxe.png",
+                          width: 80,
+                          height: 80,
+                        ),
+                      Text(
+                        "no reservation found",
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall,
                       ),
+                      ],
+                    ),
+                )
                     ));
                   } else {
                     return SliverList(

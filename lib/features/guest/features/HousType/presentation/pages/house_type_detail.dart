@@ -11,6 +11,7 @@ import 'package:minapp/core/utils/show_snack_bar.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/filter_bloc/filter_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/houstype_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/popular_property/popular_property_bloc.dart';
+import 'package:minapp/features/guest/features/HousType/presentation/widgets/Near_house_card.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/property_type/property_type_bloc.dart';
 
 import '../../../../../../core/common/back_button.dart';
@@ -162,9 +163,12 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                 padding: EdgeInsets.symmetric(horizontal: 15),
                                 itemBuilder: (context, index) {
                                   return GestureDetector(
-                                    onTap: () => context.push('/houseDetail',
-                                        extra: filterState
-                                            .properties.results![index]),
+                                    onTap: ()async{
+                                      final token= await GetToken().getUserToken();
+                                      context.push('/houseDetail/$token',
+                                          extra: filterState
+                                              .properties.results![index]);
+                                    },
                                     child: PopularHouseCard(
                                       width: MediaQuery.of(context).size.width,
                                       height: 400,
@@ -211,8 +215,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                     );
                                   }
                                   return SizedBox(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.43,
+                                    height:MediaQuery.of(context).size.height*0.42,
                                     width: MediaQuery.of(context).size.width,
                                     child: ListView.builder(
                                       itemCount:
@@ -227,7 +230,6 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                               extra: state
                                                   .properties.results![index],);
                                         },
-
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 10, vertical: 15),
@@ -272,11 +274,20 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                 } else if (state is HouseTYpeLoadedState) {
                                   if (state.properties.count == 0) {
                                     return Center(
-                                      child: Text(
-                                        "no property found",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
+                                      child: Column(
+                                        children: [
+                                          Image.asset("assets/icons/Inboxe.png",
+                                            width: 80,
+                                            height: 80,
+                                          ),
+                                          Text(
+                                            "no property\n found near your location ",
+                                            textAlign: TextAlign.center,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall,
+                                          ),
+                                        ],
                                       ),
                                     );
                                   }
@@ -288,16 +299,16 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                         EdgeInsets.symmetric(horizontal: 15),
                                     itemBuilder: (context, index) {
                                       return GestureDetector(
-                                        onTap: () => context.push(
-                                            '/houseDetail',
-                                            extra: state
-                                                .properties.results![index]),
-                                        child: PopularHouseCard(
-                                          width:
-                                              MediaQuery.of(context).size.width,
+                                        onTap: ()async{
+                                          final token= await GetToken().getUserToken();
+                                          context.push(
+                                              '/houseDetail/$token',
+                                              extra: state
+                                                  .properties.results![index]);
+                                        },
+                                        child: NearHouseCard(
+                                          width: MediaQuery.of(context).size.width,
                                           height: 400,
-                                          showBorder: false,
-                                          showIndicator: true,
                                           property:
                                               state.properties.results![index],
                                         ),

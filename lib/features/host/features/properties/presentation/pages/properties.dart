@@ -177,11 +177,19 @@ class NoPropertyFound extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(10),
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Text(
-          'Lorem ipsum dolor sit amet consectetur. Est netus commodo mattis lectus nam lacinia hac sapien.',
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 16),
-        ),
+
+        Image.asset("assets/icons/Inboxe.png",
+        width: 80,
+        height: 80,
+      ),
+      Text(
+        "no property found",
+        textAlign: TextAlign.center,
+        style: Theme.of(context)
+            .textTheme
+            .bodySmall,
+      ),
+
         Padding(
             padding: const EdgeInsets.all(20),
             child: CustomButton(

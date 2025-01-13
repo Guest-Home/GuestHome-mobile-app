@@ -60,7 +60,6 @@ class Booked extends StatelessWidget {
                      final token= await GetToken().getUserToken();
                      context.goNamed('bookedDetail',pathParameters: {'token': token},extra: state.booking.results![index]);
                    },
-
                    child:
                  BookedCard(
                    width: MediaQuery.of(context).size.width,
@@ -97,11 +96,10 @@ class EmpityBooked extends StatelessWidget {
         spacing: 10,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SvgPicture.asset(
-            'assets/icons/empty.svg',
-            semanticsLabel: 'empity',
-            fit: BoxFit.cover,
-          ),
+              Image.asset("assets/icons/Inboxe.png",
+                width: 80,
+                height: 80,
+              ),
           Text(
             "You didn’t booked any Properties.  search and book properties. ",
             textAlign: TextAlign.center,
