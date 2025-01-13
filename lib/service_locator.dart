@@ -11,11 +11,20 @@ import 'package:minapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/data/datasources/house_data_source.dart';
 import 'package:minapp/features/guest/features/HousType/data/repositories/house_repository_impl.dart';
 import 'package:minapp/features/guest/features/HousType/domain/repositories/house_repository.dart';
+import 'package:minapp/features/guest/features/HousType/domain/usecases/filter_property_usecase.dart';
 import 'package:minapp/features/guest/features/HousType/domain/usecases/get_house_bytype_usecase.dart';
 import 'package:minapp/features/guest/features/HousType/domain/usecases/get_popular_property_usecase.dart';
+import 'package:minapp/features/guest/features/HousType/domain/usecases/proprty_booking_usecase.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/booking/booking_bloc.dart';
+import 'package:minapp/features/guest/features/HousType/presentation/bloc/filter_bloc/filter_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/houstype_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/popular_property/popular_property_bloc.dart';
+import 'package:minapp/features/guest/features/booked/data/datasources/booking_data_source.dart';
+import 'package:minapp/features/guest/features/booked/data/repositories/my_booking_repository_impl.dart';
+import 'package:minapp/features/guest/features/booked/domain/repositories/my_booking_repositorty.dart';
+import 'package:minapp/features/guest/features/booked/domain/usecases/cancel_booking_usecase.dart';
+import 'package:minapp/features/guest/features/booked/domain/usecases/get_my_booking_usecase.dart';
+import 'package:minapp/features/guest/features/booked/presentation/bloc/booked_bloc.dart';
 import 'package:minapp/features/host/features/analytics/data/datasources/analytics_data_source.dart';
 import 'package:minapp/features/host/features/analytics/data/repositories/occupancy_rate_repository_impl.dart';
 import 'package:minapp/features/host/features/analytics/domain/repositories/analytics_repository.dart';
@@ -107,6 +116,12 @@ void setup() async {
   sl.registerFactory<PopularPropertyBloc>(
         () => PopularPropertyBloc(),
   );
+  sl.registerFactory<FilterBloc>(
+        () => FilterBloc(),
+  );
+  sl.registerFactory<BookedBloc>(
+        () => BookedBloc(),
+  );
   // usecase
 
   sl.registerSingleton<CreateOtpUsecase>(CreateOtpUsecase());
@@ -133,6 +148,10 @@ void setup() async {
 
   sl.registerSingleton<GetHouseBytypeUsecase>(GetHouseBytypeUsecase());
   sl.registerSingleton<GetPopularPropertyUseCase>(GetPopularPropertyUseCase());
+  sl.registerSingleton<PropertyBookingUseCase>(PropertyBookingUseCase());
+  sl.registerSingleton<GetMyBookingUseCase>(GetMyBookingUseCase());
+  sl.registerSingleton<CancelBookingUseCase>(CancelBookingUseCase());
+  sl.registerSingleton<FilterPropertyUseCase>(FilterPropertyUseCase());
 
   // repository
 
@@ -145,6 +164,7 @@ void setup() async {
   sl.registerSingleton<ReservationRepository>(ReservationRepositoryImpl());
   sl.registerSingleton<AnalyticsRepository>(OccupancyRateRepositoryImpl());
   sl.registerSingleton<HouseRepository>(HouseRepositoryImpl());
+  sl.registerSingleton<MyBookingRepository>(MyBookingRepositoryImpl());
 
   // data source
 
@@ -155,6 +175,7 @@ void setup() async {
       ReservationApiDataSourceImpl());
   sl.registerSingleton<AnalyticsDataSource>(AnalyticsDataSourceImpl());
   sl.registerSingleton<HouseDataSource>(HouseDataSourceImpl());
+  sl.registerSingleton<BookingDataSource>(BookingDataSourceImpl());
 
   //dio client
   sl.registerSingleton<DioClient>(DioClient());

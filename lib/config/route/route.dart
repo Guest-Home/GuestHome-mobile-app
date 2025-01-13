@@ -4,12 +4,15 @@ import 'package:go_router/go_router.dart';
 import 'package:minapp/config/route/navigator_observer.dart';
 import 'package:minapp/features/guest/features/HousType/domain/entities/g_property_entity.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/booking/booking_bloc.dart';
+import 'package:minapp/features/guest/features/HousType/presentation/bloc/filter_bloc/filter_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/houstype_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/popular_property/popular_property_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/pages/booking.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/pages/house_detail.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/pages/house_type.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/pages/house_type_detail.dart';
+import 'package:minapp/features/guest/features/booked/domain/entities/my_booking_entity.dart';
+import 'package:minapp/features/guest/features/booked/presentation/bloc/booked_bloc.dart';
 import 'package:minapp/features/guest/features/booked/presentation/pages/booked.dart';
 import 'package:minapp/features/guest/features/booked/presentation/pages/booked_detail.dart';
 import 'package:minapp/features/guest/features/guestHome/presentation/pages/guest_home.dart';
@@ -209,20 +212,28 @@ Future<GoRouter> createRouter() async {
                   builder: (context, state) => HouseType(),
                   routes: [
                     GoRoute(
-                        name: 'houseTypeDetail',
-                        path: '/houseTypeDetail',
-                        builder: (context, state) {
-                          final name = state.extra as String;
-                          return MultiBlocProvider(providers:[
-                            BlocProvider(create: (context) => sl<HoustypeBloc>()..add(GetPropertyByHouseTypeEvent(name:name),)),
-                            BlocProvider(create: (context) => sl<PopularPropertyBloc>()..add(GetPopularPropertyEvent()),),
+                      name: 'houseTypeDetail',
+                      path: '/houseTypeDetail',
+                      builder: (context, state) {
+                        final name = state.extra as String;
+                        return MultiBlocProvider(
+                          providers: [
+                            BlocProvider(
+                                create: (context) => sl<HoustypeBloc>()
+                                  ..add(
+                                    GetPropertyByHouseTypeEvent(name: name),
+                                  )),
+                            BlocProvider(
+                              create: (context) => sl<PopularPropertyBloc>()
+                                ..add(GetPopularPropertyEvent()),
+                            ),
                           ],
-                              child:HouseTypeDetail(
-                                name: name,
-                              ), );
-
-                        },
-                        ),
+                          child: HouseTypeDetail(
+                            name: name,
+                          ),
+                        );
+                      },
+                    ),
                   ]),
             ],
           ),
@@ -232,12 +243,18 @@ Future<GoRouter> createRouter() async {
               GoRoute(
                   name: 'booked',
                   path: '/booked',
-                  builder: (context, state) => Booked(),
+                  builder: (context, state) => BlocProvider(
+                        create: (context) => sl<BookedBloc>()..add(GetMyBookingEvent()),
+                        child: Booked(),
+                      ),
                   routes: [
                     GoRoute(
                       name: 'bookedDetail',
                       path: '/bookedDetail',
-                      builder: (context, state) => BookedDetail(),
+                      builder: (context, state){
+                        final property = state.extra as ResultBookingEntity;
+                       return BookedDetail(property: property,);
+                      },
                     ),
                   ]),
             ],
@@ -272,25 +289,27 @@ Future<GoRouter> createRouter() async {
         ],
       ),
       GoRoute(
-          name: 'houseDetail',
-          path: '/houseDetail',
-          builder: (context, state){
-            final property = state.extra as ResultEntity;
-          return HouseDetail(property:property,);
-            },
+        name: 'houseDetail',
+        path: '/houseDetail',
+        builder: (context, state) {
+          final property = state.extra as ResultEntity;
+          return HouseDetail(
+            property: property,
+          );
+        },
       ),
       GoRoute(
-        name: 'booking',
-        path: '/booking',
-        builder: (context, state){
-          final id=state.extra as int;
-    return BlocProvider(create:(context) => sl<BookingBloc>(),child: Booking(id: id,),);
-  }
-
-
-      ),
-
-
+          name: 'booking',
+          path: '/booking',
+          builder: (context, state) {
+            final id = state.extra as int;
+            return BlocProvider(
+              create: (context) => sl<BookingBloc>(),
+              child: Booking(
+                id: id,
+              ),
+            );
+          }),
     ],
   );
   return router;

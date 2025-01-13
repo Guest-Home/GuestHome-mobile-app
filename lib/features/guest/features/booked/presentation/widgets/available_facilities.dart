@@ -1,56 +1,74 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../../../../../config/color/color.dart';
-import '../../../HousType/presentation/widgets/section_header_text.dart';
+import '../../../../../../core/common/constants/house_type_icons.dart';
 
 class AvailableFacilities extends StatelessWidget {
   const AvailableFacilities({
-    super.key,
+    super.key, required this.subDesc,
   });
+
+  final String subDesc;
 
   @override
   Widget build(BuildContext context) {
     return
       Card(
-      elevation: 0,
-      color: Colors.white,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-          side:
-              BorderSide(color: ColorConstant.cardGrey.withValues(alpha: 0.5))),
-      child: Column(
+        elevation: 0,
+        color: ColorConstant.cardGrey.withValues(alpha: 0.2),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+            side:
+            BorderSide(color: ColorConstant.cardGrey.withValues(alpha:0))),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 10,
+            children: [
+              Text(tr("Facilities"),style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  fontWeight: FontWeight.w600),),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Wrap(
+                  spacing: 30,
+                  runSpacing: 20,
+                  children: List.generate(
+                     subDesc.split(',').length,
+                          (index){
+                        final facilities=subDesc.split(',');
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          spacing: 1,
+                          children: [
+                            Container(
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
 
-        children: [
-          SecctionHeader(title: tr("Facilities"), isSeeMore: false),
-          Padding(
-            padding: const EdgeInsets.all(15),
-            child: Wrap(
-              spacing: 30,
-              runSpacing: 20,
-              children: List.generate(
-                10,
-                (index) => Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  spacing: 5,
-                  children: [
-                    Container(
-                        padding: EdgeInsets.all(7),
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle, color: ColorConstant.yellow),
-                        child: Icon(
-                          Icons.wifi,
-                          color: Colors.white,
-                        )),
-                    Text("wifi")
-                  ],
+                                  shape: BoxShape.circle,),
+                                child:SvgPicture.asset(
+                                  amenitiesIcon[facilities[index]]!,
+                                  fit: BoxFit.cover,
+                                  width: 25,
+                                  height: 25,
+                                )
+                            ),
+                            Text(facilities[index],style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 10
+                            ),)
+                          ],
+                        );
+                      }
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
-    );
+        ),
+      );
   }
 }

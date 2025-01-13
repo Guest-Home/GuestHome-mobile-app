@@ -3,9 +3,15 @@ import 'package:flutter/material.dart';
 
 class AboutReservationsCard extends StatelessWidget {
   const AboutReservationsCard({
-    super.key,
+    super.key, required this.id, required this.price, required this.unit, required this.checkIn, required this.checkOut, required this.decisionTime, required this.decision,
   });
-
+  final String id;
+  final String price;
+  final String unit;
+  final String checkIn;
+  final String checkOut;
+  final String decisionTime;
+  final String? decision;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -20,16 +26,24 @@ class AboutReservationsCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 10,
           children: [
-            Text(tr('Reservation ID')),
-            Text(tr('Requested Reservation Price')),
-            Text(tr('Unit of Price')),
-            Text(tr('Reservation Check in')),
-            Text(tr('Reservation Check out')),
-            Text(tr('Reservation Decision time')),
-            Text(tr('Reservation Decision')),
+            resText(context,"${tr('Reservation ID')}:$id"),
+            resText(context, '${tr('Requested Reservation Price')}: $price'),
+
+            resText(context, '${tr('Unit of Price')}: $unit'),
+            resText(context, '${tr('Reservation Check in')}: $checkIn'),
+            resText(context, '${tr('Reservation Check out')}: $checkOut'),
+            resText(context, '${tr('Reservation Decision time')}: $decisionTime'),
+            resText(context, "${tr('Reservation Decision')}: $decision"),
           ],
         ),
       ),
     );
+  }
+
+  Text resText(BuildContext context,String title) {
+    return Text(title,style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+            fontSize: 13,
+            fontWeight: FontWeight.w400
+          ),);
   }
 }

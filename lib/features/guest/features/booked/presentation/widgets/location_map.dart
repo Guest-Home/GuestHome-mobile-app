@@ -4,8 +4,10 @@ import '../../../../../../config/color/color.dart';
 
 class LocationMap extends StatelessWidget {
   const LocationMap({
-    super.key,
+    super.key, required this.loc,
   });
+
+  final String loc;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,7 @@ class LocationMap extends StatelessWidget {
       spacing: 10,
       children: [
         Placeholder(
-          fallbackHeight: 150,
+          fallbackHeight:200,
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 11),
@@ -22,18 +24,18 @@ class LocationMap extends StatelessWidget {
             spacing: 10,
             children: [
               CircleAvatar(
-                radius: 16,
+                radius: 15,
                 backgroundColor: ColorConstant.secondBtnColor,
                 child: Icon(
                   Icons.location_on_sharp,
-                  size: 19,
+                  size: 17,
                   color: Colors.white,
                 ),
               ),
-              Text(
-                "Addis Ababa,Ethiopia",
+              Text(loc,
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 12,
                     color: ColorConstant.secondBtnColor),
               )
             ],

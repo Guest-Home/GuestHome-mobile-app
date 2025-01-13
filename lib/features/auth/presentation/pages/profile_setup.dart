@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:minapp/core/common/spin_kit_loading.dart';
 import 'package:minapp/core/common/upload_photo_widget.dart';
 import 'package:minapp/core/common/custom_text_field.dart';
+import 'package:minapp/core/utils/show_snack_bar.dart';
 import 'package:minapp/core/utils/validator.dart';
 import 'package:minapp/features/auth/presentation/bloc/auth_bloc.dart';
 
@@ -18,16 +19,6 @@ class ProfileSetup extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _fullNameController = TextEditingController();
 
-  _showErrorSnackBar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(backgroundColor: ColorConstant.red, behavior: SnackBarBehavior.floating, content: Text(message)));
-  }
-
-  _showSuccessSnackBar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(backgroundColor: ColorConstant.green, behavior: SnackBarBehavior.floating, content: Text(message)));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,9 +31,10 @@ class ProfileSetup extends StatelessWidget {
               listener: (context, state) {
                 if (state is CreatedCustomerProfileLodedState) {
                   context.goNamed('properties');
-                  _showSuccessSnackBar(context, "Profile Created Successfully");
+                  showSuccessSnackBar(context, "Profile Created Successfully");
+
                 } else if (state is OtpErrorState) {
-                  _showErrorSnackBar(context, state.failure.message);
+                  showErrorSnackBar(context, state.failure.message);
                 }
               },
               buildWhen: (previous, current) => previous != current,
@@ -232,9 +224,8 @@ class ProfileSetup extends StatelessWidget {
                                                             null ||
                                                         state.profilePhoto!.path
                                                             .isEmpty) {
-                                                      _showErrorSnackBar(
-                                                          context,
-                                                          "Please select a profile photo");
+                                                      showErrorSnackBar(context, "Please select a profile photo");
+
                                                     } else {
                                                       context.read<AuthBloc>().add(
                                                           CreateCustomerProfileEvent());

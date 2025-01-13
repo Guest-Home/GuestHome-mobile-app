@@ -33,4 +33,11 @@ class AddIdEvent extends BookingEvent{
   AddIdEvent({required this.id});
 }
 
-class BookEvent extends BookingEvent{}
+class BookEvent extends BookingEvent{
+  final int id;
+  BookEvent({required this.id});
+}
+
+class ResetBookingEvent extends BookingEvent{
+
+}

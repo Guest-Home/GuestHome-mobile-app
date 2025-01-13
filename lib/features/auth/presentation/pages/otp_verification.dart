@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
 import 'package:minapp/core/common/back_button.dart';
 import 'package:minapp/core/common/spin_kit_loading.dart';
+import 'package:minapp/core/utils/show_snack_bar.dart';
 import 'package:minapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:pinput/pinput.dart';
 
@@ -20,27 +21,15 @@ class OtpVerification extends StatelessWidget {
         listener: (context, state) {
           if (state is VerifyedOtpLodedState) {
             if (state.verifyOtpEntity.hasProfile) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  backgroundColor: ColorConstant.green,
-                  elevation: 0,
-                  behavior: SnackBarBehavior.floating,
-                  content: Text("Otp Verified")));
+              showSuccessSnackBar(context, "Otp Verified");
               context.goNamed('properties');
             } else {
               context.goNamed('profileSetup');
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  backgroundColor: ColorConstant.green,
-                  elevation: 0,
-                  behavior: SnackBarBehavior.floating,
-                  content: Text("Otp Verified")));
+              showSuccessSnackBar(context, "Otp Verified");
             }
           }
           if (state is OtpErrorState) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                backgroundColor: ColorConstant.red,
-                behavior: SnackBarBehavior.floating,
-                elevation: 0,
-                content: Text(state.failure.message)));
+            showErrorSnackBar(context, state.failure.message);
           }
         },
         builder: (context, state) {

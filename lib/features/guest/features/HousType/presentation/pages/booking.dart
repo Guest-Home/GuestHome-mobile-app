@@ -12,6 +12,7 @@ import '../../../../../../config/color/color.dart';
 import '../../../../../../core/common/back_button.dart';
 import '../../../../../../core/common/country_code_selector.dart';
 import '../../../../../../core/common/custom_button.dart';
+import '../../../../../../core/common/spin_kit_loading.dart';
 
 class Booking extends StatelessWidget {
    Booking({super.key,required this.id});
@@ -30,7 +31,24 @@ final int id;
       appBar: AppBar(
         leading: AppBarBackButton(),
       ),
-      body: Padding(
+      body: BlocListener<BookingBloc, BookingState>(
+  listener: (context, state) {
+    if(state is BookingLoadingState){
+      _bookingDialog(context, "booking...");
+    }
+    else if(state is BookingSuccessState){
+      context.pop();
+      showBookedDialog(context);
+    }
+    else if(state is BookingErrorState){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: ColorConstant.red,
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          content: Text(state.failure.message)));
+    }
+  },
+  child: Padding(
         padding: const EdgeInsets.all(5),
         child:Form(
           key:_formKey ,
@@ -41,7 +59,6 @@ final int id;
           children: [
             Expanded(
                 child:
-
                 ListView(
               padding: EdgeInsets.all(15),
               children: [
@@ -255,10 +272,13 @@ final int id;
                   Expanded(
                       child: CustomButton(
                           onPressed: () {
+                            context.read<BookingBloc>().add(ResetBookingEvent());
                             context.pop();
+
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.white,
+                              elevation: 0,
                               padding: EdgeInsets.all(20),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15),
@@ -279,12 +299,12 @@ final int id;
                            // showBookedDialog(context);
                             _formKey.currentState!.save();
                             if(_formKey.currentState!.validate()){
-                              context.read<BookingBloc>().add(BookEvent());
-
+                              context.read<BookingBloc>().add(BookEvent(id: id));
                             }
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: ColorConstant.primaryColor,
+                            elevation: 0,
                             padding: EdgeInsets.all(20),
                           ),
                           child: Text(
@@ -302,13 +322,15 @@ final int id;
             )
           ],
         ),
-      ),))
+      ),)),
+)
     );
   }
 
   Future<dynamic> showBookedDialog(BuildContext context) {
     return showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) => AlertDialog(
           backgroundColor: Colors.white,
           title: Text(
@@ -371,4 +393,34 @@ final int id;
                   : ColorConstant.cardGrey.withValues(alpha: 0.5)))
     ]));
   }
+   void _bookingDialog(BuildContext context,String title) {
+     showDialog(
+       context: context,
+       barrierDismissible: false,
+       builder: (context) => AlertDialog(
+         backgroundColor: Colors.white,
+         shape: RoundedRectangleBorder(
+           borderRadius: BorderRadius.circular(10),
+         ),
+         contentPadding: EdgeInsets.all(15),
+         content: SizedBox(
+           height: 80,
+           child: Column(
+             crossAxisAlignment: CrossAxisAlignment.center,
+             mainAxisAlignment: MainAxisAlignment.center,
+             children: [
+               loadingWithPrimary,
+               Padding(
+                 padding: const EdgeInsets.all(8.0),
+                 child: Text(
+                   title,
+                   style: Theme.of(context).textTheme.bodySmall,
+                 ),
+               ),
+             ],
+           ),
+         ),
+       ),
+     );
+   }
 }

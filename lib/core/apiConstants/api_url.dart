@@ -28,5 +28,8 @@ class ApiUrl {
   //guest
   static const String propertyByType = "/guestapp/api/v1/properties_by_type/";
   static const String tradingProperty = "/guestapp/api/v1/property_trending/";
+  static const String propertyBooking = "/guestapp/api/v1/property_booking/";
+  static const String cancelBooking = "/guestapp/api/v1/property_booking/cancel/";
+  static const String filterProperties = "/guestapp/api/v1/filter_properties/";
 
 }

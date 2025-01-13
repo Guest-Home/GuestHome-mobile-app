@@ -10,7 +10,6 @@ class PopularHouseCard extends StatelessWidget {
     super.key,
     required this.width,
     required this.height,
-    required this.hasStatus,
     required this.property,
     required this.showBorder,
     required this.showIndicator
@@ -18,7 +17,6 @@ class PopularHouseCard extends StatelessWidget {
 
   final double width;
   final double? height;
-  final bool hasStatus;
   final bool showBorder;
   final bool showIndicator;
   final ResultEntity property;
@@ -29,13 +27,6 @@ class PopularHouseCard extends StatelessWidget {
       width: width,
       height: MediaQuery.of(context).size.height*0.6,
       margin: EdgeInsets.only(bottom: 20),
-      // decoration: BoxDecoration(
-      //   borderRadius: BorderRadius.circular(10),
-      //   border: showBorder?Border.all(
-      //     width:0.4,
-      //     color: ColorConstant.cardGrey
-      //   ):Border.all(color: Colors.transparent)
-      // ),
       child:
         Column(
           children: [
@@ -110,7 +101,7 @@ class PopularHouseCard extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .bodyLarge!
-                        .copyWith(fontWeight: FontWeight.w600,fontSize: 18),
+                        .copyWith(fontWeight: FontWeight.w600,fontSize: 16),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -134,13 +125,13 @@ class PopularHouseCard extends StatelessWidget {
               ),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: 7,
+                spacing: 6,
                 children: [
                   Text(property.subDescription!.toString(),
                       textAlign: TextAlign.start,
                       overflow: TextOverflow.ellipsis,
                       style:Theme.of(context).textTheme.bodySmall!.copyWith(
-                        fontSize: 14,
+                        fontSize: 12,
                    fontWeight: FontWeight.w400,
     color: ColorConstant.secondBtnColor
         .withValues(alpha: 0.4)
@@ -151,7 +142,7 @@ class PopularHouseCard extends StatelessWidget {
                     TextSpan(
                         text:tr("posted by"),
                            style:Theme.of(context).textTheme.bodySmall!.copyWith(
-                      fontSize: 14,
+                      fontSize: 12,
                       fontWeight: FontWeight.w400,
                       color: ColorConstant.secondBtnColor
                           .withValues(alpha: 0.4)
@@ -167,7 +158,7 @@ class PopularHouseCard extends StatelessWidget {
                     TextSpan(
                         text: "${property.price} ${property.unit} ",
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          fontSize: 16,
+                          fontSize: 14,
                             fontWeight: FontWeight.w700,
                             color: ColorConstant.secondBtnColor)),
                     TextSpan(
@@ -182,14 +173,14 @@ class PopularHouseCard extends StatelessWidget {
                     children: [
                       Icon(
                         Icons.location_pin,
-                        size: 21,
+                        size: 20,
                         color: ColorConstant.secondBtnColor,
                       ),
                       Text(
                         "${property.specificAddress!}, ${property.city!}",
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(
                             fontWeight: FontWeight.w500,
-                            fontSize: 14,
+                            fontSize: 12,
                             color: ColorConstant.secondBtnColor),
                       )
                     ],
@@ -197,40 +188,6 @@ class PopularHouseCard extends StatelessWidget {
                 ],
               ),
             ),
-            if (hasStatus)
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: Row(
-                  spacing: 100,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(tr(
-                      "Booking Status"),
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge!
-                          .copyWith(fontWeight: FontWeight.w800),
-                    ),
-                    Expanded(
-                      child: Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 7),
-                        decoration: BoxDecoration(
-                            color: ColorConstant.yellow,
-                            borderRadius: BorderRadius.circular(50)),
-                        child: Center(
-                            child: Text(
-                          "Pending",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(color: Colors.white),
-                        )),
-                      ),
-                    )
-                  ],
-                ),
-              )
           ],
         ),
 

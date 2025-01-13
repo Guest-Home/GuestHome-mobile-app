@@ -220,7 +220,15 @@ class _ProfileState extends State<Profile> {
                         color: ColorConstant.secondBtnColor,
                         fontWeight: FontWeight.bold)),
                 ListTile(
-                  onTap: () => context.pushNamed('generalInformation'),
+                  onTap: (){
+                   print (GoRouter.of(context).routerDelegate.state!.name);
+                   if(GoRouter.of(context).routerDelegate.state!.name=='guestProfile'){
+                      context.pushNamed('guestGeneralInformation');
+                   }else{
+                     context.pushNamed('generalInformation');
+                   }
+
+                  },
                   leading: Image.asset("assets/icons/user.png"),
                   title: Text(
                     "General Information",
@@ -229,7 +237,14 @@ class _ProfileState extends State<Profile> {
                   trailing: Icon(Icons.arrow_right_alt_outlined),
                 ),
                 ListTile(
-                  onTap: () => context.pushNamed("language"),
+                  onTap: (){
+                    if(GoRouter.of(context).routerDelegate.state!.name=='guestProfile'){
+                      context.pushNamed("guestLanguage");
+                    }else{
+                      context.pushNamed("language");
+                    }
+
+                      },
                   leading: Image.asset("assets/icons/lang.png"),
                   title: Text(
                     tr("language"),
@@ -238,7 +253,14 @@ class _ProfileState extends State<Profile> {
                   trailing: Icon(Icons.arrow_right_alt_outlined),
                 ),
                 ListTile(
-                  onTap: () => context.pushNamed("account"),
+                  onTap: (){
+                    if(GoRouter.of(context).routerDelegate.state!.name=='guestProfile'){
+                      context.pushNamed("guestAccount");
+                    }else{
+                      context.pushNamed("account");
+                    }
+                  },
+
                   leading: Image.asset("assets/icons/account.png"),
                   title: Text(
                     "Account",

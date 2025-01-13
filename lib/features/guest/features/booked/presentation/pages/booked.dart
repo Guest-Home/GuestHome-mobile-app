@@ -1,12 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
-import 'package:minapp/core/common/back_button.dart';
 import 'package:minapp/core/common/custom_button.dart';
-import 'package:minapp/features/guest/features/HousType/presentation/widgets/popular_house_card.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/widgets/section_header_text.dart';
+import 'package:minapp/features/guest/features/booked/presentation/bloc/booked_bloc.dart';
+import 'package:minapp/features/guest/features/booked/presentation/widgets/booked_card.dart';
 
 class Booked extends StatelessWidget {
   const Booked({super.key});
@@ -14,36 +16,63 @@ class Booked extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: AppBarBackButton(),
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 10,
-        children: [
-          Padding(
-              padding: EdgeInsets.all(1),
-              child: ListTile(
-                title: SecctionHeader(title: tr("Booked"), isSeeMore: false),
-                subtitle: Text(
-                  "Here is the list of your requested booking",
-                  style: Theme.of(context).textTheme.bodyMedium!,
+      body: SafeArea(
+        child: RefreshIndicator(
+          backgroundColor: ColorConstant.primaryColor,
+          color: Colors.white,
+          onRefresh: ()async{
+            context.read<BookedBloc>().add(GetMyBookingEvent());
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 11),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 10,
+              children: [
+                Padding(
+                    padding: EdgeInsets.all(1),
+                    child: ListTile(
+                      title: SecctionHeader(title: tr("Booked"), isSeeMore: false),
+                      subtitle: Text(
+                        "Here is the list of your requested booking",
+                        style: Theme.of(context).textTheme.bodyMedium!,
+                      ),
+                    )),
+                Expanded(
+                  child:
+                  BlocBuilder<BookedBloc, BookedState>(
+              builder: (context, state) {
+                if(state is MyBookingLoadingState){
+            return Center(child: CupertinoActivityIndicator(),);
+                }
+                if(state is MyBookingLoadedState){
+             if(state.booking.results!.isEmpty){
+               return EmpityBooked();
+
+             }
+             return ListView.builder(
+               padding: EdgeInsets.all(10),
+               itemCount: state.booking.results!.length,
+               itemBuilder: (context, index) => GestureDetector(
+                   onTap: () => context.goNamed('bookedDetail',extra: state.booking.results![index]),
+                   child:
+                 BookedCard(
+                   width: MediaQuery.of(context).size.width,
+                   height: 400,
+                   property:state.booking.results![index],
+                 ),
+               ),
+             );
+                }
+                return SizedBox.shrink();
+
+              },
+            ),
                 ),
-              )),
-          Expanded(
-            child: ListView.builder(
-              itemBuilder: (context, index) => GestureDetector(
-                onTap: () => context.goNamed('bookedDetail'),
-                child: Text("data")
-                // PopularHouseCard(
-                //   width: MediaQuery.of(context).size.width,
-                //   height: 400,
-                //   hasStatus: true,
-                // ),
-              ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }

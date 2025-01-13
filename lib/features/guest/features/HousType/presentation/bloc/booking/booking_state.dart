@@ -45,3 +45,12 @@ class BookingState {
 }
 
 final class BookingInitial extends BookingState {}
+class BookingLoadingState extends BookingState{}
+class BookingErrorState extends BookingState{
+  final Failure failure;
+  BookingErrorState({required this.failure});
+}
+class BookingSuccessState extends BookingState{
+  final bool booked;
+  BookingSuccessState({required this.booked});
+}

@@ -6,6 +6,7 @@ import 'package:minapp/core/common/back_button.dart';
 import 'package:minapp/core/common/custom_button.dart';
 import 'package:minapp/core/common/custom_text_field.dart';
 import 'package:minapp/core/common/spin_kit_loading.dart';
+import 'package:minapp/core/utils/show_snack_bar.dart';
 import 'package:minapp/core/utils/validator.dart';
 import 'package:minapp/features/auth/presentation/bloc/auth_bloc.dart';
 
@@ -27,17 +28,9 @@ class AccountSetup extends StatelessWidget {
         listener: (context, state) {
           if (state is OtpCreatedLodedState) {
             context.goNamed('otpVerification');
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text(state.otpResponseEntity.message),
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: ColorConstant.green,
-            ));
+            showSuccessSnackBar(context, state.otpResponseEntity.message);
           } else if (state is OtpErrorState) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text(state.failure.message),
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: ColorConstant.red,
-            ));
+            showErrorSnackBar(context, state.failure.message);
           }
         },
         buildWhen: (previous, current) => previous != current,

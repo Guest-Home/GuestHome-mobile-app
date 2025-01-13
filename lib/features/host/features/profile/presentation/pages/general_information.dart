@@ -74,8 +74,8 @@ class GeneralInformation extends StatelessWidget {
           if (state is ProfileErrorState) {
             _showErrorSnackBar(context, 'unable to update');
           } else if (state is UpdateUserProfileState && state.isUpdate) {
-            context.read<ProfileBloc>().add(GetUserProfileEvent());
             _showSuccessSnackBar(context, "profile updated");
+            context.read<ProfileBloc>().add(GetUserProfileEvent());
           }
         },
         child: SingleChildScrollView(
@@ -84,8 +84,7 @@ class GeneralInformation extends StatelessWidget {
               value: context.read<ProfileBloc>(),
               child: BlocBuilder<ProfileBloc, ProfileState>(
                 builder: (context, state) {
-                  if (state is UpdateUserProfileLoadingState ||
-                      state is UserProfileLoadingState) {
+                  if (state is UserProfileLoadingState) {
                     return SizedBox(
                         height: MediaQuery.of(context).size.height,
                         child: Center(

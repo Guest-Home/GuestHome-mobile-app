@@ -20,7 +20,7 @@ class SecctionHeader extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .bodyLarge!
-              .copyWith(fontWeight: FontWeight.w600, fontSize: 16),
+              .copyWith(fontWeight: FontWeight.w600, fontSize: 14),
         ),
         if (isSeeMore)
           Text(

@@ -6,3 +6,10 @@ abstract class BookedEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class GetMyBookingEvent extends BookedEvent{}
+
+class CancelBookingEvent extends BookedEvent{
+  final int id;
+  const CancelBookingEvent({required this.id});
+}
