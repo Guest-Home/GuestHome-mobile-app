@@ -31,7 +31,7 @@ class _AnalyticsState extends State<Analytics> {
           ),
         ),
         body: RefreshIndicator(
-          onRefresh: ()async{
+          onRefresh: () async {
             context.read<AnalyticsBloc>().add(GetOccupancyRateEvent());
             context.read<TotalPropertyBloc>().add(GetTotalPropertyEvent());
           },
@@ -43,34 +43,39 @@ class _AnalyticsState extends State<Analytics> {
               children: [
                 sectionTitle(context, 'General Metrics'),
                 BlocBuilder<TotalPropertyBloc, TotalPropertyState>(
-                  buildWhen: (previous, current) => previous.totalProperty!=current.totalProperty,
-              builder: (context, state) {
-            return Container(
-                  width: 200,
-                  height: 100,
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: ColorConstant.primaryColor,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: ListTile(
-                    title: Text(
-                      'Total Properties',
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: Colors.white,
-                          ),
-                    ),
-                    subtitle: Text(
-                      state.totalProperty.totalNumberOfProperty.toString(),
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20),
-                    ),
-                  ),
-                );
-  },
-),
+                  buildWhen: (previous, current) =>
+                      previous.totalProperty != current.totalProperty,
+                  builder: (context, state) {
+                    return Container(
+                      width: 200,
+                      height: 100,
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: ColorConstant.primaryColor,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: ListTile(
+                        title: Text(
+                          'Total Properties',
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    color: Colors.white,
+                                  ),
+                        ),
+                        subtitle: Text(
+                          state.totalProperty.totalNumberOfProperty.toString(),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20),
+                        ),
+                      ),
+                    );
+                  },
+                ),
                 // days
                 SizedBox(
                   height: 40,
@@ -79,55 +84,70 @@ class _AnalyticsState extends State<Analytics> {
                     children: [
                       Expanded(
                         child: BlocBuilder<AnalyticsBloc, AnalyticsState>(
-                          buildWhen: (previous, current) => previous.selectedDate!=current.selectedDate,
+                          buildWhen: (previous, current) =>
+                              previous.selectedDate != current.selectedDate,
                           builder: (context, state) {
                             return ListView.separated(
-                            itemCount:state.occupancyDate.length,
-                            scrollDirection: Axis.horizontal,
-                            separatorBuilder: (context, index) => SizedBox(width:10,),
-                            itemBuilder: (context, index) => GestureDetector(
-                              onTap: () {
-                                context.read<AnalyticsBloc>().add(ChangeOccupancyDateEvent(date: state.occupancyDate[index]));
-                              },
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 10),
-                                margin: const EdgeInsets.only(right: 6),
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: state.selectedDate == state.occupancyDate[index]
-                                      ? ColorConstant.secondBtnColor
-                                      : ColorConstant.cardGrey,
-                                  borderRadius: BorderRadius.circular(40),
-                                ),
-                                child: Center(
-                                  child: Text(state.occupancyDate[index],
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall!
-                                          .copyWith(
-                                        fontWeight: FontWeight.w500,
-                                            color: state.selectedDate == state.occupancyDate[index]
-                                                ? Colors.white
-                                                : ColorConstant.secondBtnColor,
-                                          )),
+                              itemCount: state.occupancyDate.length,
+                              scrollDirection: Axis.horizontal,
+                              separatorBuilder: (context, index) => SizedBox(
+                                width: 10,
+                              ),
+                              itemBuilder: (context, index) => GestureDetector(
+                                onTap: () {
+                                  context.read<AnalyticsBloc>().add(
+                                      ChangeOccupancyDateEvent(
+                                          date: state.occupancyDate[index]));
+                                },
+                                child: AnimatedContainer(
+                                  duration: const Duration(milliseconds: 10),
+                                  margin: const EdgeInsets.only(right: 6),
+                                  padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    color: state.selectedDate ==
+                                            state.occupancyDate[index]
+                                        ? ColorConstant.secondBtnColor
+                                        : ColorConstant.cardGrey,
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  child: Center(
+                                    child: Text(state.occupancyDate[index],
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall!
+                                            .copyWith(
+                                              fontWeight: FontWeight.w500,
+                                              color: state.selectedDate ==
+                                                      state.occupancyDate[index]
+                                                  ? Colors.white
+                                                  : ColorConstant
+                                                      .secondBtnColor,
+                                            )),
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
+                            );
                           },
                         ),
                       ),
                       GestureDetector(
-                        onTap: ()async{
-                          if (Platform.isAndroid){
-                           DateTimeRange? dateRange=await buildShowDateRangePicker(context);
-                           if(dateRange!=null){
-                             context.read<AnalyticsBloc>().add(
-                                 AddCustomDateEvent(startDate:DateConverter().formatDateRange(dateRange.start.toString()),
-                                 endDate:DateConverter().formatDateRange(dateRange.end.toString()),));
-                             context.read<AnalyticsBloc>().add(GetCustomOccupancyEvent());
-                           }
-
+                        onTap: () async {
+                          if (Platform.isAndroid) {
+                            DateTimeRange? dateRange =
+                                await buildShowDateRangePicker(context);
+                            if (dateRange != null) {
+                              context
+                                  .read<AnalyticsBloc>()
+                                  .add(AddCustomDateEvent(
+                                    startDate: DateConverter().formatDateRange(
+                                        dateRange.start.toString()),
+                                    endDate: DateConverter().formatDateRange(
+                                        dateRange.end.toString()),
+                                  ));
+                              context
+                                  .read<AnalyticsBloc>()
+                                  .add(GetCustomOccupancyEvent());
+                            }
                           } else {
                             CupertinoDatePicker(
                               mode: CupertinoDatePickerMode.date,
@@ -164,190 +184,311 @@ class _AnalyticsState extends State<Analytics> {
                   ),
                 ),
                 BlocBuilder<AnalyticsBloc, AnalyticsState>(
-         buildWhen: (previous, current) => previous!=current,
-              builder: (context, state) {
-              if(state.occupancyRateEntity.last7Days==null){
-                return Center(child: CupertinoActivityIndicator(),);
-              }
-              else{
-                if(state.selectedDate=='30 Days'){
-                return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: 10,
-                children: [
-                sectionTitle(context, 'Key Metrics'),
-                Wrap(
-                children: [
-                MetricsCard(title: 'Revenue',value: "${state.occupancyRateEntity.last30Days!.totalRevenue} ETB",),
-                MetricsCard(title:"Active Bookings",value: "${state.occupancyRateEntity.last30Days!.totalReservations}",),
-                MetricsCard(title: 'Occupancy Rate',value: "${state.occupancyRateEntity.last30Days!.averageOccupancy}%",),
-                ],
-                ),
-                Container(
-                height: 300,
-                width: double.infinity,
-                padding: const EdgeInsets.all(15),
-                child: AnalyticsChart(
-                dailyOccupancy: state.occupancyRateEntity.last30Days!.dailyOccupancy!,
-                ),
-                ),
-                sectionTitle(context, "Report"),
-                ListTile(
-                title: Text(
-                "This is report of your property performance over time. you can download and review in PDF.",
-                style: Theme.of(context).textTheme.bodySmall,
-                ),
-                subtitle: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                backgroundColor: ColorConstant.secondBtnColor,
-                padding: EdgeInsets.all(10),
-                shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10))),
-                child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                Icon(
-                Icons.download,
-                color: Colors.white,
-                ),
-                Text(
-                "Download",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium!
-                    .copyWith(color: Colors.white),
-                )
-                ],
-                ),
-                ),
-                ),
-                )
-                ],
-                );
-                }
-                else if(state.selectedDate=='60 Days'){
-                return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: 10,
-                children: [
-                sectionTitle(context, 'Key Metrics'),
-                Wrap(
-                children: [
-                MetricsCard(title: 'Revenue',value: "${state.occupancyRateEntity.last60Days!.totalRevenue} ETB",),
-                MetricsCard(title:"Active Bookings",value: "${state.occupancyRateEntity.last60Days!.totalReservations}",),
-                MetricsCard(title: 'Occupancy Rate',value: "${state.occupancyRateEntity.last60Days!.averageOccupancy}%",),
-                ],
-                ),
-                Container(
-                height: 300,
-                width: double.infinity,
-                padding: const EdgeInsets.all(15),
-                child: AnalyticsChart(
-                dailyOccupancy: state.occupancyRateEntity.last60Days!.dailyOccupancy!,
-                ),
-                ),
-                sectionTitle(context, "Report"),
-                ListTile(
-                title: Text(
-                "This is report of your property performance over time. you can download and review in PDF.",
-                style: Theme.of(context).textTheme.bodySmall,
-                ),
-                subtitle: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                backgroundColor: ColorConstant.secondBtnColor,
-                padding: EdgeInsets.all(10),
-                shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10))),
-                child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                Icon(
-                Icons.download,
-                color: Colors.white,
-                ),
-                Text(
-                "Download",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium!
-                    .copyWith(color: Colors.white),
-                )
-                ],
-                ),
-                ),
-                ),
-                )
-                ],
-                );
-                }
-                else if(state.selectedDate=='7 Days'){
-                return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: 10,
-                children: [
-                sectionTitle(context, 'Key Metrics'),
-                Wrap(
-                children: [
-                MetricsCard(title: 'Revenue',value: "${state.occupancyRateEntity.last7Days!.totalRevenue} ETB",),
-                MetricsCard(title:"Active Bookings",value: "${state.occupancyRateEntity.last7Days!.totalReservations}",),
-                MetricsCard(title: 'Occupancy Rate',value: "${state.occupancyRateEntity.last7Days!.averageOccupancy}%",),
-                ],
-                ),
-                Container(
-                height: 300,
-                width: double.infinity,
-                padding: const EdgeInsets.all(15),
-                child: AnalyticsChart(
-                dailyOccupancy: state.occupancyRateEntity.last7Days!.dailyOccupancy!,
-                ),
-                ),
-                sectionTitle(context, "Report"),
-                ListTile(
-                title: Text(
-                "This is report of your property performance over time. you can download and review in PDF.",
-                style: Theme.of(context).textTheme.bodySmall,
-                ),
-                subtitle: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                backgroundColor: ColorConstant.secondBtnColor,
-                padding: EdgeInsets.all(10),
-                shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10))),
-                child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                Icon(
-                Icons.download,
-                color: Colors.white,
-                ),
-                Text(
-                "Download",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium!
-                    .copyWith(color: Colors.white),
-                )
-                ],
-                ),
-                ),
-                ),
-                )
-                ],
-                );
-                }
-                else if(state.selectedDate=='custom'){
-                  if(state is CustomOccupancyRateLoadingState){
-                    return Center(child: CupertinoActivityIndicator(),);
-                  }else{
+                  buildWhen: (previous, current) => previous != current,
+                  builder: (context, state) {
+                    if (state.occupancyRateEntity.last7Days == null) {
+                      return Center(
+                        child: CupertinoActivityIndicator(),
+                      );
+                    } else {
+                      if (state.selectedDate == '30 Days') {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 10,
+                          children: [
+                            sectionTitle(context, 'Key Metrics'),
+                            Wrap(
+                              children: [
+                                MetricsCard(
+                                  title: 'Revenue',
+                                  value:
+                                      "${state.occupancyRateEntity.last30Days!.totalRevenue} ETB",
+                                ),
+                                MetricsCard(
+                                  title: "Active Bookings",
+                                  value:
+                                      "${state.occupancyRateEntity.last30Days!.totalReservations}",
+                                ),
+                                MetricsCard(
+                                  title: 'Occupancy Rate',
+                                  value:
+                                      "${state.occupancyRateEntity.last30Days!.averageOccupancy}%",
+                                ),
+                              ],
+                            ),
+                            Container(
+                              height: 300,
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(15),
+                              child: AnalyticsChart(
+                                dailyOccupancy: state.occupancyRateEntity
+                                    .last30Days!.dailyOccupancy!,
+                              ),
+                            ),
+                            sectionTitle(context, "Report"),
+                            ListTile(
+                              title: Text(
+                                "This is report of your property performance over time. you can download and review in PDF.",
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                              subtitle: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ElevatedButton(
+                                  onPressed: () {},
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          ColorConstant.secondBtnColor,
+                                      padding: EdgeInsets.all(10),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10))),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.download,
+                                        color: Colors.white,
+                                      ),
+                                      Text(
+                                        "Download",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium!
+                                            .copyWith(color: Colors.white),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        );
+                      } else if (state.selectedDate == '60 Days') {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 10,
+                          children: [
+                            sectionTitle(context, 'Key Metrics'),
+                            Wrap(
+                              children: [
+                                MetricsCard(
+                                  title: 'Revenue',
+                                  value:
+                                      "${state.occupancyRateEntity.last60Days!.totalRevenue} ETB",
+                                ),
+                                MetricsCard(
+                                  title: "Active Bookings",
+                                  value:
+                                      "${state.occupancyRateEntity.last60Days!.totalReservations}",
+                                ),
+                                MetricsCard(
+                                  title: 'Occupancy Rate',
+                                  value:
+                                      "${state.occupancyRateEntity.last60Days!.averageOccupancy}%",
+                                ),
+                              ],
+                            ),
+                            Container(
+                              height: 300,
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(15),
+                              child: AnalyticsChart(
+                                dailyOccupancy: state.occupancyRateEntity
+                                    .last60Days!.dailyOccupancy!,
+                              ),
+                            ),
+                            sectionTitle(context, "Report"),
+                            ListTile(
+                              title: Text(
+                                "This is report of your property performance over time. you can download and review in PDF.",
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                              subtitle: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ElevatedButton(
+                                  onPressed: () {},
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          ColorConstant.secondBtnColor,
+                                      padding: EdgeInsets.all(10),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10))),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.download,
+                                        color: Colors.white,
+                                      ),
+                                      Text(
+                                        "Download",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium!
+                                            .copyWith(color: Colors.white),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        );
+                      } else if (state.selectedDate == '7 Days') {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 10,
+                          children: [
+                            sectionTitle(context, 'Key Metrics'),
+                            Wrap(
+                              children: [
+                                MetricsCard(
+                                  title: 'Revenue',
+                                  value:
+                                      "${state.occupancyRateEntity.last7Days!.totalRevenue} ETB",
+                                ),
+                                MetricsCard(
+                                  title: "Active Bookings",
+                                  value:
+                                      "${state.occupancyRateEntity.last7Days!.totalReservations}",
+                                ),
+                                MetricsCard(
+                                  title: 'Occupancy Rate',
+                                  value:
+                                      "${state.occupancyRateEntity.last7Days!.averageOccupancy}%",
+                                ),
+                              ],
+                            ),
+                            Container(
+                              height: 300,
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(15),
+                              child: AnalyticsChart(
+                                dailyOccupancy: state.occupancyRateEntity
+                                    .last7Days!.dailyOccupancy!,
+                              ),
+                            ),
+                            sectionTitle(context, "Report"),
+                            ListTile(
+                              title: Text(
+                                "This is report of your property performance over time. you can download and review in PDF.",
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                              subtitle: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ElevatedButton(
+                                  onPressed: () {},
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          ColorConstant.secondBtnColor,
+                                      padding: EdgeInsets.all(10),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10))),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.download,
+                                        color: Colors.white,
+                                      ),
+                                      Text(
+                                        "Download",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium!
+                                            .copyWith(color: Colors.white),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        );
+                      } else if (state.selectedDate == 'custom') {
+                        if (state is CustomOccupancyRateLoadingState) {
+                          return Center(
+                            child: CupertinoActivityIndicator(),
+                          );
+                        } else {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            spacing: 10,
+                            children: [
+                              sectionTitle(context, 'Key Metrics'),
+                              Wrap(
+                                children: [
+                                  MetricsCard(
+                                    title: 'Revenue',
+                                    value:
+                                        "${state.customOccupancyEntity.custom!.totalRevenue} ETB",
+                                  ),
+                                  MetricsCard(
+                                    title: "Active Bookings",
+                                    value:
+                                        "${state.customOccupancyEntity.custom!.totalReservations}",
+                                  ),
+                                  MetricsCard(
+                                    title: 'Occupancy Rate',
+                                    value:
+                                        "${state.customOccupancyEntity.custom!.averageOccupancy}%",
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                height: 300,
+                                width: double.infinity,
+                                padding: const EdgeInsets.all(15),
+                                child: AnalyticsChart(
+                                  dailyOccupancy: state.customOccupancyEntity
+                                      .custom!.dailyOccupancy!,
+                                ),
+                              ),
+                              sectionTitle(context, "Report"),
+                              ListTile(
+                                title: Text(
+                                  "This is report of your property performance over time. you can download and review in PDF.",
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                                subtitle: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ElevatedButton(
+                                    onPressed: () {},
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            ColorConstant.secondBtnColor,
+                                        padding: EdgeInsets.all(10),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10))),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.download,
+                                          color: Colors.white,
+                                        ),
+                                        Text(
+                                          "Download",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium!
+                                              .copyWith(color: Colors.white),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          );
+                        }
+                      }
+                    }
+
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       spacing: 10,
@@ -355,9 +496,18 @@ class _AnalyticsState extends State<Analytics> {
                         sectionTitle(context, 'Key Metrics'),
                         Wrap(
                           children: [
-                            MetricsCard(title: 'Revenue',value: "${state.customOccupancyEntity.custom!.totalRevenue} ETB",),
-                            MetricsCard(title:"Active Bookings",value: "${state.customOccupancyEntity.custom!.totalReservations}",),
-                            MetricsCard(title: 'Occupancy Rate',value: "${state.customOccupancyEntity.custom!.averageOccupancy}%",),
+                            MetricsCard(
+                              title: 'Revenue',
+                              value: "0 ETB",
+                            ),
+                            MetricsCard(
+                              title: "Active Bookings",
+                              value: "0",
+                            ),
+                            MetricsCard(
+                              title: 'Occupancy Rate',
+                              value: "0%",
+                            ),
                           ],
                         ),
                         Container(
@@ -365,7 +515,7 @@ class _AnalyticsState extends State<Analytics> {
                           width: double.infinity,
                           padding: const EdgeInsets.all(15),
                           child: AnalyticsChart(
-                            dailyOccupancy: state.customOccupancyEntity.custom!.dailyOccupancy!,
+                            dailyOccupancy: {},
                           ),
                         ),
                         sectionTitle(context, "Report"),
@@ -404,70 +554,8 @@ class _AnalyticsState extends State<Analytics> {
                         )
                       ],
                     );
-                  }
-
-                }
-              }
-
-              return   Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: 10,
-                children: [
-                  sectionTitle(context, 'Key Metrics'),
-                  Wrap(
-                    children: [
-                      MetricsCard(title: 'Revenue',value: "0 ETB",),
-                      MetricsCard(title:"Active Bookings",value: "0",),
-                      MetricsCard(title: 'Occupancy Rate',value: "0%",),
-                    ],
-                  ),
-                  Container(
-                    height: 300,
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(15),
-                    child: AnalyticsChart(
-                      dailyOccupancy:{},
-                    ),
-                  ),
-                  sectionTitle(context, "Report"),
-                  ListTile(
-                    title: Text(
-                      "This is report of your property performance over time. you can download and review in PDF.",
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                    subtitle: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: ColorConstant.secondBtnColor,
-                            padding: EdgeInsets.all(10),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10))),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.download,
-                              color: Colors.white,
-                            ),
-                            Text(
-                              "Download",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(color: Colors.white),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              );
-
-            },
-          )
+                  },
+                )
               ],
             ),
           ),
@@ -476,14 +564,14 @@ class _AnalyticsState extends State<Analytics> {
 
   Future<DateTimeRange?> buildShowDateRangePicker(BuildContext context) {
     return showDateRangePicker(
-                              barrierLabel: "Custom",
-                              context: context,
-                               initialDateRange: DateTimeRange(
-                                start: DateTime.now(), end: DateTime.now()),
-                              firstDate: DateTime(2020),
-                            lastDate: DateTime.now()
-                              );
+        barrierLabel: "Custom",
+        context: context,
+        initialDateRange:
+            DateTimeRange(start: DateTime.now(), end: DateTime.now()),
+        firstDate: DateTime(2020),
+        lastDate: DateTime.now());
   }
+
   Text sectionTitle(BuildContext context, String title) {
     return Text(
       title,
@@ -495,11 +583,7 @@ class _AnalyticsState extends State<Analytics> {
 }
 
 class MetricsCard extends StatelessWidget {
-  const MetricsCard({
-    super.key,
-    required this.title,
-    required this.value
-  });
+  const MetricsCard({super.key, required this.title, required this.value});
 
   final String title;
   final String value;
@@ -525,23 +609,16 @@ class MetricsCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(title,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium!
-                      .copyWith(
-                    color: ColorConstant.secondBtnColor
-                        .withValues(alpha: 0.5),
-                  )),
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color:
+                            ColorConstant.secondBtnColor.withValues(alpha: 0.5),
+                      )),
               Text(value,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium!
-                      .copyWith(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    color: ColorConstant.secondBtnColor
-                        .withValues(),
-                  )),
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: ColorConstant.secondBtnColor.withValues(),
+                      )),
             ],
           ),
         ),

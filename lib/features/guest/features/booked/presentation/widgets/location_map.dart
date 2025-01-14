@@ -26,11 +26,13 @@ class LocationMap extends StatelessWidget {
             borderRadius: BorderRadius.circular(10)
           ),
           height:
-          MediaQuery.of(context).size.height / 2,
+          MediaQuery.of(context).size.height *0.4,
           child:
           ClipRRect(
             borderRadius:BorderRadius.circular(10) ,
             child: GoogleMap(
+              myLocationButtonEnabled: false,
+              zoomControlsEnabled: false,
               mapType: MapType.normal,
               initialCameraPosition: CameraPosition(
                 target: LatLng(double.parse(latitude), double.parse(longtiude)),
