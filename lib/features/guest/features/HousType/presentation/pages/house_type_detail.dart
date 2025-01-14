@@ -166,24 +166,24 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                 padding: EdgeInsets.symmetric(horizontal: 15),
                                 itemBuilder: (context, index) {
                                   return GestureDetector(
-                                    onTap: () async {
-                                      final token =
-                                          await GetToken().getUserToken();
-                                      context.push('/houseDetail/$token',
-                                          extra: filterState
-                                              .properties.results![index]);
-                                    },
-                                    child: PopularHouseCard(
-                                      width: MediaQuery.of(context).size.width,
-                                      height: 400,
-                                      showBorder: false,
-                                      showIndicator: true,
-                                      property: filterState
-                                          .properties.results![index],
-                                    ),
-                                  );
+                                      onTap: () async {
+                                        final token =
+                                            await GetToken().getUserToken();
+                                        context.push('/houseDetail/$token',
+                                            extra: filterState
+                                                .properties.results![index]);
+                                      },
+                                      child: NearHouseCard(
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              2,
+                                          property: filterState
+                                              .properties.results![index]));
                                 },
-                              )
+                              ),
                             ],
                           );
                         }
