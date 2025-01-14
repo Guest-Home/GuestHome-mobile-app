@@ -42,7 +42,6 @@ class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
     switch (language) {
       case 'english':
         return AppLocal.english;
-
       case 'amharic':
         return AppLocal.amharic;
       // case 'afanOromo':

@@ -8,4 +8,7 @@ class ColorConstant {
   static Color secondBtnColor = Color(0xff111827);
   static Color inActiveColor = Color(0xff323B49);
   static Color cardGrey = Color(0xfff1f2f4);
+
+  static Color snacSuccessBg=Color(0xffE7F7EF);
+  static Color snacErrorBg=Color(0xfff8aaaa);
 }

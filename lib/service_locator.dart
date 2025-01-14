@@ -25,6 +25,7 @@ import 'package:minapp/features/guest/features/booked/domain/repositories/my_boo
 import 'package:minapp/features/guest/features/booked/domain/usecases/cancel_booking_usecase.dart';
 import 'package:minapp/features/guest/features/booked/domain/usecases/get_my_booking_usecase.dart';
 import 'package:minapp/features/guest/features/booked/presentation/bloc/booked_bloc.dart';
+import 'package:minapp/features/guest/features/booked/presentation/bloc/booked_detail/booked_detail_bloc.dart';
 import 'package:minapp/features/host/features/analytics/data/datasources/analytics_data_source.dart';
 import 'package:minapp/features/host/features/analytics/data/repositories/occupancy_rate_repository_impl.dart';
 import 'package:minapp/features/host/features/analytics/domain/repositories/analytics_repository.dart';
@@ -73,6 +74,7 @@ import 'package:minapp/features/host/features/request/presentation/bloc/request_
 import 'package:minapp/features/onbording/presentation/bloc/on_bording_bloc.dart';
 
 import 'features/auth/domain/usecases/create_customer_profile_usecase.dart';
+import 'features/guest/features/booked/domain/usecases/get_booking_detail-usecase.dart';
 
 final sl = GetIt.instance;
 void setup() async {
@@ -122,6 +124,9 @@ void setup() async {
   sl.registerFactory<BookedBloc>(
         () => BookedBloc(),
   );
+  sl.registerFactory<BookedDetailBloc>(
+        () => BookedDetailBloc(),
+  );
   // usecase
 
   sl.registerSingleton<CreateOtpUsecase>(CreateOtpUsecase());
@@ -152,6 +157,7 @@ void setup() async {
   sl.registerSingleton<GetMyBookingUseCase>(GetMyBookingUseCase());
   sl.registerSingleton<CancelBookingUseCase>(CancelBookingUseCase());
   sl.registerSingleton<FilterPropertyUseCase>(FilterPropertyUseCase());
+  sl.registerSingleton<GetBookingDetailUseCase>(GetBookingDetailUseCase());
 
   // repository
 

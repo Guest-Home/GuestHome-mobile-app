@@ -289,7 +289,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                             height: 80,
                                           ),
                                           Text(
-                                            "no property\n found near your location ",
+                                            "no property\n found under ${widget.name} ",
                                             textAlign: TextAlign.center,
                                             style: Theme.of(context)
                                                 .textTheme
@@ -550,9 +550,12 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                           max: 5000,
                           divisions: 300,
                           onChanged: (value) {
-                            context
-                                .read<FilterBloc>()
-                                .add(AddPriceRange(prices: value));
+                            if(filterState.category.isNotEmpty){
+                              context
+                                  .read<FilterBloc>()
+                                  .add(AddPriceRange(prices: value));
+                            }
+
                           },
                         ),
                         Padding(
@@ -634,10 +637,13 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                             textEditingController: widget.cityController,
                             surfixIcon: SizedBox(
                               child: CityDropDown(onSelected: (value) {
-                                widget.cityController.text = value;
-                                context
-                                    .read<FilterBloc>()
-                                    .add(AddFilterCityEvent(city: value));
+                                if(filterState.category.isNotEmpty){
+                                  widget.cityController.text = value;
+                                  context
+                                      .read<FilterBloc>()
+                                      .add(AddFilterCityEvent(city: value));
+                                }
+
                               }),
                             ),
                             onTextChnage: (value) {},

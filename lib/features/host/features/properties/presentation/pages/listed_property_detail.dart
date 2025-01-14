@@ -10,6 +10,7 @@ import 'package:minapp/core/common/custom_button.dart';
 import 'package:minapp/core/common/custom_text_field.dart';
 import 'package:minapp/core/common/spin_kit_loading.dart';
 import 'package:minapp/core/common/upload_photo_widget.dart';
+import 'package:minapp/core/utils/show_snack_bar.dart';
 import 'package:minapp/features/host/features/properties/domain/entities/property_entity.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/add_property/add_property_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/properties_bloc.dart';
@@ -84,11 +85,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                 context.pop();
                 context.read<PropertiesBloc>().add(GetPropertiesEvent());
                 context.goNamed('properties');
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    backgroundColor: ColorConstant.green,
-                    elevation: 0,
-                    behavior: SnackBarBehavior.floating,
-                    content: Text("property deleted")));
+                showSuccessSnackBar(context, "property deleted");
               } else if (state is AddNewPropertyErrorState) {
                 context.read<AddPropertyBloc>().add(ResetEvent());
                 context.pop();
@@ -101,11 +98,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                 context.read<AddPropertyBloc>().add(ResetEvent());
                 context.read<PropertiesBloc>().add(GetPropertiesEvent());
                 context.goNamed('properties');
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    backgroundColor: ColorConstant.green,
-                    elevation: 0,
-                    behavior: SnackBarBehavior.floating,
-                    content: Text("updated deleted")));
+                showSuccessSnackBar(context, "updated deleted");
               }
             },
             buildWhen: (previous, current) => previous != current,

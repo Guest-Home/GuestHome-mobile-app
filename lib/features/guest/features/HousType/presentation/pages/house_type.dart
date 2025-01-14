@@ -94,32 +94,16 @@ class HouseType extends StatelessWidget {
             // house type
             BlocBuilder<PropertyTypeBloc, PropertyTypeState>(
               builder: (context, state) {
-                if(state.propertyTypes.isEmpty){
-                  return Center(
-                    child: Column(
-                      children: [
-                        Image.asset("assets/icons/Inboxe.png",
-                          width: 80,
-                          height: 80,
-                        ),
-                        Text(
-                          "property type not found",
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall,
-                        ),
-                      ],
-                    ),
-                  );
+                if(state is PropertyTypeLoadingState || state.propertyTypes.isEmpty){
+                  return Center(child: CupertinoActivityIndicator(),);
                 }
                 return GridView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      crossAxisSpacing: 13,
-                      mainAxisSpacing: 13,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12,
                       mainAxisExtent: 100),
                   itemCount: state.propertyTypes.length,
                   itemBuilder: (context, index) => GestureDetector(

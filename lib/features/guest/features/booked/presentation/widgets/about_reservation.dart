@@ -11,7 +11,7 @@ class AboutReservationsCard extends StatelessWidget {
   final String unit;
   final String checkIn;
   final String checkOut;
-  final String decisionTime;
+  final DateTime decisionTime;
   final String? decision;
   @override
   Widget build(BuildContext context) {

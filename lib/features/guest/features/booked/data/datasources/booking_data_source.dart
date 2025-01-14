@@ -4,6 +4,7 @@ import 'dart:isolate';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:minapp/features/guest/features/booked/data/models/my_booking_detail_model.dart';
 import 'package:minapp/features/guest/features/booked/data/models/my_booking_model.dart';
 
 import '../../../../../../core/apiConstants/api_url.dart';
@@ -14,6 +15,7 @@ import '../../../../../../service_locator.dart';
 abstract class BookingDataSource{
   Future<Either<Failure,MyBookingModel>> getMyBookings();
   Future<Either<Failure,bool>> cancelMyBookings(int id);
+  Future<Either<Failure,BookedDetailModel>> getMyBooking(int id);
 
 
 }
@@ -50,6 +52,25 @@ class BookingDataSourceImpl extends BookingDataSource{
     }
     } on DioException catch (e) {
     return Left(ServerFailure(e.response!.data['msg'].toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, BookedDetailModel>> getMyBooking(int id)async{
+    try {
+      final response = await sl<DioClient>().get("${ApiUrl.propertyBooking}detail/$id/");
+      if (response.statusCode == 200) {
+        final booking = await Isolate.run(
+              () {
+            return BookedDetailModel.fromMap(response.data);
+          },
+        );
+        return Right(booking);
+      } else {
+        return Left(ServerFailure(response.data['error']));
+      }
+    } on DioException catch (e) {
+      return Left(ServerFailure(e.response!.data.toString()));
     }
   }
 

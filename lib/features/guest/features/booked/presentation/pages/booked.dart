@@ -9,11 +9,24 @@ import 'package:minapp/features/guest/features/HousType/presentation/widgets/sec
 import 'package:minapp/features/guest/features/booked/presentation/bloc/booked_bloc.dart';
 import 'package:minapp/features/guest/features/booked/presentation/widgets/booked_card.dart';
 
+import '../../../../../../core/common/enum/reservation_status_enum.dart';
 import '../../../../../../core/utils/get_token.dart';
 
 class Booked extends StatelessWidget {
   const Booked({super.key});
 
+  BookingStatus getStatus(String status) {
+    switch (status) {
+      case 'Waiting for Approval':
+        return BookingStatus.pending;
+      case 'Approved':
+        return BookingStatus.approved;
+      case 'Rejected':
+        return BookingStatus.rejected;
+      default:
+        return BookingStatus.pending;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,10 +70,12 @@ class Booked extends StatelessWidget {
                           itemCount: state.booking.results!.length,
                           itemBuilder: (context, index) => GestureDetector(
                             onTap: () async {
-                              final token = await GetToken().getUserToken();
-                              context.goNamed('bookedDetail',
-                                  pathParameters: {'token': token},
-                                  extra: state.booking.results![index]);
+                              if( getStatus(state.booking.results![index].status!)==BookingStatus.approved){
+                                final token = await GetToken().getUserToken();
+                                context.goNamed('bookedDetail',
+                                    pathParameters: {'token': token},
+                                    extra: state.booking.results![index].id);
+                              }
                             },
                             child: BookedCard(
                               width: MediaQuery.of(context).size.width,

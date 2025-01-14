@@ -12,6 +12,7 @@ import 'package:minapp/features/guest/features/HousType/presentation/pages/house
 import 'package:minapp/features/guest/features/HousType/presentation/pages/house_type_detail.dart';
 import 'package:minapp/features/guest/features/booked/domain/entities/my_booking_entity.dart';
 import 'package:minapp/features/guest/features/booked/presentation/bloc/booked_bloc.dart';
+import 'package:minapp/features/guest/features/booked/presentation/bloc/booked_detail/booked_detail_bloc.dart';
 import 'package:minapp/features/guest/features/booked/presentation/pages/booked.dart';
 import 'package:minapp/features/guest/features/booked/presentation/pages/booked_detail.dart';
 import 'package:minapp/features/guest/features/guestHome/presentation/pages/guest_home.dart';
@@ -251,9 +252,12 @@ Future<GoRouter> createRouter() async {
                       name: 'bookedDetail',
                       path: 'bookedDetail/:token',
                       builder: (context, state) {
-                        final property = state.extra as ResultBookingEntity;
+                        final id = state.extra as int;
                         final token = state.pathParameters['token'];
-                        return BookedDetail(property: property, token: token!);
+                        return BlocProvider(
+  create: (context) =>sl<BookedDetailBloc>(),
+  child: BookedDetail(token: token!,id: id,),
+);
                       },
                     ),
                   ]),

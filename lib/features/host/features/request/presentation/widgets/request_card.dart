@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:minapp/core/common/custom_button.dart';
 import 'package:minapp/core/common/enum/reservation_status_enum.dart';
 import 'package:minapp/core/utils/date_converter.dart';
+import 'package:minapp/core/utils/show_snack_bar.dart';
 import 'package:minapp/features/host/features/request/data/models/reservation_model.dart';
 import 'package:minapp/features/host/features/request/presentation/bloc/request_bloc.dart';
 import '../../../../../../config/color/color.dart';
@@ -15,23 +16,6 @@ class RequestCard extends StatelessWidget {
   final Result reservationEntity;
   final bool isEditing;
 
-  _showErrorSnackBar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(message),
-      elevation: 0,
-      behavior: SnackBarBehavior.floating,
-      backgroundColor: ColorConstant.red,
-    ));
-  }
-
-  _showSuccessSnackBar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(message),
-      elevation: 0,
-      behavior: SnackBarBehavior.floating,
-      backgroundColor: ColorConstant.green,
-    ));
-  }
 
   BookingStatus getStatus(String status) {
     switch (status) {
@@ -53,13 +37,13 @@ class RequestCard extends StatelessWidget {
         if (state is AcceptedReservationState) {
           context.read<RequestBloc>().add(GetReservationEvent());
           context.pop();
-          _showSuccessSnackBar(context, "reservation accepted");
+          showSuccessSnackBar(context, "reservation accepted");
         } else if (state is RejectedReservationState) {
           context.read<RequestBloc>().add(GetReservationEvent());
           context.pop();
-          _showSuccessSnackBar(context, "reservation rejected");
+          showSuccessSnackBar(context, "reservation accepted");
         } else if (state is ReservationErrorState) {
-          _showErrorSnackBar(context, state.failure.message);
+          showErrorSnackBar(context, state.failure.message);
           context.read<RequestBloc>().add(GetReservationEvent());
         }
       },
@@ -293,7 +277,6 @@ class RequestCard extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ));
   }
-
   Text titleText(BuildContext context, String title) => Text(
         title,
         textAlign: TextAlign.start,

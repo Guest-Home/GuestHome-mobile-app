@@ -1,21 +1,47 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../../../config/color/color.dart';
 
 class LocationMap extends StatelessWidget {
-  const LocationMap({
-    super.key, required this.loc,
+   LocationMap({
+    super.key, required this.loc, required this.latitude, required this.longtiude,
   });
 
   final String loc;
+  final String latitude;
+  final String longtiude;
+  final Completer<GoogleMapController> _controller =
+  Completer<GoogleMapController>();
 
   @override
   Widget build(BuildContext context) {
     return Column(
       spacing: 10,
       children: [
-        Placeholder(
-          fallbackHeight:200,
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10)
+          ),
+          height:
+          MediaQuery.of(context).size.height / 2,
+          child:
+          ClipRRect(
+            borderRadius:BorderRadius.circular(10) ,
+            child: GoogleMap(
+              mapType: MapType.normal,
+              initialCameraPosition: CameraPosition(
+                target: LatLng(double.parse(latitude), double.parse(longtiude)),
+                zoom: 14.4746,
+              ),
+              onMapCreated:
+                  (GoogleMapController controller) {
+                _controller.complete(controller);
+              },
+            ),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 11),

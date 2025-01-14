@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:minapp/core/utils/call_and_sms.dart';
-import 'package:minapp/features/guest/features/booked/domain/entities/my_booking_entity.dart';
+import 'package:minapp/features/guest/features/booked/domain/entities/my_booking_detail.dart';
 import '../../../../../../config/color/color.dart';
 import '../../../../../../core/apiConstants/api_url.dart';
 import '../../../../../../core/common/custom_button.dart';
@@ -13,7 +13,7 @@ class AboutHostCard extends StatelessWidget {
     required this.userEntity, required this.image, required this.token
   });
 
-  final UserEntity userEntity;
+  final UserDetailEntity userEntity;
   final String image;
   final String token;
 

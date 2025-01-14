@@ -3,7 +3,6 @@ ReservationModel reservationFromMap(Map<String,dynamic> str) => ReservationModel
 
 
 class ReservationModel {
-
    int? count;
    dynamic next;
    dynamic previous;
@@ -28,10 +27,10 @@ class Result {
   int? id;
   House? house;
   User? user;
-  DateTime? checkIn;
-  DateTime? checkOut;
+  String? checkIn;
+  String? checkOut;
   String? status;
-  DateTime? decisionTime;
+  String? decisionTime;
 
   Result({
     this.id,
@@ -47,10 +46,10 @@ class Result {
     id: json["id"],
     house: House.fromMap(json["house"]),
     user: User.fromMap(json["user"]),
-    checkIn: DateTime.parse(json["checkIn"]),
-    checkOut: DateTime.parse(json["checkOut"]),
+    checkIn:json["checkIn"],
+    checkOut:json["checkOut"],
     status: json["status"],
-    decisionTime: DateTime.parse(json["decisionTime"]),
+    decisionTime:json["decisionTime"],
   );
 
 }

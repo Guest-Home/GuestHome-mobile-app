@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,6 +10,7 @@ import 'package:minapp/core/common/custom_button.dart';
 import 'package:minapp/core/utils/show_snack_bar.dart';
 import 'package:minapp/features/guest/features/booked/domain/entities/my_booking_entity.dart';
 import 'package:minapp/features/guest/features/booked/presentation/bloc/booked_bloc.dart';
+import 'package:minapp/features/guest/features/booked/presentation/bloc/booked_detail/booked_detail_bloc.dart';
 import '../../../../../../config/color/color.dart';
 import '../../../../../../core/common/spin_kit_loading.dart';
 import '../../../../../../service_locator.dart';
@@ -19,12 +21,22 @@ import '../widgets/about_reservation.dart';
 import '../widgets/available_facilities.dart';
 import '../widgets/location_map.dart';
 
-class BookedDetail extends StatelessWidget {
-  const BookedDetail({super.key, required this.property, required this.token});
-
-  final ResultBookingEntity property;
+class BookedDetail extends StatefulWidget {
+  const BookedDetail({super.key, required this.token,required this.id});
+  
   final String token;
+  final int id;
 
+  @override
+  State<BookedDetail> createState() => _BookedDetailState();
+}
+
+class _BookedDetailState extends State<BookedDetail> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<BookedDetailBloc>().add(GetBookedDetail(id:widget.id));
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,10 +46,10 @@ class BookedDetail extends StatelessWidget {
       body: BlocProvider.value(
         value: sl<BookedBloc>(),
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 10,
+          padding: EdgeInsets.symmetric(horizontal: 15,vertical: 2),
+          child:
+
+          Column(
             children: [
               ListTile(
                 title: SecctionHeader(title: "Approved Book", isSeeMore: false),
@@ -49,6 +61,19 @@ class BookedDetail extends StatelessWidget {
                       .copyWith(fontSize: 14, fontWeight: FontWeight.w400),
                 ),
               ),
+              BlocBuilder<BookedDetailBloc, BookedDetailState>(
+                builder: (context, state) {
+                  if(state is BookedDetailLoading){
+                    return SizedBox(
+                      height: MediaQuery.of(context).size.height/2,
+              child: Center(child: CupertinoActivityIndicator(),));
+                  }
+                  else if(state is BookedDetailLoaded){
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 10,
+                      children: [
+
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.8,
                 width: MediaQuery.of(context).size.width,
@@ -60,11 +85,11 @@ class BookedDetail extends StatelessWidget {
                         backgroundColor: ColorConstant.cardGrey,
                         itemExtent: MediaQuery.of(context).size.width,
                         children: List.generate(
-                          property.house!.houseImage!.length,
+                          state.booked.house!.houseImage!.length,
                           (index) => ClipRRect(
                             child: CachedNetworkImage(
                               imageUrl:
-                                  property.house!.houseImage![index].image!,
+                                  state.booked.house!.houseImage![index].image!,
                               placeholder: (context, url) => Icon(
                                 Icons.photo,
                                 color: ColorConstant.inActiveColor,
@@ -94,7 +119,7 @@ class BookedDetail extends StatelessWidget {
                                   ),
                                   child: Row(
                                     children: List.generate(
-                                        property.house!.houseImage!.length,
+                                        state.booked.house!.houseImage!.length,
                                         (index) => Container(
                                               width: 7,
                                               height: 7,
@@ -110,9 +135,9 @@ class BookedDetail extends StatelessWidget {
               ),
               ListTile(
                   title: SecctionHeader(
-                      title: property.house!.title!, isSeeMore: false),
+                      title: state.booked.house!.title!, isSeeMore: false),
                   subtitle: SeeMoreText(
-                    text: property.house!.description!,
+                    text: state.booked.house!.description!,
                     maxLines: 4,
                   )),
               Padding(
@@ -127,7 +152,7 @@ class BookedDetail extends StatelessWidget {
                       color: ColorConstant.secondBtnColor,
                     ),
                     Text(
-                      property.house!.specificAddress!,
+                      state.booked.house!.specificAddress!,
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
                           fontWeight: FontWeight.bold,
                           color: ColorConstant.secondBtnColor),
@@ -144,9 +169,9 @@ class BookedDetail extends StatelessWidget {
                     SecctionHeader(title: tr("About Host"), isSeeMore: false),
               ),
               AboutHostCard(
-                userEntity: property.user!,
-                token: token,
-                image: property.house!.postedBy!.profilePicture!,
+                userEntity: state.booked.user!,
+                token: widget.token,
+                image: state.booked.house!.postedBy!.profilePicture!,
               ),
               Divider(
                 thickness: 0.6,
@@ -158,13 +183,13 @@ class BookedDetail extends StatelessWidget {
                     title: tr("About Reservations"), isSeeMore: false),
               ),
               AboutReservationsCard(
-                id: property.id.toString(),
-                checkIn: property.checkIn.toString(),
-                checkOut: property.checkOut.toString(),
-                decision: property.status ?? "",
-                decisionTime: property.decisionTime ?? "",
-                price: property.house!.price.toString(),
-                unit: property.house!.unit!,
+                id: state.booked.id.toString(),
+                checkIn: state.booked.checkIn.toString(),
+                checkOut: state.booked.checkOut.toString(),
+                decision: state.booked.status ?? "",
+                decisionTime: state.booked.decisionTime!,
+                price: state.booked.house!.price.toString(),
+                unit: state.booked.house!.unit!,
               ),
               Divider(
                 thickness: 0.6,
@@ -175,14 +200,16 @@ class BookedDetail extends StatelessWidget {
                 child: SecctionHeader(title: tr("Location"), isSeeMore: false),
               ),
               LocationMap(
-                loc: property.house!.specificAddress!,
+                loc: state.booked.house!.specificAddress!,
+                latitude: state.booked.house!.latitude!,
+                longtiude: state.booked.house!.longitude!,
               ),
               Divider(
                 thickness: 0.7,
                 color: ColorConstant.cardGrey,
               ),
               AvailableFacilities(
-                subDesc: property.house!.subDescription!,
+                subDesc: state.booked.house!.subDescription!,
               ),
               ListTile(
                 title: SecctionHeader(
@@ -225,8 +252,15 @@ class BookedDetail extends StatelessWidget {
               SizedBox(
                 height: 10,
               )
+                      ],
+                    );
+                  }
+                  return SizedBox.shrink();
+                },
+              ),
             ],
-          ),
+          )
+
         ),
       ),
     );
@@ -370,7 +404,7 @@ class BookedDetail extends StatelessWidget {
                             return CustomButton(
                                 onPressed: () {
                                   context.read<BookedBloc>().add(
-                                      CancelBookingEvent(id: property.id!));
+                                      CancelBookingEvent(id:widget.id));
                                 },
                                 style: ElevatedButton.styleFrom(
                                     elevation: 0,

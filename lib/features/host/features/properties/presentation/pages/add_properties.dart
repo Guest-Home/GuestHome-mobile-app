@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:minapp/core/common/spin_kit_loading.dart';
+import 'package:minapp/core/utils/show_snack_bar.dart';
 import 'package:minapp/core/utils/validator.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/add_property/add_property_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/amenities/amenities_bloc.dart';
@@ -804,13 +805,13 @@ class _AddPropertiesState extends State<AddProperties> {
           listenWhen: (previous, current) => previous != current,
           listener: (context, state) {
             if (state is AddNewPropertyErrorState) {
-              _showErrorSnackBar(context, state.failure.message);
+              showErrorSnackBar(context, state.failure.message);
             } else if (state is AddNewPropertySuccess) {
               context.read<AddPropertyBloc>().add(NextStepEvent());
               context.read<AddPropertyBloc>().add(ResetEvent());
               context.read<PropertiesBloc>().add(GetPropertiesEvent());
               context.goNamed('properties');
-              _showSuccessSnackBar(context, "property created");
+              showSuccessSnackBar(context, "property created");
             }
             pageController.jumpToPage(state.step);
           },

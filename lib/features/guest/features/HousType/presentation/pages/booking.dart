@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/core/common/custom_text_field.dart';
+import 'package:minapp/core/utils/show_snack_bar.dart';
 import 'package:minapp/core/utils/validator.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/booking/booking_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/widgets/section_header_text.dart';
@@ -42,11 +43,7 @@ final int id;
       showBookedDialog(context);
     }
     else if(state is BookingErrorState){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: ColorConstant.red,
-          elevation: 0,
-          behavior: SnackBarBehavior.floating,
-          content: Text(state.failure.message)));
+      showErrorSnackBar(context, state.failure.message);
     }
   },
   child: Padding(
@@ -263,7 +260,7 @@ final int id;
                 ),
               ],
             ),),
-            Container(
+                Container(
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.all(15),
               child: Row(
