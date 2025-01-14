@@ -21,8 +21,9 @@ class DioClient {
               // sendTimeout: const Duration(seconds: 20),
               receiveTimeout: const Duration(seconds: 20)),
         )..interceptors.addAll([
-            AuthInterceptor(), LoggerInterceptor(),
-           //  RetryOnConnectionChangeInterceptor(sl<ConnectivityService>())
+            AuthInterceptor(),
+            LoggerInterceptor(),
+            RetryOnConnectionChangeInterceptor(sl<ConnectivityService>())
           ]);
 
   // GET METHOD

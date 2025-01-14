@@ -34,7 +34,7 @@ class ApiDataSourceImpl implements ApiDataSource {
         return Left(ServerFailure(response.data['Error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.response!.data["Error"].toString()??""));
+      return Left(ServerFailure(e.response!.data["Error"].toString()));
     }
   }
 
@@ -55,7 +55,7 @@ class ApiDataSourceImpl implements ApiDataSource {
         return Left(ServerFailure(response.data['Error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.response!.data['Error'].toString()??''));
+      return Left(ServerFailure(e.response!.data['Error'].toString()));
     }
   }
 
@@ -73,7 +73,7 @@ class ApiDataSourceImpl implements ApiDataSource {
       'gender': params.gender,
       'first_name': params.firstName,
       'last_name': params.lastName,
-      'typeOfCustomer':params.typeOfCustomer
+      'typeOfCustomer': params.typeOfCustomer
     });
 
     try {

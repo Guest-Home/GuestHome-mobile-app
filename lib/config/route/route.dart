@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:minapp/config/route/navigator_observer.dart';
 import 'package:minapp/features/guest/features/HousType/domain/entities/g_property_entity.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/booking/booking_bloc.dart';
-import 'package:minapp/features/guest/features/HousType/presentation/bloc/filter_bloc/filter_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/houstype_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/popular_property/popular_property_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/pages/booking.dart';
@@ -57,7 +56,8 @@ Future<GoRouter> createRouter() async {
       bool isLoggedIn =
           prefs.getBool('isLogin') ?? false; // Check if the token exists
       // Check if the current route is '/accountSetup' or starts with '/accountSetup/'
-      bool isAccountSetupRoute =state.uri.toString().startsWith('/accountSetup');
+      bool isAccountSetupRoute =
+          state.uri.toString().startsWith('/accountSetup');
       bool isOnbordingRoute = state.uri.toString().startsWith('/onboarding');
 
       // If the user is not logged in and trying to access a protected route
@@ -242,17 +242,18 @@ Future<GoRouter> createRouter() async {
                   name: 'booked',
                   path: '/booked',
                   builder: (context, state) => BlocProvider(
-                        create: (context) => sl<BookedBloc>()..add(GetMyBookingEvent()),
+                        create: (context) =>
+                            sl<BookedBloc>()..add(GetMyBookingEvent()),
                         child: Booked(),
                       ),
                   routes: [
                     GoRoute(
                       name: 'bookedDetail',
                       path: 'bookedDetail/:token',
-                      builder: (context, state){
+                      builder: (context, state) {
                         final property = state.extra as ResultBookingEntity;
                         final token = state.pathParameters['token'];
-                       return BookedDetail(property: property,token:token!);
+                        return BookedDetail(property: property, token: token!);
                       },
                     ),
                   ]),

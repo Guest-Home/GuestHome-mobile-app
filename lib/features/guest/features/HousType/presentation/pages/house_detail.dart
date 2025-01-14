@@ -8,14 +8,13 @@ import 'package:minapp/config/color/color.dart';
 import 'package:minapp/core/common/back_button.dart';
 import 'package:minapp/core/common/constants/house_type_icons.dart';
 import 'package:minapp/core/common/custom_button.dart';
-import 'package:minapp/core/utils/get_token.dart';
 import 'package:minapp/features/guest/features/HousType/domain/entities/g_property_entity.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/widgets/section_header_text.dart';
 
 import '../../../../../../core/apiConstants/api_url.dart';
 
 class HouseDetail extends StatelessWidget {
-  const HouseDetail({super.key, required this.property,required this.token});
+  const HouseDetail({super.key, required this.property, required this.token});
   final ResultEntity property;
   final String token;
 

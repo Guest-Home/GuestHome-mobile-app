@@ -11,7 +11,7 @@ import 'package:minapp/core/utils/show_snack_bar.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/filter_bloc/filter_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/houstype_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/popular_property/popular_property_bloc.dart';
-import 'package:minapp/features/guest/features/HousType/presentation/widgets/Near_house_card.dart';
+import 'package:minapp/features/guest/features/HousType/presentation/widgets/near_house_card.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/property_type/property_type_bloc.dart';
 
 import '../../../../../../core/common/back_button.dart';
@@ -27,7 +27,6 @@ class HouseTypeDetail extends StatefulWidget {
   HouseTypeDetail({super.key, required this.name});
 
   final String name;
-
 
   TextEditingController cityController = TextEditingController();
 
@@ -86,13 +85,15 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                               buildWhen: (previous, current) =>
                                   previous != current,
                               builder: (context, state) {
-                                if(state is FilterDataLoadedState){
+                                if (state is FilterDataLoadedState) {
                                   return Badge(
-                                    label:Text(state.properties.count.toString()),
+                                    label:
+                                        Text(state.properties.count.toString()),
                                     alignment: Alignment.topRight,
                                     offset: Offset(0.0, 10.0),
-                                    isLabelVisible:
-                                    state.category.isNotEmpty ? true : false,
+                                    isLabelVisible: state.category.isNotEmpty
+                                        ? true
+                                        : false,
                                     child: IconButton(
                                       iconSize: 33,
                                       icon: Icon(Icons.filter_list),
@@ -102,7 +103,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                   );
                                 }
                                 return Badge(
-                                  label:Text(""),
+                                  label: Text(""),
                                   alignment: Alignment.topRight,
                                   offset: Offset(0.0, 10.0),
                                   isLabelVisible:
@@ -155,7 +156,9 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                   ],
                                 ),
                               ),
-                              SizedBox(height: 15,),
+                              SizedBox(
+                                height: 15,
+                              ),
                               ListView.builder(
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),
@@ -163,8 +166,9 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                 padding: EdgeInsets.symmetric(horizontal: 15),
                                 itemBuilder: (context, index) {
                                   return GestureDetector(
-                                    onTap: ()async{
-                                      final token= await GetToken().getUserToken();
+                                    onTap: () async {
+                                      final token =
+                                          await GetToken().getUserToken();
                                       context.push('/houseDetail/$token',
                                           extra: filterState
                                               .properties.results![index]);
@@ -215,7 +219,8 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                     );
                                   }
                                   return SizedBox(
-                                    height:MediaQuery.of(context).size.height*0.42,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.42,
                                     width: MediaQuery.of(context).size.width,
                                     child: ListView.builder(
                                       itemCount:
@@ -223,12 +228,14 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder: (context, index) =>
                                           GestureDetector(
-                                        onTap: ()async{
-                                         final token= await GetToken().getUserToken();
+                                        onTap: () async {
+                                          final token =
+                                              await GetToken().getUserToken();
                                           context.push(
-                                              '/houseDetail/$token',
-                                              extra: state
-                                                  .properties.results![index],);
+                                            '/houseDetail/$token',
+                                            extra: state
+                                                .properties.results![index],
+                                          );
                                         },
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(
@@ -276,7 +283,8 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                     return Center(
                                       child: Column(
                                         children: [
-                                          Image.asset("assets/icons/Inboxe.png",
+                                          Image.asset(
+                                            "assets/icons/Inboxe.png",
                                             width: 80,
                                             height: 80,
                                           ),
@@ -299,15 +307,16 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                         EdgeInsets.symmetric(horizontal: 15),
                                     itemBuilder: (context, index) {
                                       return GestureDetector(
-                                        onTap: ()async{
-                                          final token= await GetToken().getUserToken();
-                                          context.push(
-                                              '/houseDetail/$token',
+                                        onTap: () async {
+                                          final token =
+                                              await GetToken().getUserToken();
+                                          context.push('/houseDetail/$token',
                                               extra: state
                                                   .properties.results![index]);
                                         },
                                         child: NearHouseCard(
-                                          width: MediaQuery.of(context).size.width,
+                                          width:
+                                              MediaQuery.of(context).size.width,
                                           height: 400,
                                           property:
                                               state.properties.results![index],
@@ -347,10 +356,8 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
           listener: (context, state) {
             if (state is FilterDataLoadedState) {
               context.pop();
-            }
-            else if(state is FilterErrorState){
+            } else if (state is FilterErrorState) {
               showErrorSnackBar(context, state.failure.message);
-
             }
           },
           child: BlocBuilder<FilterBloc, FilterState>(
@@ -693,7 +700,6 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                         context
                                             .read<FilterBloc>()
                                             .add(FilterPropertyEvent());
-
                                       },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor:

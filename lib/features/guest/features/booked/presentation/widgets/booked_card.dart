@@ -6,7 +6,6 @@ import 'package:minapp/features/guest/features/booked/domain/entities/my_booking
 import '../../../../../../config/color/color.dart';
 import '../../../../../../core/common/custom_button.dart';
 import '../../../../../../core/common/enum/reservation_status_enum.dart';
-import '../../../../../host/features/request/presentation/widgets/request_card.dart';
 
 class BookedCard extends StatelessWidget {
   const BookedCard({
@@ -37,51 +36,49 @@ class BookedCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width,
-      height: MediaQuery.of(context).size.height*0.5,
-      margin: EdgeInsets.only(bottom:30),
-      child:
-      Column(
+      height: MediaQuery.of(context).size.height * 0.5,
+      margin: EdgeInsets.only(bottom: 30),
+      child: Column(
         children: [
           Expanded(
-              child: CarouselView(
-                      elevation: 0,
-                      padding: EdgeInsets.all(0),
-                      reverse: false,
-                      backgroundColor: ColorConstant.cardGrey,
-                      shape: RoundedRectangleBorder(
-                          borderRadius:BorderRadius.circular(10)),
-                      itemExtent: MediaQuery.of(context).size.width,
-                      children: List.generate(
-                        property.house!.houseImage!.length,
-                            (index) => ClipRRect(
-                          child: CachedNetworkImage(
-                            imageUrl:
-                            property.house!.houseImage![index].image!,
-                            placeholder: (context, url) => Icon(
-                              Icons.photo,
-                              color: ColorConstant.inActiveColor,
-                            ),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
-                            fit: BoxFit.cover,
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height*0.5,
-                          ),
-                        ),
-                      )),
-              ),
+            child: CarouselView(
+                elevation: 0,
+                padding: EdgeInsets.all(0),
+                reverse: false,
+                backgroundColor: ColorConstant.cardGrey,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                itemExtent: MediaQuery.of(context).size.width,
+                children: List.generate(
+                  property.house!.houseImage!.length,
+                  (index) => ClipRRect(
+                    child: CachedNetworkImage(
+                      imageUrl: property.house!.houseImage![index].image!,
+                      placeholder: (context, url) => Icon(
+                        Icons.photo,
+                        color: ColorConstant.inActiveColor,
+                      ),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                      fit: BoxFit.cover,
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * 0.5,
+                    ),
+                  ),
+                )),
+          ),
           ListTile(
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               spacing: 10,
               children: [
-                Text(property.house!.title!,
-                  textAlign:TextAlign.start,
+                Text(
+                  property.house!.title!,
+                  textAlign: TextAlign.start,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context)
                       .textTheme
                       .bodyLarge!
-                      .copyWith(fontWeight: FontWeight.w600,fontSize: 14),
+                      .copyWith(fontWeight: FontWeight.w600, fontSize: 14),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -97,7 +94,7 @@ class BookedCard extends StatelessWidget {
                       style: Theme.of(context)
                           .textTheme
                           .bodySmall!
-                          .copyWith(fontWeight: FontWeight.w700,fontSize: 13),
+                          .copyWith(fontWeight: FontWeight.w700, fontSize: 13),
                     )
                   ],
                 ),
@@ -110,49 +107,55 @@ class BookedCard extends StatelessWidget {
                 Text(property.house!.subDescription!.toString(),
                     textAlign: TextAlign.start,
                     overflow: TextOverflow.ellipsis,
-                    style:Theme.of(context).textTheme.bodySmall!.copyWith(
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
                         color: ColorConstant.secondBtnColor
-                            .withValues(alpha: 0.4)
-                    )
-                ),
+                            .withValues(alpha: 0.4))),
                 RichText(
                     text: TextSpan(children: [
-                      TextSpan(
-                          text:tr("posted by"),
-                          style:Theme.of(context).textTheme.bodySmall!.copyWith(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: ColorConstant.secondBtnColor
-                                  .withValues(alpha: 0.4)
-                          )),
-                      TextSpan(
-                          text: " @${property.house!.postedBy!.userAccount!.firstName} ${property.house!.postedBy!.userAccount!.lastName}",
-                          style: TextStyle(
-                              color: ColorConstant.secondBtnColor
-                                  .withValues(alpha: 1)))
-                    ])),
+                  TextSpan(
+                      text: tr("posted by"),
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: ColorConstant.secondBtnColor
+                              .withValues(alpha: 0.4))),
+                  TextSpan(
+                      text:
+                          " @${property.house!.postedBy!.userAccount!.firstName} ${property.house!.postedBy!.userAccount!.lastName}",
+                      style: TextStyle(
+                          color: ColorConstant.secondBtnColor
+                              .withValues(alpha: 1)))
+                ])),
                 Row(
-                  mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     RichText(
                         text: TextSpan(children: [
-                          TextSpan(
-                              text: "${property.house!.price} ${property.house!.unit} ",
-                              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      TextSpan(
+                          text:
+                              "${property.house!.price} ${property.house!.unit} ",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
                                   color: ColorConstant.secondBtnColor)),
-                          TextSpan(
-                              text: tr("/ day"),
-                              style: TextStyle(
-                                  color: ColorConstant.secondBtnColor
-                                      .withValues(alpha: 0.7))),
-                        ])),
-                    Text("1.3km away",style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      fontSize: 12,fontWeight: FontWeight.w700
-                    ),)
+                      TextSpan(
+                          text: tr("/ day"),
+                          style: TextStyle(
+                              color: ColorConstant.secondBtnColor
+                                  .withValues(alpha: 0.7))),
+                    ])),
+                    Text(
+                      "1.3km away",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall!
+                          .copyWith(fontSize: 12, fontWeight: FontWeight.w700),
+                    )
                   ],
                 ),
                 Row(
@@ -176,28 +179,28 @@ class BookedCard extends StatelessWidget {
               ],
             ),
           ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Row(
-                spacing: 100,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(tr(
-                      "Booking Status"),
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(fontWeight: FontWeight.w600,fontSize: 14),
-                  ),
-                  Expanded(
-                    child:StatusButton(status: getStatus(property.status.toString()),)
-                  )
-                ],
-              ),
-            )
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Row(
+              spacing: 100,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  tr("Booking Status"),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(fontWeight: FontWeight.w600, fontSize: 14),
+                ),
+                Expanded(
+                    child: StatusButton(
+                  status: getStatus(property.status.toString()),
+                ))
+              ],
+            ),
+          )
         ],
       ),
-
     );
   }
 }
@@ -219,10 +222,8 @@ class StatusButton extends StatelessWidget {
       ),
       child: Text(
         status.name,
-        style: Theme.of(context)
-            .textTheme
-            .bodyLarge!
-            .copyWith(color: Colors.white, fontWeight: FontWeight.w600,fontSize: 12),
+        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+            color: Colors.white, fontWeight: FontWeight.w600, fontSize: 12),
       ),
     );
   }

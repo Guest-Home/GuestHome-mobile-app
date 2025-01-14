@@ -20,7 +20,7 @@ import '../widgets/available_facilities.dart';
 import '../widgets/location_map.dart';
 
 class BookedDetail extends StatelessWidget {
-  const BookedDetail({super.key, required this.property,required this.token});
+  const BookedDetail({super.key, required this.property, required this.token});
 
   final ResultBookingEntity property;
   final String token;
@@ -288,6 +288,7 @@ class BookedDetail extends StatelessWidget {
           )),
     );
   }
+
   Future<dynamic> showCancelBookBotomSheet(BuildContext context) {
     return showModalBottomSheet(
       context: context,
@@ -297,7 +298,7 @@ class BookedDetail extends StatelessWidget {
       useSafeArea: true,
       isScrollControlled: true,
       builder: (context) => Container(
-        height: MediaQuery.of(context).size.height * 0.33,
+        height: MediaQuery.of(context).size.height * 0.30,
         color: Colors.white,
         child: ListTile(
             title: Text(
