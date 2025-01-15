@@ -23,7 +23,7 @@ class GeneralInformation extends StatelessWidget {
         style: Theme.of(context)
             .textTheme
             .bodyMedium!
-            .copyWith(fontSize: 14, fontWeight: FontWeight.w600),
+            .copyWith(fontSize: 14, fontWeight: FontWeight.w500),
       );
 
   Text sectionTitle(BuildContext context, String title) {
@@ -93,7 +93,7 @@ class GeneralInformation extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               CircleAvatar(
-                                radius: 50,
+                                radius:43,
                                 backgroundColor: ColorConstant.cardGrey,
                                 backgroundImage: CachedNetworkImageProvider(
                                   ApiUrl.baseUrl +
@@ -106,6 +106,7 @@ class GeneralInformation extends StatelessWidget {
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     SizedBox(
                                       width: 200,
@@ -124,7 +125,7 @@ class GeneralInformation extends StatelessWidget {
                                                   .textTheme
                                                   .bodySmall!
                                                   .copyWith(
-                                                    fontWeight: FontWeight.bold,
+                                                    fontWeight: FontWeight.w700,
                                                     color: Colors.white,
                                                   ))),
                                     ),
@@ -146,7 +147,7 @@ class GeneralInformation extends StatelessWidget {
                                                   .textTheme
                                                   .bodySmall!
                                                   .copyWith(
-                                                    fontWeight: FontWeight.bold,
+                                                    fontWeight: FontWeight.w700,
                                                     color: ColorConstant
                                                         .primaryColor,
                                                   ))),
@@ -158,6 +159,7 @@ class GeneralInformation extends StatelessWidget {
                           ),
                           Divider(
                             thickness: 0.1,
+                            color: ColorConstant.inActiveColor.withValues(alpha: 0.8),
                           ),
                           SizedBox(
                             height: 10,
@@ -218,28 +220,34 @@ class GeneralInformation extends StatelessWidget {
                             child: CustomButton(
                                 onPressed: () {
                                   _formKey.currentState!.save();
-                                  if (_formKey.currentState!.validate()) {
-                                    if (fullName.text !=
-                                            "${state.userProfileEntity.userAccount.firstName} ${state.userProfileEntity.userAccount.lastName}" ||
-                                        phone.text !=
-                                            state.userProfileEntity
-                                                .phoneNumber ||
-                                        email.text !=
-                                            state.userProfileEntity.userAccount
-                                                .email) {
-                                      List<String> names =
-                                          fullName.text.trim().split(' ');
-                                      Map<String, dynamic> userProfileUpdate = {
-                                        "id": state
-                                            .userProfileEntity.userAccount.id,
-                                        "email": email.text,
-                                        "first_name": names.first,
-                                        "last_name": names.last
-                                      };
-                                      context.read<ProfileBloc>().add(
-                                          UpdateUserProfileEvent(
-                                              userData: userProfileUpdate));
-                                    }
+                                  // if (_formKey.currentState!.validate()) {
+                                  //   if (fullName.text !=
+                                  //           "${state.userProfileEntity.userAccount.firstName} ${state.userProfileEntity.userAccount.lastName}" ||
+                                  //       phone.text !=
+                                  //           state.userProfileEntity
+                                  //               .phoneNumber ||
+                                  //       email.text !=
+                                  //           state.userProfileEntity.userAccount
+                                  //               .email) {
+                                  //     List<String> names =
+                                  //         fullName.text.trim().split(' ');
+                                  //     Map<String, dynamic> userProfileUpdate = {
+                                  //       "id": state
+                                  //           .userProfileEntity.userAccount.id,
+                                  //       "email": email.text,
+                                  //       "first_name": names.first,
+                                  //       "last_name": names.last
+                                  //     };
+                                  //     context.read<ProfileBloc>().add(
+                                  //         UpdateUserProfileEvent(
+                                  //             userData: userProfileUpdate));
+                                  //   }
+                                  // }
+
+                                  if(GoRouter.of(context).routerDelegate.state!.name=='guestGeneralInformation'){
+                                    context.goNamed("guestVerifyOldPhone");
+                                  }else{
+                                    context.goNamed("verifyOldPhone");
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(

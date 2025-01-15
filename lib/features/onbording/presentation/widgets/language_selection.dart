@@ -60,7 +60,7 @@ class LanguageSelection extends StatelessWidget {
                             activeColor: Colors.white,
                             tileColor: Colors.transparent,
                             selectedTileColor: Colors.white,
-                            title: Text(
+                            title: Text(e.name=="amharic"?"አማርኛ":
                               e.name,
                               style: Theme.of(context)
                                   .textTheme

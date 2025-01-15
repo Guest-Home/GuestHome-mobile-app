@@ -31,6 +31,18 @@ class Home extends StatelessWidget {
     if (location.startsWith('/account')) {
       return 4;
     }
+    if (location.startsWith('/deleteAccount')) {
+      return 4;
+    }
+    if (location.startsWith('/verifyOldPhone')) {
+      return 4;
+    }
+    if (location.startsWith('/verifyNewPhone')) {
+      return 4;
+    }
+
+
+
 
     return 0;
   }

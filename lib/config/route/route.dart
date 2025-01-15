@@ -26,9 +26,12 @@ import 'package:minapp/features/auth/presentation/pages/otp_verification.dart';
 import 'package:minapp/features/auth/presentation/pages/profile_setup.dart';
 import 'package:minapp/features/host/features/home/presentation/pages/home.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/account.dart';
+import 'package:minapp/features/host/features/profile/presentation/pages/delete_account.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/general_information.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/language.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/profile.dart';
+import 'package:minapp/features/host/features/profile/presentation/pages/verify_new_phone.dart';
+import 'package:minapp/features/host/features/profile/presentation/pages/verify_old_phone.dart';
 import 'package:minapp/features/host/features/properties/domain/entities/property_entity.dart';
 import 'package:minapp/features/host/features/properties/presentation/pages/add_properties.dart';
 import 'package:minapp/features/host/features/properties/presentation/pages/listed_property_detail.dart';
@@ -197,6 +200,18 @@ Future<GoRouter> createRouter() async {
                     name: 'generalInformation',
                     path: '/generalInformation',
                     builder: (context, state) => GeneralInformation(),
+                      routes: [
+                        GoRoute(
+                          name: 'verifyOldPhone',
+                          path: '/verifyOldPhone',
+                          builder: (context, state) =>VerifyOldPhone(),
+                        ),
+                        GoRoute(
+                          name: 'verifyNewPhone',
+                          path: '/verifyNewPhone',
+                          builder: (context, state) => VerifyNewPhone(),
+                        ),
+                      ]
                   ),
                   GoRoute(
                     name: 'language',
@@ -207,6 +222,13 @@ Future<GoRouter> createRouter() async {
                     name: 'account',
                     path: '/account',
                     builder: (context, state) => const Account(),
+                    routes: [
+                      GoRoute(
+                        name: 'deleteAccount',
+                        path: '/deleteAccount',
+                        builder: (context, state) => const DeleteAccount(),
+                      ),
+                    ]
                   ),
                 ],
               ),
@@ -296,7 +318,22 @@ Future<GoRouter> createRouter() async {
                         path: '/guestGeneralInformation',
                         builder: (context, state) {
                           return GeneralInformation();
-                        }),
+                        },
+                      routes: [
+                        GoRoute(
+                          name: 'guestVerifyOldPhone',
+                          path: '/guestVerifyOldPhone',
+                          builder: (context, state) => VerifyOldPhone(),
+                        ),
+                        GoRoute(
+                          name: 'guestVerifyNewPhone',
+                          path: '/guestVerifyNewPhone',
+                          builder: (context, state) => VerifyNewPhone(),
+                        ),
+                      ]
+
+                    ),
+
                     GoRoute(
                       name: 'guestLanguage',
                       path: '/guestLanguage',
@@ -306,6 +343,13 @@ Future<GoRouter> createRouter() async {
                       name: 'guestAccount',
                       path: '/guestAccount',
                       builder: (context, state) => const Account(),
+                        routes: [
+                          GoRoute(
+                            name: 'guestDeleteAccount',
+                            path: '/guestDeleteAccount',
+                            builder: (context, state) => const DeleteAccount(),
+                          ),
+                        ]
                     ),
                   ]),
             ],

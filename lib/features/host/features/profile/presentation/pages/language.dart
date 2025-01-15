@@ -30,7 +30,10 @@ class Language extends StatelessWidget {
           spacing: 15,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(tr('language')),
+            Text(tr('language'),style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              fontSize: 14,
+              fontWeight: FontWeight.w500
+            ),),
             Row(
               children: [
                 Expanded(
@@ -59,7 +62,7 @@ class Language extends StatelessWidget {
                             itemBuilder: (BuildContext context) {
                               return AppLocal.values.map((e) =>
                                   PopupMenuItem(
-                                      value:e.name, child: Text(e.name)),
+                                      value:e.name, child: Text(e.name=="amharic"?"አማርኛ":e.name)),
                                 ).toList();
                             },
                           ),
