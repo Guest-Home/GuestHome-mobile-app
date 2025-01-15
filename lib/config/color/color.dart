@@ -10,5 +10,5 @@ class ColorConstant {
   static Color cardGrey = Color(0xfff1f2f4);
 
   static Color snacSuccessBg=Color(0xffE7F7EF);
-  static Color snacErrorBg=Color(0xfff8aaaa);
+  static Color snacErrorBg=Color(0xffFFEDEC);
 }

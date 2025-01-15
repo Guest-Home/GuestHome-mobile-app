@@ -1,13 +1,15 @@
-
-
-
- import 'package:flutter/material.dart';
-
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import '../../config/color/color.dart';
 
 showErrorSnackBar(BuildContext context,String message)=> ScaffoldMessenger.of(context).showSnackBar(SnackBar(
  content:ListTile(
-   leading: Icon(Icons.error_outline,color: ColorConstant.red,size: 20,),
+   leading:
+   SvgPicture.asset(
+     'assets/icons/errorsnack.svg',
+     semanticsLabel: 'language',
+     fit: BoxFit.cover,
+   ),
    title: Text("Error",style: Theme.of(context).textTheme.bodyMedium!.copyWith(
        color: ColorConstant.red,
        fontWeight: FontWeight.w700,fontSize: 14
@@ -25,7 +27,11 @@ showErrorSnackBar(BuildContext context,String message)=> ScaffoldMessenger.of(co
 
  showSuccessSnackBar(BuildContext context,String message)=> ScaffoldMessenger.of(context).showSnackBar(SnackBar(
    content: ListTile(
-     leading: Icon(Icons.check_circle,color: ColorConstant.green,size: 20,),
+     leading: SvgPicture.asset(
+       'assets/icons/success.svg',
+       semanticsLabel: 'language',
+       fit: BoxFit.cover,
+     ),
      title: Text("Success",
        style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w700,fontSize: 14,
          color: ColorConstant.green

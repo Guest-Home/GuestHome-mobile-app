@@ -66,6 +66,7 @@ class _ProfilePhotoCardState extends State<ProfilePhotoCard> {
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
+                    spacing: 10,
                     children: [
                       Text("$size MB",
                           style: Theme.of(context).textTheme.bodyMedium),
@@ -76,6 +77,7 @@ class _ProfilePhotoCardState extends State<ProfilePhotoCard> {
                           Expanded(
                             child: LinearProgressIndicator(
                               color: ColorConstant.red,
+                              minHeight: 6,
                               backgroundColor: ColorConstant.primaryColor,
                               value: 1,
                               valueColor: AlwaysStoppedAnimation<Color>(
@@ -96,12 +98,11 @@ class _ProfilePhotoCardState extends State<ProfilePhotoCard> {
                   child:  GestureDetector(
                     onTap: widget.ontap,
                     child: Icon(
-                      Icons.delete_outlined,
+                      Icons.delete,
                       size: 20,
                     ),
                   ),
                 ),
-
                 Positioned(
                   top: 5,
                   right: 5,

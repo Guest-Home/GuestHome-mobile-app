@@ -9,6 +9,8 @@ import 'package:minapp/core/common/spin_kit_loading.dart';
 import 'package:minapp/core/utils/show_snack_bar.dart';
 import 'package:minapp/core/utils/validator.dart';
 import 'package:minapp/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:minapp/features/auth/presentation/pages/sign_in.dart';
+import 'package:minapp/features/auth/presentation/widgets/tg_signin_button.dart';
 
 import '../../../../core/common/country_code_selector.dart';
 
@@ -44,15 +46,12 @@ class AccountSetup extends StatelessWidget {
                   spacing: 25,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      height: 10,
-                    ),
                     Text(
                       "Enter your phone number",
                       style: Theme.of(context)
                           .textTheme
                           .headlineSmall!
-                          .copyWith(fontWeight: FontWeight.w700),
+                          .copyWith(fontWeight: FontWeight.w700,fontSize: 20),
                     ),
                     CustomTextField(
                         textEditingController: _phoneController,
@@ -97,6 +96,7 @@ class AccountSetup extends StatelessWidget {
                                 },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: ColorConstant.primaryColor,
+                              elevation: 0,
                               padding: EdgeInsets.symmetric(
                                   horizontal: 24, vertical: 18)),
                           child: state is CreatingOtpLoadingState
@@ -108,10 +108,12 @@ class AccountSetup extends StatelessWidget {
                                       .bodyMedium!
                                       .copyWith(
                                           color: Colors.white,
-                                          fontSize: 16,
+                                          fontSize: 14,
                                           fontWeight: FontWeight.w700),
                                 )),
-                    )
+                    ),
+                    OrSignInWithDiv(),
+                    SignInTgButton()
                   ],
                 ),
               ),

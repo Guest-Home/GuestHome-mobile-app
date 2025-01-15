@@ -16,6 +16,7 @@ class AuthState extends Equatable {
   final String otpText;
   final String fullName;
   final Gender gender;
+  final String tgUserName;
   final XFile? profilePhoto;
 
   const AuthState(
@@ -23,6 +24,7 @@ class AuthState extends Equatable {
       this.phoneNumber = '',
       this.otpText = '',
       this.fullName = '',
+        this.tgUserName='',
       this.gender = Gender.male,
       this.profilePhoto});
 
@@ -33,6 +35,7 @@ class AuthState extends Equatable {
       String? otpText,
       String? fullName,
       Gender? gender,
+        String? tgUserName,
       XFile? profilePhoto}) {
     return AuthState(
         countryCode: countryCode ?? this.countryCode,
@@ -40,6 +43,7 @@ class AuthState extends Equatable {
         otpText: otpText ?? this.otpText,
         fullName: fullName ?? this.fullName,
         gender: gender ?? this.gender,
+        tgUserName: tgUserName??this.tgUserName,
         profilePhoto: profilePhoto ?? this.profilePhoto);
   }
 
@@ -50,6 +54,7 @@ class AuthState extends Equatable {
         otpText,
         fullName,
         gender,
+    tgUserName,
         profilePhoto ?? XFile('')
       ];
 }
@@ -62,6 +67,7 @@ class CreatingOtpLoadingState extends AuthState {
             otpText: currentState.otpText,
             fullName: currentState.fullName,
             gender: currentState.gender,
+            tgUserName: currentState.tgUserName,
             profilePhoto: currentState.profilePhoto);
 }
 class OtpCreatedLodedState extends AuthState {
@@ -73,6 +79,7 @@ class OtpCreatedLodedState extends AuthState {
             otpText: currentState.otpText,
             fullName: currentState.fullName,
             gender: currentState.gender,
+            tgUserName: currentState.tgUserName,
             profilePhoto: currentState.profilePhoto);
 
   @override
@@ -87,6 +94,7 @@ class OtpErrorState extends AuthState {
             otpText: currentState.otpText,
             fullName: currentState.fullName,
             gender: currentState.gender,
+            tgUserName: currentState.tgUserName,
             profilePhoto: currentState.profilePhoto);
 
   @override
@@ -100,6 +108,7 @@ class VerifyingOtpLoadingState extends AuthState {
             otpText: currentState.otpText,
             fullName: currentState.fullName,
             gender: currentState.gender,
+            tgUserName: currentState.tgUserName,
             profilePhoto: currentState.profilePhoto);
 }
 
@@ -112,6 +121,7 @@ class VerifyedOtpLodedState extends AuthState {
             otpText: currentState.otpText,
             fullName: currentState.fullName,
             gender: currentState.gender,
+            tgUserName: currentState.tgUserName,
             profilePhoto: currentState.profilePhoto);
 
   @override
@@ -127,6 +137,7 @@ class ImagePickerError extends AuthState {
             otpText: currentState.otpText,
             fullName: currentState.fullName,
             gender: currentState.gender,
+            tgUserName: currentState.tgUserName,
             profilePhoto: currentState.profilePhoto);
 
   @override
@@ -141,6 +152,7 @@ class CreatingCustomerProfileLoadingState extends AuthState {
             otpText: currentState.otpText,
             fullName: currentState.fullName,
             gender: currentState.gender,
+            tgUserName: currentState.tgUserName,
             profilePhoto: currentState.profilePhoto);
 }
 
@@ -154,6 +166,7 @@ class CreatedCustomerProfileLodedState extends AuthState {
             otpText: currentState.otpText,
             fullName: currentState.fullName,
             gender: currentState.gender,
+            tgUserName: currentState.tgUserName,
             profilePhoto: currentState.profilePhoto);
 
   @override

@@ -7,7 +7,6 @@ import 'package:minapp/core/common/custom_text_field.dart';
 import 'package:minapp/core/utils/show_snack_bar.dart';
 import 'package:minapp/core/utils/validator.dart';
 import 'package:minapp/features/auth/presentation/bloc/auth_bloc.dart';
-
 import '../../../../config/color/color.dart';
 import '../../../../core/common/back_button.dart';
 import '../../../../core/common/custom_button.dart';
@@ -47,7 +46,6 @@ class ProfileSetup extends StatelessWidget {
                         children: [
                           Expanded(
                             child: ListView(
-                              padding: EdgeInsets.all(5),
                               children: [
                                 Text(
                                   "Profile SetUp",
@@ -56,7 +54,7 @@ class ProfileSetup extends StatelessWidget {
                                       .headlineSmall!
                                       .copyWith(
                                           fontWeight: FontWeight.w700,
-                                          fontSize: 20),
+                                          fontSize:18),
                                 ),
                                 SizedBox(
                                   height: 32,
@@ -145,6 +143,7 @@ class ProfileSetup extends StatelessWidget {
                                                               10)),
                                                   value: gender,
                                                   groupValue: state.gender,
+                                                  controlAffinity: ListTileControlAffinity.trailing,
                                                   onChanged: (value) {
                                                     context
                                                         .read<AuthBloc>()
@@ -186,9 +185,10 @@ class ProfileSetup extends StatelessWidget {
                           ),
                           Container(
                               width: MediaQuery.of(context).size.width,
-                              padding: EdgeInsets.all(15),
+                              padding: EdgeInsets.symmetric(horizontal: 15),
                               child: Row(
                                 spacing: 10,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Expanded(
                                       child: CustomButton(
@@ -196,6 +196,7 @@ class ProfileSetup extends StatelessWidget {
                                             context.pop();
                                           },
                                           style: ElevatedButton.styleFrom(
+                                            elevation: 0,
                                               padding: EdgeInsets.symmetric(
                                                   horizontal: 24, vertical: 21),
                                               side: BorderSide(
@@ -207,6 +208,7 @@ class ProfileSetup extends StatelessWidget {
                                                   .textTheme
                                                   .bodyLarge!
                                                   .copyWith(
+                                                fontSize: 14,
                                                     fontWeight: FontWeight.w700,
                                                     color: ColorConstant
                                                         .secondBtnColor,
@@ -233,6 +235,7 @@ class ProfileSetup extends StatelessWidget {
                                                   }
                                                 },
                                           style: ElevatedButton.styleFrom(
+                                            elevation: 0,
                                               padding: EdgeInsets.symmetric(
                                                   horizontal: 24, vertical: 21),
                                               side: BorderSide(
@@ -248,6 +251,7 @@ class ProfileSetup extends StatelessWidget {
                                                       .textTheme
                                                       .bodyLarge!
                                                       .copyWith(
+                                                    fontSize: 14,
                                                         fontWeight:
                                                             FontWeight.w700,
                                                         color: Colors.white,
@@ -269,7 +273,7 @@ class ProfileSetup extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .bodyMedium!
-              .copyWith(fontWeight: FontWeight.bold, fontSize: 14)),
+              .copyWith(fontWeight: FontWeight.w500, fontSize: 14)),
       TextSpan(
           text: isRequired ? " *" : '(optional)',
           style: TextStyle(

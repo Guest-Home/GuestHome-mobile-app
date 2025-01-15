@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/config/route/navigator_observer.dart';
+import 'package:minapp/features/auth/presentation/pages/sign_in.dart';
+import 'package:minapp/features/auth/presentation/pages/sign_in_with_tg.dart';
 import 'package:minapp/features/guest/features/HousType/domain/entities/g_property_entity.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/booking/booking_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/houstype_bloc.dart';
@@ -37,6 +39,7 @@ import 'package:minapp/features/onbording/presentation/pages/onbording.dart';
 import 'package:minapp/features/onbording/presentation/pages/splash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../features/auth/presentation/pages/tg_otp_verification.dart';
 import '../../features/onbording/presentation/bloc/on_bording_bloc.dart';
 import '../../service_locator.dart';
 
@@ -59,11 +62,13 @@ Future<GoRouter> createRouter() async {
       // Check if the current route is '/accountSetup' or starts with '/accountSetup/'
       bool isAccountSetupRoute =
           state.uri.toString().startsWith('/accountSetup');
+      bool isSinInRoute =
+      state.uri.toString().startsWith('/signIn');
       bool isOnbordingRoute = state.uri.toString().startsWith('/onboarding');
 
       // If the user is not logged in and trying to access a protected route
-      if (!isLoggedIn && !isAccountSetupRoute && !isOnbordingRoute) {
-        return '/accountSetup'; // Redirect to the login page
+      if (!isLoggedIn && !isSinInRoute && !isOnbordingRoute) {
+        return '/signIn'; // Redirect to the login page
       }
 
       return null; // No redirect
@@ -97,14 +102,29 @@ Future<GoRouter> createRouter() async {
         },
       ),
       GoRoute(
-          name: 'accountSetup',
-          path: '/accountSetup',
-          builder: (context, state) => AccountSetup(),
+          name: 'signIn',
+          path: '/signIn',
+          builder: (context, state) => SignIn(),
           routes: [
             GoRoute(
+              name: 'accountSetup',
+              path: 'accountSetup',
+              builder: (context, state) => AccountSetup(),
+            ),
+            GoRoute(
+              name: 'signInWithTg',
+              path: 'signInWithTg',
+              builder: (context, state) => SignInWithTg(),
+            ),
+            GoRoute(
               name: 'otpVerification',
-              path: '/otpVerification',
+              path: 'otpVerification',
               builder: (context, state) => OtpVerification(),
+            ),
+            GoRoute(
+              name: 'tgOtpVerification',
+              path: 'tgOtpVerification',
+              builder: (context, state) => TgOtpVerification(),
             ),
             GoRoute(
               name: 'profileSetup',

@@ -14,7 +14,7 @@ class UploadPhoto extends StatelessWidget {
       onTap: ontTap,
       child: Container(
         width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.all(25),
+        padding: EdgeInsets.all(27),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: ColorConstant.cardGrey, width: 2)),
@@ -32,14 +32,15 @@ class UploadPhoto extends StatelessWidget {
                   text: "Click to upload ",
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       color: ColorConstant.primaryColor,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
                       decoration: TextDecoration.underline)),
               TextSpan(
                   text: "or drag and drop",
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium!
-                      .copyWith(color: ColorConstant.secondBtnColor))
+                      .copyWith(color: ColorConstant.secondBtnColor,fontSize: 14,fontWeight: FontWeight.w400))
             ])),
             Text(
               "PNG,JPG or PDF (max 3MB)",

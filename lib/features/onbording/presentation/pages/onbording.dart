@@ -160,7 +160,7 @@ class _OnBordingState extends State<OnBording>
                   },
                   listener: (context, state) async {
                     if (state is GetStartedState) {
-                      context.goNamed("accountSetup");
+                      context.goNamed("signIn");
                     } else {
                       pageController.jumpToPage(state.index);
                     }

@@ -1,16 +1,18 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:minapp/config/color/color.dart';
-import 'package:minapp/core/common/back_button.dart';
-import 'package:minapp/core/common/spin_kit_loading.dart';
-import 'package:minapp/core/utils/show_snack_bar.dart';
-import 'package:minapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:pinput/pinput.dart';
-import '../../../../core/common/custom_button.dart';
 
-class OtpVerification extends StatelessWidget {
-  const OtpVerification({super.key});
+import '../../../../config/color/color.dart';
+import '../../../../core/common/back_button.dart';
+import '../../../../core/common/custom_button.dart';
+import '../../../../core/common/spin_kit_loading.dart';
+import '../../../../core/utils/show_snack_bar.dart';
+import '../bloc/auth_bloc.dart';
+
+class TgOtpVerification extends StatelessWidget {
+  const TgOtpVerification({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,8 @@ class OtpVerification extends StatelessWidget {
         listenWhen: (previous, current) => previous!=current,
         listener: (context, state) {
           if (state is VerifyedOtpLodedState) {
-            if (state.verifyOtpEntity.hasProfile==true) {
+            if (state.verifyOtpEntity.hasProfile==true)
+              {
               showSuccessSnackBar(context, "Otp Verified");
               context.goNamed('houseType');
             } else {
@@ -45,8 +48,7 @@ class OtpVerification extends StatelessWidget {
                     spacing: 16,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Otp Verification",
+                      Text("Otp Verification",
                         style: Theme.of(context)
                             .textTheme
                             .headlineMedium!
@@ -59,16 +61,16 @@ class OtpVerification extends StatelessWidget {
                             text: TextSpan(children: [
                               TextSpan(
                                 text:
-                                    'Please enter the one time password sent to your mobile number ',
+                                'Please enter the one time password sent to your telegram username ',
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium!
                                     .copyWith(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400),
                               ),
                               TextSpan(
-                                  text: state.phoneNumber,
+                                  text:"@${state.phoneNumber}",
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyMedium!
@@ -93,7 +95,7 @@ class OtpVerification extends StatelessWidget {
                             padding: EdgeInsets.only(right: 20),
                             decoration: BoxDecoration(
                               border:
-                                  Border.all(color: ColorConstant.primaryColor),
+                              Border.all(color: ColorConstant.primaryColor),
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
@@ -118,8 +120,8 @@ class OtpVerification extends StatelessWidget {
                                     .textTheme
                                     .bodyMedium!
                                     .copyWith(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400),
                               ),
                               TextSpan(
                                   text: "45 second",
@@ -136,27 +138,27 @@ class OtpVerification extends StatelessWidget {
                             onPressed: state is VerifyingOtpLoadingState
                                 ? () {}
                                 : () {
-                                    context
-                                        .read<AuthBloc>()
-                                        .add(VerifyOtpEvent());
-                                  },
+                              context
+                                  .read<AuthBloc>()
+                                  .add(VerifyOtpEvent());
+                            },
                             style: ElevatedButton.styleFrom(
-                              elevation: 0,
                                 backgroundColor: ColorConstant.primaryColor,
+                                elevation: 0,
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 24, vertical: 18)),
                             child: state is VerifyingOtpLoadingState
                                 ? loading
                                 : Text(
-                                    "Verify",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(
-                                            color: Colors.white,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w700),
-                                  )),
+                              "Verify",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700),
+                            )),
                       )
                     ],
                   ),
