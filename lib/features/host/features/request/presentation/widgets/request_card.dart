@@ -82,12 +82,16 @@ class RequestCard extends StatelessWidget {
                         "${reservationEntity.user!.userAccount!.firstName!.toUpperCase()} ${reservationEntity.user!.userAccount!.lastName!.toUpperCase()}",
                         style: Theme.of(context)
                             .textTheme
-                            .bodyLarge!
-                            .copyWith(fontWeight: FontWeight.w700),
+                            .bodyMedium!
+                            .copyWith(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700),
                       ),
                       subtitle: Text(
                         reservationEntity.user!.phoneNumber!,
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                           fontSize: 12,
+                            fontWeight: FontWeight.w700,
                             color: ColorConstant.secondBtnColor
                                 .withValues(alpha: 0.7)),
                       )),
@@ -105,6 +109,7 @@ class RequestCard extends StatelessWidget {
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Row(
                             spacing: 3,
@@ -130,6 +135,7 @@ class RequestCard extends StatelessWidget {
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Row(
                             spacing: 3,
@@ -215,6 +221,7 @@ class RequestCard extends StatelessWidget {
                                           .bodyLarge!
                                           .copyWith(
                                               color: Colors.white,
+                                              fontSize: 12,
                                               fontWeight: FontWeight.w700),
                                     ),
                             );
@@ -243,6 +250,7 @@ class RequestCard extends StatelessWidget {
                                           .bodyLarge!
                                           .copyWith(
                                               color: Colors.white,
+                                              fontSize: 12,
                                               fontWeight: FontWeight.w700),
                                     ),
                             );
@@ -258,7 +266,8 @@ class RequestCard extends StatelessWidget {
                         Text('Booking Status-',
                             style:
                                 Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                      fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                      fontWeight: FontWeight.w700,
                                     )),
                         Expanded(
                             child: StatusButton(
@@ -274,7 +283,8 @@ class RequestCard extends StatelessWidget {
   Text valueText(BuildContext context, String value) {
     return Text(value,
         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w600,
+          fontSize: 12
             ));
   }
   Text titleText(BuildContext context, String title) => Text(
@@ -283,6 +293,7 @@ class RequestCard extends StatelessWidget {
         maxLines: 3,
         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
               color: ColorConstant.secondBtnColor.withValues(alpha: 0.6),
+              fontSize: 12,
               fontWeight: FontWeight.w400,
             ),
       );

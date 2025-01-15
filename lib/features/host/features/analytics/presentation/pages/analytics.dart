@@ -60,6 +60,8 @@ class _AnalyticsState extends State<Analytics> {
                           style:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14
                                   ),
                         ),
                         subtitle: Text(
@@ -69,7 +71,7 @@ class _AnalyticsState extends State<Analytics> {
                               .bodyMedium!
                               .copyWith(
                                   color: Colors.white,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w700,
                                   fontSize: 20),
                         ),
                       ),
@@ -116,6 +118,7 @@ class _AnalyticsState extends State<Analytics> {
                                             .textTheme
                                             .bodySmall!
                                             .copyWith(
+                                          fontSize: 12,
                                               fontWeight: FontWeight.w500,
                                               color: state.selectedDate ==
                                                       state.occupancyDate[index]
@@ -157,22 +160,25 @@ class _AnalyticsState extends State<Analytics> {
                           }
                         },
                         child: Container(
-                          width: 80,
+                          width:100,
                           margin: const EdgeInsets.only(right: 6),
-                          padding: EdgeInsets.all(4),
+                          padding: EdgeInsets.symmetric(horizontal:5),
                           decoration: BoxDecoration(
                             color: ColorConstant.cardGrey,
                             borderRadius: BorderRadius.circular(40),
                           ),
                           child: Center(
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Expanded(
                                   child: Text("Custom",
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodySmall!
-                                          .copyWith()),
+                                          .copyWith(
+                                        fontWeight: FontWeight.w500,fontSize: 12
+                                      )),
                                 ),
                                 Icon(Icons.arrow_drop_down)
                               ],
@@ -225,39 +231,44 @@ class _AnalyticsState extends State<Analytics> {
                                     .last30Days!.dailyOccupancy!,
                               ),
                             ),
-                            sectionTitle(context, "Report"),
                             ListTile(
-                              title: Text(
-                                "This is report of your property performance over time. you can download and review in PDF.",
-                                style: Theme.of(context).textTheme.bodySmall,
-                              ),
+                              title:   sectionTitle(context, "Report"),
                               subtitle: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: ElevatedButton(
-                                  onPressed: () {},
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          ColorConstant.secondBtnColor,
-                                      padding: EdgeInsets.all(10),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10))),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.download,
-                                        color: Colors.white,
+                                padding: const EdgeInsets.symmetric(vertical: 10),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "This is report of your property performance over time. you can download and review in PDF.",
+                                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400
                                       ),
-                                      Text(
-                                        "Download",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium!
-                                            .copyWith(color: Colors.white),
-                                      )
-                                    ],
-                                  ),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {},
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: ColorConstant.secondBtnColor,
+                                          padding: EdgeInsets.all(10),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(10))),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.download,
+                                            color: Colors.white,
+                                          ),
+                                          Text(
+                                            "Download",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium!
+                                                .copyWith(color: Colors.white),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             )
@@ -297,39 +308,44 @@ class _AnalyticsState extends State<Analytics> {
                                     .last60Days!.dailyOccupancy!,
                               ),
                             ),
-                            sectionTitle(context, "Report"),
                             ListTile(
-                              title: Text(
-                                "This is report of your property performance over time. you can download and review in PDF.",
-                                style: Theme.of(context).textTheme.bodySmall,
-                              ),
+                              title:   sectionTitle(context, "Report"),
                               subtitle: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: ElevatedButton(
-                                  onPressed: () {},
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          ColorConstant.secondBtnColor,
-                                      padding: EdgeInsets.all(10),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10))),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.download,
-                                        color: Colors.white,
+                                padding: const EdgeInsets.symmetric(vertical: 10),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "This is report of your property performance over time. you can download and review in PDF.",
+                                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400
                                       ),
-                                      Text(
-                                        "Download",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium!
-                                            .copyWith(color: Colors.white),
-                                      )
-                                    ],
-                                  ),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {},
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: ColorConstant.secondBtnColor,
+                                          padding: EdgeInsets.all(10),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(10))),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.download,
+                                            color: Colors.white,
+                                          ),
+                                          Text(
+                                            "Download",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium!
+                                                .copyWith(color: Colors.white),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             )
@@ -369,39 +385,44 @@ class _AnalyticsState extends State<Analytics> {
                                     .last7Days!.dailyOccupancy!,
                               ),
                             ),
-                            sectionTitle(context, "Report"),
                             ListTile(
-                              title: Text(
-                                "This is report of your property performance over time. you can download and review in PDF.",
-                                style: Theme.of(context).textTheme.bodySmall,
-                              ),
+                              title:   sectionTitle(context, "Report"),
                               subtitle: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: ElevatedButton(
-                                  onPressed: () {},
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          ColorConstant.secondBtnColor,
-                                      padding: EdgeInsets.all(10),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10))),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.download,
-                                        color: Colors.white,
+                                padding: const EdgeInsets.symmetric(vertical: 10),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "This is report of your property performance over time. you can download and review in PDF.",
+                                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400
                                       ),
-                                      Text(
-                                        "Download",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium!
-                                            .copyWith(color: Colors.white),
-                                      )
-                                    ],
-                                  ),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {},
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: ColorConstant.secondBtnColor,
+                                          padding: EdgeInsets.all(10),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(10))),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.download,
+                                            color: Colors.white,
+                                          ),
+                                          Text(
+                                            "Download",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium!
+                                                .copyWith(color: Colors.white),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             )
@@ -446,40 +467,44 @@ class _AnalyticsState extends State<Analytics> {
                                       .custom!.dailyOccupancy!,
                                 ),
                               ),
-                              sectionTitle(context, "Report"),
                               ListTile(
-                                title: Text(
-                                  "This is report of your property performance over time. you can download and review in PDF.",
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                ),
+                                title:   sectionTitle(context, "Report"),
                                 subtitle: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: ElevatedButton(
-                                    onPressed: () {},
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor:
-                                            ColorConstant.secondBtnColor,
-                                        padding: EdgeInsets.all(10),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10))),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.download,
-                                          color: Colors.white,
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        "This is report of your property performance over time. you can download and review in PDF.",
+                                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400
                                         ),
-                                        Text(
-                                          "Download",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium!
-                                              .copyWith(color: Colors.white),
-                                        )
-                                      ],
-                                    ),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () {},
+                                        style: ElevatedButton.styleFrom(
+                                            backgroundColor: ColorConstant.secondBtnColor,
+                                            padding: EdgeInsets.all(10),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(10))),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.download,
+                                              color: Colors.white,
+                                            ),
+                                            Text(
+                                              "Download",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium!
+                                                  .copyWith(color: Colors.white),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               )
@@ -518,37 +543,44 @@ class _AnalyticsState extends State<Analytics> {
                             dailyOccupancy: {},
                           ),
                         ),
-                        sectionTitle(context, "Report"),
                         ListTile(
-                          title: Text(
-                            "This is report of your property performance over time. you can download and review in PDF.",
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
+                          title:   sectionTitle(context, "Report"),
                           subtitle: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: ColorConstant.secondBtnColor,
-                                  padding: EdgeInsets.all(10),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10))),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.download,
-                                    color: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: Column(
+                              children: [
+                                Text(
+                                  "This is report of your property performance over time. you can download and review in PDF.",
+                                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400
                                   ),
-                                  Text(
-                                    "Download",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(color: Colors.white),
-                                  )
-                                ],
-                              ),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {},
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: ColorConstant.secondBtnColor,
+                                      padding: EdgeInsets.all(10),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10))),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.download,
+                                        color: Colors.white,
+                                      ),
+                                      Text(
+                                        "Download",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium!
+                                            .copyWith(color: Colors.white),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         )
@@ -566,8 +598,8 @@ class _AnalyticsState extends State<Analytics> {
     return showDateRangePicker(
         barrierLabel: "Custom",
         context: context,
-        initialDateRange:
-            DateTimeRange(start: DateTime.now(), end: DateTime.now()),
+        barrierColor: Colors.transparent,
+        initialDateRange:DateTimeRange(start: DateTime.now(), end: DateTime.now()),
         firstDate: DateTime(2020),
         lastDate: DateTime.now());
   }
@@ -576,7 +608,8 @@ class _AnalyticsState extends State<Analytics> {
     return Text(
       title,
       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w600,
+        fontSize: 14
           ),
     );
   }

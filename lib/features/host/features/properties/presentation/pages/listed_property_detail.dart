@@ -785,8 +785,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "Delete house?",
+                    Text("Delete house?",
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!

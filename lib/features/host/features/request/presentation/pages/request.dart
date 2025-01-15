@@ -71,6 +71,7 @@ class _RequestState extends State<Request> {
                       child: Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
+                        spacing: 15,
                         children: [
                         Image.asset("assets/icons/Inboxe.png",
                           width: 80,
@@ -81,7 +82,10 @@ class _RequestState extends State<Request> {
                         textAlign: TextAlign.center,
                         style: Theme.of(context)
                             .textTheme
-                            .bodySmall,
+                            .bodyMedium!.copyWith(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16
+                        ),
                       ),
                       ],
                     ),
