@@ -219,8 +219,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                     );
                                   }
                                   return SizedBox(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.42,
+                                    height: MediaQuery.of(context).size.height * 0.42,
                                     width: MediaQuery.of(context).size.width,
                                     child: ListView.builder(
                                       itemCount:
@@ -249,8 +248,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                             child: PopularHouseCard(
                                                 width: MediaQuery.of(context)
                                                         .size
-                                                        .width *
-                                                    0.8,
+                                                        .width *0.7,
                                                 height: 300,
                                                 showBorder: true,
                                                 showIndicator: false,
@@ -363,15 +361,13 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
           child: BlocBuilder<FilterBloc, FilterState>(
             buildWhen: (previous, current) => previous != current,
             builder: (context, filterState) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
+              return  Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   spacing: 15,
                   children: [
                     Padding(
                       padding:
-                          const EdgeInsets.only(left: 10, top: 10, right: 10),
+                          const EdgeInsets.only(left: 14, top: 10, right: 14),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -384,6 +380,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                     fontWeight: FontWeight.w700, fontSize: 14),
                           ),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Text(
                                 tr("Close"),
@@ -410,7 +407,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                     ),
                     Expanded(
                         child: ListView(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      padding: EdgeInsets.symmetric(horizontal: 14),
                       children: [
                         SizedBox(
                           height: 110,
@@ -431,6 +428,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                             .textTheme
                                             .bodyMedium!
                                             .copyWith(
+                                          fontSize: 14,
                                                 fontWeight: FontWeight.w500),
                                       ),
                                       Text(
@@ -482,7 +480,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                                             ? ColorConstant
                                                                 .primaryColor
                                                                 .withValues(
-                                                                    alpha: 0.7)
+                                                                    alpha: 0.5)
                                                             : ColorConstant
                                                                 .cardGrey
                                                         : widget.name ==
@@ -493,7 +491,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                                             ? ColorConstant
                                                                 .primaryColor
                                                                 .withValues(
-                                                                    alpha: 0.7)
+                                                                    alpha: 0.5)
                                                             : ColorConstant
                                                                 .cardGrey,
                                                     shape: BoxShape.circle,
@@ -731,8 +729,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                       ],
                     ))
                   ],
-                ),
-              );
+                );
             },
           ),
         ),

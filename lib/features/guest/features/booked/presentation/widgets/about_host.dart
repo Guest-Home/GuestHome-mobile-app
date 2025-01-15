@@ -37,7 +37,8 @@ class AboutHostCard extends StatelessWidget {
                 headers: {'Authorization': 'Bearer $token'},
               ),
             ),
-            title: Text("${userEntity.userAccount!.firstName!} ${userEntity.userAccount!.lastName!}",style: Theme.of(context).textTheme
+            title: Text("${userEntity.userAccount!.firstName!} ${userEntity.userAccount!.lastName!}",
+              style: Theme.of(context).textTheme
               .bodyMedium!.copyWith(
               fontWeight: FontWeight.w600,
               fontSize: 12
@@ -57,7 +58,7 @@ class AboutHostCard extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium!
-                      .copyWith(fontWeight: FontWeight.w600,fontSize: 12),
+                      .copyWith(fontWeight: FontWeight.w700,fontSize: 12),
                 )
               ],
             ),
@@ -76,7 +77,7 @@ class AboutHostCard extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium!
-                      .copyWith(fontWeight: FontWeight.w600,fontSize: 12),
+                      .copyWith(fontWeight: FontWeight.w700,fontSize: 12),
                 )
               ],
             ),

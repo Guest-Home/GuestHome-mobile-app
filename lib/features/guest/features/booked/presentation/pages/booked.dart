@@ -38,7 +38,7 @@ class Booked extends StatelessWidget {
             context.read<BookedBloc>().add(GetMyBookingEvent());
           },
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 11),
+            padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               spacing: 10,
@@ -50,7 +50,9 @@ class Booked extends StatelessWidget {
                           SecctionHeader(title: tr("Booked"), isSeeMore: false),
                       subtitle: Text(
                         "Here is the list of your requested booking",
-                        style: Theme.of(context).textTheme.bodyMedium!,
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontSize: 14,fontWeight: FontWeight.w400
+                        ),
                       ),
                     )),
                 Expanded(
@@ -107,39 +109,46 @@ class EmpityBooked extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10),
-      child: Column(
-        spacing: 10,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            "assets/icons/Inboxe.png",
-            width: 80,
-            height: 80,
-          ),
-          Text(
-            "You didn’t booked any Properties.  search and book properties. ",
-            textAlign: TextAlign.center,
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge!
-                .copyWith(fontWeight: FontWeight.bold),
-          ),
-          CustomButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                  elevation: 0,
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      side: BorderSide(color: ColorConstant.secondBtnColor))),
-              child: Text(
-                "Search properties ",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium!
-                    .copyWith(fontWeight: FontWeight.bold),
-              ))
-        ],
+      child: Center(
+        child: Column(
+          spacing: 15,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset(
+              "assets/icons/Inboxe.png",
+              width: 100,
+              height: 100,
+            ),
+            Text(
+              "You did’t booked any Properties.\n  search and book properties. ",
+              textAlign: TextAlign.center,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge!
+                  .copyWith(fontWeight: FontWeight.w600,fontSize: 14),
+            ),
+            SizedBox(height: 10,),
+            SizedBox(
+              width:MediaQuery.of(context).size.width*0.6,
+              child: CustomButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          side: BorderSide(color: ColorConstant.secondBtnColor))),
+                  child: Text(
+                    "Search properties ",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(fontWeight: FontWeight.w700,fontSize: 14),
+                  )),
+            )
+          ],
+        ),
       ),
     );
   }

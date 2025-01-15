@@ -24,7 +24,7 @@ class NearHouseCard extends StatelessWidget {
     return Container(
       width: width,
       height: MediaQuery.of(context).size.height*0.6,
-      margin: EdgeInsets.only(bottom: 5),
+      margin: EdgeInsets.only(bottom:10),
       child:
       Column(
         children: [
@@ -127,7 +127,7 @@ class NearHouseCard extends StatelessWidget {
                     textAlign: TextAlign.start,
                     overflow: TextOverflow.ellipsis,
                     style:Theme.of(context).textTheme.bodySmall!.copyWith(
-                        fontSize: 12,
+                        fontSize: 14,
                         fontWeight: FontWeight.w400,
                         color: ColorConstant.secondBtnColor
                             .withValues(alpha: 0.4)
@@ -138,16 +138,19 @@ class NearHouseCard extends StatelessWidget {
                       TextSpan(
                           text:tr("posted by"),
                           style:Theme.of(context).textTheme.bodySmall!.copyWith(
-                              fontSize: 12,
+                              fontSize: 14,
                               fontWeight: FontWeight.w400,
                               color: ColorConstant.secondBtnColor
                                   .withValues(alpha: 0.4)
                           )),
                       TextSpan(
                           text: " @${property.postedBy!.userAccount!.firstName} ${property.postedBy!.userAccount!.lastName}",
-                          style: TextStyle(
-                              color: ColorConstant.secondBtnColor
-                                  .withValues(alpha: 1)))
+                          style:Theme.of(context).textTheme.bodySmall!.copyWith(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color:ColorConstant.secondBtnColor
+    )
+                         )
                     ])),
                 RichText(
                     text: TextSpan(children: [
@@ -175,8 +178,8 @@ class NearHouseCard extends StatelessWidget {
                     Text(
                       "${property.specificAddress!}, ${property.city!}",
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
                           color: ColorConstant.secondBtnColor),
                     )
                   ],

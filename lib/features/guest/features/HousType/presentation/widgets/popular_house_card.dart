@@ -69,7 +69,7 @@ class PopularHouseCard extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .bodyLarge!
-                        .copyWith(fontWeight: FontWeight.w600,fontSize: 16),
+                        .copyWith(fontWeight: FontWeight.w600,fontSize: 14),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -117,9 +117,10 @@ class PopularHouseCard extends StatelessWidget {
                   )),
                     TextSpan(
                         text: " @${property.postedBy!.userAccount!.firstName} ${property.postedBy!.userAccount!.lastName}",
-                        style: TextStyle(
-                            color: ColorConstant.secondBtnColor
-                                .withValues(alpha: 1)))
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: ColorConstant.secondBtnColor))
                   ])),
                   RichText(
                       text: TextSpan(children: [
@@ -147,7 +148,7 @@ class PopularHouseCard extends StatelessWidget {
                       Text(
                         "${property.specificAddress!}, ${property.city!}",
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w400,
                             fontSize: 12,
                             color: ColorConstant.secondBtnColor),
                       )

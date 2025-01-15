@@ -22,7 +22,7 @@ class HouseType extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .bodyLarge!
-              .copyWith(fontWeight: FontWeight.bold),
+              .copyWith(fontWeight: FontWeight.w700,fontSize: 18),
         ),
         actions: [
           Icon(Icons.notifications_none),
@@ -39,7 +39,7 @@ class HouseType extends StatelessWidget {
           children: [
             //carousel
             SizedBox(
-                height: MediaQuery.of(context).size.height * 0.32,
+                height: MediaQuery.of(context).size.height * 0.31,
                 width: MediaQuery.of(context).size.width,
                 child: CarouselView(
                     itemExtent: MediaQuery.of(context).size.width,
@@ -47,11 +47,7 @@ class HouseType extends StatelessWidget {
                       1,
                       (index) => Stack(
                         children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height * 0.32,
-                            color: ColorConstant.cardGrey,
-                            child: ClipRRect(
+                          ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: CachedNetworkImage(
                                 imageUrl:
@@ -62,9 +58,10 @@ class HouseType extends StatelessWidget {
                                     Icon(Icons.error),
                                 fit: BoxFit.cover,
                                 width: MediaQuery.of(context).size.width,
+                                height: MediaQuery.of(context).size.height * 0.31,
+
                               ),
                             ),
-                          ),
                           Positioned(
                             bottom: 5,
                             left: 13,
@@ -76,7 +73,7 @@ class HouseType extends StatelessWidget {
                                 textAlign: TextAlign.start,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyLarge!
+                                    .bodyMedium!
                                     .copyWith(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,

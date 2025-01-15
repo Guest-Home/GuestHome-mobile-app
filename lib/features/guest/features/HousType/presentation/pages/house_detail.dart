@@ -90,8 +90,14 @@ class HouseDetail extends StatelessWidget {
                     ],
                   )),
               ListTile(
-                  title:
-                      SecctionHeader(title: property.title!, isSeeMore: false),
+                  title:Text(
+                    property.title!,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(fontWeight: FontWeight.w700, fontSize: 14),
+                  ),
+
                   subtitle: SeeMoreText(
                     text: property.description!,
                     maxLines: 4,
@@ -111,7 +117,7 @@ class HouseDetail extends StatelessWidget {
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!
-                          .copyWith(fontWeight: FontWeight.w600),
+                          .copyWith(fontWeight: FontWeight.w600,fontSize: 12),
                     )
                   ],
                 ),
@@ -137,7 +143,7 @@ class HouseDetail extends StatelessWidget {
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!
-                          .copyWith(fontWeight: FontWeight.w600),
+                          .copyWith(fontWeight: FontWeight.w600,fontSize: 12),
                     )
                   ],
                 ),
@@ -224,8 +230,7 @@ class HouseDetail extends StatelessWidget {
                 Row(
                   spacing: 3,
                   children: [
-                    Text(
-                      "200 ETB",
+                    Text("${property.price} ${property.unit}",
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge!
@@ -289,12 +294,12 @@ class SeeMoreTextState extends State<SeeMoreText> {
         Text(
           widget.text,
           softWrap: true,
-          maxLines: _isExpanded ? null : widget.maxLines,
-          overflow: TextOverflow.ellipsis,
+          // maxLines: _isExpanded ? null : widget.maxLines,
+          // overflow: TextOverflow.ellipsis,
           style: Theme.of(context)
               .textTheme
               .bodyLarge!
-              .copyWith(fontSize: 12, fontWeight: FontWeight.w400),
+              .copyWith(fontSize: 12, fontWeight: FontWeight.w400,color: ColorConstant.secondBtnColor.withValues(alpha: 0.7)),
         ),
         GestureDetector(
           onTap: () {

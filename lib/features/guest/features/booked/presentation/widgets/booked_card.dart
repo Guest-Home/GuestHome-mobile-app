@@ -78,7 +78,7 @@ class BookedCard extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .bodyLarge!
-                      .copyWith(fontWeight: FontWeight.w600, fontSize: 14),
+                      .copyWith(fontWeight: FontWeight.w700, fontSize: 14),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -140,7 +140,7 @@ class BookedCard extends StatelessWidget {
                               .textTheme
                               .bodyMedium!
                               .copyWith(
-                                  fontSize: 16,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.w700,
                                   color: ColorConstant.secondBtnColor)),
                       TextSpan(

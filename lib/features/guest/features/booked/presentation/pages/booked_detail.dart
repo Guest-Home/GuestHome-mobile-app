@@ -8,7 +8,6 @@ import 'package:go_router/go_router.dart';
 import 'package:minapp/core/common/back_button.dart';
 import 'package:minapp/core/common/custom_button.dart';
 import 'package:minapp/core/utils/show_snack_bar.dart';
-import 'package:minapp/features/guest/features/booked/domain/entities/my_booking_entity.dart';
 import 'package:minapp/features/guest/features/booked/presentation/bloc/booked_bloc.dart';
 import 'package:minapp/features/guest/features/booked/presentation/bloc/booked_detail/booked_detail_bloc.dart';
 import '../../../../../../config/color/color.dart';
@@ -46,9 +45,8 @@ class _BookedDetailState extends State<BookedDetail> {
       body: BlocProvider.value(
         value: sl<BookedBloc>(),
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 15,vertical: 2),
+          padding: EdgeInsets.symmetric(horizontal: 10,vertical: 2),
           child:
-
           Column(
             children: [
               ListTile(
@@ -73,7 +71,6 @@ class _BookedDetailState extends State<BookedDetail> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       spacing: 10,
                       children: [
-
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.8,
                 width: MediaQuery.of(context).size.width,
@@ -84,6 +81,9 @@ class _BookedDetailState extends State<BookedDetail> {
                         reverse: false,
                         backgroundColor: ColorConstant.cardGrey,
                         itemExtent: MediaQuery.of(context).size.width,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(13)
+                        ),
                         children: List.generate(
                           state.booked.house!.houseImage!.length,
                           (index) => ClipRRect(

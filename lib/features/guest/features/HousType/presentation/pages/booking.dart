@@ -23,9 +23,6 @@ final int id;
   final _formKey=GlobalKey<FormState>();
   TextEditingController checkInController=TextEditingController();
   TextEditingController checkOutController=TextEditingController();
-  TextEditingController fNameController=TextEditingController();
-  TextEditingController lNameController=TextEditingController();
-  TextEditingController phoneController=TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -62,164 +59,76 @@ final int id;
               children: [
                 SecctionHeader(title: tr("Booking Detail"), isSeeMore: false),
                 Text(tr(
-                    "Fill out the information below and confirm your booking. "),style: Theme.of(context).textTheme.bodyMedium
+                    "Fill out the information below and confirm your booking. "),
+                  style: Theme.of(context).textTheme.bodyMedium
                   !.copyWith(
+                    fontSize: 14,
                   fontWeight: FontWeight.w400,
                 ),),
+                SizedBox(height:28,),
+                stepSutTitle(context, tr("Check-in"), true),
                 SizedBox(height: 10,),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 13),
-                  child: stepSutTitle(context, tr("First Name"), true),
-                ),
                 CustomTextField(
-                    hintText: tr("First Name"),
-                    surfixIcon: null,
-                    textEditingController: fNameController,
-                    onTextChnage: (value) {
-                      context.read<BookingBloc>().add(AddFirstNameEvent(fName: value));
-                    },
-                    isMultiLine: false,
-                    validator: (value) {
-                      if(value!.isEmpty || !Validation.validateName(value)){
-                        return "please add valid name";
-                      }
-                      return null;
-                    },
-                    textInputType: TextInputType.text),
-                SizedBox(height: 10,),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 13),
-                  child: stepSutTitle(context, tr("Last Name"), true),
-                ),
-                CustomTextField(
-                    hintText: tr("Last Name"),
-                    surfixIcon: null,
-                    textEditingController: lNameController,
-                    onTextChnage: (value) {
-                      context.read<BookingBloc>().add(AddLastNameEvent(lName: value));
-                    },
-                    isMultiLine: false,
-                    validator: (value) {
-                      if(value!.isEmpty || !Validation.validateName(value)){
-                        return "please add valid name";
-                      }
-                      return null;
-                    },
-                    textInputType: TextInputType.text),
-                SizedBox(height:16),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: stepSutTitle(context, tr("Phone number"), true),
-                ),
-                CustomTextField(
-                    hintText: "098667236",
-                    textEditingController: phoneController,
-                    surfixIcon: null,
-                    onTextChnage: (value) {
-                      context.read<BookingBloc>().add(AddPhoneEvent(phone: value));
-                    },
-                    isMultiLine: false,
-                    prifixIcon: CountryCodeSelector(
-                      onInit: (value) {
-                        context.read<BookingBloc>().add(AddCountryCodeEvent(code:value.code!));
-                      },
-                      onChange: (value) {},
-                    ),
+                    enabled: true,
+                    hintText:DateConverter().formatDateRange(DateTime.now().toString()),
+                    surfixIcon:  GestureDetector(
+                        onTap: ()async{
+                          DateTime? time=  await showDatePicker(
+                              context: context,
+                              firstDate: DateTime.now(),
+                              lastDate: DateTime(2060));
+                          if(time!=null){
+                            context.read<BookingBloc>().add(AddCheckInEvent(checkIn: time.toString()));
+                            checkInController.text=DateConverter().formatDateRange(time.toString());
+                          }
+                        },
+                        child: Icon(
+                          Icons.calendar_month,
+                          size: 20,
+                          color: ColorConstant.secondBtnColor,
+                        )),
+                    textEditingController: checkInController,
+                    onTextChnage: (value) {},
                     validator: (value) {
                       if(value!.isEmpty){
-                        return "please add valid phone number";
+                        return "add checkIn";
                       }
                       return null;
                     },
-                    textInputType: TextInputType.phone),
+                    isMultiLine: false,
+                    textInputType: TextInputType.text),
                 SizedBox(height:16),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: SizedBox(
-
-                    child: Row(
-                      spacing: 15,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            spacing: 10,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              stepSutTitle(context, tr("Check-in"), true),
-                              CustomTextField(
-                                enabled: true,
-                                  hintText: DateTime.now().month.toString(),
-                                  surfixIcon:  GestureDetector(
-                                        onTap: ()async{
-                                       DateTime? time=  await showDatePicker(
-                                              context: context,
-                                              firstDate: DateTime.now(),
-                                              lastDate: DateTime(2060));
-                                        if(time!=null){
-                                          context.read<BookingBloc>().add(AddCheckInEvent(checkIn: time.toString()));
-                                          checkInController.text=DateConverter().formatDateRange(time.toString());
-                                        }
-                                        },
-                                        child: Icon(
-                                          Icons.calendar_month,
-                                          size: 20,
-                                          color: ColorConstant.secondBtnColor,
-                                        )),
-                                  textEditingController: checkInController,
-                                  onTextChnage: (value) {},
-                                  validator: (value) {
-                                    if(value!.isEmpty){
-                                      return "add checkIn";
-                                    }
-                                    return null;
-                                  },
-                                  isMultiLine: false,
-                                  textInputType: TextInputType.text),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            spacing: 10,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              stepSutTitle(context, tr("Check-out"), true),
-                              CustomTextField(
-                                  hintText: DateTime.now().month.toString(),
-                                  surfixIcon: GestureDetector(
-                                      onTap: ()async{
-                                        DateTime? time=  await showDatePicker(
-                                            context: context,
-                                            firstDate: DateTime.now(),
-                                            lastDate: DateTime(2060));
-                                        if(time!=null){
-                                          context.read<BookingBloc>().add(AddCheckOutEvent(checkOut: time.toString()));
-                                          checkOutController.text=DateConverter().formatDateRange(time.toString());
-                                        }
-                                      },
-                                      child: Icon(
-                                        size: 20,
-                                        Icons.calendar_month,
-                                        color: ColorConstant.secondBtnColor,
-                                      )),
-                                  validator: (value) {
-                                    if(value!.isEmpty){
-                                      return "add checkout";
-                                    }
-                                    return null;
-                                  },
-                                  onTextChnage: (value) {},
-                                  textEditingController: checkOutController,
-                                  isMultiLine: false,
-                                  textInputType: TextInputType.text),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                stepSutTitle(context, tr("Check-out"), true),
+                SizedBox(height: 10,),
+                CustomTextField(
+                    hintText:DateConverter().formatDateRange(DateTime.now().toString()),
+                    surfixIcon: GestureDetector(
+                        onTap: ()async{
+                          DateTime? time=  await showDatePicker(
+                              context: context,
+                              firstDate: DateTime.now(),
+                              lastDate: DateTime(2060));
+                          if(time!=null){
+                            context.read<BookingBloc>().add(AddCheckOutEvent(checkOut: time.toString()));
+                            checkOutController.text=DateConverter().formatDateRange(time.toString());
+                          }
+                        },
+                        child: Icon(
+                          size: 20,
+                          Icons.calendar_month,
+                          color: ColorConstant.secondBtnColor,
+                        )),
+                    validator: (value) {
+                      if(value!.isEmpty){
+                        return "add checkout";
+                      }
+                      return null;
+                    },
+                    onTextChnage: (value) {},
+                    textEditingController: checkOutController,
+                    isMultiLine: false,
+                    textInputType: TextInputType.text),
+                SizedBox(height:16),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child:stepSutTitle(context, tr("Select ID type you have"), true),
@@ -239,7 +148,8 @@ final int id;
                   return   RadioListTile.adaptive(
                           activeColor: ColorConstant.primaryColor,
                           selectedTileColor: ColorConstant.primaryColor,
-                          title: Text(
+                          controlAffinity: ListTileControlAffinity.trailing,
+                        title: Text(
                             id.name,
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
@@ -272,7 +182,6 @@ final int id;
                           onPressed: () {
                             context.read<BookingBloc>().add(ResetBookingEvent());
                             context.pop();
-
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.white,
@@ -294,7 +203,6 @@ final int id;
                   Expanded(
                       child: CustomButton(
                           onPressed: () {
-                           // showBookedDialog(context);
                             _formKey.currentState!.save();
                             if(_formKey.currentState!.validate()){
                               context.read<BookingBloc>().add(BookEvent(id: id));
@@ -313,6 +221,7 @@ final int id;
                                 .bodyMedium!
                                 .copyWith(
                                     color: Colors.white,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.w600),
                           )))
                 ],

@@ -11,15 +11,6 @@ part 'booking_state.dart';
 
 class BookingBloc extends Bloc<BookingEvent, BookingState> {
   BookingBloc() : super(BookingInitial()) {
-    on<AddFirstNameEvent>((event, emit) {
-      emit(state.copyWith(firstName: event.fName));
-    });
-    on<AddLastNameEvent>((event, emit) {
-      emit(state.copyWith(lastName: event.lName));
-    });
-    on<AddPhoneEvent>((event, emit) {
-      emit(state.copyWith(phoneNumber: event.phone));
-    });
     on<AddCheckInEvent>((event, emit) {
       emit(state.copyWith(checkIn: event.checkIn));
     });
@@ -29,9 +20,6 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     on<AddIdEvent>((event, emit) {
       emit(state.copyWith(idType: event.id));
     });
-    on<AddCountryCodeEvent>((event, emit) {
-      emit(state.copyWith(countryCode: event.code));
-    });
     on<BookEvent>((event, emit)async{
       Map<String,dynamic> bookingData=
         {
@@ -39,7 +27,6 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
           "checkIn":DateConverter().formatDateRange(state.checkIn),
           "checkOut":DateConverter().formatDateRange(state.checkOut),
           "type_proof_of_identity":state.idType.name
-
       };
       emit(BookingLoadingState());
       Either response=await sl<PropertyBookingUseCase>().call(bookingData);
