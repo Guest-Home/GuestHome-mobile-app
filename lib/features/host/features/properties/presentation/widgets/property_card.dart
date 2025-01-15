@@ -28,7 +28,7 @@ class _PropertyCardState extends State<PropertyCard> {
             Stack(
               children: [
                 SizedBox(
-                  height: 220,
+                  height: MediaQuery.of(context).size.height*0.25,
                   child: CarouselView(
                       elevation: 0,
                       padding: EdgeInsets.all(0),
@@ -53,7 +53,7 @@ class _PropertyCardState extends State<PropertyCard> {
                                 Icon(Icons.error),
                             fit: BoxFit.cover,
                             width: MediaQuery.of(context).size.width,
-                            height: 220,
+                            height:MediaQuery.of(context).size.height*0.25,
                           ),
                         ),
                       )),
@@ -85,11 +85,12 @@ class _PropertyCardState extends State<PropertyCard> {
                 style: Theme.of(context)
                     .textTheme
                     .bodyLarge!
-                    .copyWith(fontWeight: FontWeight.w700, fontSize: 20),
+                    .copyWith(fontWeight: FontWeight.w700, fontSize: 19),
               ),
               subtitle: Text(
                 widget.propertyEntity.description,
                 textAlign: TextAlign.start,
+                maxLines: 3,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
@@ -109,8 +110,9 @@ class _PropertyCardState extends State<PropertyCard> {
                   Text(
                     widget.propertyEntity.specificAddress,
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: ColorConstant.inActiveColor,
-                        fontWeight: FontWeight.bold),
+                        color: ColorConstant.secondBtnColor,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500),
                   ),
                 ],
               ),
@@ -118,7 +120,7 @@ class _PropertyCardState extends State<PropertyCard> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Divider(
-                color: ColorConstant.inActiveColor.withValues(alpha: 0.2),
+                color: ColorConstant.cardGrey.withValues(alpha: 0.9),
               ),
             ),
             Padding(
@@ -140,7 +142,7 @@ class _PropertyCardState extends State<PropertyCard> {
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium!
-                            .copyWith(color: ColorConstant.secondBtnColor),
+                            .copyWith(color: ColorConstant.secondBtnColor,fontSize: 14),
                       ),
                     ],
                   ),
@@ -153,7 +155,7 @@ class _PropertyCardState extends State<PropertyCard> {
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             color: ColorConstant.primaryColor,
                             fontSize: 16,
-                            fontWeight: FontWeight.bold),
+                            fontWeight: FontWeight.w700),
                       ),
                       TextSpan(
                         text: ' /night',

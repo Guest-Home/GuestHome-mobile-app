@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:currency_picker/currency_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,6 +36,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
   late TextEditingController cityController;
   late TextEditingController priceController;
   late TextEditingController roomController;
+  late TextEditingController unitController;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -51,6 +53,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
         TextEditingController(text: widget.propertyEntity.price.toString());
     roomController = TextEditingController(
         text: widget.propertyEntity.numberOfRoom.toString());
+    unitController=TextEditingController();
   }
 
   @override
@@ -62,6 +65,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
     cityController.dispose();
     priceController.dispose();
     roomController.dispose();
+    unitController.dispose();
   }
 
   @override
@@ -118,7 +122,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                 color: Colors.white,
                                 popUpAnimationStyle: AnimationStyle(),
                                 child: Container(
-                                  padding: EdgeInsets.all(8),
+                                  padding: EdgeInsets.all(6),
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       border: Border.all(
@@ -530,11 +534,14 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                       CustomTextField(
                                         hintText: 'price',
                                         textEditingController: priceController,
-                                        surfixIcon: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 15),
-                                            child: Text(
-                                                widget.propertyEntity.unit)),
+                                        surfixIcon:  TextButton.icon(
+                                          iconAlignment: IconAlignment.end,
+                                          onPressed: () {
+                                            getCurrency(context);
+                                          }, label:Text(unitController.text.isEmpty?widget.propertyEntity.unit:unitController.text,style: Theme.of(context).textTheme.bodyMedium,),
+                                          icon: Icon(Icons.keyboard_arrow_down_outlined),
+
+                                        ),
                                         isMultiLine: false,
                                         onTextChnage: (value) {},
                                         validator: (value) {
@@ -645,6 +652,8 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                       _showDialog(context);
                                     },
                                     style: ElevatedButton.styleFrom(
+                                      elevation: 0,
+                                        foregroundColor: Colors.white,
                                         side: BorderSide(
                                             color:
                                                 ColorConstant.secondBtnColor),
@@ -689,7 +698,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                               'latitude':widget.propertyEntity.latitude,
                                               'longitude': widget.propertyEntity.longitude,
                                               'price':priceController.text,
-                                              'unit': widget.propertyEntity.unit,
+                                              'unit':unitController.text.isEmpty? widget.propertyEntity.unit:unitController.text,
                                               'number_of_room':roomController.text,
                                               'sub_description':widget.propertyEntity.subDescription,
                                               'specificAddress':addressNmaeController.text
@@ -703,6 +712,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                       //  context.goNamed('properties');
                                     },
                                     style: ElevatedButton.styleFrom(
+                                      elevation: 0,
                                         side: BorderSide(
                                             color: ColorConstant.primaryColor),
                                         backgroundColor:
@@ -721,16 +731,32 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                 ))));
   }
 
+  void getCurrency(BuildContext context) {
+    return showCurrencyPicker(
+      context: context,
+      showFlag: true,
+      showCurrencyName: true,
+      showCurrencyCode: true,
+      onSelect: (Currency currency) {
+        setState(() {
+          unitController.text=currency.code;
+        });
+
+      },
+    );
+  }
+
   Text subSectionText(String title) => Text(
         title,
         style: Theme.of(context)
             .textTheme
             .bodyMedium!
-            .copyWith(fontSize: 14, fontWeight: FontWeight.w500),
+            .copyWith(fontSize: 14, fontWeight: FontWeight.w500,color: ColorConstant.inActiveColor),
       );
   Text sectionTitle(BuildContext context, String title) {
     return Text(title,
         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+          fontSize: 15,
             color: ColorConstant.secondBtnColor, fontWeight: FontWeight.w700));
   }
   void _showDeleteDialog(BuildContext context, int id) {
@@ -857,7 +883,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                   borderRadius: BorderRadius.circular(10)),
               child: Container(
                   height: MediaQuery.of(context).size.height / 1.7,
-                  padding: EdgeInsets.all(15),
+                  padding: EdgeInsets.all(10),
                   child: BlocBuilder<PropertyTypeBloc, PropertyTypeState>(
                       builder: (context, state) {
                     return Column(
@@ -871,18 +897,17 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                               .bodyLarge!
                               .copyWith(
                                   color: ColorConstant.secondBtnColor,
-                                  fontWeight: FontWeight.bold),
+                                  fontWeight: FontWeight.w700),
                         ),
                         Expanded(
                             child: GridView.builder(
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2, // Number of columns
                                   childAspectRatio:
                                       1, // Aspect ratio of each item
                                   crossAxisSpacing:
-                                      6, // Spacing between columns
-                                  mainAxisSpacing: 6,
+                                      4, // Spacing between columns
+                                  mainAxisSpacing: 4,
                                   mainAxisExtent: 60),
                           itemCount: state.propertyTypes
                               .length, // Number of HouseTypeCard items
@@ -915,6 +940,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                     Navigator.pop(context);
                                   },
                                   style: ElevatedButton.styleFrom(
+                                    elevation: 0,
                                       side: BorderSide(
                                           color: ColorConstant.secondBtnColor),
                                       backgroundColor: Colors.white),
@@ -940,6 +966,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                     context.pop();
                                   },
                                   style: ElevatedButton.styleFrom(
+                                    elevation: 0,
                                       backgroundColor:
                                           ColorConstant.primaryColor),
                                   child: Text(

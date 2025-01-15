@@ -29,7 +29,7 @@ class HouseTypeCard extends StatelessWidget {
           ? ColorConstant.primaryColor.withValues(alpha: 0.0)
           : ColorConstant.cardGrey.withValues(alpha: 0.8),
       child: Padding(
-        padding: const EdgeInsets.all(13),
+        padding: const EdgeInsets.all(12),
         child: SizedBox(
           child: Row(
             spacing: 5,
