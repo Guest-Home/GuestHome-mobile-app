@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:currency_picker/currency_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -100,8 +101,7 @@ class _AddPropertiesState extends State<AddProperties> {
                         spacing: 15,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          stepTitleText(
-                              context, 'What type of house do you host?'),
+                          stepTitleText(context, 'What type of house do you host?'),
                           SizedBox(
                             height: 5,
                           ),
@@ -113,8 +113,8 @@ class _AddPropertiesState extends State<AddProperties> {
                                   gridDelegate:
                                       SliverGridDelegateWithFixedCrossAxisCount(
                                           crossAxisCount: 2,
-                                          crossAxisSpacing: 10,
-                                          mainAxisSpacing: 10,
+                                          crossAxisSpacing: 16,
+                                          mainAxisSpacing: 16,
                                           mainAxisExtent: 100),
                                   itemCount: state.propertyTypes.length,
                                   itemBuilder: (context, index) =>
@@ -159,7 +159,7 @@ class _AddPropertiesState extends State<AddProperties> {
                     ),
                     // step 2
                     Container(
-                      padding: EdgeInsets.all(15),
+                      padding: EdgeInsets.all(16),
                       child: Form(
                         key: _houseFormKey,
                         child: SingleChildScrollView(
@@ -204,7 +204,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                 textInputType: TextInputType.multiline,
                                 validator: (value) {
                                   if (value!.isEmpty) {
-                                    return 'Please enter house name';
+                                    return 'Please enter house description';
                                   }
                                   return null;
                                 },
@@ -234,8 +234,8 @@ class _AddPropertiesState extends State<AddProperties> {
                                   gridDelegate:
                                       SliverGridDelegateWithFixedCrossAxisCount(
                                           crossAxisCount: 2,
-                                          crossAxisSpacing: 10,
-                                          mainAxisSpacing: 10,
+                                          crossAxisSpacing: 16,
+                                          mainAxisSpacing: 16,
                                           mainAxisExtent: 100),
                                   itemCount: state.amenities.length,
                                   itemBuilder: (context, index) =>
@@ -291,27 +291,28 @@ class _AddPropertiesState extends State<AddProperties> {
                                   SizedBox(
                                     height:
                                         MediaQuery.of(context).size.height / 2,
-                                    child: GoogleMap(
-                                      mapType: MapType.normal,
-                                      initialCameraPosition: CameraPosition(
-                                        target: LatLng(
-                                            state.latitude, state.longitude),
-                                        zoom: 14.4746,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: GoogleMap(
+                                        mapType: MapType.normal,
+                                        zoomControlsEnabled: false,
+                                        initialCameraPosition: CameraPosition(
+                                          target: LatLng(
+                                              state.latitude, state.longitude),
+                                          zoom: 14.4746,
+                                        ),
+                                        onMapCreated:
+                                            (GoogleMapController controller) {
+                                          _controller.complete(controller);
+                                        },
                                       ),
-                                      onMapCreated:
-                                          (GoogleMapController controller) {
-                                        _controller.complete(controller);
-                                      },
                                     ),
                                   ),
                                   Positioned(
-                                    bottom: 4,
-                                    left:
-                                        MediaQuery.of(context).size.width / 2 -
-                                            100,
+                                    bottom: 10,
+                                    left:MediaQuery.of(context).size.width / 2 -100,
                                     right:
-                                        MediaQuery.of(context).size.width / 2 -
-                                            100,
+                                        MediaQuery.of(context).size.width / 2 - 100,
                                     child: CustomButton(
                                         onPressed: () {
                                           context
@@ -322,11 +323,14 @@ class _AddPropertiesState extends State<AddProperties> {
                                           elevation: 0,
                                           backgroundColor:
                                               ColorConstant.primaryColor,
-                                          padding: EdgeInsets.all(1),
+                                          padding: EdgeInsets.all(0),
                                         ),
                                         child: Text(
                                           "use current location",
-                                          style: TextStyle(color: Colors.white),
+                                          style:Theme.of(context).textTheme.bodySmall!.copyWith(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w400
+                                          )
                                         )),
                                   )
                                 ]),
@@ -337,7 +341,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                     "Know or address  name of the place", true),
                                 CustomTextField(
                                   textEditingController: addressNmaeController,
-                                  hintText: "eg bole ",
+                                  hintText: "e.g Gurd Shola beside tele",
                                   surfixIcon: null,
                                   isMultiLine: false,
                                   validator: (value) {
@@ -401,9 +405,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                   height: 5,
                                 ),
                                 stepSutTitle(
-                                    context,
-                                    "How many rooms do you have with the same price?",
-                                    true),
+                                    context,"How many rooms do you have with the same price?",true),
                                 CustomTextField(
                                   textEditingController: roomController,
                                   hintText: "eg 4",
@@ -429,7 +431,16 @@ class _AddPropertiesState extends State<AddProperties> {
                                 CustomTextField(
                                   textEditingController: priceController,
                                   hintText: "500",
-                                  surfixIcon: null,
+                                  surfixIcon:
+                                      TextButton.icon(
+                                        iconAlignment: IconAlignment.end,
+                                          onPressed: () {
+                                          getCurrency(context);
+                                      }, label:Text(state.unit,style: Theme.of(context).textTheme.bodyMedium,),
+                                        icon: Icon(Icons.keyboard_arrow_down_outlined),
+
+            ),
+
                                   validator: (value) {
                                     if (value!.isEmpty ||
                                         !Validation.numberValidation(value)) {
@@ -522,11 +533,10 @@ class _AddPropertiesState extends State<AddProperties> {
                                   },
                                   textInputType: TextInputType.text,
                                   onTextChnage: (value) {
-                                    if (value.isNotEmpty) {
+                                    if(value.isNotEmpty){
                                       context.read<AddPropertyBloc>().add(
-                                          GetAgentEvent(
-                                              agentId: int.parse(
-                                                  agentIdController.text)));
+                                          GetAgentEvent(agentId: int.parse(
+                                              agentIdController.text)));
                                     }
                                   },
                                 ),
@@ -625,7 +635,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                     },
                                     child: Container(
                                         padding: EdgeInsets.symmetric(
-                                            horizontal: 12, vertical: 8),
+                                            horizontal: 16, vertical: 8),
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(15),
@@ -638,7 +648,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             Row(
-                                              spacing: 5,
+                                              spacing:7,
                                               children: [
                                                 CircleAvatar(
                                                   radius: 15,
@@ -663,9 +673,10 @@ class _AddPropertiesState extends State<AddProperties> {
                                                         .copyWith(
                                                             color: ColorConstant
                                                                 .secondBtnColor,
+                                                            fontSize: 14,
                                                             fontWeight:
                                                                 FontWeight
-                                                                    .w500)),
+                                                                    .w400)),
                                               ],
                                             ),
                                             Text(
@@ -674,6 +685,8 @@ class _AddPropertiesState extends State<AddProperties> {
                                                   .textTheme
                                                   .bodyMedium!
                                                   .copyWith(
+                                                fontWeight: FontWeight.w400,
+                                                      fontSize: 14,
                                                       color: ColorConstant
                                                           .secondBtnColor
                                                           .withValues(
@@ -690,7 +703,7 @@ class _AddPropertiesState extends State<AddProperties> {
                 )),
                 Container(
                     width: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.all(15),
+                    padding: EdgeInsets.symmetric(horizontal: 15,vertical: 10),
                     child: Row(
                       spacing: 10,
                       children: [
@@ -724,8 +737,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                 onPressed: () async {
                                   if (state.step == 0) {
                                     if (state.houseType.isEmpty) {
-                                      _showErrorSnackBar(
-                                          context, "Please select house type");
+                                      showErrorSnackBar(context,  "Please select house type");
                                     } else {
                                       context
                                           .read<AddPropertyBloc>()
@@ -741,8 +753,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                     }
                                   } else if (state.step == 2) {
                                     if (state.amenities.isEmpty) {
-                                      _showErrorSnackBar(
-                                          context, "Please select amenities");
+                                      showErrorSnackBar(context, "Please select amenities");
                                     } else {
                                       context
                                           .read<AddPropertyBloc>()
@@ -766,8 +777,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                     }
                                   } else if (state.step == 5) {
                                     if (state.images.isEmpty) {
-                                      _showErrorSnackBar(
-                                          context, "Please select images");
+                                      showErrorSnackBar(context, "Please select images");
                                     } else {
                                       context
                                           .read<AddPropertyBloc>()
@@ -818,6 +828,18 @@ class _AddPropertiesState extends State<AddProperties> {
         ));
   }
 
+  void getCurrency(BuildContext context) {
+    return showCurrencyPicker(
+                                                context: context,
+                                                showFlag: true,
+                                                showCurrencyName: true,
+                                                showCurrencyCode: true,
+                                                onSelect: (Currency currency) {
+                                               context.read<AddPropertyBloc>().add((AddUnitEvent(unit: currency.code)));
+                                                },
+                                                );
+  }
+
   RichText stepSutTitle(BuildContext context, String title, bool isRequired) {
     return RichText(
         text: TextSpan(children: [
@@ -846,23 +868,6 @@ class _AddPropertiesState extends State<AddProperties> {
     );
   }
 
-  _showErrorSnackBar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(message),
-      behavior: SnackBarBehavior.floating,
-      elevation: 0,
-      backgroundColor: ColorConstant.red,
-    ));
-  }
-
-  _showSuccessSnackBar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(message),
-      behavior: SnackBarBehavior.floating,
-      elevation: 0,
-      backgroundColor: ColorConstant.green,
-    ));
-  }
 }
 
 class CityDropDown extends StatelessWidget {

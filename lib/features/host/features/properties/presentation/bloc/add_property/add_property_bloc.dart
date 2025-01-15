@@ -66,6 +66,9 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
     on<AddPriceEvent>(
       (event, emit) => emit(state.copyWith(price: event.price)),
     );
+    on<AddUnitEvent>(
+      (event, emit) => emit(state.copyWith(unit: event.unit)),
+    );
     on<AdddAgentIdEvent>(
       (event, emit) => emit(state.copyWith(agentId: event.agentId)),
     );
@@ -178,6 +181,7 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
         response.fold(
           (l) => emit(AddNewPropertyErrorState(state, l)),
           (r) {
+            emit(state.copyWith(agentPEntity:AgentPEntity()));
             emit(state.copyWith(agentPEntity: r, token: token));
           },
         );

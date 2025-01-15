@@ -40,7 +40,8 @@ class AmenitieTypeCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: ColorConstant.secondBtnColor,
-                    fontWeight: FontWeight.bold),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500),
               ),
             ),
           ],

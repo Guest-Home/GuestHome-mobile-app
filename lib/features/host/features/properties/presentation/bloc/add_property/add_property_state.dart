@@ -33,7 +33,7 @@ class AddPropertyState extends Equatable {
     this.houseType = '',
     this.noRoom = '',
     this.price = '',
-    this.unit = 'Birr',
+    this.unit = 'ETB',
     this.agentId = '',
     this.latitude = 9.02497,
     this.longitude = 38.74689,
@@ -44,6 +44,7 @@ class AddPropertyState extends Equatable {
 
   @override
   List<Object> get props => [
+    unit,
         houseType,
         title,
         description,
@@ -78,6 +79,7 @@ class AddPropertyState extends Equatable {
     String? specificAddress,
     AgentPEntity? agentPEntity,
     String? token,
+    String? unit,
     bool? agentSelected,
   }) {
     return AddPropertyState(
@@ -96,6 +98,7 @@ class AddPropertyState extends Equatable {
         specificAddress: specificAddress ?? this.specificAddress,
         agentPEntity: agentPEntity??this.agentPEntity,
       token: token??this.token,
+      unit: unit??this.unit,
       agentSelected:agentSelected??this.agentSelected
     );
   }

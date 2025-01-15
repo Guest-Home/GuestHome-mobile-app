@@ -50,7 +50,7 @@ class CustomTextField extends StatelessWidget {
           suffixIcon: surfixIcon,
           contentPadding: EdgeInsets.all(15),
           hintStyle:
-              TextStyle(fontSize: 13, color: ColorConstant.inActiveColor),
+              TextStyle(fontSize: 13, color: ColorConstant.inActiveColor.withValues(alpha: 0.7)),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(color: ColorConstant.red),

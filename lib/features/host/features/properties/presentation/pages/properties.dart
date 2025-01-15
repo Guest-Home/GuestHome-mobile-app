@@ -95,7 +95,7 @@ class _PropertiesState extends State<Properties> {
               } else if (state is PropertiesError) {
                 return SliverToBoxAdapter(
                   child: SizedBox(
-                    child: Text(state.message),
+                    child: Text(state.message,style: Theme.of(context).textTheme.bodySmall,),
                   ),
                 );
               }
@@ -176,22 +176,20 @@ class NoPropertyFound extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(10),
-      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-
-        Image.asset("assets/icons/Inboxe.png",
-        width: 80,
-        height: 80,
-      ),
+      child: Column(mainAxisAlignment: MainAxisAlignment.center,
+          spacing:20,
+          children: [
       Text(
-        "no property found",
+        "No Properties is listed start by\n adding your properties",
         textAlign: TextAlign.center,
         style: Theme.of(context)
             .textTheme
-            .bodySmall,
+            .bodyMedium!.copyWith(
+          fontSize: 16,fontWeight: FontWeight.w400
+        ),
       ),
-
         Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.symmetric(horizontal: 26),
             child: CustomButton(
               style: ElevatedButton.styleFrom(
                   elevation: 0,
@@ -203,11 +201,13 @@ class NoPropertyFound extends StatelessWidget {
               onPressed: () => context.goNamed('addProperty'),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
+                spacing: 10,
                 children: [
                   Icon(Icons.add, color: Colors.white),
                   Text(
                     'Add Property',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: 16,
                         color: Colors.white, fontWeight: FontWeight.w700),
                   )
                 ],

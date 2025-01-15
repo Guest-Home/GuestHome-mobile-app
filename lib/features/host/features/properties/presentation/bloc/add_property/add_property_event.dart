@@ -71,6 +71,12 @@ class AddPriceEvent extends AddPropertyEvent {
     required this.price,
   });
 }
+class AddUnitEvent extends AddPropertyEvent {
+  final String unit;
+  const AddUnitEvent({
+    required this.unit,
+  });
+}
 
 class SelectPhotosEvent extends AddPropertyEvent {}
 
