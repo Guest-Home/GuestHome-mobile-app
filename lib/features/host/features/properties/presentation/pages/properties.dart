@@ -56,7 +56,11 @@ class _PropertiesState extends State<Properties> {
                     child: BlocBuilder<SearchPropertyBloc, SearchPropertyState>(
                       buildWhen: (previous, current) => previous!=current,
                       builder: (context, state) {
-                        return CustomSearchAnchor(state: state,);
+                        return SearchField(
+                          prifixIcon: Icon(Icons.search),
+                          onTextChnage: (value) {},
+                        );
+
                       },
                     ),
                   )),

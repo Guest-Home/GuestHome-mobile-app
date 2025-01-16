@@ -29,7 +29,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       response.fold((l) =>emit(ProfileErrorState(l)),(r){
         emit(UpdateUserProfileState(isUpdate: r));
       });
-
     });
+
   }
+
+
 }

@@ -9,6 +9,7 @@ import 'package:minapp/core/common/custom_text_field.dart';
 import 'package:minapp/core/common/spin_kit_loading.dart';
 import 'package:minapp/core/utils/show_snack_bar.dart';
 import 'package:minapp/core/utils/validator.dart';
+import 'package:minapp/features/host/features/profile/presentation/bloc/change_phone_number/change_phone_bloc.dart';
 import '../../../../../../config/color/color.dart';
 import '../../../../../../core/apiConstants/api_url.dart';
 import '../../../../../../core/common/country_code_selector.dart';
@@ -25,7 +26,6 @@ class GeneralInformation extends StatelessWidget {
             .bodyMedium!
             .copyWith(fontSize: 14, fontWeight: FontWeight.w500),
       );
-
   Text sectionTitle(BuildContext context, String title) {
     return Text(title,
         style: Theme.of(context)
@@ -35,11 +35,9 @@ class GeneralInformation extends StatelessWidget {
   }
 
   final TextEditingController phone = TextEditingController();
-  final TextEditingController email = TextEditingController();
   final TextEditingController fullName = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +59,7 @@ class GeneralInformation extends StatelessWidget {
             showErrorSnackBar(context, 'unable to update');
           } else if (state is UpdateUserProfileState && state.isUpdate) {
             showSuccessSnackBar(context, "profile updated");
+            context.pop();
             context.read<ProfileBloc>().add(GetUserProfileEvent());
           }
         },
@@ -70,16 +69,15 @@ class GeneralInformation extends StatelessWidget {
               value: context.read<ProfileBloc>(),
               child: BlocBuilder<ProfileBloc, ProfileState>(
                 builder: (context, state) {
-                  if (state is UserProfileLoadingState) {
+                  if (state is UpdateUserProfileLoadingState) {
                     return SizedBox(
-                        height: MediaQuery.of(context).size.height,
+                        height: MediaQuery.of(context).size.height * 0.5,
                         child: Center(
                           child: CupertinoActivityIndicator(),
                         ));
                   }
                   if (state is UserProfileLoadedState) {
                     phone.text = state.userProfileEntity.phoneNumber;
-                    email.text = state.userProfileEntity.userAccount.email;
                     fullName.text =
                         "${state.userProfileEntity.userAccount.firstName} ${state.userProfileEntity.userAccount.lastName}";
                     return Form(
@@ -93,11 +91,12 @@ class GeneralInformation extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               CircleAvatar(
-                                radius:43,
+                                radius: 43,
                                 backgroundColor: ColorConstant.cardGrey,
                                 backgroundImage: CachedNetworkImageProvider(
                                   ApiUrl.baseUrl +
-                                      state.userProfileEntity.profilePicture, headers: {
+                                      state.userProfileEntity.profilePicture,
+                                  headers: {
                                     'Authorization': 'Bearer ${state.token}'
                                   },
                                 ),
@@ -159,7 +158,8 @@ class GeneralInformation extends StatelessWidget {
                           ),
                           Divider(
                             thickness: 0.1,
-                            color: ColorConstant.inActiveColor.withValues(alpha: 0.8),
+                            color: ColorConstant.inActiveColor
+                                .withValues(alpha: 0.8),
                           ),
                           SizedBox(
                             height: 10,
@@ -180,30 +180,16 @@ class GeneralInformation extends StatelessWidget {
                               onTextChnage: (value) {},
                               isMultiLine: false,
                               textInputType: TextInputType.text),
-                          subSectionText("Email", context),
-                          CustomTextField(
-                              hintText: 'email',
-                              surfixIcon: null,
-                              textEditingController: email,
-                              validator: (value) {
-                                if (value!.isEmpty &&
-                                    !Validation.validateEmail(value)) {
-                                  return "please provide valid email";
-                                }
-                                return null;
-                              },
-                              onTextChnage: (value) {},
-                              isMultiLine: false,
-                              textInputType: TextInputType.emailAddress),
                           subSectionText("Phone number", context),
                           CustomTextField(
                               hintText: state.userProfileEntity.phoneNumber,
                               surfixIcon: null,
                               textEditingController: phone,
                               validator: (value) {
-                                if (value!.isEmpty &&
-                                    !Validation.phoneNumberValidation(value)) {
-                                  return "please provide valid phone number";
+                                if (value!.isEmpty ||
+                                    !Validation.phoneNumberValidation(value) ||
+                                    !value.startsWith("+")) {
+                                  return "please provide valid phone number with country code";
                                 }
                                 return null;
                               },
@@ -217,56 +203,73 @@ class GeneralInformation extends StatelessWidget {
                           Container(
                             margin: EdgeInsets.only(top: 20),
                             width: MediaQuery.of(context).size.width,
-                            child: CustomButton(
-                                onPressed: () {
-                                  _formKey.currentState!.save();
-                                  // if (_formKey.currentState!.validate()) {
-                                  //   if (fullName.text !=
-                                  //           "${state.userProfileEntity.userAccount.firstName} ${state.userProfileEntity.userAccount.lastName}" ||
-                                  //       phone.text !=
-                                  //           state.userProfileEntity
-                                  //               .phoneNumber ||
-                                  //       email.text !=
-                                  //           state.userProfileEntity.userAccount
-                                  //               .email) {
-                                  //     List<String> names =
-                                  //         fullName.text.trim().split(' ');
-                                  //     Map<String, dynamic> userProfileUpdate = {
-                                  //       "id": state
-                                  //           .userProfileEntity.userAccount.id,
-                                  //       "email": email.text,
-                                  //       "first_name": names.first,
-                                  //       "last_name": names.last
-                                  //     };
-                                  //     context.read<ProfileBloc>().add(
-                                  //         UpdateUserProfileEvent(
-                                  //             userData: userProfileUpdate));
-                                  //   }
-                                  // }
-
-                                  if(GoRouter.of(context).routerDelegate.state!.name=='guestGeneralInformation'){
-                                    context.goNamed("guestVerifyOldPhone");
-                                  }else{
-                                    context.goNamed("verifyOldPhone");
+                            child:
+                                BlocConsumer<ChangePhoneBloc, ChangePhoneState>(
+                              listener: (context, phoneState) {
+                                if(phoneState is GettingOtpOldPhoneSuccess){
+                                  showSuccessSnackBar(context, phoneState.otpResponseEntity.message);
+                                  if (GoRouter.of(context)
+                                      .routerDelegate
+                                      .state!
+                                      .name ==
+                                      'guestGeneralInformation') {
+                                    context.goNamed("guestVerifyOldPhone",);
+                                  } else {
+                                    context.goNamed("verifyOldPhone",);
                                   }
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    elevation: 0,
-                                    padding: EdgeInsets.all(17),
-                                    side: BorderSide(
-                                        color: ColorConstant.primaryColor),
-                                    backgroundColor:
-                                        ColorConstant.primaryColor),
-                                child: state is UpdateUserProfileLoadingState
-                                    ? loading
-                                    : Text("Save Setting",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium!
-                                            .copyWith(
-                                              fontWeight: FontWeight.w700,
-                                              color: Colors.white,
-                                            ))),
+                                }
+                                else if(phoneState is PhoneChangeErrorState){
+                                  showErrorSnackBar(context, phoneState.failure.message);
+                                }
+                              },
+                              builder: (context, phoneState) {
+                                return CustomButton(
+                                    onPressed: () {
+                                      _formKey.currentState!.save();
+                                      if (_formKey.currentState!.validate()) {
+                                        if (fullName.text !=
+                                                "${state.userProfileEntity.userAccount.firstName} ${state.userProfileEntity.userAccount.lastName}" &&
+                                            phone.text ==
+                                                state.userProfileEntity
+                                                    .phoneNumber) {
+                                          List<String> names =
+                                              fullName.text.trim().split(' ');
+                                          Map<String, dynamic>
+                                              userProfileUpdate = {
+                                            "id": state.userProfileEntity
+                                                .userAccount.id,
+                                            "first_name": names.first,
+                                            "last_name": names.last
+                                          };
+                                          context.read<ProfileBloc>().add(
+                                              UpdateUserProfileEvent(
+                                                  userData: userProfileUpdate));
+                                        } else if (phone.text !=
+                                            state.userProfileEntity
+                                                .phoneNumber) {
+                                          context.read<ChangePhoneBloc>().add(GetOtpForOldPhoneEvent(oldPone:state.userProfileEntity.phoneNumber));
+                                        }
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        elevation: 0,
+                                        padding: EdgeInsets.all(17),
+                                        side: BorderSide(
+                                            color: ColorConstant.primaryColor),
+                                        backgroundColor:
+                                            ColorConstant.primaryColor),
+                                    child: phoneState is GettingOtpOldPhone
+                                        ? loading
+                                        : Text("Save Setting",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium!
+                                                .copyWith(
+                                                  fontWeight: FontWeight.w700,
+                                                  color: Colors.white,
+                                                )));
+                              },
+                            ),
                           )
                         ],
                       ),

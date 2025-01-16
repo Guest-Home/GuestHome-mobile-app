@@ -70,7 +70,6 @@ class DeleteAccount extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
-
         content:
         SizedBox(
           height:80,

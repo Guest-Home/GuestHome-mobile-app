@@ -7,7 +7,10 @@ import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
 import 'package:minapp/core/apiConstants/api_url.dart';
 import 'package:minapp/core/common/custom_button.dart';
+import 'package:minapp/features/auth/presentation/bloc/log_out/log_out_bloc.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/profile_bloc.dart';
+
+import '../../../../../../core/common/spin_kit_loading.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -220,7 +223,9 @@ class _ProfileState extends State<Profile> {
                           child: Text(state.failure.message),
                         );
                       }
-                      return SizedBox.shrink();
+                      return  SizedBox(
+                          height: 150,
+                          child: Center(child: CupertinoActivityIndicator()));
                     },
                   ),
                 ),
@@ -279,8 +284,22 @@ class _ProfileState extends State<Profile> {
                   ),
                   trailing: Icon(Icons.arrow_forward_ios,size: 17,),
                 ),
-                ListTile(
-                  onTap: (){},
+                BlocConsumer<LogOutBloc, LogOutState>(
+  listener: (context, state) {
+    if(state is LogOutLoadingState){
+      context.pop();
+      _deletingDialog(context,"Logging Out");
+    }
+    else if(state is LogOutLoadedState){
+      context.pop();
+      context.pushNamed('signIn');
+    }
+  },
+  builder: (context, state) {
+    return ListTile(
+                  onTap: (){
+                    _showLogOutDialog(context);
+                  },
                   leading:Icon(Icons.logout,color: ColorConstant.red,),
                   title: Text(
                     "LogOut",
@@ -288,10 +307,131 @@ class _ProfileState extends State<Profile> {
                         color: ColorConstant.red,
                         fontSize: 14),
                   ),
-                ),
+                );
+  },
+),
               ],
             ),
           ),
         ));
+  }
+  void _deletingDialog(BuildContext context,String title) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        contentPadding: EdgeInsets.all(15),
+        content: SizedBox(
+          height: 80,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              loadingWithPrimary,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  title,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+  void _showLogOutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        content:
+        SizedBox(
+          height: 130,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: EdgeInsets.all(9),
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    color: ColorConstant.cardGrey,
+                    borderRadius: BorderRadius.only(topRight: Radius.circular(10),topLeft: Radius.circular(10))
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "LogOut",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    Icon(Icons.cancel_outlined,size: 15,)
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text("Do you want to logout? This cant be undone."),
+              ),
+            ],
+          ),
+        ),
+        actionsAlignment: MainAxisAlignment.end,
+        contentPadding: EdgeInsets.all(0),
+        actionsPadding: EdgeInsets.all(10),
+        actions: [
+          CustomButton(
+              onPressed:() => context.pop(),
+              style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.all(0.5),
+                  side: BorderSide(
+                      color:
+                      ColorConstant.secondBtnColor.withValues(alpha: 0.5)),
+                  backgroundColor: Colors.white),
+              child: Text("Cancel",
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: ColorConstant.secondBtnColor,
+                  ))),
+          BlocConsumer
+              <ProfileBloc, ProfileState>(
+            listener: (context, state) {
+              if(state is LogOutState){
+                context.pop();
+                if(GoRouter.of(context).routerDelegate.state!.name=='guestProfile'){
+                  context.pushNamed("houseType");
+                }else{
+                  context.pushNamed("properties");
+                }
+              }
+
+            },
+  builder: (context, state) {
+    return CustomButton(
+              onPressed: () {
+                context.read<LogOutBloc>().add(UserLogoutEvent());
+              },
+              style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.only(left: 4, right: 4),
+                  backgroundColor: ColorConstant.red),
+              child: Text("LogOut",
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: Colors.white,
+                  )));
+  },
+)
+        ],
+      ),
+    );
   }
 }

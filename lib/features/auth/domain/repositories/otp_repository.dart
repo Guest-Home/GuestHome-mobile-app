@@ -13,4 +13,5 @@ abstract class OtpRepository {
   Future<Either<Failure, VerifyOtpEntity>> verifyOtp(VerifyOtpParams params);
   Future<Either<Failure, CustomerProfileEntity>> createCustomerProfile(
       CreateCustomerParams params);
+  Future<Either<Failure,String>> logOut(Map<String,dynamic> data);
 }

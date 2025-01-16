@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:minapp/core/error/failure.dart';
 import 'package:minapp/core/utils/file_picker.dart';
+import 'package:minapp/core/utils/get_device_id.dart';
 import 'package:minapp/features/auth/domain/entities/otp_response_entity.dart';
 import 'package:minapp/features/auth/domain/usecases/create_customer_profile_usecase.dart';
 import 'package:minapp/features/auth/domain/usecases/create_otp_usecase.dart';
@@ -63,9 +64,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
     on<VerifyOtpEvent>(
       (event, emit) async {
+        String deviceId = await GetDeviceId().getId();
         emit(VerifyingOtpLoadingState(state));
         Either response = await sl<VerifyOtpUsecase>().call(VerifyOtpParams(
-            phoneNumber: state.phoneNumber, otp: state.otpText));
+            phoneNumber: state.phoneNumber, otp: state.otpText,deviceId: deviceId));
         response.fold(
           (l) => emit(OtpErrorState(state, l)),
           (r) async {

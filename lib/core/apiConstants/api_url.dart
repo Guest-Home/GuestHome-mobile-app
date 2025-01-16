@@ -8,12 +8,16 @@ class ApiUrl {
   // Auth
   static const String refresh = "/auth/api/v1/token/refresh/";
   static const String otp = "/authapp/api/v1/otp/";
+  static const String changePhone = "/authapp/api/v1/change_phone_number/";
+  static const String logOut = "/authapp/api/v1/logout/";
+
   static const String customer = "/hostapp/api/v1/customer/";
   static const String updateUserAccount = "/authapp/api/v1/user_account_update/";
   static const String property = "/hostapp/api/v1/houses/";
   static const String propertyType = "/hostapp/api/v1/property_types/";
   static const String amenities = "/hostapp/api/v1/amenities/";
   static const String cities = "/hostapp/api/v1/cities/";
+
   static const String reservations = "/hostapp/api/v1/reservations/";
   static const String rejectReservations = "/hostapp/api/v1/reservations/reject/";
   static const String acceptReservations = "/hostapp/api/v1/reservations/accept/";

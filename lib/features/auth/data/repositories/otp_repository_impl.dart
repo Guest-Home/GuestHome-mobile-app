@@ -28,4 +28,9 @@ class OtpRepositoryImpl implements OtpRepository {
       CreateCustomerParams params) async {
     return await sl<ApiDataSource>().createCustomerProfile(params);
   }
+
+  @override
+  Future<Either<Failure, String>> logOut(Map<String, dynamic> data)async{
+    return await sl<ApiDataSource>().logOut(data);
+  }
 }

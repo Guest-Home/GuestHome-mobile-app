@@ -9,6 +9,8 @@ import 'package:minapp/config/route/route.dart';
 import 'package:minapp/config/theme/app_theme.dart';
 import 'package:minapp/core/common/bloc/language_bloc.dart';
 import 'package:minapp/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:minapp/features/auth/presentation/bloc/log_out/log_out_bloc.dart';
+import 'package:minapp/features/host/features/profile/presentation/bloc/change_phone_number/change_phone_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/amenities/amenities_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/city/city_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/property_type/property_type_bloc.dart';
@@ -52,16 +54,17 @@ class MyApp extends StatelessWidget {
           create: (context) => sl<AuthBloc>(),
         ),
         BlocProvider(create: (context) => sl<AddPropertyBloc>()),
+        BlocProvider(create: (context) => sl<ChangePhoneBloc>()),
+        BlocProvider(create: (context) => sl<LogOutBloc>()),
+
         BlocProvider(
           create: (context) => sl<PropertiesBloc>()..add(GetPropertiesEvent()),
         ),
         BlocProvider(
-          lazy: false,
           create: (context) =>
               sl<PropertyTypeBloc>()..add(GetPropertyTypesEvent()),
         ),
         BlocProvider(
-          lazy: false,
           create: (context) => sl<AmenitiesBloc>()..add(GetAmenityEvent()),
         ),
         BlocProvider(
@@ -72,7 +75,6 @@ class MyApp extends StatelessWidget {
           create: (context) => sl<ProfileBloc>()..add(GetUserProfileEvent()),
         ),
         BlocProvider(create: (context) => sl<FilterBloc>(),),
-
       ],
       child: BlocBuilder<LanguageBloc, LanguageState>(
         buildWhen: (previous, current) => previous.locale != current.locale,

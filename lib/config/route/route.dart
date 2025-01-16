@@ -204,12 +204,17 @@ Future<GoRouter> createRouter() async {
                         GoRoute(
                           name: 'verifyOldPhone',
                           path: '/verifyOldPhone',
-                          builder: (context, state) =>VerifyOldPhone(),
+                          builder: (context, state){
+                            return VerifyOldPhone();
+                          }
+
                         ),
                         GoRoute(
                           name: 'verifyNewPhone',
                           path: '/verifyNewPhone',
-                          builder: (context, state) => VerifyNewPhone(),
+                          builder: (context, state) {
+                            return VerifyNewPhone();
+                          }
                         ),
                       ]
                   ),
@@ -323,17 +328,20 @@ Future<GoRouter> createRouter() async {
                         GoRoute(
                           name: 'guestVerifyOldPhone',
                           path: '/guestVerifyOldPhone',
-                          builder: (context, state) => VerifyOldPhone(),
+                          builder: (context, state){
+                            return VerifyOldPhone();
+  }
                         ),
                         GoRoute(
                           name: 'guestVerifyNewPhone',
                           path: '/guestVerifyNewPhone',
-                          builder: (context, state) => VerifyNewPhone(),
+                          builder: (context, state){
+                            return VerifyNewPhone();
+                          }
                         ),
                       ]
 
                     ),
-
                     GoRoute(
                       name: 'guestLanguage',
                       path: '/guestLanguage',

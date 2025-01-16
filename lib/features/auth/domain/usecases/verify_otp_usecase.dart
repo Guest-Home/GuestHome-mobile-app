@@ -18,11 +18,13 @@ class VerifyOtpUsecase
 class VerifyOtpParams extends Equatable {
   final String phoneNumber;
   final String otp;
+  final String deviceId;
   const VerifyOtpParams({
     required this.phoneNumber,
     required this.otp,
+    required this.deviceId
   });
 
   @override
-  List<Object> get props => [phoneNumber, otp];
+  List<Object> get props => [phoneNumber, otp,deviceId];
 }

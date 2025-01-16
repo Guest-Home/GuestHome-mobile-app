@@ -1,13 +1,20 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:minapp/features/host/features/profile/presentation/bloc/change_phone_number/change_phone_bloc.dart';
+import 'package:minapp/features/host/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:pinput/pinput.dart';
 
 import '../../../../../../config/color/color.dart';
 import '../../../../../../core/common/back_button.dart';
 import '../../../../../../core/common/custom_button.dart';
+import '../../../../../../core/common/spin_kit_loading.dart';
+import '../../../../../../core/utils/show_snack_bar.dart';
 
 class VerifyNewPhone extends StatelessWidget {
-  const VerifyNewPhone({super.key});
+  const VerifyNewPhone({super.key,});
+
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +33,29 @@ class VerifyNewPhone extends StatelessWidget {
 
       body: Padding(padding:EdgeInsets.all(16),
       child:   SingleChildScrollView(
-        child: Column(
+        child: BlocConsumer<ChangePhoneBloc, ChangePhoneState>(
+  listener: (context, state) {
+    if(state is VerifyingOtpNewSuccess){
+      showSuccessSnackBar(context, state.message);
+      context.read<ProfileBloc>().add(GetUserProfileEvent());
+      if (GoRouter.of(context)
+          .routerDelegate
+          .state!
+          .name ==
+          'guestVerifyOldPhone') {
+        context.goNamed('guestProfile');
+      } else {
+        context.goNamed('profile',
+        );
+      }
+    }
+    else if(state is PhoneChangeErrorState){
+      showErrorSnackBar(context, state.failure.message);
+    }
+
+  },
+  builder: (context, state) {
+    return Column(
         spacing: 16,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -52,7 +81,7 @@ class VerifyNewPhone extends StatelessWidget {
                         fontWeight: FontWeight.w400),
                   ),
                   TextSpan(
-                      text: "0000",
+                      text:state.newPhone,
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!
@@ -82,9 +111,9 @@ class VerifyNewPhone extends StatelessWidget {
                 ),
               ),
               onCompleted: (pin) {
-                // context
-                //     .read<AuthBloc>()
-                //     .add(AddOtpCodeEvent(otpCode: pin));
+                context
+                    .read<ChangePhoneBloc>()
+                    .add(AddNewOtpEvent(otp: pin));
               },
             ),
           ),
@@ -118,16 +147,16 @@ class VerifyNewPhone extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             child: CustomButton(
                 onPressed:() {
-                  // context
-                  //     .read<AuthBloc>()
-                  //     .add(VerifyOtpEvent());
+                  context
+                      .read<ChangePhoneBloc>()
+                      .add(VerifyNewOtpEvent());
                 },
                 style: ElevatedButton.styleFrom(
                     elevation: 0,
                     backgroundColor: ColorConstant.primaryColor,
                     padding: EdgeInsets.symmetric(
                         horizontal: 24, vertical: 18)),
-                child: Text(
+                child:state is VerifyingOtpNew?loading: Text(
                   "Verify",
                   style: Theme.of(context)
                       .textTheme
@@ -139,7 +168,9 @@ class VerifyNewPhone extends StatelessWidget {
                 )),
           )
         ],
-      ),
+      );
+  },
+),
     ),
 
         ),

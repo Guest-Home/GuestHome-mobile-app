@@ -109,48 +109,60 @@ class _AddPropertiesState extends State<AddProperties> {
                             child: BlocBuilder<PropertyTypeBloc,
                                 PropertyTypeState>(
                               builder: (context, state) {
-                                return GridView.builder(
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 2,
-                                          crossAxisSpacing: 16,
-                                          mainAxisSpacing: 16,
-                                          mainAxisExtent: 100),
-                                  itemCount: state.propertyTypes.length,
-                                  itemBuilder: (context, index) =>
-                                      GestureDetector(
-                                    onTap: () {
-                                      context.read<PropertyTypeBloc>().add(
-                                          SelectPropertyType(
-                                              propertyType:
-                                                  state.propertyTypes[index]));
-                                      context.read<AddPropertyBloc>().add(
-                                          AddHouseTypeEvent(
-                                              houseTYpe: state
+                                if(state is PropertyTypeLoadingState){
+                                  return SizedBox(
+                                      height: 150,
+                                      child: Center(child: CupertinoActivityIndicator()));
+                                }
+                                if(state.propertyTypes.isNotEmpty){
+                                  return GridView.builder(
+                                    gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        crossAxisSpacing: 16,
+                                        mainAxisSpacing: 16,
+                                        mainAxisExtent: 100),
+                                    itemCount: state.propertyTypes.length,
+                                    itemBuilder: (context, index) =>
+                                        GestureDetector(
+                                          onTap: () {
+                                            context.read<PropertyTypeBloc>().add(
+                                                SelectPropertyType(
+                                                    propertyType:
+                                                    state.propertyTypes[index]));
+                                            context.read<AddPropertyBloc>().add(
+                                                AddHouseTypeEvent(
+                                                    houseTYpe: state
+                                                        .propertyTypes[index]
+                                                        .propertyType));
+                                          },
+                                          child: AnimatedContainer(
+                                            duration: Duration(milliseconds: 100),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                BorderRadius.circular(15),
+                                                border: Border.all(
+                                                  color: state.selectedPropertyType ==
+                                                      state.propertyTypes[index]
+                                                      ? ColorConstant.primaryColor
+                                                      : Colors.white,
+                                                )),
+                                            child: HouseTypeCard(
+                                              image: houseTypeIcons[state
                                                   .propertyTypes[index]
-                                                  .propertyType));
-                                    },
-                                    child: AnimatedContainer(
-                                      duration: Duration(milliseconds: 100),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                          border: Border.all(
-                                            color: state.selectedPropertyType ==
-                                                    state.propertyTypes[index]
-                                                ? ColorConstant.primaryColor
-                                                : Colors.white,
-                                          )),
-                                      child: HouseTypeCard(
-                                        image: houseTypeIcons[state
-                                            .propertyTypes[index]
-                                            .propertyType]!,
-                                        title: state
-                                            .propertyTypes[index].propertyType,
-                                      ),
-                                    ),
-                                  ),
-                                );
+                                                  .propertyType]!,
+                                              title: state
+                                                  .propertyTypes[index].propertyType,
+                                            ),
+                                          ),
+                                        ),
+                                  );
+                                }else{
+                                  return SizedBox(
+                                      height: 150,
+                                      child: Center(child: CupertinoActivityIndicator()));
+                                }
+
                               },
                             ),
                           )
@@ -229,48 +241,60 @@ class _AddPropertiesState extends State<AddProperties> {
                           Expanded(
                               child: BlocBuilder<AmenitiesBloc, AmenitiesState>(
                             builder: (context, state) {
-                              return GridView.builder(
-                                  padding: EdgeInsets.all(10),
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 2,
-                                          crossAxisSpacing: 16,
-                                          mainAxisSpacing: 16,
-                                          mainAxisExtent: 100),
-                                  itemCount: state.amenities.length,
-                                  itemBuilder: (context, index) =>
-                                      GestureDetector(
-                                        onTap: () {
-                                          context.read<AmenitiesBloc>().add(
-                                              SelectAmenityEvent(
-                                                  amenity:
-                                                      state.amenities[index]));
-                                          context.read<AddPropertyBloc>().add(
-                                              AddAmenityEvent(
-                                                  amenityName: state
-                                                      .amenities[index]
-                                                      .amenity));
-                                        },
-                                        child: AnimatedContainer(
-                                          duration: Duration(milliseconds: 100),
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              border: Border.all(
-                                                  color: state.selectedAmenity
-                                                          .contains(state
-                                                              .amenities[index])
-                                                      ? ColorConstant
-                                                          .primaryColor
-                                                      : Colors.white)),
-                                          child: AmenitieTypeCard(
-                                            icon: amenitiesIcon[state
-                                                .amenities[index].amenity]!,
-                                            title:
-                                                state.amenities[index].amenity,
+                              if(state is AmenityLoadingState){
+                                return SizedBox(
+                                    height: 150,
+                                    child: Center(child: CupertinoActivityIndicator()));
+                              }
+                              if(state.amenities.isNotEmpty){
+                                return GridView.builder(
+                                    padding: EdgeInsets.all(10),
+                                    gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        crossAxisSpacing: 16,
+                                        mainAxisSpacing: 16,
+                                        mainAxisExtent: 100),
+                                    itemCount: state.amenities.length,
+                                    itemBuilder: (context, index) =>
+                                        GestureDetector(
+                                          onTap: () {
+                                            context.read<AmenitiesBloc>().add(
+                                                SelectAmenityEvent(
+                                                    amenity:
+                                                    state.amenities[index]));
+                                            context.read<AddPropertyBloc>().add(
+                                                AddAmenityEvent(
+                                                    amenityName: state
+                                                        .amenities[index]
+                                                        .amenity));
+                                          },
+                                          child: AnimatedContainer(
+                                            duration: Duration(milliseconds: 100),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                BorderRadius.circular(15),
+                                                border: Border.all(
+                                                    color: state.selectedAmenity
+                                                        .contains(state
+                                                        .amenities[index])
+                                                        ? ColorConstant
+                                                        .primaryColor
+                                                        : Colors.white)),
+                                            child: AmenitieTypeCard(
+                                              icon: amenitiesIcon[state
+                                                  .amenities[index].amenity]!,
+                                              title:
+                                              state.amenities[index].amenity,
+                                            ),
                                           ),
-                                        ),
-                                      ));
+                                        ));
+                              }else{
+                                return SizedBox(
+                                    height: 150,
+                                    child: Center(child: CupertinoActivityIndicator()));
+                              }
+
                             },
                           ))
                         ],

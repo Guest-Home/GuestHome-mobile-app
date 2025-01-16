@@ -6,8 +6,10 @@ import 'package:minapp/features/auth/data/datasources/apiDataSource/api_data_sou
 import 'package:minapp/features/auth/data/repositories/otp_repository_impl.dart';
 import 'package:minapp/features/auth/domain/repositories/otp_repository.dart';
 import 'package:minapp/features/auth/domain/usecases/create_otp_usecase.dart';
+import 'package:minapp/features/auth/domain/usecases/log_out_usecase.dart';
 import 'package:minapp/features/auth/domain/usecases/verify_otp_usecase.dart';
 import 'package:minapp/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:minapp/features/auth/presentation/bloc/log_out/log_out_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/data/datasources/house_data_source.dart';
 import 'package:minapp/features/guest/features/HousType/data/repositories/house_repository_impl.dart';
 import 'package:minapp/features/guest/features/HousType/domain/repositories/house_repository.dart';
@@ -37,8 +39,13 @@ import 'package:minapp/features/host/features/analytics/presentation/bloc/total_
 import 'package:minapp/features/host/features/profile/data/datasources/user_proile_datasource.dart';
 import 'package:minapp/features/host/features/profile/data/repositories/user_profile_repository_impl.dart';
 import 'package:minapp/features/host/features/profile/domain/repositories/user_profile_repository.dart';
+import 'package:minapp/features/host/features/profile/domain/usecases/get_otp_new_usecase.dart';
+import 'package:minapp/features/host/features/profile/domain/usecases/get_otp_old_phone_usecase.dart';
 import 'package:minapp/features/host/features/profile/domain/usecases/get_user_profile_usecase.dart';
 import 'package:minapp/features/host/features/profile/domain/usecases/update_user_profile_usecase.dart';
+import 'package:minapp/features/host/features/profile/domain/usecases/verify_new_otp_usecase.dart';
+import 'package:minapp/features/host/features/profile/domain/usecases/verify_old_otp_usecase.dart';
+import 'package:minapp/features/host/features/profile/presentation/bloc/change_phone_number/change_phone_bloc.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:minapp/features/host/features/properties/data/datasources/property_api_data_source.dart';
 import 'package:minapp/features/host/features/properties/data/repositories/amenity_repository_impl.dart';
@@ -127,6 +134,12 @@ void setup() async {
   sl.registerFactory<BookedDetailBloc>(
         () => BookedDetailBloc(),
   );
+  sl.registerFactory<ChangePhoneBloc>(
+        () => ChangePhoneBloc(),
+  );
+  sl.registerFactory<LogOutBloc>(
+        () => LogOutBloc(),
+  );
   // usecase
 
   sl.registerSingleton<CreateOtpUsecase>(CreateOtpUsecase());
@@ -158,6 +171,11 @@ void setup() async {
   sl.registerSingleton<CancelBookingUseCase>(CancelBookingUseCase());
   sl.registerSingleton<FilterPropertyUseCase>(FilterPropertyUseCase());
   sl.registerSingleton<GetBookingDetailUseCase>(GetBookingDetailUseCase());
+  sl.registerSingleton<GetOtpOldPhoneUseCase>(GetOtpOldPhoneUseCase());
+  sl.registerSingleton<VerifyOldOtpUseCase>(VerifyOldOtpUseCase());
+  sl.registerSingleton<GetOtpForNewUseCase>(GetOtpForNewUseCase());
+  sl.registerSingleton<VerifyNewOtpUseCase>(VerifyNewOtpUseCase());
+  sl.registerSingleton<LogOutUseCase>(LogOutUseCase());
 
   // repository
 
