@@ -35,5 +35,6 @@ class ApiUrl {
   static const String propertyBooking = "/guestapp/api/v1/property_booking/";
   static const String cancelBooking = "/guestapp/api/v1/property_booking/cancel/";
   static const String filterProperties = "/guestapp/api/v1/filter_properties/";
+  static const String searchProperties = "/guestapp/api/v1/search_properties/";
 
 }

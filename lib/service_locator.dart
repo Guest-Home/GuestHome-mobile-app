@@ -63,7 +63,9 @@ import 'package:minapp/features/host/features/properties/domain/usecases/get_ame
 import 'package:minapp/features/host/features/properties/domain/usecases/get_cities_usecase.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/get_properties_usecase.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/get_property_type_usecase.dart';
-import 'package:minapp/features/host/features/properties/domain/usecases/search_property_usecase.dart';
+import 'package:minapp/features/search/data/repositories/search_repository_impl.dart';
+import 'package:minapp/features/search/domain/repositories/search_repository.dart';
+import 'package:minapp/features/search/domain/usecases/search_property_usecase.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/update_property_usecase.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/add_property/add_property_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/amenities/amenities_bloc.dart';
@@ -79,9 +81,11 @@ import 'package:minapp/features/host/features/request/domain/usecases/get_reserv
 import 'package:minapp/features/host/features/request/domain/usecases/reject_reserv_usecase.dart';
 import 'package:minapp/features/host/features/request/presentation/bloc/request_bloc.dart';
 import 'package:minapp/features/onbording/presentation/bloc/on_bording_bloc.dart';
+import 'package:minapp/features/search/presentation/bloc/search_bloc.dart';
 
 import 'features/auth/domain/usecases/create_customer_profile_usecase.dart';
 import 'features/guest/features/booked/domain/usecases/get_booking_detail-usecase.dart';
+import 'features/search/domain/usecases/host_search_property_usecase.dart';
 
 final sl = GetIt.instance;
 void setup() async {
@@ -140,6 +144,9 @@ void setup() async {
   sl.registerFactory<LogOutBloc>(
         () => LogOutBloc(),
   );
+  sl.registerFactory<SearchBloc>(
+        () => SearchBloc(),
+  );
   // usecase
 
   sl.registerSingleton<CreateOtpUsecase>(CreateOtpUsecase());
@@ -163,6 +170,7 @@ void setup() async {
   sl.registerSingleton<UpdatePropertyUseCase>(UpdatePropertyUseCase());
   sl.registerSingleton<GetAgentUsecase>(GetAgentUsecase());
   sl.registerSingleton<SearchPropertyUseCase>(SearchPropertyUseCase());
+  sl.registerSingleton<HostSearchPropertyUseCase>(HostSearchPropertyUseCase());
 
   sl.registerSingleton<GetHouseBytypeUsecase>(GetHouseBytypeUsecase());
   sl.registerSingleton<GetPopularPropertyUseCase>(GetPopularPropertyUseCase());
@@ -189,6 +197,7 @@ void setup() async {
   sl.registerSingleton<AnalyticsRepository>(OccupancyRateRepositoryImpl());
   sl.registerSingleton<HouseRepository>(HouseRepositoryImpl());
   sl.registerSingleton<MyBookingRepository>(MyBookingRepositoryImpl());
+  sl.registerSingleton<SearchRepository>(SearchRepositoryImpl());
 
   // data source
 

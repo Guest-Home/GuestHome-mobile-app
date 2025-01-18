@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:minapp/core/error/failure.dart';
 import 'package:minapp/features/host/features/properties/domain/entities/property_entity.dart';
-import 'package:minapp/features/host/features/properties/domain/usecases/search_property_usecase.dart';
+import 'package:minapp/features/search/domain/usecases/search_property_usecase.dart';
 
 import '../../../../../../../service_locator.dart';
 

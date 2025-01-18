@@ -50,6 +50,7 @@ class _RequestState extends State<Request> {
                 title: Container(
                   padding: EdgeInsets.all(10),
                   child: SearchField(
+                    isActive: false,
                     prifixIcon: Icon(Icons.search),
                     onTextChnage: (value) {},
                   ),

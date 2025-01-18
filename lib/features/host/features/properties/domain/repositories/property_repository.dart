@@ -12,5 +12,4 @@ abstract class PropertyRepository {
   Future<Either<Failure, bool>> updateProperty(UpdatePropertyParam param);
   Future<Either<Failure, bool>> deleteProperty(int id);
   Future<Either<Failure, AgentPEntity>> getAgent(int id);
-  Future<Either<Failure,List<PropertyEntity>>> searchProperty(String name);
 }

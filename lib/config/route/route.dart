@@ -36,6 +36,8 @@ import 'package:minapp/features/host/features/properties/domain/entities/propert
 import 'package:minapp/features/host/features/properties/presentation/pages/add_properties.dart';
 import 'package:minapp/features/host/features/properties/presentation/pages/listed_property_detail.dart';
 import 'package:minapp/features/host/features/properties/presentation/pages/properties.dart';
+import 'package:minapp/features/search/presentation/bloc/search_bloc.dart';
+import 'package:minapp/features/search/presentation/pages/search.dart';
 import 'package:minapp/features/host/features/request/presentation/bloc/request_bloc.dart';
 import 'package:minapp/features/host/features/request/presentation/pages/request.dart';
 import 'package:minapp/features/onbording/presentation/pages/onbording.dart';
@@ -58,24 +60,24 @@ Future<GoRouter> createRouter() async {
         child: Text("page not found"),
       ),
     ),
-    redirect: (context, state) async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      bool isLoggedIn =
-          prefs.getBool('isLogin') ?? false; // Check if the token exists
-      // Check if the current route is '/accountSetup' or starts with '/accountSetup/'
-      bool isAccountSetupRoute =
-          state.uri.toString().startsWith('/accountSetup');
-      bool isSinInRoute =
-      state.uri.toString().startsWith('/signIn');
-      bool isOnbordingRoute = state.uri.toString().startsWith('/onboarding');
-
-      // If the user is not logged in and trying to access a protected route
-      if (!isLoggedIn && !isSinInRoute && !isOnbordingRoute) {
-        return '/signIn'; // Redirect to the login page
-      }
-
-      return null; // No redirect
-    },
+    // redirect: (context, state) async {
+    //   SharedPreferences prefs = await SharedPreferences.getInstance();
+    //   bool isLoggedIn =
+    //       prefs.getBool('isLogin') ?? false; // Check if the token exists
+    //   // Check if the current route is '/accountSetup' or starts with '/accountSetup/'
+    //   bool isAccountSetupRoute =
+    //       state.uri.toString().startsWith('/accountSetup');
+    //   bool isSinInRoute =
+    //   state.uri.toString().startsWith('/signIn');
+    //   bool isOnbordingRoute = state.uri.toString().startsWith('/onboarding');
+    //
+    //   // If the user is not logged in and trying to access a protected route
+    //   if (!isLoggedIn && !isSinInRoute && !isOnbordingRoute) {
+    //     return '/signIn'; // Redirect to the login page
+    //   }
+    //
+    //   return null; // No redirect
+    // },
     routes: [
       GoRoute(
           name: 'splash',
@@ -151,6 +153,18 @@ Future<GoRouter> createRouter() async {
                 name: 'properties',
                 path: '/properties',
                 builder: (context, state) => Properties(),
+                routes: [
+                  GoRoute(
+                    name: 'hostSearch',
+                    path: '/hostSearch',
+                    builder: (context, state) {
+                      return BlocProvider(
+                        create: (context) => sl<SearchBloc>(),
+                        child: Search(),
+                      );
+                    },
+                  ),
+                ]
               ),
             ],
           ),
@@ -279,6 +293,18 @@ Future<GoRouter> createRouter() async {
                           ),
                         );
                       },
+                      routes: [
+                        GoRoute(
+                          name: 'search',
+                          path: '/search',
+                          builder: (context, state) {
+                            return BlocProvider(
+                              create: (context) => sl<SearchBloc>(),
+                              child: Search(),
+                            );
+                          },
+                        ),
+                      ]
                     ),
                   ]),
             ],
@@ -364,6 +390,7 @@ Future<GoRouter> createRouter() async {
           ),
         ],
       ),
+
       GoRoute(
         name: 'houseDetail',
         path: '/houseDetail/:token',

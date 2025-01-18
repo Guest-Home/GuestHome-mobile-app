@@ -33,7 +33,6 @@ class _PropertyCardState extends State<PropertyCard> {
                       elevation: 0,
                       padding: EdgeInsets.all(0),
                       reverse: true,
-
                       backgroundColor: ColorConstant.cardGrey,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),

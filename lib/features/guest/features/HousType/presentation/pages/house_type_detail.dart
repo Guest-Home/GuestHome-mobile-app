@@ -73,12 +73,16 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                           spacing: 15,
                           children: [
                             Expanded(
-                              child: SearchField(
-                                prifixIcon: Icon(
-                                  Icons.search,
-                                  color: ColorConstant.secondBtnColor,
+                              child: GestureDetector(
+                                onTap: () => context.pushNamed("search"),
+                                child: SearchField(
+                                  isActive: false,
+                                  prifixIcon: Icon(
+                                    Icons.search,
+                                    color: ColorConstant.secondBtnColor,
+                                  ),
+                                  onTextChnage: (value) {},
                                 ),
-                                onTextChnage: (value) {},
                               ),
                             ),
                             BlocBuilder<FilterBloc, FilterState>(
