@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-
 import '../utils/connectivity_service.dart';
 
 

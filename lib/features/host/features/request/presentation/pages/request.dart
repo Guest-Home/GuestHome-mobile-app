@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
 import 'package:minapp/core/common/loading_indicator_widget.dart';
 import 'package:minapp/features/host/features/request/presentation/bloc/request_bloc.dart';
@@ -48,12 +49,19 @@ class _RequestState extends State<Request> {
               flexibleSpace: FlexibleSpaceBar(
                 centerTitle: true,
                 collapseMode: CollapseMode.pin,
-                title: Container(
-                  padding: EdgeInsets.all(10),
-                  child: SearchField(
-                    isActive: false,
-                    prifixIcon: Icon(Icons.search),
-                    onTextChnage: (value) {},
+                title:GestureDetector(
+                  onTap: () {
+                    context.goNamed("hostSearch");
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(16),
+                    child:
+                    SearchField(
+                      isActive: false,
+                      prifixIcon: Icon(Icons.search),
+                      onTextChnage: (value) {},
+                    ),
+
                   ),
                 ),
               ),

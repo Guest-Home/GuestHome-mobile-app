@@ -194,7 +194,7 @@ class _AnalyticsState extends State<Analytics> {
                   buildWhen: (previous, current) => previous != current,
                   builder: (context, state) {
                     if (state.occupancyRateEntity.last7Days == null) {
-                      return loadingIndicator();
+                      return Center(child: loadingIndicator());
                     } else {
                       if (state.selectedDate == '30 Days') {
                         return Column(
@@ -512,7 +512,6 @@ class _AnalyticsState extends State<Analytics> {
                         }
                       }
                     }
-
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       spacing: 10,

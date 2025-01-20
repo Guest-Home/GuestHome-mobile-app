@@ -73,7 +73,6 @@ Future<GoRouter> createRouter() async {
       if (!isLoggedIn && !isSinInRoute && !isOnbordingRoute) {
         return '/signIn'; // Redirect to the login page
       }
-
       return null; // No redirect
     },
     routes: [
@@ -379,7 +378,6 @@ Future<GoRouter> createRouter() async {
           ),
         ],
       ),
-
       GoRoute(
         name: 'houseDetail',
         path: '/houseDetail/:token',
