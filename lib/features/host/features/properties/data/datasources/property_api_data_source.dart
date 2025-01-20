@@ -2,13 +2,11 @@ import 'dart:isolate';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:minapp/features/guest/features/HousType/data/models/g_property_model.dart';
-import 'package:minapp/features/guest/features/HousType/domain/entities/g_property_entity.dart';
 import 'package:minapp/features/host/features/properties/data/models/amenity_model.dart';
 import 'package:minapp/features/host/features/properties/data/models/city_model.dart';
 import 'package:minapp/features/host/features/properties/data/models/property_model.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/create_property_usecase.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/update_property_usecase.dart';
-
 import '../../../../../../core/apiConstants/api_url.dart';
 import '../../../../../../core/error/failure.dart';
 import '../../../../../../core/network/dio_client.dart';

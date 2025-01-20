@@ -12,7 +12,6 @@ import 'package:minapp/features/guest/features/HousType/presentation/pages/booki
 import 'package:minapp/features/guest/features/HousType/presentation/pages/house_detail.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/pages/house_type.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/pages/house_type_detail.dart';
-import 'package:minapp/features/guest/features/booked/domain/entities/my_booking_entity.dart';
 import 'package:minapp/features/guest/features/booked/presentation/bloc/booked_bloc.dart';
 import 'package:minapp/features/guest/features/booked/presentation/bloc/booked_detail/booked_detail_bloc.dart';
 import 'package:minapp/features/guest/features/booked/presentation/pages/booked.dart';
@@ -65,8 +64,8 @@ Future<GoRouter> createRouter() async {
       bool isLoggedIn =
           prefs.getBool('isLogin') ?? false; // Check if the token exists
       // Check if the current route is '/accountSetup' or starts with '/accountSetup/'
-      bool isAccountSetupRoute =
-          state.uri.toString().startsWith('/accountSetup');
+      // bool isAccountSetupRoute =
+      //     state.uri.toString().startsWith('/accountSetup');
       bool isSinInRoute = state.uri.toString().startsWith('/signIn');
       bool isOnbordingRoute = state.uri.toString().startsWith('/onboarding');
 

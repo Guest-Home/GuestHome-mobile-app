@@ -29,7 +29,7 @@ class HouseTypeDetail extends StatefulWidget {
 
   final String name;
 
-  TextEditingController cityController = TextEditingController();
+  final TextEditingController cityController = TextEditingController();
 
   @override
   State<HouseTypeDetail> createState() => _HouseTypeDetailState();

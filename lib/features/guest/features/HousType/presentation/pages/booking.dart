@@ -18,8 +18,8 @@ class Booking extends StatelessWidget {
 final int id;
 
   final _formKey=GlobalKey<FormState>();
-  TextEditingController checkInController=TextEditingController();
-  TextEditingController checkOutController=TextEditingController();
+  final TextEditingController checkInController=TextEditingController();
+  final TextEditingController checkOutController=TextEditingController();
 
   @override
   Widget build(BuildContext context) {
