@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/core/common/constants/house_type_icons.dart';
+import 'package:minapp/core/common/loading_indicator_widget.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/widgets/section_header_text.dart';
 
 import '../../../../../../core/common/house_type_card.dart';
@@ -91,7 +92,7 @@ class HouseType extends StatelessWidget {
             BlocBuilder<PropertyTypeBloc, PropertyTypeState>(
               builder: (context, state) {
                 if(state is PropertyTypeLoadingState || state.propertyTypes.isEmpty){
-                  return Center(child: CupertinoActivityIndicator(),);
+                  return Center(child:loadingIndicator(),);
                 }
                 return GridView.builder(
                   physics: NeverScrollableScrollPhysics(),

@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
 import 'package:minapp/core/common/constants/house_type_icons.dart';
 import 'package:minapp/core/common/custom_text_field.dart';
+import 'package:minapp/core/common/loading_indicator_widget.dart';
 import 'package:minapp/core/utils/show_snack_bar.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/filter_bloc/filter_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/houstype_bloc.dart';
@@ -208,7 +209,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                               builder: (context, state) {
                                 if (state is PopularPropertyLoadingState) {
                                   return Center(
-                                    child: CupertinoActivityIndicator(),
+                                    child: loadingIndicator(),
                                   );
                                 } else if (state
                                     is PopularPropertyLoadedState) {
@@ -278,7 +279,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                               builder: (context, state) {
                                 if (state is HouseTypeLoadingState) {
                                   return Center(
-                                    child: CupertinoActivityIndicator(),
+                                    child:loadingIndicator(),
                                   );
                                 } else if (state is HouseTYpeLoadedState) {
                                   if (state.properties.count == 0) {

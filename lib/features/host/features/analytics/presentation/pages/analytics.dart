@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:minapp/config/color/color.dart';
+import 'package:minapp/core/common/loading_indicator_widget.dart';
 import 'package:minapp/core/utils/date_converter.dart';
 import 'package:minapp/features/host/features/analytics/presentation/bloc/analytics_bloc.dart';
 import 'package:minapp/features/host/features/analytics/presentation/bloc/total_property_bloc.dart';
@@ -193,9 +194,7 @@ class _AnalyticsState extends State<Analytics> {
                   buildWhen: (previous, current) => previous != current,
                   builder: (context, state) {
                     if (state.occupancyRateEntity.last7Days == null) {
-                      return Center(
-                        child: CupertinoActivityIndicator(),
-                      );
+                      return loadingIndicator();
                     } else {
                       if (state.selectedDate == '30 Days') {
                         return Column(
@@ -598,7 +597,6 @@ class _AnalyticsState extends State<Analytics> {
     return showDateRangePicker(
         barrierLabel: "Custom",
         context: context,
-        barrierColor: Colors.transparent,
         initialDateRange:DateTimeRange(start: DateTime.now(), end: DateTime.now()),
         firstDate: DateTime(2020),
         lastDate: DateTime.now());

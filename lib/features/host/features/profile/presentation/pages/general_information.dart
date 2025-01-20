@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/core/common/back_button.dart';
 import 'package:minapp/core/common/custom_text_field.dart';
+import 'package:minapp/core/common/loading_indicator_widget.dart';
 import 'package:minapp/core/common/spin_kit_loading.dart';
 import 'package:minapp/core/utils/show_snack_bar.dart';
 import 'package:minapp/core/utils/validator.dart';
@@ -73,7 +74,7 @@ class GeneralInformation extends StatelessWidget {
                     return SizedBox(
                         height: MediaQuery.of(context).size.height * 0.5,
                         child: Center(
-                          child: CupertinoActivityIndicator(),
+                          child:loadingIndicator(),
                         ));
                   }
                   if (state is UserProfileLoadedState) {

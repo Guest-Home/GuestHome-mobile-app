@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
 import 'package:minapp/core/common/custom_button.dart';
+import 'package:minapp/core/common/loading_indicator_widget.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/widgets/section_header_text.dart';
 import 'package:minapp/features/guest/features/booked/presentation/bloc/booked_bloc.dart';
 import 'package:minapp/features/guest/features/booked/presentation/widgets/booked_card.dart';
@@ -60,7 +60,7 @@ class Booked extends StatelessWidget {
                     builder: (context, state) {
                       if (state is MyBookingLoadingState) {
                         return Center(
-                          child: CupertinoActivityIndicator(),
+                          child: loadingIndicator(),
                         );
                       }
                       if (state is MyBookingLoadedState) {

@@ -27,10 +27,8 @@ class Search extends StatelessWidget {
           children: [
             SearchField(onTextChnage: (value) {
             if(GoRouter.of(context).routerDelegate.state!.name=='search'){
-              print("guest .....");
               context.read<SearchBloc>().add(SearchPropertyEvent(name: value));
             }else{
-              print("host .....");
               context.read<SearchBloc>().add(HostSearchPropertyEvent(name: value));
             }
             }, surfixIcon: Icon(Icons.cancel_outlined,size: 18,),

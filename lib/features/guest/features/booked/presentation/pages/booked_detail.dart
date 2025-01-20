@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/core/common/back_button.dart';
 import 'package:minapp/core/common/custom_button.dart';
+import 'package:minapp/core/common/loading_indicator_widget.dart';
 import 'package:minapp/core/utils/show_snack_bar.dart';
 import 'package:minapp/features/guest/features/booked/presentation/bloc/booked_bloc.dart';
 import 'package:minapp/features/guest/features/booked/presentation/bloc/booked_detail/booked_detail_bloc.dart';
@@ -64,7 +64,7 @@ class _BookedDetailState extends State<BookedDetail> {
                   if(state is BookedDetailLoading){
                     return SizedBox(
                       height: MediaQuery.of(context).size.height/2,
-              child: Center(child: CupertinoActivityIndicator(),));
+              child: Center(child:loadingIndicator()));
                   }
                   else if(state is BookedDetailLoaded){
                     return Column(

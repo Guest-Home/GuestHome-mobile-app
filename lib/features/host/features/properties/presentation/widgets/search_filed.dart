@@ -24,7 +24,6 @@ class SearchField extends StatelessWidget {
           fillColor: ColorConstant.cardGrey.withValues(alpha: 0.8),
           hintText: tr('Search properties'),
           prefixIcon: prifixIcon,
-          suffix: surfixIcon,
           hintStyle: TextStyle(fontSize: 13),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),

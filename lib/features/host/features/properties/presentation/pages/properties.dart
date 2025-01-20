@@ -1,12 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:minapp/core/common/loading_indicator_widget.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/properties_bloc.dart';
 import '../../../../../../config/color/color.dart';
 import '../../../../../../core/common/custom_button.dart';
-import '../../../../../../service_locator.dart';
-import '../bloc/search_property/search_property_bloc.dart';
 import '../widgets/property_card.dart';
 import '../widgets/search_filed.dart';
 
@@ -72,9 +70,7 @@ class _PropertiesState extends State<Properties> {
                 return SliverToBoxAdapter(
                   child: SizedBox(
                     height: MediaQuery.of(context).size.height / 2,
-                    child: Center(
-                      child: CupertinoActivityIndicator(),
-                    ),
+                    child: loadingIndicator()
                   ),
                 );
               } else if (state is PropertyLoaded) {

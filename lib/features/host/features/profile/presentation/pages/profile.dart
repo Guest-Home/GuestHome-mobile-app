@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
 import 'package:minapp/core/apiConstants/api_url.dart';
 import 'package:minapp/core/common/custom_button.dart';
+import 'package:minapp/core/common/loading_indicator_widget.dart';
 import 'package:minapp/features/auth/presentation/bloc/log_out/log_out_bloc.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/profile_bloc.dart';
 
@@ -47,7 +48,7 @@ class _ProfileState extends State<Profile> {
                       if (state is UserProfileLoadingState) {
                         return SizedBox(
                           height: 150,
-                          child: Center(child: CupertinoActivityIndicator()),
+                          child: Center(child: loadingIndicator()),
                         );
                       } else if (state is UserProfileLoadedState) {
                         return Column(
@@ -225,7 +226,7 @@ class _ProfileState extends State<Profile> {
                       }
                       return  SizedBox(
                           height: 150,
-                          child: Center(child: CupertinoActivityIndicator()));
+                          child: Center(child:loadingIndicator()));
                     },
                   ),
                 ),

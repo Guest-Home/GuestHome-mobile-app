@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:minapp/config/color/color.dart';
+import 'package:minapp/core/common/loading_indicator_widget.dart';
 import 'package:minapp/features/host/features/request/presentation/bloc/request_bloc.dart';
 import '../../../properties/presentation/widgets/search_filed.dart';
 import '../widgets/request_card.dart';
@@ -62,8 +63,9 @@ class _RequestState extends State<Request> {
                 if (state is ReservationLoadingState) {
                   return SliverToBoxAdapter(
                       child: Center(
-                    child: CupertinoActivityIndicator(),
-                  ));
+                    child:loadingIndicator()
+                  )
+                  );
                 } else if (state is ReservationLoadedState) {
                   if (state.reservation.results!.isEmpty) {
                     return SliverToBoxAdapter(

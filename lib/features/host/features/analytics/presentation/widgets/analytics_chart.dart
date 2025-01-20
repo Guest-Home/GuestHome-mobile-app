@@ -32,6 +32,17 @@ class AnalyticsChart extends StatelessWidget {
      }
      return spots;
    }
+   String formatNumber(int number) {
+     if (number >= 1000 && number < 1000000) {
+       // Format for thousands
+       return '${(number / 1000).toStringAsFixed(0)}k';
+     } else if (number >= 1000000) {
+       // Format for millions
+       return '${(number / 1000000).toStringAsFixed(0)}M';
+     }
+     // Return as is if less than 1000
+     return number.toString();
+   }
 
    @override
   Widget build(BuildContext context) {
@@ -45,10 +56,10 @@ class AnalyticsChart extends StatelessWidget {
            topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
            leftTitles: AxisTitles(
              sideTitles: SideTitles(
+               reservedSize: 34,
                showTitles: true,
-               interval: 2,
-               getTitlesWidget: (value, meta) => Text(
-                 '${value.toInt()}k',
+               interval: 25000,
+               getTitlesWidget: (value, meta) => Text(formatNumber(value.toInt()),
                  style: Theme.of(context).textTheme.bodySmall,
                ),
              ),
@@ -89,7 +100,7 @@ class AnalyticsChart extends StatelessWidget {
          minX: 1,
          maxX: spots.length.toDouble(),
          minY: 0,
-         maxY: 10,
+         maxY: 100000,
          backgroundColor: ColorConstant.primaryColor.withValues(alpha: 0.02),
        ),
      );
