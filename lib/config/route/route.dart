@@ -60,24 +60,23 @@ Future<GoRouter> createRouter() async {
         child: Text("page not found"),
       ),
     ),
-    // redirect: (context, state) async {
-    //   SharedPreferences prefs = await SharedPreferences.getInstance();
-    //   bool isLoggedIn =
-    //       prefs.getBool('isLogin') ?? false; // Check if the token exists
-    //   // Check if the current route is '/accountSetup' or starts with '/accountSetup/'
-    //   bool isAccountSetupRoute =
-    //       state.uri.toString().startsWith('/accountSetup');
-    //   bool isSinInRoute =
-    //   state.uri.toString().startsWith('/signIn');
-    //   bool isOnbordingRoute = state.uri.toString().startsWith('/onboarding');
-    //
-    //   // If the user is not logged in and trying to access a protected route
-    //   if (!isLoggedIn && !isSinInRoute && !isOnbordingRoute) {
-    //     return '/signIn'; // Redirect to the login page
-    //   }
-    //
-    //   return null; // No redirect
-    // },
+    redirect: (context, state) async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      bool isLoggedIn =
+          prefs.getBool('isLogin') ?? false; // Check if the token exists
+      // Check if the current route is '/accountSetup' or starts with '/accountSetup/'
+      bool isAccountSetupRoute =
+          state.uri.toString().startsWith('/accountSetup');
+      bool isSinInRoute = state.uri.toString().startsWith('/signIn');
+      bool isOnbordingRoute = state.uri.toString().startsWith('/onboarding');
+
+      // If the user is not logged in and trying to access a protected route
+      if (!isLoggedIn && !isSinInRoute && !isOnbordingRoute) {
+        return '/signIn'; // Redirect to the login page
+      }
+
+      return null; // No redirect
+    },
     routes: [
       GoRoute(
           name: 'splash',
@@ -150,22 +149,21 @@ Future<GoRouter> createRouter() async {
             navigatorKey: GlobalKey<NavigatorState>(),
             routes: [
               GoRoute(
-                name: 'properties',
-                path: '/properties',
-                builder: (context, state) => Properties(),
-                routes: [
-                  GoRoute(
-                    name: 'hostSearch',
-                    path: '/hostSearch',
-                    builder: (context, state) {
-                      return BlocProvider(
-                        create: (context) => sl<SearchBloc>(),
-                        child: Search(),
-                      );
-                    },
-                  ),
-                ]
-              ),
+                  name: 'properties',
+                  path: '/properties',
+                  builder: (context, state) => Properties(),
+                  routes: [
+                    GoRoute(
+                      name: 'hostSearch',
+                      path: '/hostSearch',
+                      builder: (context, state) {
+                        return BlocProvider(
+                          create: (context) => sl<SearchBloc>(),
+                          child: Search(),
+                        );
+                      },
+                    ),
+                  ]),
             ],
           ),
           StatefulShellBranch(
@@ -211,44 +209,39 @@ Future<GoRouter> createRouter() async {
                 builder: (context, state) => const Profile(),
                 routes: [
                   GoRoute(
-                    name: 'generalInformation',
-                    path: '/generalInformation',
-                    builder: (context, state) => GeneralInformation(),
+                      name: 'generalInformation',
+                      path: '/generalInformation',
+                      builder: (context, state) => GeneralInformation(),
                       routes: [
                         GoRoute(
-                          name: 'verifyOldPhone',
-                          path: '/verifyOldPhone',
-                          builder: (context, state){
-                            return VerifyOldPhone();
-                          }
-
-                        ),
+                            name: 'verifyOldPhone',
+                            path: '/verifyOldPhone',
+                            builder: (context, state) {
+                              return VerifyOldPhone();
+                            }),
                         GoRoute(
-                          name: 'verifyNewPhone',
-                          path: '/verifyNewPhone',
-                          builder: (context, state) {
-                            return VerifyNewPhone();
-                          }
-                        ),
-                      ]
-                  ),
+                            name: 'verifyNewPhone',
+                            path: '/verifyNewPhone',
+                            builder: (context, state) {
+                              return VerifyNewPhone();
+                            }),
+                      ]),
                   GoRoute(
                     name: 'language',
                     path: '/language',
                     builder: (context, state) => const Language(),
                   ),
                   GoRoute(
-                    name: 'account',
-                    path: '/account',
-                    builder: (context, state) => const Account(),
-                    routes: [
-                      GoRoute(
-                        name: 'deleteAccount',
-                        path: '/deleteAccount',
-                        builder: (context, state) => const DeleteAccount(),
-                      ),
-                    ]
-                  ),
+                      name: 'account',
+                      path: '/account',
+                      builder: (context, state) => const Account(),
+                      routes: [
+                        GoRoute(
+                          name: 'deleteAccount',
+                          path: '/deleteAccount',
+                          builder: (context, state) => const DeleteAccount(),
+                        ),
+                      ]),
                 ],
               ),
             ],
@@ -272,40 +265,39 @@ Future<GoRouter> createRouter() async {
                   builder: (context, state) => HouseType(),
                   routes: [
                     GoRoute(
-                      name: 'houseTypeDetail',
-                      path: '/houseTypeDetail',
-                      builder: (context, state) {
-                        final name = state.extra as String;
-                        return MultiBlocProvider(
-                          providers: [
-                            BlocProvider(
-                                create: (context) => sl<HoustypeBloc>()
-                                  ..add(
-                                    GetPropertyByHouseTypeEvent(name: name),
-                                  )),
-                            BlocProvider(
-                              create: (context) => sl<PopularPropertyBloc>()
-                                ..add(GetPopularPropertyEvent()),
+                        name: 'houseTypeDetail',
+                        path: '/houseTypeDetail',
+                        builder: (context, state) {
+                          final name = state.extra as String;
+                          return MultiBlocProvider(
+                            providers: [
+                              BlocProvider(
+                                  create: (context) => sl<HoustypeBloc>()
+                                    ..add(
+                                      GetPropertyByHouseTypeEvent(name: name),
+                                    )),
+                              BlocProvider(
+                                create: (context) => sl<PopularPropertyBloc>()
+                                  ..add(GetPopularPropertyEvent()),
+                              ),
+                            ],
+                            child: HouseTypeDetail(
+                              name: name,
                             ),
-                          ],
-                          child: HouseTypeDetail(
-                            name: name,
+                          );
+                        },
+                        routes: [
+                          GoRoute(
+                            name: 'search',
+                            path: '/search',
+                            builder: (context, state) {
+                              return BlocProvider(
+                                create: (context) => sl<SearchBloc>(),
+                                child: Search(),
+                              );
+                            },
                           ),
-                        );
-                      },
-                      routes: [
-                        GoRoute(
-                          name: 'search',
-                          path: '/search',
-                          builder: (context, state) {
-                            return BlocProvider(
-                              create: (context) => sl<SearchBloc>(),
-                              child: Search(),
-                            );
-                          },
-                        ),
-                      ]
-                    ),
+                        ]),
                   ]),
             ],
           ),
@@ -328,9 +320,12 @@ Future<GoRouter> createRouter() async {
                         final id = state.extra as int;
                         final token = state.pathParameters['token'];
                         return BlocProvider(
-  create: (context) =>sl<BookedDetailBloc>(),
-  child: BookedDetail(token: token!,id: id,),
-);
+                          create: (context) => sl<BookedDetailBloc>(),
+                          child: BookedDetail(
+                            token: token!,
+                            id: id,
+                          ),
+                        );
                       },
                     ),
                   ]),
@@ -350,41 +345,36 @@ Future<GoRouter> createRouter() async {
                         builder: (context, state) {
                           return GeneralInformation();
                         },
-                      routes: [
-                        GoRoute(
-                          name: 'guestVerifyOldPhone',
-                          path: '/guestVerifyOldPhone',
-                          builder: (context, state){
-                            return VerifyOldPhone();
-  }
-                        ),
-                        GoRoute(
-                          name: 'guestVerifyNewPhone',
-                          path: '/guestVerifyNewPhone',
-                          builder: (context, state){
-                            return VerifyNewPhone();
-                          }
-                        ),
-                      ]
-
-                    ),
+                        routes: [
+                          GoRoute(
+                              name: 'guestVerifyOldPhone',
+                              path: '/guestVerifyOldPhone',
+                              builder: (context, state) {
+                                return VerifyOldPhone();
+                              }),
+                          GoRoute(
+                              name: 'guestVerifyNewPhone',
+                              path: '/guestVerifyNewPhone',
+                              builder: (context, state) {
+                                return VerifyNewPhone();
+                              }),
+                        ]),
                     GoRoute(
                       name: 'guestLanguage',
                       path: '/guestLanguage',
                       builder: (context, state) => const Language(),
                     ),
                     GoRoute(
-                      name: 'guestAccount',
-                      path: '/guestAccount',
-                      builder: (context, state) => const Account(),
+                        name: 'guestAccount',
+                        path: '/guestAccount',
+                        builder: (context, state) => const Account(),
                         routes: [
                           GoRoute(
                             name: 'guestDeleteAccount',
                             path: '/guestDeleteAccount',
                             builder: (context, state) => const DeleteAccount(),
                           ),
-                        ]
-                    ),
+                        ]),
                   ]),
             ],
           ),

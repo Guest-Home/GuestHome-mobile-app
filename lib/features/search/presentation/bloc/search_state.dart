@@ -1,39 +1,28 @@
 part of 'search_bloc.dart';
 
 class SearchState extends Equatable {
-  const SearchState({this.properties=const []});
-
-  final List<PropertyEntity> properties;
-
-  SearchState copyWith({
-    List<PropertyEntity>? properties
-}){
-    return SearchState(
-      properties: properties??this.properties
-    );
-  }
+  const SearchState();
 
 
   @override
-  List<Object> get props => [properties];
+  List<Object> get props => [];
 }
 class SearchInitial extends SearchState {
 
 }
 
 class SearchLoading extends SearchState{
-  SearchLoading(SearchState currentState):super(
-    properties: currentState.properties
-  );
+  const SearchLoading();
 }
-class SearchLodeState extends SearchState{
-   SearchLodeState(SearchState currentState,):super(
-    properties: currentState.properties
-  );
+class SearchHostLodeState extends SearchState{
+  final List<PropertyEntity>? properties;
+  const SearchHostLodeState({required this.properties});
+}
+class SearchGuestLodeState extends SearchState{
+  final GpropertyEntity property;
+  const SearchGuestLodeState({required this.property});
 }
 class SearchErrorState extends SearchState{
   final Failure failure;
-  SearchErrorState(SearchState currentState, {required this.failure}):super(
-    properties: currentState.properties
-  );
+  const SearchErrorState({required this.failure});
 }

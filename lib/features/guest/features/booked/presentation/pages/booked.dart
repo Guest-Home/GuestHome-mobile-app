@@ -132,7 +132,9 @@ class EmpityBooked extends StatelessWidget {
             SizedBox(
               width:MediaQuery.of(context).size.width*0.6,
               child: CustomButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.pushNamed("search");
+                  },
                   style: ElevatedButton.styleFrom(
                       elevation: 0,
                       backgroundColor: Colors.white,

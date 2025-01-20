@@ -6,7 +6,6 @@ import 'package:minapp/core/common/back_button.dart';
 import 'package:minapp/core/common/custom_button.dart';
 import 'package:minapp/core/common/custom_text_field.dart';
 import 'package:minapp/core/common/spin_kit_loading.dart';
-import 'package:minapp/core/utils/get_device_id.dart';
 import 'package:minapp/core/utils/show_snack_bar.dart';
 import 'package:minapp/core/utils/validator.dart';
 import 'package:minapp/features/auth/presentation/bloc/auth_bloc.dart';

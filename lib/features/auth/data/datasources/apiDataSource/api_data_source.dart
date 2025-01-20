@@ -1,6 +1,7 @@
 import 'dart:isolate';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:minapp/core/error/error_response.dart';
 import 'package:minapp/features/auth/data/models/customer_profile_model.dart';
 import 'package:minapp/features/auth/data/models/otp_response_model.dart';
 import 'package:minapp/features/auth/domain/usecases/create_customer_profile_usecase.dart';
@@ -36,7 +37,8 @@ class ApiDataSourceImpl implements ApiDataSource {
         return Left(ServerFailure(response.data['Error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.response!.data["Error"].toString()));
+      // return Left(ServerFailure(e.response!.data["Error"].toString()));
+      return Left(ErrorResponse().mapDioExceptionToFailure(e));
     }
   }
 
@@ -49,16 +51,17 @@ class ApiDataSourceImpl implements ApiDataSource {
         "otp": params.otp,
         "device_id":params.deviceId
       };
+
       final response = await sl<DioClient>().put(ApiUrl.otp, data: otpData);
       if (response.statusCode == 200) {
         final verify =
             await Isolate.run(() => VerifyOtpModel.fromJson(response.data));
         return Right(verify);
       } else {
-        return Left(ServerFailure(response.data['Error']));
+       return Left(ServerFailure(response.data['Error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.response!.data['Error'].toString()));
+      return Left(ErrorResponse().mapDioExceptionToFailure(e));
     }
   }
 
@@ -92,7 +95,8 @@ class ApiDataSourceImpl implements ApiDataSource {
         return Left(ServerFailure(response.data['Error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.response!.data.toString()));
+     // return Left(ServerFailure(e.response!.data.toString()));
+      return Left(ErrorResponse().mapDioExceptionToFailure(e));
     }
   }
 
@@ -109,7 +113,8 @@ class ApiDataSourceImpl implements ApiDataSource {
         return Left(ServerFailure(response.data['Error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.response!.data.toString()));
+      // return Left(ServerFailure(e.response!.data.toString()));
+      return Left(ErrorResponse().mapDioExceptionToFailure(e));
     }
   }
 }

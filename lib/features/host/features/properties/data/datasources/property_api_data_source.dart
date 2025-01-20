@@ -1,6 +1,8 @@
 import 'dart:isolate';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:minapp/features/guest/features/HousType/data/models/g_property_model.dart';
+import 'package:minapp/features/guest/features/HousType/domain/entities/g_property_entity.dart';
 import 'package:minapp/features/host/features/properties/data/models/amenity_model.dart';
 import 'package:minapp/features/host/features/properties/data/models/city_model.dart';
 import 'package:minapp/features/host/features/properties/data/models/property_model.dart';
@@ -23,7 +25,7 @@ abstract class PropertyApiDataSource {
   Future<Either<Failure, bool>> deleteProperty(int id);
   Future<Either<Failure, bool>> updateProperty(UpdatePropertyParam param);
   Future<Either<Failure, AgentPModel>> getAgent(int id);
-  Future<Either<Failure,List<PropertyModel>>> searchProperty(String name);
+  Future<Either<Failure,GpropertyModel>> searchProperty(String name);
   Future<Either<Failure,List<PropertyModel>>> hostSearchProperty(String name);
 
 }
@@ -182,16 +184,14 @@ class PropertyApiDataSourceImpl implements PropertyApiDataSource {
   }
 
   @override
-  Future<Either<Failure, List<PropertyModel>>> searchProperty(String name)async{
+  Future<Either<Failure,GpropertyModel>> searchProperty(String name)async{
     print("//// guest search");
     try {
       final response = await sl<DioClient>().get("${ApiUrl.searchProperties}?typeofHouse=$name");
       if (response.statusCode == 200) {
         final properties = await Isolate.run(
               () {
-            return (response.data as List)
-                .map((e) => PropertyModel.fromMap(e))
-                .toList();
+                return gpropertyModelFromMap(response.data);
           },
         );
         return Right(properties);

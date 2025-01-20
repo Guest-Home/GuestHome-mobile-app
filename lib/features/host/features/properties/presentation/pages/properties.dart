@@ -51,7 +51,7 @@ class _PropertiesState extends State<Properties> {
               collapseMode: CollapseMode.pin,
               title: GestureDetector(
                 onTap: () {
-                  context.goNamed("search");
+                  context.goNamed("hostSearch");
                 },
                 child: Container(
                     padding: EdgeInsets.all(16),

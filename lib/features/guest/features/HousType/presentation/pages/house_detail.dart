@@ -9,7 +9,6 @@ import 'package:minapp/core/common/back_button.dart';
 import 'package:minapp/core/common/constants/house_type_icons.dart';
 import 'package:minapp/core/common/custom_button.dart';
 import 'package:minapp/features/guest/features/HousType/domain/entities/g_property_entity.dart';
-import 'package:minapp/features/guest/features/HousType/presentation/widgets/section_header_text.dart';
 
 import '../../../../../../core/apiConstants/api_url.dart';
 
