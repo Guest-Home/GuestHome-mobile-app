@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/features/guest/features/booked/domain/entities/my_booking_entity.dart';
-
 import '../../../../../../config/color/color.dart';
 import '../../../../../../core/apiConstants/api_url.dart';
 import '../../../../../../core/common/back_button.dart';
@@ -39,7 +38,7 @@ class BookingDetailNonApproved extends StatelessWidget {
             Column(
               children: [
                 ListTile(
-                  title: SecctionHeader(title: "Approved Book", isSeeMore: false),
+                  title:property.status=="Rejected"? SecctionHeader(title: "Rejected Book", isSeeMore: false): SecctionHeader(title: "Pending Book", isSeeMore: false),
                   subtitle: Text(
                     "Detail of your reservation",
                     style: Theme.of(context)
@@ -48,7 +47,7 @@ class BookingDetailNonApproved extends StatelessWidget {
                         .copyWith(fontSize: 14, fontWeight: FontWeight.w400),
                   ),
                 ),
-                    Column(
+                Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         spacing: 10,
                         children: [
@@ -267,6 +266,7 @@ class BookingDetailNonApproved extends StatelessWidget {
                           AvailableFacilities(
                             subDesc:   property.house!.subDescription!,
                           ),
+                          if(property.status!="Rejected")
                           ListTile(
                             title: SecctionHeader(
                                 title: tr("Booking Cancellation"), isSeeMore: false),
