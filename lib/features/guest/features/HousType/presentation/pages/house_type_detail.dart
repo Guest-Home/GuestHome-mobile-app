@@ -202,8 +202,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                 isSeeMore: true,
                               ),
                             ),
-                            BlocBuilder<PopularPropertyBloc,
-                                PopularPropertyState>(
+                            BlocBuilder<PopularPropertyBloc,PopularPropertyState>(
                               buildWhen: (previous, current) =>
                                   previous != current,
                               builder: (context, state) {
@@ -211,18 +210,18 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                   return Center(
                                     child: loadingIndicator(),
                                   );
-                                } else if (state
-                                    is PopularPropertyLoadedState) {
-                                  if (state.properties.count == 0) {
-                                    return Center(
-                                      child: Text(
-                                        "no property found",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
-                                      ),
-                                    );
-                                  }
+                                } else if(state.properties.count==0 || state.properties.results==null){
+                                  return Center(
+                                    child: Text(
+                                      "no property found",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall,
+                                    ),
+                                  );
+                                }
+
+                                else if (state.properties.results!.isNotEmpty) {
                                   return SizedBox(
                                     height: MediaQuery.of(context).size.height * 0.42,
                                     width: MediaQuery.of(context).size.width,
@@ -281,8 +280,8 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                   return Center(
                                     child:loadingIndicator(),
                                   );
-                                } else if (state is HouseTYpeLoadedState) {
-                                  if (state.properties.count == 0) {
+                                }
+                                 else if (state.properties.count == 0 || state.properties.results==null) {
                                     return Center(
                                       child: Column(
                                         children: [
@@ -302,33 +301,33 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                       ),
                                     );
                                   }
+                                  else if(state.properties.results!.isNotEmpty){
                                   return ListView.builder(
                                     shrinkWrap: true,
                                     physics: NeverScrollableScrollPhysics(),
                                     itemCount: state.properties.count,
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 15),
+                                    padding:EdgeInsets.symmetric(horizontal: 15),
                                     itemBuilder: (context, index) {
                                       return GestureDetector(
                                         onTap: () async {
                                           final token =
-                                              await GetToken().getUserToken();
+                                          await GetToken().getUserToken();
                                           context.push('/houseDetail/$token',
                                               extra: state
                                                   .properties.results![index]);
                                         },
                                         child: NearHouseCard(
                                           width:
-                                              MediaQuery.of(context).size.width,
+                                          MediaQuery.of(context).size.width,
                                           height: 400,
                                           property:
-                                              state.properties.results![index],
+                                          state.properties.results![index],
                                         ),
                                       );
                                     },
                                   );
                                 }
-                                return SizedBox.shrink();
+                                 return SizedBox.shrink();
                               },
                             ),
                           ],

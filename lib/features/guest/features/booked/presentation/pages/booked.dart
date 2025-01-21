@@ -59,15 +59,15 @@ class Booked extends StatelessWidget {
                   Expanded(
                     child: BlocBuilder<BookedBloc, BookedState>(
                       builder: (context, state) {
-                        if (state is MyBookingLoadingState) {
+                        if (state is MyBookingLoadingState|| state.booking.results==null) {
                           return Center(
                             child: loadingIndicator(),
                           );
                         }
-                        if (state is MyBookingLoadedState) {
-                          if (state.booking.results!.isEmpty) {
-                            return EmpityBooked();
+                         else if (state.booking.count==0) {
+                            return EmptyBooked();
                           }
+                         else if(state.booking.results!.isNotEmpty){
                           return ListView.builder(
                             padding: EdgeInsets.all(10),
                             itemCount: state.booking.results!.length,
@@ -106,8 +106,8 @@ class Booked extends StatelessWidget {
   }
 }
 
-class EmpityBooked extends StatelessWidget {
-  const EmpityBooked({
+class EmptyBooked extends StatelessWidget {
+  const EmptyBooked({
     super.key,
   });
 
@@ -144,6 +144,7 @@ class EmpityBooked extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                       elevation: 0,
                       backgroundColor: Colors.white,
+                      overlayColor: Colors.white,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                           side: BorderSide(color: ColorConstant.secondBtnColor))),

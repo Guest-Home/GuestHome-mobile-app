@@ -13,9 +13,11 @@ part 'houstype_state.dart';
 class HoustypeBloc extends Bloc<HoustypeEvent, HoustypeState> {
   HoustypeBloc() : super(HoustypeInitial()) {
     on<GetPropertyByHouseTypeEvent>((event, emit) async {
-      emit(HouseTypeLoadingState());
+      emit(HouseTypeLoadingState(state));
       Either response = await sl<GetHouseBytypeUsecase>().call(event.name);
-      response.fold((l) => emit(HouseTYpeErrorState(failure: l)), (r) => emit(HouseTYpeLoadedState(properties: r)),);
+      response.fold((l) => emit(HouseTYpeErrorState(state,failure: l)), (r) => emit(state.copyWith(
+        properties: r
+      )),);
     });
   }
 }

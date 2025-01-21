@@ -23,7 +23,7 @@ import 'features/host/features/properties/presentation/bloc/properties_bloc.dart
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setup();
-  // Bloc.observer=MyBlocObserver();
+   //Bloc.observer=MyBlocObserver();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   final GoRouter router = await createRouter(); // Initialize the router
 

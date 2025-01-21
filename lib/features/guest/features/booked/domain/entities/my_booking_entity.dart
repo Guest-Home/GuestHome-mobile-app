@@ -4,12 +4,12 @@ import 'package:equatable/equatable.dart';
 
 class MyBookingEntity extends Equatable{
 
-  int? count;
-  dynamic next;
-  dynamic previous;
-  List<ResultBookingEntity>? results;
+ final int? count;
+ final dynamic next;
+ final dynamic previous;
+ final List<ResultBookingEntity>? results;
 
-  MyBookingEntity({
+  const MyBookingEntity({
     this.count,
     this.next,
     this.previous,

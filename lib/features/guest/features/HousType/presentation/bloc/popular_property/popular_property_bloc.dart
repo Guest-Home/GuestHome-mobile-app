@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
+import 'package:equatable/equatable.dart';
 import 'package:minapp/core/error/failure.dart';
 import 'package:minapp/features/guest/features/HousType/domain/entities/g_property_entity.dart';
 import 'package:minapp/features/guest/features/HousType/domain/usecases/get_popular_property_usecase.dart';
@@ -12,9 +13,11 @@ part 'popular_property_state.dart';
 class PopularPropertyBloc extends Bloc<PopularPropertyEvent, PopularPropertyState> {
   PopularPropertyBloc() : super(PopularPropertyInitial()) {
     on<GetPopularPropertyEvent>((event, emit)async{
-       emit(PopularPropertyLoadingState());
+       emit(PopularPropertyLoadingState(state));
        Either response=await sl<GetPopularPropertyUseCase>().call();
-       response.fold((l) => emit(PopularPropertyErrorState(failure: l)), (r) => emit(PopularPropertyLoadedState(properties: r)),);
+       response.fold((l) => emit(PopularPropertyErrorState(state,failure: l)), (r) => emit(state.copyWith(
+         properties: r
+       )),);
 
     });
   }

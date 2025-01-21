@@ -14,9 +14,11 @@ part 'booked_state.dart';
 class BookedBloc extends Bloc<BookedEvent, BookedState> {
   BookedBloc() : super(BookedInitial()) {
     on<GetMyBookingEvent>((event, emit)async {
-      emit(MyBookingLoadingState());
+      emit(MyBookingLoadingState(state));
       Either response= await sl<GetMyBookingUseCase>().call();
-      response.fold((l) => emit(MyBookingErrorState(failure: l)), (r) => emit(MyBookingLoadedState(booking: r)),);
+      response.fold((l) => emit(MyBookingErrorState(state,failure: l)), (r) => emit(
+        state.copyWith(booking: r)
+      ),);
     });
 
     on<CancelBookingEvent>((event, emit)async{

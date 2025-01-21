@@ -2,12 +2,12 @@
 import 'package:equatable/equatable.dart';
 
 class GpropertyEntity extends Equatable {
-  int? count;
-  dynamic next;
-  dynamic previous;
-  List<ResultEntity>? results;
+ final int? count;
+ final dynamic next;
+ final dynamic previous;
+ final List<ResultEntity>? results;
 
-  GpropertyEntity({
+ const GpropertyEntity({
     this.count,
     this.next,
     this.previous,

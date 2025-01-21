@@ -1,21 +1,37 @@
 part of 'booked_bloc.dart';
 
-abstract class BookedState extends Equatable {
-  const BookedState();  
+ class BookedState extends Equatable {
+   const BookedState({this.booking=const MyBookingEntity() });
+  final MyBookingEntity booking;
+
+  BookedState copyWith({
+    MyBookingEntity? booking
+ }){
+    return BookedState(
+      booking: booking??this.booking
+    );
+  }
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [booking];
 }
 class BookedInitial extends BookedState {}
 
-class MyBookingLoadingState extends BookedState{}
+class MyBookingLoadingState extends BookedState{
+   MyBookingLoadingState(BookedState currentState):super(
+     booking: currentState.booking
+   );
+}
 class MyBookingLoadedState extends BookedState{
-  final MyBookingEntity booking;
-  const MyBookingLoadedState({required this.booking});
+   MyBookingLoadedState(BookedState currentState):super(
+      booking: currentState.booking
+  );
 }
 class MyBookingErrorState extends BookedState{
   final Failure failure;
-  const MyBookingErrorState({required this.failure});
+   MyBookingErrorState(BookedState currentState,{required this.failure}):super(
+  booking: currentState.booking
+  );
 }
 class CancelBookingLoadingState extends BookedState{}
 class CancelBookingSuccessState extends BookedState{}
