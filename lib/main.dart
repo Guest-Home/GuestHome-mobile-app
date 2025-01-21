@@ -37,7 +37,8 @@ void main() async {
       path: 'assets/translations',
       fallbackLocale: Locale('en', 'US'),
       saveLocale: false,
-      child: MyApp(router: router)
+      child:
+      MyApp(router: router)
   ));
 }
 

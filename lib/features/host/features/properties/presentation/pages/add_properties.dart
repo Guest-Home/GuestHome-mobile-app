@@ -62,7 +62,9 @@ class _AddPropertiesState extends State<AddProperties> {
     priceController = TextEditingController();
     roomController = TextEditingController();
     agentIdController = TextEditingController();
-    mapController=MapController();
+    mapController=MapController(
+
+    );
   }
 
   @override

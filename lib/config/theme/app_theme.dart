@@ -8,6 +8,7 @@ final ThemeData appLightTheme = ThemeData(
   useMaterial3: true,
   scaffoldBackgroundColor: Colors.white,
   appBarTheme: AppBarTheme(
+    centerTitle: false,
     backgroundColor: Colors.white,
     elevation: 0,
     scrolledUnderElevation: 0,
