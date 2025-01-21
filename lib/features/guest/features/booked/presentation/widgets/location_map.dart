@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -8,7 +7,7 @@ import 'package:latlong2/latlong.dart';
 import '../../../../../../config/color/color.dart';
 
 class LocationMap extends StatelessWidget {
-   LocationMap({
+   const LocationMap({
     super.key, required this.loc, required this.latitude, required this.longtiude,
   });
 

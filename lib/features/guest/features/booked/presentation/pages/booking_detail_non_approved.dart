@@ -18,10 +18,7 @@ import '../../../../../../service_locator.dart';
 import '../../../HousType/presentation/pages/house_detail.dart';
 import '../../../HousType/presentation/widgets/section_header_text.dart';
 import '../bloc/booked_bloc.dart';
-import '../widgets/about_host.dart';
-import '../widgets/about_reservation.dart';
 import '../widgets/available_facilities.dart';
-import '../widgets/location_map.dart';
 
 class BookingDetailNonApproved extends StatelessWidget {
   const BookingDetailNonApproved({super.key,required this.property,required this.token});

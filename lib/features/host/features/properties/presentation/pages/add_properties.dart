@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:currency_picker/currency_picker.dart';
@@ -55,7 +54,7 @@ class _AddPropertiesState extends State<AddProperties> {
   @override
   void initState() {
     super.initState();
-    pageController = PageController(initialPage: 3);
+    pageController = PageController(initialPage: 0);
     nameController = TextEditingController();
     descriptionController = TextEditingController();
     addressNmaeController = TextEditingController();
