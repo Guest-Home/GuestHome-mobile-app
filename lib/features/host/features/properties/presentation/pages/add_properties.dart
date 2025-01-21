@@ -6,8 +6,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:minapp/core/common/spin_kit_loading.dart';
 import 'package:minapp/core/utils/show_snack_bar.dart';
 import 'package:minapp/core/utils/validator.dart';
@@ -48,13 +50,12 @@ class _AddPropertiesState extends State<AddProperties> {
   final _locationFormKey = GlobalKey<FormState>();
   final _priceFormKey = GlobalKey<FormState>();
   final _agentFormKey = GlobalKey<FormState>();
-  final Completer<GoogleMapController> _controller =
-      Completer<GoogleMapController>();
+  late MapController mapController;
 
   @override
   void initState() {
     super.initState();
-    pageController = PageController(initialPage: 0);
+    pageController = PageController(initialPage: 3);
     nameController = TextEditingController();
     descriptionController = TextEditingController();
     addressNmaeController = TextEditingController();
@@ -62,6 +63,7 @@ class _AddPropertiesState extends State<AddProperties> {
     priceController = TextEditingController();
     roomController = TextEditingController();
     agentIdController = TextEditingController();
+    mapController=MapController();
   }
 
   @override
@@ -75,6 +77,7 @@ class _AddPropertiesState extends State<AddProperties> {
     priceController.dispose();
     roomController.dispose();
     agentIdController.dispose();
+    mapController.dispose();
   }
 
   @override
@@ -101,7 +104,8 @@ class _AddPropertiesState extends State<AddProperties> {
                         spacing: 15,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          stepTitleText(context, 'What type of house do you host?'),
+                          stepTitleText(
+                              context, 'What type of house do you host?'),
                           SizedBox(
                             height: 5,
                           ),
@@ -109,60 +113,64 @@ class _AddPropertiesState extends State<AddProperties> {
                             child: BlocBuilder<PropertyTypeBloc,
                                 PropertyTypeState>(
                               builder: (context, state) {
-                                if(state is PropertyTypeLoadingState){
+                                if (state is PropertyTypeLoadingState) {
                                   return SizedBox(
                                       height: 150,
-                                      child: Center(child: CupertinoActivityIndicator()));
+                                      child: Center(
+                                          child: CupertinoActivityIndicator()));
                                 }
-                                if(state.propertyTypes.isNotEmpty){
+                                if (state.propertyTypes.isNotEmpty) {
                                   return GridView.builder(
                                     gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2,
-                                        crossAxisSpacing: 16,
-                                        mainAxisSpacing: 16,
-                                        mainAxisExtent: 100),
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 2,
+                                            crossAxisSpacing: 16,
+                                            mainAxisSpacing: 16,
+                                            mainAxisExtent: 100),
                                     itemCount: state.propertyTypes.length,
                                     itemBuilder: (context, index) =>
                                         GestureDetector(
-                                          onTap: () {
-                                            context.read<PropertyTypeBloc>().add(
-                                                SelectPropertyType(
-                                                    propertyType:
-                                                    state.propertyTypes[index]));
-                                            context.read<AddPropertyBloc>().add(
-                                                AddHouseTypeEvent(
-                                                    houseTYpe: state
-                                                        .propertyTypes[index]
-                                                        .propertyType));
-                                          },
-                                          child: AnimatedContainer(
-                                            duration: Duration(milliseconds: 100),
-                                            decoration: BoxDecoration(
-                                                borderRadius:
+                                      onTap: () {
+                                        context.read<PropertyTypeBloc>().add(
+                                            SelectPropertyType(
+                                                propertyType: state
+                                                    .propertyTypes[index]));
+                                        context.read<AddPropertyBloc>().add(
+                                            AddHouseTypeEvent(
+                                                houseTYpe: state
+                                                    .propertyTypes[index]
+                                                    .propertyType));
+                                      },
+                                      child: AnimatedContainer(
+                                        duration: Duration(milliseconds: 100),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
                                                 BorderRadius.circular(15),
-                                                border: Border.all(
-                                                  color: state.selectedPropertyType ==
-                                                      state.propertyTypes[index]
-                                                      ? ColorConstant.primaryColor
+                                            border: Border.all(
+                                              color:
+                                                  state.selectedPropertyType ==
+                                                          state.propertyTypes[
+                                                              index]
+                                                      ? ColorConstant
+                                                          .primaryColor
                                                       : Colors.white,
-                                                )),
-                                            child: HouseTypeCard(
-                                              image: houseTypeIcons[state
-                                                  .propertyTypes[index]
-                                                  .propertyType]!,
-                                              title: state
-                                                  .propertyTypes[index].propertyType,
-                                            ),
-                                          ),
+                                            )),
+                                        child: HouseTypeCard(
+                                          image: houseTypeIcons[state
+                                              .propertyTypes[index]
+                                              .propertyType]!,
+                                          title: state.propertyTypes[index]
+                                              .propertyType,
                                         ),
+                                      ),
+                                    ),
                                   );
-                                }else{
+                                } else {
                                   return SizedBox(
                                       height: 150,
-                                      child: Center(child: CupertinoActivityIndicator()));
+                                      child: Center(
+                                          child: CupertinoActivityIndicator()));
                                 }
-
                               },
                             ),
                           )
@@ -241,28 +249,29 @@ class _AddPropertiesState extends State<AddProperties> {
                           Expanded(
                               child: BlocBuilder<AmenitiesBloc, AmenitiesState>(
                             builder: (context, state) {
-                              if(state is AmenityLoadingState){
+                              if (state is AmenityLoadingState) {
                                 return SizedBox(
                                     height: 150,
-                                    child: Center(child: CupertinoActivityIndicator()));
+                                    child: Center(
+                                        child: CupertinoActivityIndicator()));
                               }
-                              if(state.amenities.isNotEmpty){
+                              if (state.amenities.isNotEmpty) {
                                 return GridView.builder(
                                     padding: EdgeInsets.all(10),
                                     gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2,
-                                        crossAxisSpacing: 16,
-                                        mainAxisSpacing: 16,
-                                        mainAxisExtent: 100),
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 2,
+                                            crossAxisSpacing: 16,
+                                            mainAxisSpacing: 16,
+                                            mainAxisExtent: 100),
                                     itemCount: state.amenities.length,
                                     itemBuilder: (context, index) =>
                                         GestureDetector(
                                           onTap: () {
                                             context.read<AmenitiesBloc>().add(
                                                 SelectAmenityEvent(
-                                                    amenity:
-                                                    state.amenities[index]));
+                                                    amenity: state
+                                                        .amenities[index]));
                                             context.read<AddPropertyBloc>().add(
                                                 AddAmenityEvent(
                                                     amenityName: state
@@ -270,31 +279,33 @@ class _AddPropertiesState extends State<AddProperties> {
                                                         .amenity));
                                           },
                                           child: AnimatedContainer(
-                                            duration: Duration(milliseconds: 100),
+                                            duration:
+                                                Duration(milliseconds: 100),
                                             decoration: BoxDecoration(
                                                 borderRadius:
-                                                BorderRadius.circular(15),
+                                                    BorderRadius.circular(15),
                                                 border: Border.all(
                                                     color: state.selectedAmenity
-                                                        .contains(state
-                                                        .amenities[index])
+                                                            .contains(
+                                                                state.amenities[
+                                                                    index])
                                                         ? ColorConstant
-                                                        .primaryColor
+                                                            .primaryColor
                                                         : Colors.white)),
                                             child: AmenitieTypeCard(
                                               icon: amenitiesIcon[state
                                                   .amenities[index].amenity]!,
-                                              title:
-                                              state.amenities[index].amenity,
+                                              title: state
+                                                  .amenities[index].amenity,
                                             ),
                                           ),
                                         ));
-                              }else{
+                              } else {
                                 return SizedBox(
                                     height: 150,
-                                    child: Center(child: CupertinoActivityIndicator()));
+                                    child: Center(
+                                        child: CupertinoActivityIndicator()));
                               }
-
                             },
                           ))
                         ],
@@ -315,28 +326,54 @@ class _AddPropertiesState extends State<AddProperties> {
                                   SizedBox(
                                     height:
                                         MediaQuery.of(context).size.height / 2,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: GoogleMap(
-                                        mapType: MapType.normal,
-                                        zoomControlsEnabled: false,
-                                        initialCameraPosition: CameraPosition(
-                                          target: LatLng(
-                                              state.latitude, state.longitude),
-                                          zoom: 14.4746,
-                                        ),
-                                        onMapCreated:
-                                            (GoogleMapController controller) {
-                                          _controller.complete(controller);
-                                        },
-                                      ),
+                                    child: BlocBuilder<AddPropertyBloc,
+                                        AddPropertyState>(
+                                      buildWhen: (previous, current) => previous.latitude!=current.latitude,
+                                      builder: (context, state) {
+                                        return RepaintBoundary(
+                                          child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              child: FlutterMap(
+                                                mapController: mapController,
+                                                  options: MapOptions(
+                                                    initialZoom: 15,
+                                                    backgroundColor: ColorConstant.cardGrey.withValues(alpha: 0.6),
+                                                      initialCenter:LatLng(state.latitude, state.longitude)),
+                                                  children: [
+                                                    TileLayer(
+                                                      urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                                      userAgentPackageName: 'dev.fleaflet.flutter_map.example',
+                                                      // Plenty of other options available!
+                                                    ),
+                                                    MarkerLayer(
+                                                      markers: [
+                                                        Marker(
+                                                          point: LatLng(state.latitude, state.longitude),
+                                                          width: 50,
+                                                          height: 50,
+                                                          child:  SvgPicture.asset(
+                                                            'assets/icons/marker.svg',
+                                                            semanticsLabel:"marker",
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                          
+                                                  ])),
+                                        );
+                                      },
                                     ),
                                   ),
                                   Positioned(
                                     bottom: 10,
-                                    left:MediaQuery.of(context).size.width / 2 -100,
+                                    left:
+                                        MediaQuery.of(context).size.width / 2 -
+                                            100,
                                     right:
-                                        MediaQuery.of(context).size.width / 2 - 100,
+                                        MediaQuery.of(context).size.width / 2 -
+                                            100,
                                     child: CustomButton(
                                         onPressed: () {
                                           context
@@ -349,13 +386,14 @@ class _AddPropertiesState extends State<AddProperties> {
                                               ColorConstant.primaryColor,
                                           padding: EdgeInsets.all(0),
                                         ),
-                                        child: Text(
-                                          "use current location",
-                                          style:Theme.of(context).textTheme.bodySmall!.copyWith(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w400
-                                          )
-                                        )),
+                                        child: Text("use current location",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall!
+                                                .copyWith(
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.w400))),
                                   )
                                 ]),
                                 SizedBox(
@@ -429,7 +467,9 @@ class _AddPropertiesState extends State<AddProperties> {
                                   height: 5,
                                 ),
                                 stepSutTitle(
-                                    context,"How many rooms do you have with the same price?",true),
+                                    context,
+                                    "How many rooms do you have with the same price?",
+                                    true),
                                 CustomTextField(
                                   textEditingController: roomController,
                                   hintText: "eg 4",
@@ -455,16 +495,20 @@ class _AddPropertiesState extends State<AddProperties> {
                                 CustomTextField(
                                   textEditingController: priceController,
                                   hintText: "500",
-                                  surfixIcon:
-                                      TextButton.icon(
-                                        iconAlignment: IconAlignment.end,
-                                          onPressed: () {
-                                          getCurrency(context);
-                                      }, label:Text(state.unit,style: Theme.of(context).textTheme.bodyMedium,),
-                                        icon: Icon(Icons.keyboard_arrow_down_outlined),
-
-            ),
-
+                                  surfixIcon: TextButton.icon(
+                                    iconAlignment: IconAlignment.end,
+                                    onPressed: () {
+                                      getCurrency(context);
+                                    },
+                                    label: Text(
+                                      state.unit,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
+                                    ),
+                                    icon: Icon(
+                                        Icons.keyboard_arrow_down_outlined),
+                                  ),
                                   validator: (value) {
                                     if (value!.isEmpty ||
                                         !Validation.numberValidation(value)) {
@@ -557,10 +601,11 @@ class _AddPropertiesState extends State<AddProperties> {
                                   },
                                   textInputType: TextInputType.text,
                                   onTextChnage: (value) {
-                                    if(value.isNotEmpty){
+                                    if (value.isNotEmpty) {
                                       context.read<AddPropertyBloc>().add(
-                                          GetAgentEvent(agentId: int.parse(
-                                              agentIdController.text)));
+                                          GetAgentEvent(
+                                              agentId: int.parse(
+                                                  agentIdController.text)));
                                     }
                                   },
                                 ),
@@ -672,7 +717,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             Row(
-                                              spacing:7,
+                                              spacing: 7,
                                               children: [
                                                 CircleAvatar(
                                                   radius: 15,
@@ -709,7 +754,8 @@ class _AddPropertiesState extends State<AddProperties> {
                                                   .textTheme
                                                   .bodyMedium!
                                                   .copyWith(
-                                                fontWeight: FontWeight.w400,
+                                                      fontWeight:
+                                                          FontWeight.w400,
                                                       fontSize: 14,
                                                       color: ColorConstant
                                                           .secondBtnColor
@@ -727,7 +773,7 @@ class _AddPropertiesState extends State<AddProperties> {
                 )),
                 Container(
                     width: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.symmetric(horizontal: 15,vertical: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                     child: Row(
                       spacing: 10,
                       children: [
@@ -761,7 +807,8 @@ class _AddPropertiesState extends State<AddProperties> {
                                 onPressed: () async {
                                   if (state.step == 0) {
                                     if (state.houseType.isEmpty) {
-                                      showErrorSnackBar(context,  "Please select house type");
+                                      showErrorSnackBar(
+                                          context, "Please select house type");
                                     } else {
                                       context
                                           .read<AddPropertyBloc>()
@@ -777,7 +824,8 @@ class _AddPropertiesState extends State<AddProperties> {
                                     }
                                   } else if (state.step == 2) {
                                     if (state.amenities.isEmpty) {
-                                      showErrorSnackBar(context, "Please select amenities");
+                                      showErrorSnackBar(
+                                          context, "Please select amenities");
                                     } else {
                                       context
                                           .read<AddPropertyBloc>()
@@ -801,7 +849,8 @@ class _AddPropertiesState extends State<AddProperties> {
                                     }
                                   } else if (state.step == 5) {
                                     if (state.images.isEmpty) {
-                                      showErrorSnackBar(context, "Please select images");
+                                      showErrorSnackBar(
+                                          context, "Please select images");
                                     } else {
                                       context
                                           .read<AddPropertyBloc>()
@@ -854,14 +903,16 @@ class _AddPropertiesState extends State<AddProperties> {
 
   void getCurrency(BuildContext context) {
     return showCurrencyPicker(
-                                                context: context,
-                                                showFlag: true,
-                                                showCurrencyName: true,
-                                                showCurrencyCode: true,
-                                                onSelect: (Currency currency) {
-                                               context.read<AddPropertyBloc>().add((AddUnitEvent(unit: currency.code)));
-                                                },
-                                                );
+      context: context,
+      showFlag: true,
+      showCurrencyName: true,
+      showCurrencyCode: true,
+      onSelect: (Currency currency) {
+        context
+            .read<AddPropertyBloc>()
+            .add((AddUnitEvent(unit: currency.code)));
+      },
+    );
   }
 
   RichText stepSutTitle(BuildContext context, String title, bool isRequired) {
@@ -891,7 +942,6 @@ class _AddPropertiesState extends State<AddProperties> {
           .copyWith(fontWeight: FontWeight.w700, fontSize: 16),
     );
   }
-
 }
 
 class CityDropDown extends StatelessWidget {

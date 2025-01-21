@@ -29,74 +29,80 @@ class Booked extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: RefreshIndicator(
-          backgroundColor: ColorConstant.primaryColor,
-          color: Colors.white,
-          onRefresh: () async {
-            context.read<BookedBloc>().add(GetMyBookingEvent());
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 10,
-              children: [
-                Padding(
-                    padding: EdgeInsets.all(1),
-                    child: ListTile(
-                      title:
-                          SecctionHeader(title: tr("Booked"), isSeeMore: false),
-                      subtitle: Text(
-                        "Here is the list of your requested booking",
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          fontSize: 14,fontWeight: FontWeight.w400
-                        ),
-                      ),
-                    )),
-                Expanded(
-                  child: BlocBuilder<BookedBloc, BookedState>(
-                    builder: (context, state) {
-                      if (state is MyBookingLoadingState) {
-                        return Center(
-                          child: loadingIndicator(),
-                        );
-                      }
-                      if (state is MyBookingLoadedState) {
-                        if (state.booking.results!.isEmpty) {
-                          return EmpityBooked();
-                        }
-                        return ListView.builder(
-                          padding: EdgeInsets.all(10),
-                          itemCount: state.booking.results!.length,
-                          itemBuilder: (context, index) => GestureDetector(
-                            onTap: () async {
-                              if( getStatus(state.booking.results![index].status!)==BookingStatus.approved){
-                                final token = await GetToken().getUserToken();
-                                context.goNamed('bookedDetail',
-                                    pathParameters: {'token': token},
-                                    extra: state.booking.results![index].id);
-                              }
-                            },
-                            child: BookedCard(
-                              width: MediaQuery.of(context).size.width,
-                              height: 400,
-                              property: state.booking.results![index],
-                            ),
+    return 
+      SafeArea(
+        child: Scaffold(
+        body: RefreshIndicator(
+            backgroundColor: ColorConstant.primaryColor,
+            color: Colors.white,
+            onRefresh: () async {
+              context.read<BookedBloc>().add(GetMyBookingEvent());
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 10,
+                children: [
+                  Padding(
+                      padding: EdgeInsets.all(1),
+                      child: ListTile(
+                        title:
+                            SecctionHeader(title: tr("Booked"), isSeeMore: false),
+                        subtitle: Text(
+                          "Here is the list of your requested booking",
+                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontSize: 14,fontWeight: FontWeight.w400
                           ),
-                        );
-                      }
-                      return SizedBox.shrink();
-                    },
+                        ),
+                      )),
+                  Expanded(
+                    child: BlocBuilder<BookedBloc, BookedState>(
+                      builder: (context, state) {
+                        if (state is MyBookingLoadingState) {
+                          return Center(
+                            child: loadingIndicator(),
+                          );
+                        }
+                        if (state is MyBookingLoadedState) {
+                          if (state.booking.results!.isEmpty) {
+                            return EmpityBooked();
+                          }
+                          return ListView.builder(
+                            padding: EdgeInsets.all(10),
+                            itemCount: state.booking.results!.length,
+                            itemBuilder: (context, index) => GestureDetector(
+                              onTap: () async {
+                                final token = await GetToken().getUserToken();
+                                if( getStatus(state.booking.results![index].status!)==BookingStatus.approved){
+                                  context.goNamed('bookedDetail',
+                                      pathParameters: {'token': token},
+                                      extra: state.booking.results![index].id);
+                                }else{
+                                  context.goNamed('bookedDetailNonApproved',
+                                      pathParameters: {'token': token},
+                                      extra: state.booking.results![index]);
+                                }
+                              },
+                              child: BookedCard(
+                                width: MediaQuery.of(context).size.width,
+                                height: 400,
+                                property: state.booking.results![index],
+                              ),
+                            ),
+                          );
+                        }
+                        return SizedBox.shrink();
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-      ),
-    );
+        
+            ),
+      );
   }
 }
 

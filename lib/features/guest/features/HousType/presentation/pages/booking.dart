@@ -264,7 +264,7 @@ final int id;
                   margin: EdgeInsets.symmetric(horizontal: 20),
                   child: CustomButton(
                       onPressed: () {
-                        context.goNamed('booked');
+                        context.goNamed('houseType');
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: ColorConstant.primaryColor,

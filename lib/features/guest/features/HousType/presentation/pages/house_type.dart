@@ -42,50 +42,53 @@ class HouseType extends StatelessWidget {
             SizedBox(
                 height: MediaQuery.of(context).size.height * 0.31,
                 width: MediaQuery.of(context).size.width,
-                child: CarouselView(
-                    itemExtent: MediaQuery.of(context).size.width,
-                    backgroundColor: ColorConstant.cardGrey.withValues(alpha: 0.6),
-                    children: List.generate(
-                      1,
-                      (index) => Stack(
-                        children: [
-                          ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: CachedNetworkImage(
-                                imageUrl:
-                                    "https://media.architecturaldigest.com/photos/57e42deafe422b3e29b7e790/master/pass/JW_LosCabos_2015_MainExterior.jpg",
-                                placeholder: (context, url) =>
-                                    CupertinoActivityIndicator(),
-                                errorWidget: (context, url, error) =>
-                                    Icon(Icons.error),
-                                fit: BoxFit.cover,
-                                width: MediaQuery.of(context).size.width,
-                                height: MediaQuery.of(context).size.height * 0.31,
-
+                child:
+                RepaintBoundary(
+                  child: CarouselView(
+                      itemExtent: MediaQuery.of(context).size.width,
+                      backgroundColor: ColorConstant.cardGrey.withValues(alpha: 0.6),
+                      children: List.generate(
+                        1,
+                        (index) => Stack(
+                          children: [
+                            ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: CachedNetworkImage(
+                                  imageUrl:
+                                      "https://media.architecturaldigest.com/photos/57e42deafe422b3e29b7e790/master/pass/JW_LosCabos_2015_MainExterior.jpg",
+                                  placeholder: (context, url) =>
+                                      CupertinoActivityIndicator(),
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
+                                  fit: BoxFit.cover,
+                                  width: MediaQuery.of(context).size.width,
+                                  height: MediaQuery.of(context).size.height * 0.31,
+                  
+                                ),
                               ),
-                            ),
-                          Positioned(
-                            bottom: 5,
-                            left: 13,
-                            right: 20,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "Discover the ultimate solution for all your property needs with our app.",
-                                textAlign: TextAlign.start,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white),
+                            Positioned(
+                              bottom: 5,
+                              left: 13,
+                              right: 20,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Discover the ultimate solution for all your property needs with our app.",
+                                  textAlign: TextAlign.start,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white),
+                                ),
                               ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ))),
+                            )
+                          ],
+                        ),
+                      )),
+                )),
             SecctionHeader(
               title: "What are you looking for?",
               isSeeMore: false,
@@ -110,17 +113,19 @@ class HouseType extends StatelessWidget {
                       context.goNamed("houseTypeDetail",
                           extra: state.propertyTypes[index].propertyType);
                     },
-                    child: AnimatedContainer(
-                      duration: Duration(milliseconds: 100),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          border: Border.all(
-                            color: Colors.white,
-                          )),
-                      child: HouseTypeCard(
-                        image: houseTypeIcons[
-                            state.propertyTypes[index].propertyType]!,
-                        title: state.propertyTypes[index].propertyType,
+                    child: RepaintBoundary(
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: 100),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            border: Border.all(
+                              color: Colors.white,
+                            )),
+                        child: HouseTypeCard(
+                          image: houseTypeIcons[
+                              state.propertyTypes[index].propertyType]!,
+                          title: state.propertyTypes[index].propertyType,
+                        ),
                       ),
                     ),
                   ),

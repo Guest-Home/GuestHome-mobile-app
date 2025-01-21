@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:latlong2/latlong.dart';
 
 import '../../../../../../config/color/color.dart';
 
@@ -13,8 +15,7 @@ class LocationMap extends StatelessWidget {
   final String loc;
   final String latitude;
   final String longtiude;
-  final Completer<GoogleMapController> _controller =
-  Completer<GoogleMapController>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -30,19 +31,40 @@ class LocationMap extends StatelessWidget {
           child:
           ClipRRect(
             borderRadius:BorderRadius.circular(10) ,
-            child: GoogleMap(
-              myLocationButtonEnabled: false,
-              zoomControlsEnabled: false,
-              mapType: MapType.normal,
-              initialCameraPosition: CameraPosition(
-                target: LatLng(double.parse(latitude), double.parse(longtiude)),
-                zoom: 14.4746,
-              ),
-              onMapCreated:
-                  (GoogleMapController controller) {
-                _controller.complete(controller);
-              },
-            ),
+            child:
+            RepaintBoundary(
+              child: ClipRRect(
+                  borderRadius:
+                  BorderRadius.circular(10),
+                  child: FlutterMap(
+                      mapController: MapController(),
+                      options: MapOptions(
+                          initialZoom: 15,
+                          backgroundColor: ColorConstant.cardGrey.withValues(alpha: 0.6),
+                          initialCenter:LatLng(double.parse(latitude),double.parse(longtiude))),
+                      children: [
+                        TileLayer(
+                          urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                          userAgentPackageName: 'dev.fleaflet.flutter_map.example',
+                          // Plenty of other options available!
+                        ),
+                        MarkerLayer(
+                          markers: [
+                            Marker(
+                              point: LatLng(double.parse(latitude), double.parse(longtiude)),
+                              width: 50,
+                              height: 50,
+                              child:  SvgPicture.asset(
+                                'assets/icons/marker.svg',
+                                semanticsLabel:"marker",
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ],
+                        ),
+
+                      ])),
+            )
           ),
         ),
         Padding(
