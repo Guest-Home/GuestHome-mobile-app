@@ -202,7 +202,8 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                 isSeeMore: true,
                               ),
                             ),
-                            BlocBuilder<PopularPropertyBloc,PopularPropertyState>(
+                            BlocBuilder<PopularPropertyBloc,
+                                PopularPropertyState>(
                               buildWhen: (previous, current) =>
                                   previous != current,
                               builder: (context, state) {
@@ -210,20 +211,20 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                   return Center(
                                     child: loadingIndicator(),
                                   );
-                                } else if(state.properties.count==0 || state.properties.results==null){
+                                } else if (state.properties.count == 0 ||
+                                    state.properties.results == null) {
                                   return Center(
                                     child: Text(
                                       "no property found",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall,
+                                      style:
+                                          Theme.of(context).textTheme.bodySmall,
                                     ),
                                   );
-                                }
-
-                                else if (state.properties.results!.isNotEmpty) {
+                                } else if (state
+                                    .properties.results!.isNotEmpty) {
                                   return SizedBox(
-                                    height: MediaQuery.of(context).size.height * 0.42,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.42,
                                     width: MediaQuery.of(context).size.width,
                                     child: ListView.builder(
                                       itemCount:
@@ -252,7 +253,8 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                             child: PopularHouseCard(
                                                 width: MediaQuery.of(context)
                                                         .size
-                                                        .width *0.7,
+                                                        .width *
+                                                    0.7,
                                                 height: 300,
                                                 showBorder: true,
                                                 showIndicator: false,
@@ -278,56 +280,57 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                               builder: (context, state) {
                                 if (state is HouseTypeLoadingState) {
                                   return Center(
-                                    child:loadingIndicator(),
+                                    child: loadingIndicator(),
                                   );
-                                }
-                                 else if (state.properties.count == 0 || state.properties.results==null) {
-                                    return Center(
-                                      child: Column(
-                                        children: [
-                                          Image.asset(
-                                            "assets/icons/Inboxe.png",
-                                            width: 80,
-                                            height: 80,
-                                          ),
-                                          Text(
-                                            "no property\n found under ${widget.name} ",
-                                            textAlign: TextAlign.center,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall,
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  }
-                                  else if(state.properties.results!.isNotEmpty){
+                                } else if (state.properties.count == 0 ||
+                                    state.properties.results == null) {
+                                  return Center(
+                                    child: Column(
+                                      children: [
+                                        Image.asset(
+                                          "assets/icons/Inboxe.png",
+                                          width: 80,
+                                          height: 80,
+                                        ),
+                                        Text(
+                                          "no property\n found under ${widget.name} ",
+                                          textAlign: TextAlign.center,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                } else if (state
+                                    .properties.results!.isNotEmpty) {
                                   return ListView.builder(
                                     shrinkWrap: true,
                                     physics: NeverScrollableScrollPhysics(),
                                     itemCount: state.properties.count,
-                                    padding:EdgeInsets.symmetric(horizontal: 15),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 15),
                                     itemBuilder: (context, index) {
                                       return GestureDetector(
                                         onTap: () async {
                                           final token =
-                                          await GetToken().getUserToken();
+                                              await GetToken().getUserToken();
                                           context.push('/houseDetail/$token',
                                               extra: state
                                                   .properties.results![index]);
                                         },
                                         child: NearHouseCard(
                                           width:
-                                          MediaQuery.of(context).size.width,
+                                              MediaQuery.of(context).size.width,
                                           height: 400,
                                           property:
-                                          state.properties.results![index],
+                                              state.properties.results![index],
                                         ),
                                       );
                                     },
                                   );
                                 }
-                                 return SizedBox.shrink();
+                                return SizedBox.shrink();
                               },
                             ),
                           ],
@@ -357,7 +360,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
         child: BlocListener<FilterBloc, FilterState>(
           listener: (context, state) {
             if (state is FilterDataLoadedState) {
-              context.pop();
+
             } else if (state is FilterErrorState) {
               showErrorSnackBar(context, state.failure.message);
             }
@@ -365,375 +368,384 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
           child: BlocBuilder<FilterBloc, FilterState>(
             buildWhen: (previous, current) => previous != current,
             builder: (context, filterState) {
-              return  Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 15,
-                  children: [
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 14, top: 10, right: 14),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            tr('Filter Houses'),
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(
-                                    fontWeight: FontWeight.w700, fontSize: 14),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                tr("Close"),
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(color: ColorConstant.red),
-                              ),
-                              IconButton(
-                                  onPressed: () {
-                                    context
-                                        .read<FilterBloc>()
-                                        .add(ResetEvent());
-                                    context.pop();
-                                  },
-                                  icon: Icon(
-                                    Icons.cancel_outlined,
-                                    color: ColorConstant.red,
-                                  )),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                        child: ListView(
-                      padding: EdgeInsets.symmetric(horizontal: 14),
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 15,
+                children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 14, top: 10, right: 14),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        SizedBox(
-                          height: 110,
-                          child:
-                              BlocBuilder<PropertyTypeBloc, PropertyTypeState>(
-                            buildWhen: (previous, current) =>
-                                previous != current,
-                            builder: (context, state) {
-                              return Column(
-                                spacing: 10,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Selected  house type: ",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium!
-                                            .copyWith(
-                                          fontSize: 14,
-                                                fontWeight: FontWeight.w500),
-                                      ),
-                                      Text(
-                                        filterState.category.isNotEmpty
-                                            ? filterState.category
-                                            : widget.name,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium!
-                                            .copyWith(
-                                                color:
-                                                    ColorConstant.primaryColor),
-                                      ),
-                                    ],
-                                  ),
-                                  Expanded(
-                                    child: ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: state.propertyTypes.length,
-                                      itemBuilder: (context, index) =>
-                                          Container(
-                                        margin: EdgeInsets.only(right: 10),
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            context.read<FilterBloc>().add(
-                                                AddHouseTypeEvent(
-                                                    houseType: state
-                                                        .propertyTypes[index]
-                                                        .propertyType));
-                                          },
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            spacing: 4,
-                                            children: [
-                                              Container(
-                                                  padding: EdgeInsets.all(13),
-                                                  margin: EdgeInsets.only(
-                                                      right: 10),
-                                                  decoration: BoxDecoration(
-                                                    color: filterState
-                                                            .category.isNotEmpty
-                                                        ? filterState
-                                                                    .category ==
-                                                                state
-                                                                    .propertyTypes[
-                                                                        index]
-                                                                    .propertyType
-                                                            ? ColorConstant
-                                                                .primaryColor
-                                                                .withValues(
-                                                                    alpha: 0.5)
-                                                            : ColorConstant
-                                                                .cardGrey
-                                                        : widget.name ==
-                                                                state
-                                                                    .propertyTypes[
-                                                                        index]
-                                                                    .propertyType
-                                                            ? ColorConstant
-                                                                .primaryColor
-                                                                .withValues(
-                                                                    alpha: 0.5)
-                                                            : ColorConstant
-                                                                .cardGrey,
-                                                    shape: BoxShape.circle,
-                                                  ),
-                                                  child: SvgPicture.asset(
-                                                    width: 20,
-                                                    height: 20,
-                                                    houseTypeIcons[state
-                                                        .propertyTypes[index]
-                                                        .propertyType]!,
-                                                    semanticsLabel:
-                                                        houseTypeList[index],
-                                                    fit: BoxFit.cover,
-                                                  )),
-                                              Text(
-                                                state.propertyTypes[index]
-                                                    .propertyType,
-                                                textAlign: TextAlign.center,
-                                                softWrap: true,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodySmall!
-                                                    .copyWith(
-                                                        fontWeight:
-                                                            FontWeight.w400),
-                                              )
-                                            ],
-                                          ),
+                        Text(
+                          tr('Filter Houses'),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(
+                                  fontWeight: FontWeight.w700, fontSize: 14),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              tr("Close"),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(color: ColorConstant.red),
+                            ),
+                            IconButton(
+                                onPressed: () {
+                                  context.read<FilterBloc>().add(ResetEvent());
+                                  context.pop();
+                                },
+                                icon: Icon(
+                                  Icons.cancel_outlined,
+                                  color: ColorConstant.red,
+                                )),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                      child: ListView(
+                    padding: EdgeInsets.symmetric(horizontal: 14),
+                    children: [
+                      SizedBox(
+                        height: 110,
+                        child: BlocBuilder<PropertyTypeBloc, PropertyTypeState>(
+                          buildWhen: (previous, current) => previous != current,
+                          builder: (context, state) {
+                            return Column(
+                              spacing: 10,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Selected  house type: ",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500),
+                                    ),
+                                    Text(
+                                      filterState.category.isNotEmpty
+                                          ? filterState.category
+                                          : widget.name,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(
+                                              color:
+                                                  ColorConstant.primaryColor),
+                                    ),
+                                  ],
+                                ),
+                                Expanded(
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: state.propertyTypes.length,
+                                    itemBuilder: (context, index) => Container(
+                                      margin: EdgeInsets.only(right: 10),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          context.read<FilterBloc>().add(
+                                              AddHouseTypeEvent(
+                                                  houseType: state
+                                                      .propertyTypes[index]
+                                                      .propertyType));
+                                        },
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          spacing: 4,
+                                          children: [
+                                            Container(
+                                                padding: EdgeInsets.all(13),
+                                                margin:
+                                                    EdgeInsets.only(right: 10),
+                                                decoration: BoxDecoration(
+                                                  color: filterState
+                                                          .category.isNotEmpty
+                                                      ? filterState.category ==
+                                                              state
+                                                                  .propertyTypes[
+                                                                      index]
+                                                                  .propertyType
+                                                          ? ColorConstant
+                                                              .primaryColor
+                                                              .withValues(
+                                                                  alpha: 0.5)
+                                                          : ColorConstant
+                                                              .cardGrey
+                                                      : widget.name ==
+                                                              state
+                                                                  .propertyTypes[
+                                                                      index]
+                                                                  .propertyType
+                                                          ? ColorConstant
+                                                              .primaryColor
+                                                              .withValues(
+                                                                  alpha: 0.5)
+                                                          : ColorConstant
+                                                              .cardGrey,
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: SvgPicture.asset(
+                                                  width: 20,
+                                                  height: 20,
+                                                  houseTypeIcons[state
+                                                      .propertyTypes[index]
+                                                      .propertyType]!,
+                                                  semanticsLabel:
+                                                      houseTypeList[index],
+                                                  fit: BoxFit.cover,
+                                                )),
+                                            Text(
+                                              state.propertyTypes[index]
+                                                  .propertyType,
+                                              textAlign: TextAlign.center,
+                                              softWrap: true,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall!
+                                                  .copyWith(
+                                                      fontWeight:
+                                                          FontWeight.w400),
+                                            )
+                                          ],
                                         ),
                                       ),
                                     ),
                                   ),
-                                ],
-                              );
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SecctionHeader(
-                              title: tr("Price range"), isSeeMore: false),
-                        ),
-                        RangeSlider(
-                          values: filterState.priceRange,
-                          labels: RangeLabels(
-                              filterState.priceRange.start.toString(),
-                              filterState.priceRange.end.toString()),
-                          activeColor: ColorConstant.primaryColor,
-                          inactiveColor: Colors.grey,
-                          min: 100,
-                          max: 5000,
-                          divisions: 300,
-                          onChanged: (value) {
-                            if(filterState.category.isNotEmpty){
-                              context
-                                  .read<FilterBloc>()
-                                  .add(AddPriceRange(prices: value));
-                            }
-
+                                ),
+                              ],
+                            );
                           },
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                children: [
-                                  Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 10),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(100),
-                                          border: Border.all(
-                                            color: ColorConstant.secondBtnColor,
-                                          )),
-                                      child: Text(
-                                        "${filterState.priceRange.start.ceil()} ETB",
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SecctionHeader(
+                            title: tr("Price range"), isSeeMore: false),
+                      ),
+                      RangeSlider(
+                        values: filterState.priceRange,
+                        labels: RangeLabels(
+                            filterState.priceRange.start.toString(),
+                            filterState.priceRange.end.toString()),
+                        activeColor: ColorConstant.primaryColor,
+                        inactiveColor: Colors.grey,
+                        min: 100,
+                        max: 5000,
+                        divisions: 300,
+                        onChanged: (value) {
+                          if (filterState.category.isNotEmpty) {
+                            context
+                                .read<FilterBloc>()
+                                .add(AddPriceRange(prices: value));
+                          }
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              children: [
+                                Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 10),
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                        border: Border.all(
+                                          color: ColorConstant.secondBtnColor,
+                                        )),
+                                    child: Text(
+                                      "${filterState.priceRange.start.ceil()} ETB",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                              fontWeight: FontWeight.w400),
+                                    )),
+                                Text(
+                                  tr('Minimum'),
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 10),
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                        border: Border.all(
+                                          color: ColorConstant.secondBtnColor,
+                                        )),
+                                    child: Text(
+                                        "${filterState.priceRange.end.ceil()} ETB",
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodySmall!
                                             .copyWith(
-                                                fontWeight: FontWeight.w400),
-                                      )),
-                                  Text(
-                                    tr('Minimum'),
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 10),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(100),
-                                          border: Border.all(
-                                            color: ColorConstant.secondBtnColor,
-                                          )),
-                                      child: Text(
-                                          "${filterState.priceRange.end.ceil()} ETB",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall!
-                                              .copyWith(
-                                                  fontWeight:
-                                                      FontWeight.w400))),
-                                  Text(
-                                    tr('Maximum'),
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SecctionHeader(
-                              title: tr("Location"), isSeeMore: false),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        CustomTextField(
-                            hintText: tr("Addis Ababa"),
-                            validator: (value) {
-                              return null;
-                            },
-                            textEditingController: widget.cityController,
-                            surfixIcon: SizedBox(
-                              child: CityDropDown(onSelected: (value) {
-                                if(filterState.category.isNotEmpty){
-                                  widget.cityController.text = value;
-                                  context
-                                      .read<FilterBloc>()
-                                      .add(AddFilterCityEvent(city: value));
-                                }
-
-                              }),
+                                                fontWeight: FontWeight.w400))),
+                                Text(
+                                  tr('Maximum'),
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                              ],
                             ),
-                            onTextChnage: (value) {},
-                            isMultiLine: false,
-                            textInputType: TextInputType.text),
-                        CheckboxListTile(
-                          activeColor: ColorConstant.green,
-                          controlAffinity: ListTileControlAffinity.leading,
-                          value: filterState.isNearSearch,
-                          title: Text(
-                            tr('Nearby Search'),
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(fontWeight: FontWeight.w400),
-                          ),
-                          onChanged: (value) {
-                            context
-                                .read<FilterBloc>()
-                                .add(AddIsNearSearchEvent(isNear: value!));
-                          },
+                          ],
                         ),
-                        Container(
-                          margin: EdgeInsets.only(top: 10),
-                          width: MediaQuery.of(context).size.width,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            spacing: 15,
-                            children: [
-                              Expanded(
-                                  child: CustomButton(
-                                      onPressed: () {
-                                        context
-                                            .read<FilterBloc>()
-                                            .add(ResetEvent());
-                                        context.pop();
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.white,
-                                          padding: EdgeInsets.all(20),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              side: BorderSide(
-                                                  color: ColorConstant
-                                                      .secondBtnColor))),
-                                      child: Text(
-                                        tr("Clear all"),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium!
-                                            .copyWith(
-                                                color: ColorConstant
-                                                    .secondBtnColor,
-                                                fontWeight: FontWeight.w600),
-                                      ))),
-                              Expanded(
-                                  child: CustomButton(
-                                      onPressed: () {
-                                        context
-                                            .read<FilterBloc>()
-                                            .add(FilterPropertyEvent());
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor:
-                                            ColorConstant.primaryColor,
-                                        padding: EdgeInsets.all(20),
-                                      ),
-                                      child:
-                                          filterState is FilterDataLoadingState
-                                              ? loading
-                                              : Text(
-                                                  tr("Show"),
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyMedium!
-                                                      .copyWith(
-                                                          color: Colors.white,
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                )))
-                            ],
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SecctionHeader(
+                            title: tr("Location"), isSeeMore: false),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      CustomTextField(
+                          hintText: tr("Addis Ababa"),
+                          validator: (value) {
+                            return null;
+                          },
+                          textEditingController: widget.cityController,
+                          surfixIcon: SizedBox(
+                            child: CityDropDown(onSelected: (value) {
+                              if (filterState.category.isNotEmpty) {
+                                widget.cityController.text = value;
+                                context
+                                    .read<FilterBloc>()
+                                    .add(AddFilterCityEvent(city: value));
+                              }
+                            }),
                           ),
-                        )
-                      ],
-                    ))
-                  ],
-                );
+                          onTextChnage: (value) {},
+                          isMultiLine: false,
+                          textInputType: TextInputType.text),
+                      CheckboxListTile(
+                        activeColor: ColorConstant.green,
+                        controlAffinity: ListTileControlAffinity.leading,
+                        value: filterState.isNearSearch,
+                        title: Text(
+                          tr('Nearby Search'),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(fontWeight: FontWeight.w400),
+                        ),
+                        onChanged: (value) {
+                          context
+                              .read<FilterBloc>()
+                              .add(AddIsNearSearchEvent(isNear: value!));
+                        },
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 10),
+                        width: MediaQuery.of(context).size.width,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          spacing: 15,
+                          children: [
+                            Expanded(
+                                child: CustomButton(
+                                    onPressed: () {
+                                      context
+                                          .read<FilterBloc>()
+                                          .add(ResetEvent());
+                                      context.pop();
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.white,
+                                        padding: EdgeInsets.all(20),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            side: BorderSide(
+                                                color: ColorConstant
+                                                    .secondBtnColor))),
+                                    child: Text(
+                                      tr("Clear all"),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(
+                                              color:
+                                                  ColorConstant.secondBtnColor,
+                                              fontWeight: FontWeight.w600),
+                                    ))),
+                            Expanded(
+                                child: filterState is FilterDataLoadedState
+                                    ? CustomButton(
+                                        onPressed: () {
+                                          context.pop();
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              ColorConstant.primaryColor,
+                                          padding: EdgeInsets.all(20),
+                                        ),
+                                        child: Text(
+                                                "${tr("Show")}(${filterState.properties.count})Result",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium!
+                                                    .copyWith(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                              ))
+                                    : CustomButton(
+                                        onPressed: () {
+                                          context
+                                              .read<FilterBloc>()
+                                              .add(FilterPropertyEvent());
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              ColorConstant.primaryColor,
+                                          padding: EdgeInsets.all(20),
+                                        ),
+                                        child: filterState
+                                                is FilterDataLoadingState
+                                            ? loading
+                                            : Text(
+                                                tr("Show"),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium!
+                                                    .copyWith(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                              )))
+                          ],
+                        ),
+                      )
+                    ],
+                  ))
+                ],
+              );
             },
           ),
         ),
