@@ -24,4 +24,14 @@ class OccupancyRateRepositoryImpl implements AnalyticsRepository {
       Map<String, dynamic> dates) async {
     return await sl<AnalyticsDataSource>().getCustomOccupancyRate(dates);
   }
+
+  @override
+  Future<Either<Failure, bool>> downloadReport(String dates)async{
+    return await sl<AnalyticsDataSource>().downloadReport(dates);
+  }
+
+  @override
+  Future<Either<Failure, bool>> downloadReportCustom(Map<String, dynamic> dates)async{
+    return await sl<AnalyticsDataSource>().downloadReportCustom(dates);
+  }
 }

@@ -20,3 +20,4 @@ class AddCustomDateEvent extends AnalyticsEvent{
 
 class GetOccupancyRateEvent extends AnalyticsEvent{}
 class GetCustomOccupancyEvent extends AnalyticsEvent{}
+class DownloadReportEvent extends AnalyticsEvent{}

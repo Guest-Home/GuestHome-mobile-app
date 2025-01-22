@@ -10,4 +10,6 @@ abstract class AnalyticsRepository{
   Future<Either<Failure,OccupancyRateEntity>> getOccupancyRate();
   Future<Either<Failure,TotalNumberOfPropertyEntity>> getTotalProperty();
   Future<Either<Failure,CustomOccupancyEntity>> getCustomOccupancyRate(Map<String,dynamic> dates);
+  Future<Either<Failure,bool>> downloadReport(String dates);
+  Future<Either<Failure,bool>> downloadReportCustom(Map<String,dynamic> dates);
 }

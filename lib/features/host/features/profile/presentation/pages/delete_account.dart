@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:minapp/features/auth/presentation/bloc/log_out/log_out_bloc.dart';
 
 import '../../../../../../config/color/color.dart';
 import '../../../../../../core/common/back_button.dart';
@@ -24,8 +26,12 @@ class DeleteAccount extends StatelessWidget {
         body: Padding(
           padding: const EdgeInsets.all(16),
           child:
-
-          ListTile(
+          BlocConsumer<LogOutBloc, LogOutState>(
+  listener: (context, state) {
+    // TODO: implement listener
+  },
+  builder: (context, state) {
+    return ListTile(
             title: Text(
               "Delete Account",
               style: Theme.of(context)
@@ -58,7 +64,9 @@ class DeleteAccount extends StatelessWidget {
                 )
               ],
             ),
-          ),
+          );
+  },
+),
         ));
   }
 

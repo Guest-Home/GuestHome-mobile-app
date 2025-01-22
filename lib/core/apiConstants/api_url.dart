@@ -10,6 +10,7 @@ class ApiUrl {
   static const String otp = "/authapp/api/v1/otp/";
   static const String changePhone = "/authapp/api/v1/change_phone_number/";
   static const String logOut = "/authapp/api/v1/logout/";
+  static const String deleteAccount = "/authapp/api/v1/deactivate_user/";
 
   static const String customer = "/hostapp/api/v1/customer/";
   static const String updateUserAccount = "/authapp/api/v1/user_account_update/";
@@ -27,6 +28,8 @@ class ApiUrl {
   static const String totalProperty = "/hostapp/api/v1/total_number_of_property/";
   static const String agent = "/hostapp/api/v1/agent/";
   static const String hostHouseSearch = "/hostapp/api/v1/houses_search/";
+
+  static const String downloadReport = "/hostapp/api/v1/reservation_report/";
 
 
   //guest

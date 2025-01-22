@@ -3,9 +3,12 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
 import 'package:minapp/core/common/loading_indicator_widget.dart';
+import 'package:minapp/core/common/spin_kit_loading.dart';
 import 'package:minapp/core/utils/date_converter.dart';
+import 'package:minapp/core/utils/show_snack_bar.dart';
 import 'package:minapp/features/host/features/analytics/presentation/bloc/analytics_bloc.dart';
 import 'package:minapp/features/host/features/analytics/presentation/bloc/total_property_bloc.dart';
 import '../widgets/analytics_chart.dart';
@@ -190,7 +193,34 @@ class _AnalyticsState extends State<Analytics> {
                     ],
                   ),
                 ),
-                BlocBuilder<AnalyticsBloc, AnalyticsState>(
+                BlocConsumer<AnalyticsBloc, AnalyticsState>(
+                  listener: (context, state) {
+                    if(state is AnalyticsErrorState){
+                      context.pop();
+                      showErrorSnackBar(context, state.failure.message);
+                    }
+                    else if(state is DownloadingLoadingState){
+                      showDialog(context: context,
+                        barrierDismissible: false,
+                        builder:(context) => AlertDialog(
+                          content: Container(
+                            padding: EdgeInsets.all(10),
+                            height:100,
+                            child: Column(
+                              spacing: 15,
+                              children: [
+                                loadingWithPrimary,
+                                Text("Downloading report")
+                              ],
+                            ),
+                          ),
+                        ),);
+                    }
+                    else if(state is DownloadedState){
+                      context.pop();
+                      print("downloadede.......");
+                    }
+                  },
                   buildWhen: (previous, current) => previous != current,
                   builder: (context, state) {
                     if (state.occupancyRateEntity.last7Days == null) {
@@ -230,50 +260,12 @@ class _AnalyticsState extends State<Analytics> {
                                     .last30Days!.dailyOccupancy!,
                               ),
                             ),
-                            ListTile(
-                              title:   sectionTitle(context, "Report"),
-                              subtitle: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 10),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      "This is report of your property performance over time. you can download and review in PDF.",
-                                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400
-                                      ),
-                                    ),
-                                    ElevatedButton(
-                                      onPressed: () {},
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor: ColorConstant.secondBtnColor,
-                                          padding: EdgeInsets.all(10),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(10))),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.download,
-                                            color: Colors.white,
-                                          ),
-                                          Text(
-                                            "Download",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyMedium!
-                                                .copyWith(color: Colors.white),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
+                            ReportDownload()
+
                           ],
                         );
-                      } else if (state.selectedDate == '60 Days') {
+                      }
+                      else if (state.selectedDate == '60 Days') {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           spacing: 10,
@@ -307,47 +299,8 @@ class _AnalyticsState extends State<Analytics> {
                                     .last60Days!.dailyOccupancy!,
                               ),
                             ),
-                            ListTile(
-                              title:   sectionTitle(context, "Report"),
-                              subtitle: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 10),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      "This is report of your property performance over time. you can download and review in PDF.",
-                                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400
-                                      ),
-                                    ),
-                                    ElevatedButton(
-                                      onPressed: () {},
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor: ColorConstant.secondBtnColor,
-                                          padding: EdgeInsets.all(10),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(10))),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.download,
-                                            color: Colors.white,
-                                          ),
-                                          Text(
-                                            "Download",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyMedium!
-                                                .copyWith(color: Colors.white),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
+                            ReportDownload()
+
                           ],
                         );
                       } else if (state.selectedDate == '7 Days') {
@@ -384,53 +337,14 @@ class _AnalyticsState extends State<Analytics> {
                                     .last7Days!.dailyOccupancy!,
                               ),
                             ),
-                            ListTile(
-                              title:   sectionTitle(context, "Report"),
-                              subtitle: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 10),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      "This is report of your property performance over time. you can download and review in PDF.",
-                                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400
-                                      ),
-                                    ),
-                                    ElevatedButton(
-                                      onPressed: () {},
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor: ColorConstant.secondBtnColor,
-                                          padding: EdgeInsets.all(10),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(10))),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.download,
-                                            color: Colors.white,
-                                          ),
-                                          Text(
-                                            "Download",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyMedium!
-                                                .copyWith(color: Colors.white),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
+                            ReportDownload()
+
                           ],
                         );
                       } else if (state.selectedDate == 'custom') {
                         if (state is CustomOccupancyRateLoadingState) {
                           return Center(
-                            child: CupertinoActivityIndicator(),
+                            child: loadingIndicator(),
                           );
                         } else {
                           return Column(
@@ -466,124 +380,13 @@ class _AnalyticsState extends State<Analytics> {
                                       .custom!.dailyOccupancy!,
                                 ),
                               ),
-                              ListTile(
-                                title:   sectionTitle(context, "Report"),
-                                subtitle: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        "This is report of your property performance over time. you can download and review in PDF.",
-                                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w400
-                                        ),
-                                      ),
-                                      ElevatedButton(
-                                        onPressed: () {},
-                                        style: ElevatedButton.styleFrom(
-                                            backgroundColor: ColorConstant.secondBtnColor,
-                                            padding: EdgeInsets.all(10),
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(10))),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.download,
-                                              color: Colors.white,
-                                            ),
-                                            Text(
-                                              "Download",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyMedium!
-                                                  .copyWith(color: Colors.white),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
+                              ReportDownload()
                             ],
                           );
                         }
                       }
                     }
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: 10,
-                      children: [
-                        sectionTitle(context, 'Key Metrics'),
-                        Wrap(
-                          children: [
-                            MetricsCard(
-                              title: 'Revenue',
-                              value: "0 ETB",
-                            ),
-                            MetricsCard(
-                              title: "Active Bookings",
-                              value: "0",
-                            ),
-                            MetricsCard(
-                              title: 'Occupancy Rate',
-                              value: "0%",
-                            ),
-                          ],
-                        ),
-                        Container(
-                          height: 300,
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(15),
-                          child: AnalyticsChart(
-                            dailyOccupancy: {},
-                          ),
-                        ),
-                        ListTile(
-                          title:   sectionTitle(context, "Report"),
-                          subtitle: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: Column(
-                              children: [
-                                Text(
-                                  "This is report of your property performance over time. you can download and review in PDF.",
-                                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400
-                                  ),
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {},
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: ColorConstant.secondBtnColor,
-                                      padding: EdgeInsets.all(10),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10))),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.download,
-                                        color: Colors.white,
-                                      ),
-                                      Text(
-                                        "Download",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium!
-                                            .copyWith(color: Colors.white),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
-                    );
+                    return SizedBox.shrink();
                   },
                 )
               ],
@@ -600,7 +403,6 @@ class _AnalyticsState extends State<Analytics> {
         firstDate: DateTime(2020),
         lastDate: DateTime.now());
   }
-
   Text sectionTitle(BuildContext context, String title) {
     return Text(
       title,
@@ -656,3 +458,66 @@ class MetricsCard extends StatelessWidget {
     );
   }
 }
+class ReportDownload extends StatelessWidget {
+  const ReportDownload({super.key});
+  Text sectionTitle(BuildContext context, String title) {
+    return Text(
+      title,
+      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+          fontWeight: FontWeight.w600,
+          fontSize: 14
+      ),
+    );
+  }
+  @override
+  Widget build(BuildContext context) {
+    return  BlocConsumer<AnalyticsBloc, AnalyticsState>(
+  listener: (context, state) {
+  },
+  builder: (context, state) {
+    return ListTile(
+      title:   sectionTitle(context, "Report"),
+      subtitle: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Column(
+          children: [
+            Text(
+              "This is report of your property performance over time. you can download and review in PDF.",
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400
+              ),
+            ),
+            ElevatedButton(
+              onPressed:() => context.read<AnalyticsBloc>().add(DownloadReportEvent()),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: ColorConstant.secondBtnColor,
+                  padding: EdgeInsets.all(10),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10))),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.download,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    "Download",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: Colors.white),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  },
+);
+  }
+}
+

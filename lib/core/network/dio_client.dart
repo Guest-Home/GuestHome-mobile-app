@@ -25,6 +25,29 @@ class DioClient {
             LoggerInterceptor(),
             RetryOnConnectionChangeInterceptor(sl<ConnectivityService>())
           ]);
+  // DOWNLOAD METHOD
+  Future<Response> download(
+      String url,
+      String savePath,
+      {
+        Map<String, dynamic>? queryParameters,
+        Options? options,
+        CancelToken? cancelToken,
+        ProgressCallback? onReceiveProgress,
+      }) async {
+    try {
+      final Response response = await _dio.download(
+          url,
+          savePath,
+           options: options,
+        queryParameters: queryParameters,
+        cancelToken: cancelToken,
+      );
+      return response;
+    } on DioException {
+      rethrow;
+    }
+  }
 
   // GET METHOD
   Future<Response> get(

@@ -29,7 +29,7 @@ class AnalyticsState extends Equatable {
 }){
     return AnalyticsState(
       selectedDate: selectedDate??this.selectedDate,
-      customStartDate: customStartDate??this.selectedDate,
+      customStartDate: customStartDate??this.customStartDate,
       customEndDate: customEndDate??this.customEndDate,
       occupancyRateEntity: occupancyRateEntity??this.occupancyRateEntity,
       customOccupancyEntity: customOccupancyEntity??this.customOccupancyEntity
@@ -40,14 +40,37 @@ class AnalyticsState extends Equatable {
   @override
   List<Object> get props => [occupancyDate,selectedDate,customStartDate,customEndDate,occupancyRateEntity,customOccupancyEntity];
 }
-class AnalyticsInitial extends AnalyticsState {
-
-}
+class AnalyticsInitial extends AnalyticsState {}
 
 class OccupancyRateLoadingState extends AnalyticsState{
+  OccupancyRateLoadingState(AnalyticsState currentState):super(
+      selectedDate: currentState.selectedDate,
+      customEndDate: currentState.customEndDate,
+      customStartDate: currentState.customStartDate,
+      occupancyRateEntity: currentState.occupancyRateEntity,
+      customOccupancyEntity: currentState.customOccupancyEntity
+  );
 }
 class CustomOccupancyRateLoadingState extends AnalyticsState{
   CustomOccupancyRateLoadingState(AnalyticsState currentState):super(
+      selectedDate: currentState.selectedDate,
+      customEndDate: currentState.customEndDate,
+      customStartDate: currentState.customStartDate,
+      occupancyRateEntity: currentState.occupancyRateEntity,
+      customOccupancyEntity: currentState.customOccupancyEntity
+  );
+}
+class DownloadingLoadingState extends AnalyticsState{
+  DownloadingLoadingState(AnalyticsState currentState):super(
+      selectedDate: currentState.selectedDate,
+      customEndDate: currentState.customEndDate,
+      customStartDate: currentState.customStartDate,
+      occupancyRateEntity: currentState.occupancyRateEntity,
+      customOccupancyEntity: currentState.customOccupancyEntity
+  );
+}
+class DownloadedState extends AnalyticsState{
+  DownloadedState(AnalyticsState currentState):super(
       selectedDate: currentState.selectedDate,
       customEndDate: currentState.customEndDate,
       customStartDate: currentState.customStartDate,

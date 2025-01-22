@@ -31,6 +31,8 @@ import 'package:minapp/features/guest/features/booked/presentation/bloc/booked_d
 import 'package:minapp/features/host/features/analytics/data/datasources/analytics_data_source.dart';
 import 'package:minapp/features/host/features/analytics/data/repositories/occupancy_rate_repository_impl.dart';
 import 'package:minapp/features/host/features/analytics/domain/repositories/analytics_repository.dart';
+import 'package:minapp/features/host/features/analytics/domain/usecases/download_report_custom_usecase.dart';
+import 'package:minapp/features/host/features/analytics/domain/usecases/download_report_usecase.dart';
 import 'package:minapp/features/host/features/analytics/domain/usecases/get_custom_occup_usecase.dart';
 import 'package:minapp/features/host/features/analytics/domain/usecases/get_occupancy_rate_usecase.dart';
 import 'package:minapp/features/host/features/analytics/domain/usecases/get_total_property_usecase.dart';
@@ -184,6 +186,8 @@ void setup() async {
   sl.registerSingleton<GetOtpForNewUseCase>(GetOtpForNewUseCase());
   sl.registerSingleton<VerifyNewOtpUseCase>(VerifyNewOtpUseCase());
   sl.registerSingleton<LogOutUseCase>(LogOutUseCase());
+  sl.registerSingleton<DownloadReportCustomUseCase>(DownloadReportCustomUseCase());
+  sl.registerSingleton<DownloadReportUseCase>(DownloadReportUseCase());
 
   // repository
 
