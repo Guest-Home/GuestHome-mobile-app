@@ -2,15 +2,15 @@
 import 'package:equatable/equatable.dart';
 
 class BookedDetailEntity extends Equatable {
-  int? id;
-  HouseDetailEntity? house;
-  UserDetailEntity? user;
-  DateTime? checkIn;
-  DateTime? checkOut;
-  String? status;
-  DateTime? decisionTime;
+  final int? id;
+  final HouseDetailEntity? house;
+  final UserDetailEntity? user;
+  final DateTime? checkIn;
+  final DateTime? checkOut;
+  final String? status;
+  final DateTime? decisionTime;
 
-  BookedDetailEntity({
+  const BookedDetailEntity({
     this.id,
     this.house,
     this.user,
@@ -24,22 +24,22 @@ class BookedDetailEntity extends Equatable {
 }
 
 class HouseDetailEntity extends Equatable {
-  int? id;
-  int? price;
-  String? title;
-  String? unit;
-  String? latitude;
-  String? longitude;
-  String? typeofHouse;
-  String? description;
-  String? postedOn;
-  String? city;
-  PostedByDetailEntity? postedBy;
-  List<HouseImageDetailEntity>? houseImage;
-  String? subDescription;
-  String? specificAddress;
+  final  int? id;
+  final  int? price;
+  final  String? title;
+  final String? unit;
+  final String? latitude;
+  final String? longitude;
+  final String? typeofHouse;
+  final String? description;
+  final String? postedOn;
+  final String? city;
+  final PostedByDetailEntity? postedBy;
+  final List<HouseImageDetailEntity>? houseImage;
+  final  String? subDescription;
+  final String? specificAddress;
 
-  HouseDetailEntity({
+  const HouseDetailEntity({
     this.id,
     this.price,
     this.title,
@@ -62,11 +62,11 @@ class HouseDetailEntity extends Equatable {
 }
 
 class HouseImageDetailEntity extends Equatable {
-  int? id;
-  String? image;
-  int? house;
+  final int? id;
+  final String? image;
+  final int? house;
 
-  HouseImageDetailEntity({
+  const HouseImageDetailEntity({
     this.id,
     this.image,
     this.house,
@@ -77,20 +77,20 @@ class HouseImageDetailEntity extends Equatable {
 }
 
 class PostedByDetailEntity extends Equatable {
-  int? id;
-  UserAccountDetailEntity? userAccount;
-  String? phoneNumber;
-  String? profilePicture;
-  String? typeOfCustomer;
-  int? rating;
-  dynamic chatId;
-  bool? isApproved;
-  String? points;
-  String? gender;
-  dynamic agent;
-  String? language;
+  final int? id;
+  final UserAccountDetailEntity? userAccount;
+  final  String? phoneNumber;
+  final String? profilePicture;
+  final String? typeOfCustomer;
+  final int? rating;
+  final dynamic chatId;
+  final  bool? isApproved;
+  final  String? points;
+  final String? gender;
+  final  dynamic agent;
+  final String? language;
 
-  PostedByDetailEntity({
+  const PostedByDetailEntity({
     this.id,
     this.userAccount,
     this.phoneNumber,
@@ -109,14 +109,14 @@ class PostedByDetailEntity extends Equatable {
 }
 
 class UserAccountDetailEntity extends Equatable {
-  int? id;
-  String? username;
-  String? email;
-  String? firstName;
-  String? lastName;
-  bool? isStaff;
+  final int? id;
+  final String? username;
+  final String? email;
+  final String? firstName;
+  final String? lastName;
+  final bool? isStaff;
 
-  UserAccountDetailEntity({
+  const UserAccountDetailEntity({
     this.id,
     this.username,
     this.email,
@@ -130,12 +130,12 @@ class UserAccountDetailEntity extends Equatable {
 }
 
 class UserDetailEntity extends Equatable {
-  int? id;
-  UserAccountDetailEntity? userAccount;
-  String? phoneNumber;
-  dynamic chatId;
+  final int? id;
+  final UserAccountDetailEntity? userAccount;
+  final String? phoneNumber;
+  final dynamic chatId;
 
-  UserDetailEntity({
+  const UserDetailEntity({
     this.id,
     this.userAccount,
     this.phoneNumber,

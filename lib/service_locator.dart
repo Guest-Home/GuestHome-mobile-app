@@ -86,7 +86,7 @@ import 'package:minapp/features/onbording/presentation/bloc/on_bording_bloc.dart
 import 'package:minapp/features/search/presentation/bloc/search_bloc.dart';
 
 import 'features/auth/domain/usecases/create_customer_profile_usecase.dart';
-import 'features/guest/features/booked/domain/usecases/get_booking_detail-usecase.dart';
+import 'features/guest/features/booked/domain/usecases/get_booking_detail_usecase.dart';
 import 'features/search/domain/usecases/host_search_property_usecase.dart';
 
 final sl = GetIt.instance;

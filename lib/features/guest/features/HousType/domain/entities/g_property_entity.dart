@@ -19,19 +19,19 @@ class GpropertyEntity extends Equatable {
 }
 
 class ResultEntity extends Equatable {
-  int? id;
-  int? price;
-  String? title;
-  String? unit;
-  String? typeofHouse;
-  String? description;
-  String? city;
-  PostedByEntity? postedBy;
-  List<HouseImageEntity>? houseImage;
-  String? subDescription;
-  String? specificAddress;
+ final int? id;
+ final int? price;
+ final String? title;
+ final  String? unit;
+ final  String? typeofHouse;
+ final String? description;
+ final String? city;
+ final PostedByEntity? postedBy;
+ final List<HouseImageEntity>? houseImage;
+ final String? subDescription;
+ final String? specificAddress;
 
-  ResultEntity({
+  const ResultEntity({
     this.id,
     this.price,
     this.title,
@@ -51,11 +51,11 @@ class ResultEntity extends Equatable {
 }
 
 class HouseImageEntity extends Equatable {
-  int? id;
-  String? image;
-  int? house;
+ final int? id;
+ final String? image;
+ final int? house;
 
-  HouseImageEntity({
+  const HouseImageEntity({
     this.id,
     this.image,
     this.house,
@@ -67,14 +67,14 @@ class HouseImageEntity extends Equatable {
 }
 
 class PostedByEntity extends Equatable {
-  int? id;
-  UserAccountEntity? userAccount;
-  String? typeOfCustomer;
-  int? rating;
-  String? language;
-  String?profilePicture;
+  final int? id;
+  final UserAccountEntity? userAccount;
+  final String? typeOfCustomer;
+  final int? rating;
+  final String? language;
+  final String?profilePicture;
 
-  PostedByEntity({
+  const PostedByEntity({
     this.id,
     this.userAccount,
     this.typeOfCustomer,
@@ -89,11 +89,11 @@ class PostedByEntity extends Equatable {
 }
 
 class UserAccountEntity extends Equatable {
-  int? id;
-  String? firstName;
-  String? lastName;
+ final int? id;
+ final String? firstName;
+ final String? lastName;
 
-  UserAccountEntity({
+  const UserAccountEntity({
     this.id,
     this.firstName,
     this.lastName,

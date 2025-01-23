@@ -339,6 +339,10 @@ class _AddPropertiesState extends State<AddProperties> {
                                                 mapController: mapController,
                                                   options: MapOptions(
                                                     initialZoom: 15,
+                                                    onTap: (tapPosition, point) {
+                                                      context.read<AddPropertyBloc>().add(
+                                                          SelectLocationEvent(lat: point.latitude, long: point.longitude));
+                                                    },
                                                     backgroundColor: ColorConstant.cardGrey.withValues(alpha: 0.6),
                                                       initialCenter:LatLng(state.latitude, state.longitude)),
                                                   children: [
@@ -362,7 +366,8 @@ class _AddPropertiesState extends State<AddProperties> {
                                                       ],
                                                     ),
                                           
-                                                  ])),
+                                                  ])
+                                          ),
                                         );
                                       },
                                     ),

@@ -218,7 +218,7 @@ class _AnalyticsState extends State<Analytics> {
                     }
                     else if(state is DownloadedState){
                       context.pop();
-                      print("downloadede.......");
+                      showSuccessSnackBar(context, "report saved");
                     }
                   },
                   buildWhen: (previous, current) => previous != current,
@@ -482,7 +482,7 @@ class ReportDownload extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              "This is report of your property performance over time. you can download and review in PDF.",
+              "This is report of your property performance over time. you can download and review.",
               style: Theme.of(context).textTheme.bodySmall!.copyWith(
                   fontSize: 12,
                   fontWeight: FontWeight.w400

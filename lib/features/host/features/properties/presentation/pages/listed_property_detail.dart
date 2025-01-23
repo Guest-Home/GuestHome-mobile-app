@@ -3,7 +3,10 @@ import 'package:currency_picker/currency_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:minapp/config/color/color.dart';
 import 'package:minapp/core/common/back_button.dart';
 import 'package:minapp/core/common/constants/house_type_icons.dart';
@@ -37,6 +40,9 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
   late TextEditingController priceController;
   late TextEditingController roomController;
   late TextEditingController unitController;
+  late double lat;
+  late double long;
+  late MapController mapController;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -54,6 +60,10 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
     roomController = TextEditingController(
         text: widget.propertyEntity.numberOfRoom.toString());
     unitController=TextEditingController();
+    lat=double.parse(widget.propertyEntity.latitude);
+    long=double.parse(widget.propertyEntity.longitude);
+    mapController=MapController();
+
   }
 
   @override
@@ -66,6 +76,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
     priceController.dispose();
     roomController.dispose();
     unitController.dispose();
+    mapController.dispose();
   }
 
   @override
@@ -103,6 +114,9 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                 context.read<PropertiesBloc>().add(GetPropertiesEvent());
                 context.goNamed('properties');
                 showSuccessSnackBar(context, "updated deleted");
+              }
+              else if(state is AddNewPropertyErrorState){
+                showErrorSnackBar(context, state.failure.message);
               }
             },
             buildWhen: (previous, current) => previous != current,
@@ -413,28 +427,91 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                         textInputType: TextInputType.text,
                                         prifixIcon: null,
                                       ),
-                                      Align(
-                                        alignment: Alignment.bottomRight,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            Icon(
-                                              Icons.location_pin,
-                                              size: 15,
-                                              color:
-                                                  ColorConstant.secondBtnColor,
-                                            ),
-                                            Text(
-                                              'Change House Location',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyMedium!
-                                                  .copyWith(
-                                                      color: ColorConstant
-                                                          .primaryColor),
-                                            ),
-                                          ],
+                                      GestureDetector(
+                                        onTap: () {
+                                          showModalBottomSheet(context: context,
+                                            isDismissible: true,
+                                            isScrollControlled: true,
+                                            showDragHandle: true,
+                                            builder: (context) =>BottomSheet(onClosing:() {},
+                                              enableDrag: true,
+                                                builder:(context) =>  StatefulBuilder(
+                                                  builder: (context, setBottomState) =>  Container(
+                                                    height: MediaQuery.of(context).size.height*0.8,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.only(
+                                                            topRight: Radius.circular(10),
+                                                            topLeft: Radius.circular(10)
+                                                        ),
+                                                      ),
+                                                      child:ClipRRect(
+                                                        borderRadius: BorderRadius.only(
+                                                            topRight: Radius.circular(10),
+                                                            topLeft: Radius.circular(10)
+                                                        ),
+                                                        child: FlutterMap(
+                                                            mapController:mapController,
+                                                            options: MapOptions(
+                                                                initialZoom: 14,
+                                                                onTap: (tapPosition, point) {
+                                                                  setBottomState(() {
+                                                                    lat=point.latitude;
+                                                                    long=point.longitude;
+                                                                  });
+                                                                  print(lat);
+                                                                  print(long);
+                                                                },
+                                                                backgroundColor: ColorConstant.cardGrey.withValues(alpha: 0.6),
+                                                                initialCenter:LatLng(lat,long)),
+                                                            children: [
+                                                              TileLayer(
+                                                                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                                                userAgentPackageName: 'dev.fleaflet.flutter_map.example',
+                                                                // Plenty of other options available!
+                                                              ),
+                                                              MarkerLayer(
+                                                                markers: [
+                                                                  Marker(
+                                                                    point: LatLng(lat,long),
+                                                                    width: 50,
+                                                                    height: 50,
+                                                                    child:  SvgPicture.asset(
+                                                                      'assets/icons/marker.svg',
+                                                                      semanticsLabel:"marker",
+                                                                      fit: BoxFit.cover,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+
+                                                            ]),
+                                                      )
+                                                  ),
+                                                ),));
+                                        },
+                                        child: Align(
+                                          alignment: Alignment.bottomRight,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Icon(
+                                                Icons.location_pin,
+                                                size: 15,
+                                                color:
+                                                    ColorConstant.secondBtnColor,
+                                              ),
+                                              Text(
+                                                'Change House Location',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium!
+                                                    .copyWith(
+                                                        color: ColorConstant
+                                                            .primaryColor),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                       SizedBox(height: 5),
@@ -695,8 +772,10 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                               'description':descriptionController.text,
                                               'city': cityController.text,
                                               'typeofHouse':state.houseType.isEmpty?widget.propertyEntity.typeofHouse:state.houseType,
-                                              'latitude':widget.propertyEntity.latitude,
-                                              'longitude': widget.propertyEntity.longitude,
+                                              if(widget.propertyEntity.latitude!=lat.toString())
+                                              'latitude':lat,
+                                              if(widget.propertyEntity.longitude!=long.toString())
+                                              'longitude':long,
                                               'price':priceController.text,
                                               'unit':unitController.text.isEmpty? widget.propertyEntity.unit:unitController.text,
                                               'number_of_room':roomController.text,

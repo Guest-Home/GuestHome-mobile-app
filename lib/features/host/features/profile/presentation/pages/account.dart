@@ -30,7 +30,7 @@ class Account extends StatelessWidget {
               },
             leading:Icon(Icons.delete_outline_outlined,size: 19,),
             title:Text(
-              "Delete Account",
+              "Deactivate Account",
               style: Theme.of(context)
                   .textTheme
                   .bodyLarge!

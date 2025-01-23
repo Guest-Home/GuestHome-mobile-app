@@ -7,7 +7,7 @@
 import 'package:minapp/features/host/features/properties/domain/entities/property_entity.dart';
 
 class PropertyModel extends PropertyEntity {
-  const PropertyModel({
+   const PropertyModel({
     required id,
     required price,
     required title,

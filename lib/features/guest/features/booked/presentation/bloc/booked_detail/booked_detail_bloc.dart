@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:minapp/core/error/failure.dart';
 import 'package:minapp/features/guest/features/booked/domain/entities/my_booking_detail.dart';
-import 'package:minapp/features/guest/features/booked/domain/usecases/get_booking_detail-usecase.dart';
+import 'package:minapp/features/guest/features/booked/domain/usecases/get_booking_detail_usecase.dart';
 
 import '../../../../../../../service_locator.dart';
 

@@ -4,7 +4,7 @@ GpropertyModel gpropertyModelFromMap(Map<String, dynamic> str) =>
     GpropertyModel.fromMap(str);
 
 class GpropertyModel extends GpropertyEntity {
-  GpropertyModel({
+  const GpropertyModel({
     required super.count,
     required super.next,
     required super.previous,
@@ -21,7 +21,7 @@ class GpropertyModel extends GpropertyEntity {
 }
 
 class Result extends ResultEntity {
-  Result({
+  const Result({
     required super.id,
     required super.price,
     required super.title,
@@ -52,7 +52,7 @@ class Result extends ResultEntity {
 }
 
 class HouseImage extends HouseImageEntity {
-  HouseImage({
+  const HouseImage({
     required super.id,
     required super.image,
     required super.house,
@@ -72,7 +72,7 @@ class HouseImage extends HouseImageEntity {
 }
 
 class PostedBy extends PostedByEntity {
-  PostedBy({
+  const PostedBy({
     required super.id,
     required super.userAccount,
     required super.typeOfCustomer,
@@ -92,7 +92,7 @@ class PostedBy extends PostedByEntity {
 }
 
 class UserAccount extends UserAccountEntity {
-  UserAccount({
+  const UserAccount({
     required super.id,
     required super.firstName,
     required super.lastName,

@@ -22,15 +22,15 @@ class MyBookingEntity extends Equatable{
 }
 
 class ResultBookingEntity extends Equatable{
-  int? id;
-  HouseEntity? house;
-  UserEntity? user;
-  DateTime? checkIn;
-  DateTime? checkOut;
-  String ?status;
-  dynamic decisionTime;
+  final int? id;
+  final HouseEntity? house;
+  final UserEntity? user;
+  final DateTime? checkIn;
+  final DateTime? checkOut;
+  final String ?status;
+  final dynamic decisionTime;
 
-  ResultBookingEntity({
+  const ResultBookingEntity({
     this.id,
     this.house,
     this.user,
@@ -44,19 +44,19 @@ class ResultBookingEntity extends Equatable{
   List<Object?> get props =>[id,house,user,checkOut,checkIn,status,decisionTime];
 }
 class HouseEntity extends Equatable {
-  int? id;
-  int? price;
-  String? title;
-  String? unit;
-  String? typeofHouse;
-  String? city;
-  PostedByEntity? postedBy;
-  List<HouseImageEntity>? houseImage;
-  String? subDescription;
-  String? specificAddress;
-  String? description;
+  final  int? id;
+  final  int? price;
+  final String? title;
+  final String? unit;
+  final String? typeofHouse;
+  final String? city;
+  final PostedByEntity? postedBy;
+  final List<HouseImageEntity>? houseImage;
+  final String? subDescription;
+  final String? specificAddress;
+  final String? description;
 
-  HouseEntity({
+  const HouseEntity({
     this.id,
     this.price,
     this.title,
@@ -76,11 +76,11 @@ class HouseEntity extends Equatable {
   }
 
 class HouseImageEntity extends Equatable{
-  int? id;
-  String? image;
-  int? house;
+  final int? id;
+  final String? image;
+  final int? house;
 
-  HouseImageEntity({
+  const HouseImageEntity({
     this.id,
     this.image,
     this.house,
@@ -91,14 +91,14 @@ class HouseImageEntity extends Equatable{
 }
 
 class PostedByEntity extends Equatable {
-  int? id;
-  PostedByUserAccountEntity? userAccount;
-  String? typeOfCustomer;
-  int? rating;
-  String? language;
-  String? profilePicture;
+  final int? id;
+  final PostedByUserAccountEntity? userAccount;
+  final String? typeOfCustomer;
+  final int? rating;
+  final String? language;
+  final String? profilePicture;
 
-  PostedByEntity({
+  const PostedByEntity({
     this.id,
     this.userAccount,
     this.typeOfCustomer,
@@ -111,11 +111,11 @@ class PostedByEntity extends Equatable {
   List<Object?> get props =>[id,userAccount,typeOfCustomer,rating,language,profilePicture];
 }
 class PostedByUserAccountEntity extends Equatable {
-  int? id;
-  String? firstName;
-  String? lastName;
+  final  int? id;
+  final  String? firstName;
+  final String? lastName;
 
-  PostedByUserAccountEntity({
+  const PostedByUserAccountEntity({
     this.id,
     this.firstName,
     this.lastName,
@@ -126,12 +126,12 @@ class PostedByUserAccountEntity extends Equatable {
 }
 
 class UserEntity extends Equatable {
-  int? id;
-  UserUserAccountEntity? userAccount;
-  String? phoneNumber;
-  dynamic chatId;
+  final int? id;
+  final UserUserAccountEntity? userAccount;
+  final String? phoneNumber;
+  final dynamic chatId;
 
-  UserEntity({
+  const UserEntity({
     this.id,
     this.userAccount,
     this.phoneNumber,
@@ -143,14 +143,14 @@ class UserEntity extends Equatable {
 }
 
 class UserUserAccountEntity extends Equatable {
-  int? id;
-  String? username;
-  String? email;
-  String? firstName;
-  String? lastName;
-  bool? isStaff;
+  final int? id;
+  final String? username;
+  final String? email;
+  final String? firstName;
+  final String? lastName;
+  final bool? isStaff;
 
-  UserUserAccountEntity({
+  const UserUserAccountEntity({
     this.id,
     this.username,
     this.email,

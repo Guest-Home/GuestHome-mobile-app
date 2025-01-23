@@ -16,16 +16,11 @@ class CustomOccupancyRateModel extends CustomOccupancyEntity {
 
 class CustomModel extends CustomEntity {
   const CustomModel({
-    Map<String, double>? dailyOccupancy,
-    double? averageOccupancy,
-    int? totalRevenue,
-    int? totalReservations
-  }):super(
-    dailyOccupancy: dailyOccupancy,
-    averageOccupancy: averageOccupancy,
-    totalReservations: totalReservations,
-      totalRevenue: totalRevenue
-  );
+    super.dailyOccupancy,
+    super.averageOccupancy,
+    super.totalRevenue,
+    super.totalReservations
+  });
 
   factory CustomModel.fromMap(Map<String, dynamic> json) => CustomModel(
     dailyOccupancy: Map.from(json["daily_occupancy"]).map((k, v) => MapEntry<String, double>(k, v.toDouble())),

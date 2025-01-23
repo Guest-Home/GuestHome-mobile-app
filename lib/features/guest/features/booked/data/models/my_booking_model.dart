@@ -2,7 +2,7 @@
 import 'package:minapp/features/guest/features/booked/domain/entities/my_booking_entity.dart';
 
 class MyBookingModel extends MyBookingEntity{
-    MyBookingModel({
+    const MyBookingModel({
       required super.count,
       required super.next,
       required super.previous,
@@ -18,7 +18,7 @@ class MyBookingModel extends MyBookingEntity{
 }
 
 class Result extends ResultBookingEntity{
-  Result({
+  const Result({
     required super.id,
     required super.house,
     required super.user,
@@ -41,7 +41,7 @@ class Result extends ResultBookingEntity{
 }
 
 class House extends HouseEntity{
-  House({
+  const House({
     required super.id,
     required super.price,
     required super.title,
@@ -71,7 +71,7 @@ class House extends HouseEntity{
 }
 
 class HouseImage extends HouseImageEntity{
-  HouseImage({
+  const HouseImage({
     required super.id,
     required super.image,
     required super.house,
@@ -85,7 +85,7 @@ class HouseImage extends HouseImageEntity{
 }
 
 class PostedBy extends PostedByEntity {
-  PostedBy({
+  const PostedBy({
     required super.id,
     required super.userAccount,
     required super.typeOfCustomer,
@@ -105,7 +105,7 @@ class PostedBy extends PostedByEntity {
 }
 
 class PostedByUserAccount extends PostedByUserAccountEntity{
-  PostedByUserAccount({
+  const PostedByUserAccount({
     required super.id,
     required super.firstName,
     required super.lastName,
@@ -117,7 +117,7 @@ class PostedByUserAccount extends PostedByUserAccountEntity{
   );
 }
 class User extends UserEntity{
-  User({
+  const User({
     required super.id,
     required super.phoneNumber,
     required super.userAccount,
@@ -132,7 +132,7 @@ class User extends UserEntity{
 }
 
 class UserUserAccount extends UserUserAccountEntity{
-  UserUserAccount({
+  const UserUserAccount({
     required super.id,
     required super.firstName,
     required super.lastName,

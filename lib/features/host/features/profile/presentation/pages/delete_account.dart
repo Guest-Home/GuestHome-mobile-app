@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:minapp/features/auth/presentation/bloc/log_out/log_out_bloc.dart';
 
 import '../../../../../../config/color/color.dart';
@@ -33,7 +34,7 @@ class DeleteAccount extends StatelessWidget {
   builder: (context, state) {
     return ListTile(
             title: Text(
-              "Delete Account",
+              "Deactivate Account",
               style: Theme.of(context)
                   .textTheme
                   .bodyLarge!
@@ -43,7 +44,10 @@ class DeleteAccount extends StatelessWidget {
               spacing: 15,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("delete your account and all the data"),
+                Text("Deactivating will hide your profile and save your data Reactivate anytime by logging back in.",style:
+                  Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: 14,fontWeight: FontWeight.w400
+                  ),),
                 SizedBox(
                   width: 200,
                   child: CustomButton(
@@ -56,7 +60,7 @@ class DeleteAccount extends StatelessWidget {
                           side: BorderSide(color: ColorConstant.red),
                           backgroundColor: Colors.white),
                       child: Text(
-                        "Delete Account",
+                        "Deactivate Account",
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             color: ColorConstant.red,
                             fontWeight: FontWeight.bold),
@@ -80,7 +84,7 @@ class DeleteAccount extends StatelessWidget {
         ),
         content:
         SizedBox(
-          height:80,
+          height: 120,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -95,7 +99,7 @@ class DeleteAccount extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Delete Account?",
+                      "Deactivate Account?",
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!
@@ -105,9 +109,14 @@ class DeleteAccount extends StatelessWidget {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text("This cant be undone."),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("are you sure you want to deactivate your account? you\n can reactivate it anytime by logging back in. ",style:
+                  Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize:12,fontWeight: FontWeight.w400
+                  ),),
+                ),
               ),
             ],
           ),
@@ -117,7 +126,7 @@ class DeleteAccount extends StatelessWidget {
         actionsPadding: EdgeInsets.all(10),
         actions: [
           CustomButton(
-              onPressed: () {},
+              onPressed: () {context.pop();},
               style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.all(0.5),
                   side: BorderSide(
@@ -133,7 +142,7 @@ class DeleteAccount extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.only(left: 4, right: 4),
                   backgroundColor: ColorConstant.red),
-              child: Text("delete",
+              child: Text("Deactivate",
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
                     color: Colors.white,
                   )))

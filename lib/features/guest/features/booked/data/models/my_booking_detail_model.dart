@@ -3,7 +3,7 @@
 import 'package:minapp/features/guest/features/booked/domain/entities/my_booking_detail.dart';
 
 class BookedDetailModel extends BookedDetailEntity {
-  BookedDetailModel({
+  const BookedDetailModel({
     required super.id,
     required super.user,
     required super.checkIn,
@@ -25,7 +25,7 @@ class BookedDetailModel extends BookedDetailEntity {
 }
 
 class HouseDetailModel extends HouseDetailEntity {
-  HouseDetailModel({
+  const HouseDetailModel({
     required super.id,
     required super.price,
     required super.city,
@@ -61,7 +61,7 @@ class HouseDetailModel extends HouseDetailEntity {
 }
 
 class HouseImageDetailModel extends HouseImageDetailEntity {
-  HouseImageDetailModel({
+  const HouseImageDetailModel({
     required super.id,
     required super.image,
     required super.house,
@@ -76,7 +76,7 @@ class HouseImageDetailModel extends HouseImageDetailEntity {
 
 class PostedByDetailModel extends PostedByDetailEntity {
 
-  PostedByDetailModel({
+  const PostedByDetailModel({
     required super.id,
     required super.userAccount,
     required super.phoneNumber,
@@ -108,7 +108,7 @@ class PostedByDetailModel extends PostedByDetailEntity {
 }
 
 class UserAccountDetailModel extends UserAccountDetailEntity {
-  UserAccountDetailModel({
+  const UserAccountDetailModel({
     required super.id,
     required super.username,
     required super.email,
@@ -129,7 +129,7 @@ class UserAccountDetailModel extends UserAccountDetailEntity {
 }
 
 class UserDetailModel extends UserDetailEntity {
-  UserDetailModel({
+  const UserDetailModel({
     required super.id,
     required super.userAccount,
     required super.phoneNumber,

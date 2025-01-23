@@ -134,7 +134,11 @@ class AnalyticsDataSourceImpl extends AnalyticsDataSource {
     final endDate = dates['endDate'];
     try {
       final response = await sl<DioClient>().get(
-          "${ApiUrl.downloadReport}?startDate=$startDate&endDate=$endDate");
+          "${ApiUrl.downloadReport}?startDate=$startDate&endDate=$endDate",
+        options: Options(
+          responseType: ResponseType.bytes, // Get raw file bytes
+        ),
+      );
       if (response.statusCode == 200) {
         // Get the directory to save the file
         Directory? directory;
@@ -155,7 +159,7 @@ class AnalyticsDataSourceImpl extends AnalyticsDataSource {
           final startIndex = contentDisposition.indexOf('filename=') + 9;
           fileName = contentDisposition.substring(startIndex).replaceAll('"', '');
         }
-        final filePath = '${directory.path}/${dates}days-$fileName}';
+        final filePath = '${directory.path}/${startDate.toString()}-${endDate.toString()}days-$fileName}';
         // Save the file
         final file = File(filePath);
         await file.writeAsBytes(response.data);

@@ -92,6 +92,9 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
       final loc = await GetLocation().gatePosition();
       emit(state.copyWith(latitude: loc.latitude, longitude: loc.longitude));
     });
+    on<SelectLocationEvent>((event, emit) async {
+      emit(state.copyWith(latitude: event.lat, longitude:event.long));
+    });
     on<RemovePictureEvent>(
       (event, emit) {
         final updatedAmenityList = List.of(state.images);

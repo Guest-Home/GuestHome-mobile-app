@@ -95,6 +95,11 @@ class AdddAgentIdEvent extends AddPropertyEvent {
 }
 
 class GetLocationEvent extends AddPropertyEvent {}
+class SelectLocationEvent extends AddPropertyEvent {
+  final double lat;
+  final double long;
+  const SelectLocationEvent({required this.lat,required this.long});
+}
 
 class AddNewPropertyEvent extends AddPropertyEvent {}
 
