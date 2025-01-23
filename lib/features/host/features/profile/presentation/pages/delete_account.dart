@@ -1,14 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:minapp/core/utils/show_snack_bar.dart';
 import 'package:minapp/features/auth/presentation/bloc/log_out/log_out_bloc.dart';
 
 import '../../../../../../config/color/color.dart';
 import '../../../../../../core/common/back_button.dart';
 import '../../../../../../core/common/custom_button.dart';
+import '../../../../../../core/common/spin_kit_loading.dart';
 
 class DeleteAccount extends StatelessWidget {
   const DeleteAccount({super.key});
+
+  void _deletingDialog(BuildContext context,String title) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        contentPadding: EdgeInsets.all(15),
+        content: SizedBox(
+          height: 80,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              loadingWithPrimary,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  title,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +62,14 @@ class DeleteAccount extends StatelessWidget {
           child:
           BlocConsumer<LogOutBloc, LogOutState>(
   listener: (context, state) {
-    // TODO: implement listener
+    if(state is DeactivateLoadingState){
+      context.pop();
+      _deletingDialog(context, "deactivating account");
+    }
+    if(state is DeactivatedState){
+      context.pop();
+      showSuccessSnackBar(context, 'your account is deactivated');
+    }
   },
   builder: (context, state) {
     return ListTile(
@@ -137,15 +177,21 @@ class DeleteAccount extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
                     color: ColorConstant.secondBtnColor,
                   ))),
-          CustomButton(
-              onPressed: () {},
+          BlocBuilder<LogOutBloc, LogOutState>(
+  builder: (context, state) {
+    return CustomButton(
+              onPressed: () {
+                context.read<LogOutBloc>().add(DeactivateEvent());
+              },
               style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.only(left: 4, right: 4),
                   backgroundColor: ColorConstant.red),
               child: Text("Deactivate",
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
                     color: Colors.white,
-                  )))
+                  )));
+  },
+)
         ],
       ),
     );

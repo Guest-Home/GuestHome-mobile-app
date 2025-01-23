@@ -14,4 +14,5 @@ abstract class OtpRepository {
   Future<Either<Failure, CustomerProfileEntity>> createCustomerProfile(
       CreateCustomerParams params);
   Future<Either<Failure,String>> logOut(Map<String,dynamic> data);
+  Future<Either<Failure,String>> deactivateAccount(Map<String,dynamic> data);
 }

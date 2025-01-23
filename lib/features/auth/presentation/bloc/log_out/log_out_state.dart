@@ -10,3 +10,7 @@ class LogOutErrorState extends LogOutState{
   final Failure failure;
   LogOutErrorState({required this.failure});
 }
+
+// deactivate account state
+class DeactivateLoadingState extends LogOutState{}
+class DeactivatedState extends LogOutState{}

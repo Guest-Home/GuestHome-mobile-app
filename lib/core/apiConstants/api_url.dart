@@ -10,7 +10,7 @@ class ApiUrl {
   static const String otp = "/authapp/api/v1/otp/";
   static const String changePhone = "/authapp/api/v1/change_phone_number/";
   static const String logOut = "/authapp/api/v1/logout/";
-  static const String deleteAccount = "/authapp/api/v1/deactivate_user/";
+  static const String deactivateAccount = "/authapp/api/v1/deactivate_user/";
 
   static const String customer = "/hostapp/api/v1/customer/";
   static const String updateUserAccount = "/authapp/api/v1/user_account_update/";

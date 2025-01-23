@@ -19,7 +19,7 @@ abstract class ApiDataSource {
   Future<Either<Failure, CustomerProfileModel>> createCustomerProfile(
       CreateCustomerParams params);
   Future<Either<Failure,String>> logOut(Map<String,dynamic> data);
-
+  Future<Either<Failure,String>> deactivateAccount(Map<String,dynamic> data);
 }
 
 class ApiDataSourceImpl implements ApiDataSource {
@@ -105,6 +105,24 @@ class ApiDataSourceImpl implements ApiDataSource {
     try {
       final response = await sl<DioClient>().post(
         ApiUrl.logOut,
+        data: data,
+      );
+      if (response.statusCode == 200) {
+        return Right(response.data['message']);
+      } else {
+        return Left(ServerFailure(response.data['Error']));
+      }
+    } on DioException catch (e) {
+      // return Left(ServerFailure(e.response!.data.toString()));
+      return Left(ErrorResponse().mapDioExceptionToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> deactivateAccount(Map<String, dynamic> data)async{
+    try {
+      final response = await sl<DioClient>().post(
+        ApiUrl.deactivateAccount,
         data: data,
       );
       if (response.statusCode == 200) {

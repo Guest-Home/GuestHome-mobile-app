@@ -25,7 +25,20 @@ class LogOutBloc extends Bloc<LogOutEvent, LogOutState> {
       },);
 
     });
+    on<DeactivateEvent>((event, emit)async {
+      emit(DeactivateLoadingState());
+      String deviceId=await GetDeviceId().getId();
+      Map<String,dynamic> data={
+        "device_id":deviceId
+      };
+      Either response=await sl<LogOutUseCase>().call(data);
+      response.fold((l) =>emit(LogOutErrorState(failure: l)) , (r){
+        emit(DeactivatedState());
+        //_removeTokens();
+      },);
+    });
   }
+
   Future<void> _removeTokens() async {
     final sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.remove("isLogin");

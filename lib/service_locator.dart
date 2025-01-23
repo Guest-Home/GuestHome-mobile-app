@@ -6,6 +6,7 @@ import 'package:minapp/features/auth/data/datasources/apiDataSource/api_data_sou
 import 'package:minapp/features/auth/data/repositories/otp_repository_impl.dart';
 import 'package:minapp/features/auth/domain/repositories/otp_repository.dart';
 import 'package:minapp/features/auth/domain/usecases/create_otp_usecase.dart';
+import 'package:minapp/features/auth/domain/usecases/deactivate_account_usecase.dart';
 import 'package:minapp/features/auth/domain/usecases/log_out_usecase.dart';
 import 'package:minapp/features/auth/domain/usecases/verify_otp_usecase.dart';
 import 'package:minapp/features/auth/presentation/bloc/auth_bloc.dart';
@@ -186,6 +187,7 @@ void setup() async {
   sl.registerSingleton<GetOtpForNewUseCase>(GetOtpForNewUseCase());
   sl.registerSingleton<VerifyNewOtpUseCase>(VerifyNewOtpUseCase());
   sl.registerSingleton<LogOutUseCase>(LogOutUseCase());
+  sl.registerSingleton<DeactivateAccountUseCase>(DeactivateAccountUseCase());
   sl.registerSingleton<DownloadReportCustomUseCase>(DownloadReportCustomUseCase());
   sl.registerSingleton<DownloadReportUseCase>(DownloadReportUseCase());
 

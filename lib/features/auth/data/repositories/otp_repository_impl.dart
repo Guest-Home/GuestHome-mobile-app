@@ -33,4 +33,9 @@ class OtpRepositoryImpl implements OtpRepository {
   Future<Either<Failure, String>> logOut(Map<String, dynamic> data)async{
     return await sl<ApiDataSource>().logOut(data);
   }
+
+  @override
+  Future<Either<Failure, String>> deactivateAccount(Map<String, dynamic> data)async{
+    return await sl<ApiDataSource>().deactivateAccount(data);
+  }
 }
