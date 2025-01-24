@@ -3,6 +3,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:minapp/config/color/color.dart';
 
 class ProgressPainter extends CustomPainter {
   final double progress;
@@ -16,7 +17,7 @@ class ProgressPainter extends CustomPainter {
 
     // Draw the background circle
     Paint backgroundPaint = Paint()
-      ..color = Colors.grey.shade400
+      ..color = Colors.grey.shade200
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth;
     canvas.drawCircle(size.center(Offset.zero), radius, backgroundPaint);
@@ -24,7 +25,7 @@ class ProgressPainter extends CustomPainter {
     // Draw the progress circle
     Paint progressPaint = Paint()
       ..shader = LinearGradient(
-        colors: [Colors.white, Colors.white],
+        colors: [ColorConstant.primaryColor, ColorConstant.primaryColor],
       ).createShader(Rect.fromCircle(center: size.center(Offset.zero), radius: radius))
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth

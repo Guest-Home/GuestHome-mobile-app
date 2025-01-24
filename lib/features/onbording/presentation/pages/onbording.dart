@@ -39,7 +39,7 @@ class _OnBordingState extends State<OnBording>
         }
       },
       child: Scaffold(
-        backgroundColor: ColorConstant.primaryColor,
+        backgroundColor: Colors.white,
         body: SafeArea(
             child: Padding(
                 padding: const EdgeInsets.all(16),
@@ -58,21 +58,21 @@ class _OnBordingState extends State<OnBording>
                               LanguageSelection(),
                               OnbordScreen(
                                 title:
-                                    "Lorem ipsum dolor sit amet consectetur.",
+                                    "List your Property hassle free",
+                                subtitle:
+                                    "Lorem ipsum dolor sit amet consectetur. Est sed ridiculus nisl massa.",
+                                image: "assets/icons/onb11.svg",
+                              ),
+                              OnbordScreen(
+                                title:
+                                    "Manage your Property easily",
                                 subtitle:
                                     "Lorem ipsum dolor sit amet consectetur. Est sed ridiculus nisl massa.",
                                 image: "assets/icons/onbord-image-1.svg",
                               ),
                               OnbordScreen(
                                 title:
-                                    "Lorem ipsum dolor sit amet consectetur.",
-                                subtitle:
-                                    "Lorem ipsum dolor sit amet consectetur. Est sed ridiculus nisl massa.",
-                                image: "assets/icons/onbord-image-1.svg",
-                              ),
-                              OnbordScreen(
-                                title:
-                                    "Lorem ipsum dolor sit amet consectetur.",
+                                    "Post your homes and go viral.",
                                 subtitle:
                                     "Lorem ipsum dolor sit amet consectetur. Est sed ridiculus nisl massa.",
                                 image: "assets/icons/onbord-image-1.svg",
@@ -104,11 +104,10 @@ class _OnBordingState extends State<OnBording>
                                           height: 8,
                                           decoration: BoxDecoration(
                                               color: index == state.index
-                                                  ? Colors.white
-                                                  : Colors.white
+                                                  ? ColorConstant.primaryColor
+                                                  : ColorConstant.cardGrey
                                                       .withValues(alpha: 0.5),
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
+                                              borderRadius: BorderRadius.circular(10)),
                                         ),
                                       ),
                                     ),
@@ -119,7 +118,7 @@ class _OnBordingState extends State<OnBording>
                                           right: 20, top: 15),
                                       child: Text("Skip",
                                           style: TextStyle(
-                                              color: Colors.white,
+                                              color: ColorConstant.secondBtnColor,
                                               fontSize: 16)),
                                     ),
                               trailing: GestureDetector(
@@ -142,12 +141,12 @@ class _OnBordingState extends State<OnBording>
                                     height: 67,
                                     alignment: Alignment.center,
                                     child: CircleAvatar(
-                                      backgroundColor: Colors.white,
+                                      backgroundColor: ColorConstant.primaryColor,
                                       radius: 26,
                                       child: Icon(
                                         Icons.arrow_forward_ios_outlined,
                                         size: 25,
-                                        color: ColorConstant.primaryColor,
+                                        color: Colors.white,
                                       ),
                                     ),
                                   ),

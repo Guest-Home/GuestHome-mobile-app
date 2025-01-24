@@ -192,6 +192,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                           );
                         }
                         return Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Padding(
                               padding:
@@ -207,8 +208,12 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                   previous != current,
                               builder: (context, state) {
                                 if (state is PopularPropertyLoadingState) {
-                                  return Center(
-                                    child: loadingIndicator(),
+                                  return SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.42,
+                                    child: Center(
+                                      child: loadingIndicator(),
+                                    ),
                                   );
                                 } else if (state.properties.count == 0 ||
                                     state.properties.results == null) {
@@ -355,7 +360,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
       isScrollControlled: true,
       enableDrag: true,
       builder: (context) => SizedBox(
-        height: MediaQuery.of(context).size.height * 0.70,
+        height: MediaQuery.of(context).size.height * 0.80,
         child: BlocListener<FilterBloc, FilterState>(
           listener: (context, state) {
             if (state is FilterDataLoadedState) {
@@ -715,10 +720,15 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                                             FontWeight.w600),
                                               ))
                                     : CustomButton(
-                                        onPressed: () {
-                                          context
-                                              .read<FilterBloc>()
-                                              .add(FilterPropertyEvent());
+                                        onPressed:filterState is FilterDataLoadingState?(){}:
+                                            () {
+                                          if(filterState.category.isNotEmpty || filterState.city.isNotEmpty
+                                          ){
+                                            context
+                                                .read<FilterBloc>()
+                                                .add(FilterPropertyEvent());
+                                          }
+
                                         },
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor:

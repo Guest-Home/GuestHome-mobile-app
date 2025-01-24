@@ -358,7 +358,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                                           width: 50,
                                                           height: 50,
                                                           child:  SvgPicture.asset(
-                                                            'assets/icons/marker.svg',
+                                                            'assets/icons/location-pin.svg',
                                                             semanticsLabel:"marker",
                                                             fit: BoxFit.cover,
                                                           ),

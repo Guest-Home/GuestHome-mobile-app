@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:minapp/config/color/color.dart';
 
 class OnbordScreen extends StatelessWidget {
   const OnbordScreen(
@@ -20,7 +21,7 @@ class OnbordScreen extends StatelessWidget {
             title: Text(title,
                 style: TextTheme.of(context)
                     .headlineMedium
-                    ?.copyWith(color: Colors.white,fontSize: 24,fontWeight: FontWeight.w700)
+                    ?.copyWith(color: ColorConstant.primaryColor,fontSize: 24,fontWeight: FontWeight.w700)
 
                 ),
             subtitle: Column(
@@ -30,7 +31,7 @@ class OnbordScreen extends StatelessWidget {
                   subtitle,
                   style:Theme.of(context).textTheme.bodyLarge!.copyWith(
                       fontSize: 18,fontWeight: FontWeight.w400,
-                      color: Colors.white.withValues(alpha: 0.6)),
+                      color: ColorConstant.primaryColor.withValues(alpha: 0.6)),
                 ),
                 Expanded(
                   child: Padding(

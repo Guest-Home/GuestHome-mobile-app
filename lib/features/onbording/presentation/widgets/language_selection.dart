@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:minapp/config/color/color.dart';
 
 import '../../../../core/common/bloc/language_bloc.dart';
 
@@ -33,7 +34,7 @@ class LanguageSelection extends StatelessWidget {
                 style: TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 16,
-                    color: Colors.white),
+                    color: ColorConstant.primaryColor),
               ),
             ],
           ),
@@ -54,18 +55,19 @@ class LanguageSelection extends StatelessWidget {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               shape: BoxShape.rectangle,
-                              border: Border.all(color: Colors.white)),
+                              border: Border.all(color: ColorConstant.primaryColor)),
                           child: RadioListTile.adaptive(
+                            enableFeedback: false,
                             value: e,
-                            activeColor: Colors.white,
+                            activeColor: ColorConstant.primaryColor,
                             tileColor: Colors.transparent,
-                            selectedTileColor: Colors.white,
+                            selectedTileColor: ColorConstant.primaryColor,
                             title: Text(e.name=="amharic"?"አማርኛ":
                               e.name,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge!
-                                  .copyWith(color: Colors.white),
+                                  .copyWith(color: ColorConstant.primaryColor),
                             ),
                             groupValue: state.selectedLanguage,
                             onChanged: (value) {
