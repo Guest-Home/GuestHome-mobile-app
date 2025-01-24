@@ -55,7 +55,7 @@ Future<GoRouter> createRouter() async {
 
   final GoRouter router = GoRouter(
     observers: [MyNavigatorObserver()],
-    initialLocation: isFirstTimeUser ? '/onboarding' : '/houseType',
+    initialLocation: !isFirstTimeUser ? '/onboarding' : '/houseType',
     errorBuilder: (context, state) => Scaffold(
       body: Center(
         child: Text("page not found"),

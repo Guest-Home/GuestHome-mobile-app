@@ -31,8 +31,8 @@ class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
         return Locale('en', 'US');
       case AppLocal.amharic:
         return Locale('am', 'ET');
-      // case AppLocal.afanOromo:
-      //   return Locale('om', 'ET');
+      case AppLocal.afanOromo:
+        return Locale('om', 'ET');
       default:
         return Locale('en', 'US');
     }

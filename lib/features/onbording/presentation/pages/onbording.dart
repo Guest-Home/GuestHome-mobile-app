@@ -40,6 +40,7 @@ class _OnBordingState extends State<OnBording>
       },
       child: Scaffold(
         backgroundColor: Colors.white,
+
         body: SafeArea(
             child: Padding(
                 padding: const EdgeInsets.all(16),
@@ -49,6 +50,7 @@ class _OnBordingState extends State<OnBording>
                   builder: (context, state) {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.start,
+                      spacing: 20,
                       children: [
                         Expanded(
                           child: PageView(
@@ -68,7 +70,7 @@ class _OnBordingState extends State<OnBording>
                                     "Manage your Property easily",
                                 subtitle:
                                     "Lorem ipsum dolor sit amet consectetur. Est sed ridiculus nisl massa.",
-                                image: "assets/icons/onbord-image-1.svg",
+                                image: "assets/icons/onb2.svg",
                               ),
                               OnbordScreen(
                                 title:

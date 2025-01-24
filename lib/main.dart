@@ -15,6 +15,7 @@ import 'package:minapp/features/host/features/properties/presentation/bloc/ameni
 import 'package:minapp/features/host/features/properties/presentation/bloc/city/city_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/property_type/property_type_bloc.dart';
 import 'package:minapp/service_locator.dart';
+import 'core/utils/custom_local_delegate.dart';
 import 'features/guest/features/HousType/presentation/bloc/filter_bloc/filter_bloc.dart';
 import 'features/host/features/profile/presentation/bloc/profile_bloc.dart';
 import 'features/host/features/properties/presentation/bloc/add_property/add_property_bloc.dart';
@@ -84,11 +85,12 @@ class MyApp extends StatelessWidget {
         builder: (context, state) {
           return MaterialApp.router(
               localizationsDelegates: [
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
+              ...context.localizationDelegates,
                 EasyLocalization.of(context)!.delegate,
+                CustomMaterialLocalizationsDelegate(),
+                CustomCupertinoLocalizationsDelegate()
               ],
+
               supportedLocales: context.supportedLocales,
               locale: state.locale,
               debugShowCheckedModeBanner: false,

@@ -33,20 +33,17 @@ class OnbordScreen extends StatelessWidget {
                       fontSize: 18,fontWeight: FontWeight.w400,
                       color: ColorConstant.primaryColor.withValues(alpha: 0.6)),
                 ),
-                Expanded(
-                  child: Padding(
+                 Padding(
                     padding: const EdgeInsets.only(top: 30),
-                    child: AspectRatio(
-                      aspectRatio: 16 / 9,
-                      child: SvgPicture.asset(
+                    child: SvgPicture.asset(
                         image,
                         semanticsLabel: 'language',
                         fit: BoxFit.fill,
                         height: MediaQuery.of(context).size.height / 2,
                       ),
-                    ),
+
                   ),
-                ),
+
               ],
             )));
   }
