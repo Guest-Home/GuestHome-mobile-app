@@ -106,7 +106,7 @@ class HouseType extends StatelessWidget {
                       crossAxisCount: 2,
                       crossAxisSpacing: 12,
                       mainAxisSpacing: 12,
-                      mainAxisExtent: 100),
+                      mainAxisExtent: 110),
                   itemCount: state.propertyTypes.length,
                   itemBuilder: (context, index) => GestureDetector(
                     onTap: () {

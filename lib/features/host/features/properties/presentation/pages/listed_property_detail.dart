@@ -458,8 +458,6 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                                                     lat=point.latitude;
                                                                     long=point.longitude;
                                                                   });
-                                                                  print(lat);
-                                                                  print(long);
                                                                 },
                                                                 backgroundColor: ColorConstant.cardGrey.withValues(alpha: 0.6),
                                                                 initialCenter:LatLng(lat,long)),

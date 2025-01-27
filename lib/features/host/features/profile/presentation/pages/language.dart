@@ -14,7 +14,8 @@ class Language extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        leading: AppBarBackButton(),
+        leading: AppBarBackButton(
+        ),
         title: Text(tr(
           'language'),
           style: Theme
@@ -38,7 +39,9 @@ class Language extends StatelessWidget {
               children: [
                 Expanded(
                   child:
-                    BlocConsumer<LanguageBloc, LanguageState>(
+                    BlocProvider.value(
+                    value: context.read<LanguageBloc>(),
+                     child: BlocConsumer<LanguageBloc, LanguageState>(
                     listener: (context, state) {
                       context.setLocale(state.locale);
                     },
@@ -70,6 +73,7 @@ class Language extends StatelessWidget {
                       );
                     },
                   ),
+),
                 ),
               ],
             ),

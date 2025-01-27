@@ -54,8 +54,9 @@ Future<GoRouter> createRouter() async {
   bool isFirstTimeUser = prefs.getBool('isFirstTimeUser') ?? true;
 
   final GoRouter router = GoRouter(
+    debugLogDiagnostics: true,
     observers: [MyNavigatorObserver()],
-    initialLocation: !isFirstTimeUser ? '/onboarding' : '/houseType',
+    initialLocation: isFirstTimeUser ? '/onboarding' : '/houseType',
     errorBuilder: (context, state) => Scaffold(
       body: Center(
         child: Text("page not found"),
@@ -108,7 +109,7 @@ Future<GoRouter> createRouter() async {
       GoRoute(
           name: 'signIn',
           path: '/signIn',
-          builder: (context, state) => SignIn(),
+          builder: (context, state) =>SignIn(),
           routes: [
             GoRoute(
               name: 'accountSetup',

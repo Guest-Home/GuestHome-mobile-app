@@ -26,7 +26,7 @@ class HouseTypeCard extends StatelessWidget {
         width: 150,
         padding: const EdgeInsets.all(10),
         child: Column(
-          spacing: 10,
+          spacing: 5,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SvgPicture.asset(
@@ -36,6 +36,9 @@ class HouseTypeCard extends StatelessWidget {
             ),
             Text(
               tr(title),
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: ColorConstant.secondBtnColor,
                   fontSize: 14,

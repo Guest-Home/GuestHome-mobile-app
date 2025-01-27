@@ -22,6 +22,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
+    print(GoRouterState.of(context).name);
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -107,8 +108,8 @@ class _ProfileState extends State<Profile> {
                               ],
                             ),
                             // based on the user display either card or container
-                            if (GoRouter.of(context).state!.topRoute!.name !=
-                                'guestProfile')
+                            if (GoRouter.of(context).state!.name ==
+                                'profile')
                               Card(
                                 color: ColorConstant.cardGrey,
                                 elevation:0,
@@ -163,21 +164,15 @@ class _ProfileState extends State<Profile> {
                                 ),
                               ),
                             //switch to guest button
+                            if (GoRouter.of(context).state!.name ==
+                                'profile')
                             Container(
                                 width: MediaQuery.of(context).size.width/2,
                                 margin: EdgeInsets.only(
                                     left: 10, right: 10, bottom: 15,top: 10),
                                 child: CustomButton(
                                     onPressed: () {
-                                      if (GoRouter.of(context)
-                                              .state!
-                                              .topRoute!
-                                              .name !=
-                                          'guestProfile') {
                                         context.goNamed('houseType');
-                                      } else {
-                                        context.goNamed('properties');
-                                      }
                                     },
                                     style: ElevatedButton.styleFrom(
                                       elevation:10,
@@ -195,25 +190,49 @@ class _ProfileState extends State<Profile> {
                                           Icons.recycling,
                                           color: Colors.white,
                                         ),
-                                        GoRouter.of(context)
-                                                    .state!
-                                                    .topRoute!
-                                                    .name !=
-                                                'guestProfile'
-                                            ? Text("Switch to Guest",
+                                        Text("Switch to Guest",
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .bodySmall!
                                                     .copyWith(
                                                       color: Colors.white,
                                                     ))
-                                            : Text("Switch to Host",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodySmall!
-                                                    .copyWith(
-                                                      color: Colors.white,
-                                                    ))
+                                      ],
+                                    ))),
+                            if (GoRouter.of(context).state!.name ==
+                                'guestProfile')
+                            Container(
+                                width: MediaQuery.of(context).size.width/2,
+                                margin: EdgeInsets.only(
+                                    left: 10, right: 10, bottom: 15,top: 10),
+                                child: CustomButton(
+                                    onPressed: () {
+                                      context.goNamed('properties');
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      elevation:10,
+                                        side: BorderSide(
+                                            color:
+                                                ColorConstant.secondBtnColor),
+                                        backgroundColor:
+                                            ColorConstant.secondBtnColor),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      spacing: 5,
+                                      children: [
+                                        Icon(
+                                          Icons.recycling,
+                                          color: Colors.white,
+                                        ),
+                                        Text("Switch to Host",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall!
+                                                .copyWith(
+                                              color: Colors.white,
+                                            ))
+
                                       ],
                                     ))),
                           ],
@@ -256,9 +275,9 @@ class _ProfileState extends State<Profile> {
                 ListTile(
                   onTap: (){
                     if(GoRouter.of(context).routerDelegate.state!.name=='guestProfile'){
-                      context.pushNamed("guestLanguage");
+                      context.go("/guestProfile/guestLanguage");
                     }else{
-                      context.pushNamed("language");
+                      context.go("/profile/language");
                     }
 
                       },

@@ -63,29 +63,23 @@ class _OnBordingState extends State<OnBording>
                                     "List your Property hassle free",
                                 subtitle:
                                     "Lorem ipsum dolor sit amet consectetur. Est sed ridiculus nisl massa.",
-                                image: "assets/icons/onb11.svg",
+                                image: "assets/icons/on1.png",
                               ),
                               OnbordScreen(
                                 title:
                                     "Manage your Property easily",
                                 subtitle:
                                     "Lorem ipsum dolor sit amet consectetur. Est sed ridiculus nisl massa.",
-                                image: "assets/icons/onb2.svg",
+                                image: "assets/icons/on2.png",
                               ),
                               OnbordScreen(
                                 title:
                                     "Post your homes and go viral.",
                                 subtitle:
                                     "Lorem ipsum dolor sit amet consectetur. Est sed ridiculus nisl massa.",
-                                image: "assets/icons/onbord-image-1.svg",
+                                image: "assets/icons/on3.png",
                               ),
-                              OnbordScreen(
-                                title:
-                                    "Lorem ipsum dolor sit amet consectetur.",
-                                subtitle:
-                                    "Lorem ipsum dolor sit amet consectetur. Est sed ridiculus nisl massa.",
-                                image: "assets/icons/onbord-image-2.svg",
-                              ),
+
                             ],
                           ),
                         ),
@@ -99,7 +93,7 @@ class _OnBordingState extends State<OnBording>
                                   : Row(
                                 spacing: 5,
                                       children: List.generate(
-                                        5,
+                                        4,
                                         (index) => AnimatedContainer(
                                           duration: const Duration(seconds: 1),
                                           width: index == state.index ? 24 : 8,
@@ -125,7 +119,7 @@ class _OnBordingState extends State<OnBording>
                                     ),
                               trailing: GestureDetector(
                                 onTap: () {
-                                  if (state.index == 4) {
+                                  if (state.index == 3) {
                                     context
                                         .read<OnBordingBloc>()
                                         .add(OnBordingGetStartedEvent());

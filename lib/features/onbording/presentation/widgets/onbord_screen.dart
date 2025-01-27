@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:minapp/config/color/color.dart';
 
 class OnbordScreen extends StatelessWidget {
@@ -33,16 +32,10 @@ class OnbordScreen extends StatelessWidget {
                       fontSize: 18,fontWeight: FontWeight.w400,
                       color: ColorConstant.primaryColor.withValues(alpha: 0.6)),
                 ),
+
                  Padding(
                     padding: const EdgeInsets.only(top: 30),
-                    child: SvgPicture.asset(
-                        image,
-                        semanticsLabel: 'language',
-                        fit: BoxFit.fill,
-                        height: MediaQuery.of(context).size.height / 2,
-                      ),
-
-                  ),
+                    child:Image.asset(image,fit: BoxFit.cover,),),
 
               ],
             )));
