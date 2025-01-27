@@ -1,25 +1,26 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import '../utils/connectivity_service.dart';
 
 class RetryOnConnectionChangeInterceptor extends Interceptor {
-  final ConnectivityService connectivityService;
-
-  RetryOnConnectionChangeInterceptor(this.connectivityService);
+  RetryOnConnectionChangeInterceptor();
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     if (err.type == DioExceptionType.connectionError ||
         err.type == DioExceptionType.connectionTimeout) {
-    } else {
-      _redirectToNoInternetScreen();
-      handler.next(err);
+      // Wait for the connection to be restored
+      final connectivityResult = await ConnectivityService.isConnected();
+      if (connectivityResult) {
+        // Retry the request
+        try {
+          final response = await Dio().fetch(err.requestOptions);
+          return handler.resolve(response);
+        } on DioException catch (retryError) {
+          return handler.reject(retryError);
+        }
+      }
     }
-  }
-
-  void _redirectToNoInternetScreen() {
-    // Use a global key or context to access GoRouter
-    final navigatorKey = GlobalKey<NavigatorState>();
-    navigatorKey.currentState?.pushReplacementNamed('/splash');
+    // If no retry, pass the error to the next handler
+    return handler.next(err);
   }
 }
