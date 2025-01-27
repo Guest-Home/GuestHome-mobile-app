@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:minapp/core/apiConstants/api_url.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -32,6 +33,8 @@ class AuthInterceptor extends Interceptor {
         // Retry the request
         final retryResponse = await Dio().fetch(response.requestOptions);
         return handler.resolve(retryResponse);
+      } else {
+        _redirectToLogin();
       }
     }
     return super.onResponse(response, handler);
@@ -48,13 +51,16 @@ class AuthInterceptor extends Interceptor {
     // Make a request to refresh the token
     try {
       final response = await Dio().post(
-        ApiUrl.baseUrl+ApiUrl.refresh, // Replace with your refresh token endpoint
+        ApiUrl.baseUrl +
+            ApiUrl.refresh, // Replace with your refresh token endpoint
         data: {'refresh': refreshToken},
       );
 
       // Assuming the new token is in the response
-      String newToken =response.data['access']; // Adjust based on your API response
-      String refreshTo =response.data['refresh']; // Adjust based on your API response
+      String newToken =
+          response.data['access']; // Adjust based on your API response
+      String refreshTo =
+          response.data['refresh']; // Adjust based on your API response
       await prefs.setString('access', newToken); // Store the new token
       await prefs.setString('refresh', refreshTo); // Store the new token
       return newToken;
@@ -62,5 +68,11 @@ class AuthInterceptor extends Interceptor {
       // Handle error (e.g., log it, clear tokens, etc.)
       return null;
     }
+  }
+
+  void _redirectToLogin() {
+    // Use a global key or context to access GoRouter
+    final navigatorKey = GlobalKey<NavigatorState>();
+    navigatorKey.currentState?.pushReplacementNamed('/signIn');
   }
 }

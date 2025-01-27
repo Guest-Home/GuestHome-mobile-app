@@ -23,7 +23,7 @@ import 'features/host/features/properties/presentation/bloc/properties_bloc.dart
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setup();
-   //Bloc.observer=MyBlocObserver();
+  //Bloc.observer=MyBlocObserver();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   final GoRouter router = await createRouter(); // Initialize the router
 
@@ -37,9 +37,7 @@ void main() async {
       path: 'assets/translations',
       fallbackLocale: Locale('en', 'US'),
       saveLocale: false,
-      child:
-      MyApp(router: router)
-  ));
+      child: MyApp(router: router)));
 }
 
 class MyApp extends StatelessWidget {
@@ -84,13 +82,13 @@ class MyApp extends StatelessWidget {
         builder: (context, state) {
           return MaterialApp.router(
               localizationsDelegates: [
-              ...context.localizationDelegates,
+                ...context.localizationDelegates,
                 EasyLocalization.of(context)!.delegate,
                 CustomMaterialLocalizationsDelegate(),
                 CustomCupertinoLocalizationsDelegate()
               ],
-              supportedLocales: context.supportedLocales,
               locale: state.locale,
+              supportedLocales: context.supportedLocales,
               debugShowCheckedModeBanner: false,
               routerConfig: router,
               title: 'Min App',
