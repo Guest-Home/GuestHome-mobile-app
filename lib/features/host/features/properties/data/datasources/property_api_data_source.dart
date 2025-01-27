@@ -8,6 +8,7 @@ import 'package:minapp/features/host/features/properties/data/models/property_mo
 import 'package:minapp/features/host/features/properties/domain/usecases/create_property_usecase.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/update_property_usecase.dart';
 import '../../../../../../core/apiConstants/api_url.dart';
+import '../../../../../../core/error/error_response.dart';
 import '../../../../../../core/error/failure.dart';
 import '../../../../../../core/network/dio_client.dart';
 import '../../../../../../service_locator.dart';
@@ -23,9 +24,8 @@ abstract class PropertyApiDataSource {
   Future<Either<Failure, bool>> deleteProperty(int id);
   Future<Either<Failure, bool>> updateProperty(UpdatePropertyParam param);
   Future<Either<Failure, AgentPModel>> getAgent(int id);
-  Future<Either<Failure,GpropertyModel>> searchProperty(String name);
-  Future<Either<Failure,List<PropertyModel>>> hostSearchProperty(String name);
-
+  Future<Either<Failure, GpropertyModel>> searchProperty(String name);
+  Future<Either<Failure, List<PropertyModel>>> hostSearchProperty(String name);
 }
 
 class PropertyApiDataSourceImpl implements PropertyApiDataSource {
@@ -46,7 +46,7 @@ class PropertyApiDataSourceImpl implements PropertyApiDataSource {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.response!.data.toString()));
+      return Left(ErrorResponse().mapDioExceptionToFailure(e));
     }
   }
 
@@ -67,7 +67,7 @@ class PropertyApiDataSourceImpl implements PropertyApiDataSource {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.response!.data.toString()));
+      return Left(ErrorResponse().mapDioExceptionToFailure(e));
     }
   }
 
@@ -88,7 +88,7 @@ class PropertyApiDataSourceImpl implements PropertyApiDataSource {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.response!.data.toString()));
+      return Left(ErrorResponse().mapDioExceptionToFailure(e));
     }
   }
 
@@ -109,7 +109,7 @@ class PropertyApiDataSourceImpl implements PropertyApiDataSource {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.response!.data.toString()));
+      return Left(ErrorResponse().mapDioExceptionToFailure(e));
     }
   }
 
@@ -182,14 +182,14 @@ class PropertyApiDataSourceImpl implements PropertyApiDataSource {
   }
 
   @override
-  Future<Either<Failure,GpropertyModel>> searchProperty(String name)async{
-    print("//// guest search");
+  Future<Either<Failure, GpropertyModel>> searchProperty(String name) async {
     try {
-      final response = await sl<DioClient>().get("${ApiUrl.searchProperties}?typeofHouse=$name");
+      final response = await sl<DioClient>()
+          .get("${ApiUrl.searchProperties}?typeofHouse=$name");
       if (response.statusCode == 200) {
         final properties = await Isolate.run(
-              () {
-                return gpropertyModelFromMap(response.data);
+          () {
+            return gpropertyModelFromMap(response.data);
           },
         );
         return Right(properties);
@@ -197,18 +197,19 @@ class PropertyApiDataSourceImpl implements PropertyApiDataSource {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.response!.data.toString()));
+      return Left(ErrorResponse().mapDioExceptionToFailure(e));
     }
   }
 
   @override
-  Future<Either<Failure, List<PropertyModel>>> hostSearchProperty(String name)async{
-    print("//// host search");
+  Future<Either<Failure, List<PropertyModel>>> hostSearchProperty(
+      String name) async {
     try {
-      final response = await sl<DioClient>().get("${ApiUrl.hostHouseSearch}?query=$name");
+      final response =
+          await sl<DioClient>().get("${ApiUrl.hostHouseSearch}?query=$name");
       if (response.statusCode == 200) {
         final properties = await Isolate.run(
-              () {
+          () {
             return (response.data as List)
                 .map((e) => PropertyModel.fromMap(e))
                 .toList();
@@ -219,7 +220,7 @@ class PropertyApiDataSourceImpl implements PropertyApiDataSource {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.response!.data.toString()));
+      return Left(ErrorResponse().mapDioExceptionToFailure(e));
     }
   }
 }

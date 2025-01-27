@@ -1,5 +1,3 @@
-
-
 import 'dart:isolate';
 
 import 'package:dartz/dartz.dart';
@@ -8,26 +6,25 @@ import 'package:minapp/features/guest/features/booked/data/models/my_booking_det
 import 'package:minapp/features/guest/features/booked/data/models/my_booking_model.dart';
 
 import '../../../../../../core/apiConstants/api_url.dart';
+import '../../../../../../core/error/error_response.dart';
 import '../../../../../../core/error/failure.dart';
 import '../../../../../../core/network/dio_client.dart';
 import '../../../../../../service_locator.dart';
 
-abstract class BookingDataSource{
-  Future<Either<Failure,MyBookingModel>> getMyBookings();
-  Future<Either<Failure,bool>> cancelMyBookings(int id);
-  Future<Either<Failure,BookedDetailModel>> getMyBooking(int id);
-
-
+abstract class BookingDataSource {
+  Future<Either<Failure, MyBookingModel>> getMyBookings();
+  Future<Either<Failure, bool>> cancelMyBookings(int id);
+  Future<Either<Failure, BookedDetailModel>> getMyBooking(int id);
 }
 
-class BookingDataSourceImpl extends BookingDataSource{
+class BookingDataSourceImpl extends BookingDataSource {
   @override
-  Future<Either<Failure, MyBookingModel>> getMyBookings()async{
+  Future<Either<Failure, MyBookingModel>> getMyBookings() async {
     try {
       final response = await sl<DioClient>().get(ApiUrl.propertyBooking);
       if (response.statusCode == 200) {
         final booking = await Isolate.run(
-              () {
+          () {
             return MyBookingModel.fromMap(response.data);
           },
         );
@@ -36,32 +33,32 @@ class BookingDataSourceImpl extends BookingDataSource{
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.response!.data.toString()));
+      return Left(ErrorResponse().mapDioExceptionToFailure(e));
     }
   }
 
   @override
-  Future<Either<Failure, bool>> cancelMyBookings(int id)async{
-
+  Future<Either<Failure, bool>> cancelMyBookings(int id) async {
     try {
-    final response = await sl<DioClient>().put("${ApiUrl.cancelBooking}$id/");
-    if (response.statusCode == 200) {
-    return Right(true);
-    } else {
-    return Left(ServerFailure(response.data['error']));
-    }
+      final response = await sl<DioClient>().put("${ApiUrl.cancelBooking}$id/");
+      if (response.statusCode == 200) {
+        return Right(true);
+      } else {
+        return Left(ServerFailure(response.data['error']));
+      }
     } on DioException catch (e) {
-    return Left(ServerFailure(e.response!.data['msg'].toString()));
+      return Left(ErrorResponse().mapDioExceptionToFailure(e));
     }
   }
 
   @override
-  Future<Either<Failure, BookedDetailModel>> getMyBooking(int id)async{
+  Future<Either<Failure, BookedDetailModel>> getMyBooking(int id) async {
     try {
-      final response = await sl<DioClient>().get("${ApiUrl.propertyBooking}detail/$id/");
+      final response =
+          await sl<DioClient>().get("${ApiUrl.propertyBooking}detail/$id/");
       if (response.statusCode == 200) {
         final booking = await Isolate.run(
-              () {
+          () {
             return BookedDetailModel.fromMap(response.data);
           },
         );
@@ -70,8 +67,7 @@ class BookingDataSourceImpl extends BookingDataSource{
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.response!.data.toString()));
+      return Left(ErrorResponse().mapDioExceptionToFailure(e));
     }
   }
-
 }

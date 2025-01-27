@@ -93,7 +93,7 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
       emit(state.copyWith(latitude: loc.latitude, longitude: loc.longitude));
     });
     on<SelectLocationEvent>((event, emit) async {
-      emit(state.copyWith(latitude: event.lat, longitude:event.long));
+      emit(state.copyWith(latitude: event.lat, longitude: event.long));
     });
     on<RemovePictureEvent>(
       (event, emit) {
@@ -184,7 +184,7 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
         response.fold(
           (l) => emit(AddNewPropertyErrorState(state, l)),
           (r) {
-            emit(state.copyWith(agentPEntity:AgentPEntity()));
+            emit(state.copyWith(agentPEntity: AgentPEntity()));
             emit(state.copyWith(agentPEntity: r, token: token));
           },
         );

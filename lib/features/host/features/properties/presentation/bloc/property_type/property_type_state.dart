@@ -21,6 +21,8 @@ class PropertyTypeState extends Equatable {
 
 class PropertyTypeLoadingState extends PropertyTypeState {}
 
+class NoInternetSate extends PropertyTypeState {}
+
 class PropertyTypeError extends PropertyTypeState {
   final String message;
   const PropertyTypeError({required this.message});

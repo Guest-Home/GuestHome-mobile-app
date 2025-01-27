@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:currency_picker/currency_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -62,9 +61,7 @@ class _AddPropertiesState extends State<AddProperties> {
     priceController = TextEditingController();
     roomController = TextEditingController();
     agentIdController = TextEditingController();
-    mapController=MapController(
-
-    );
+    mapController = MapController();
   }
 
   @override
@@ -329,45 +326,63 @@ class _AddPropertiesState extends State<AddProperties> {
                                         MediaQuery.of(context).size.height / 2,
                                     child: BlocBuilder<AddPropertyBloc,
                                         AddPropertyState>(
-                                      buildWhen: (previous, current) => previous.latitude!=current.latitude,
+                                      buildWhen: (previous, current) =>
+                                          previous.latitude != current.latitude,
                                       builder: (context, state) {
                                         return RepaintBoundary(
                                           child: ClipRRect(
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                               child: FlutterMap(
-                                                mapController: mapController,
+                                                  mapController: mapController,
                                                   options: MapOptions(
-                                                    initialZoom: 15,
-                                                    onTap: (tapPosition, point) {
-                                                      context.read<AddPropertyBloc>().add(
-                                                          SelectLocationEvent(lat: point.latitude, long: point.longitude));
-                                                    },
-                                                    backgroundColor: ColorConstant.cardGrey.withValues(alpha: 0.6),
-                                                      initialCenter:LatLng(state.latitude, state.longitude)),
+                                                      initialZoom: 15,
+                                                      onTap: (tapPosition,
+                                                          point) {
+                                                        context
+                                                            .read<
+                                                                AddPropertyBloc>()
+                                                            .add(SelectLocationEvent(
+                                                                lat: point
+                                                                    .latitude,
+                                                                long: point
+                                                                    .longitude));
+                                                      },
+                                                      backgroundColor:
+                                                          ColorConstant
+                                                              .cardGrey
+                                                              .withValues(
+                                                                  alpha: 0.6),
+                                                      initialCenter: LatLng(
+                                                          state.latitude,
+                                                          state.longitude)),
                                                   children: [
                                                     TileLayer(
-                                                      urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                                                      userAgentPackageName: 'dev.fleaflet.flutter_map.example',
+                                                      urlTemplate:
+                                                          'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                                      userAgentPackageName:
+                                                          'dev.fleaflet.flutter_map.example',
                                                       // Plenty of other options available!
                                                     ),
                                                     MarkerLayer(
                                                       markers: [
                                                         Marker(
-                                                          point: LatLng(state.latitude, state.longitude),
+                                                          point: LatLng(
+                                                              state.latitude,
+                                                              state.longitude),
                                                           width: 50,
                                                           height: 50,
-                                                          child:  SvgPicture.asset(
+                                                          child:
+                                                              SvgPicture.asset(
                                                             'assets/icons/location-pin.svg',
-                                                            semanticsLabel:"marker",
+                                                            semanticsLabel:
+                                                                "marker",
                                                             fit: BoxFit.cover,
                                                           ),
                                                         ),
                                                       ],
                                                     ),
-                                          
-                                                  ])
-                                          ),
+                                                  ])),
                                         );
                                       },
                                     ),

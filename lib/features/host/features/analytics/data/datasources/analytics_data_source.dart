@@ -9,6 +9,7 @@ import 'package:minapp/features/host/features/analytics/data/models/total_no_pro
 import 'package:path_provider/path_provider.dart';
 
 import '../../../../../../core/apiConstants/api_url.dart';
+import '../../../../../../core/error/error_response.dart';
 import '../../../../../../core/error/failure.dart';
 import '../../../../../../core/network/dio_client.dart';
 import '../../../../../../service_locator.dart';
@@ -18,9 +19,9 @@ abstract class AnalyticsDataSource {
   Future<Either<Failure, TotalNumberOfPropertyModel>> getTotalProperty();
   Future<Either<Failure, CustomOccupancyRateModel>> getCustomOccupancyRate(
       Map<String, dynamic> dates);
-  Future<Either<Failure,bool>> downloadReport(String dates);
-  Future<Either<Failure,bool>> downloadReportCustom(Map<String,dynamic> dates);
-
+  Future<Either<Failure, bool>> downloadReport(String dates);
+  Future<Either<Failure, bool>> downloadReportCustom(
+      Map<String, dynamic> dates);
 }
 
 class AnalyticsDataSourceImpl extends AnalyticsDataSource {
@@ -39,7 +40,7 @@ class AnalyticsDataSourceImpl extends AnalyticsDataSource {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ErrorResponse().mapDioExceptionToFailure(e));
     }
   }
 
@@ -58,7 +59,7 @@ class AnalyticsDataSourceImpl extends AnalyticsDataSource {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ErrorResponse().mapDioExceptionToFailure(e));
     }
   }
 
@@ -81,15 +82,15 @@ class AnalyticsDataSourceImpl extends AnalyticsDataSource {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ErrorResponse().mapDioExceptionToFailure(e));
     }
   }
 
   @override
-  Future<Either<Failure, bool>> downloadReport(String dates)async{
+  Future<Either<Failure, bool>> downloadReport(String dates) async {
     try {
       final response = await sl<DioClient>().get(
-          "${ApiUrl.downloadReport}?dateFilter=$dates",
+        "${ApiUrl.downloadReport}?dateFilter=$dates",
         options: Options(
           responseType: ResponseType.bytes, // Get raw file bytes
         ),
@@ -105,14 +106,18 @@ class AnalyticsDataSourceImpl extends AnalyticsDataSource {
         }
 
         if (directory == null || !directory.existsSync()) {
-          return Left(ServerFailure("Failed to access the Downloads directory"));
+          return Left(
+              ServerFailure("Failed to access the Downloads directory"));
         }
         // Get the filename from the headers or default
         String fileName = 'downloaded_file.xlsx';
-        final contentDisposition = response.headers['content-disposition']?.first;
-        if (contentDisposition != null && contentDisposition.contains('filename=')) {
+        final contentDisposition =
+            response.headers['content-disposition']?.first;
+        if (contentDisposition != null &&
+            contentDisposition.contains('filename=')) {
           final startIndex = contentDisposition.indexOf('filename=') + 9;
-          fileName = contentDisposition.substring(startIndex).replaceAll('"', '');
+          fileName =
+              contentDisposition.substring(startIndex).replaceAll('"', '');
         }
         final filePath = '${directory.path}/${dates}days-$fileName}';
         // Save the file
@@ -124,17 +129,18 @@ class AnalyticsDataSourceImpl extends AnalyticsDataSource {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ErrorResponse().mapDioExceptionToFailure(e));
     }
   }
 
   @override
-  Future<Either<Failure, bool>> downloadReportCustom(Map<String, dynamic> dates)async{
+  Future<Either<Failure, bool>> downloadReportCustom(
+      Map<String, dynamic> dates) async {
     final startDate = dates['startDate'];
     final endDate = dates['endDate'];
     try {
       final response = await sl<DioClient>().get(
-          "${ApiUrl.downloadReport}?startDate=$startDate&endDate=$endDate",
+        "${ApiUrl.downloadReport}?startDate=$startDate&endDate=$endDate",
         options: Options(
           responseType: ResponseType.bytes, // Get raw file bytes
         ),
@@ -150,16 +156,21 @@ class AnalyticsDataSourceImpl extends AnalyticsDataSource {
         }
 
         if (directory == null || !directory.existsSync()) {
-          return Left(ServerFailure("Failed to access the Downloads directory"));
+          return Left(
+              ServerFailure("Failed to access the Downloads directory"));
         }
         // Get the filename from the headers or default
         String fileName = 'downloaded_file.xlsx';
-        final contentDisposition = response.headers['content-disposition']?.first;
-        if (contentDisposition != null && contentDisposition.contains('filename=')) {
+        final contentDisposition =
+            response.headers['content-disposition']?.first;
+        if (contentDisposition != null &&
+            contentDisposition.contains('filename=')) {
           final startIndex = contentDisposition.indexOf('filename=') + 9;
-          fileName = contentDisposition.substring(startIndex).replaceAll('"', '');
+          fileName =
+              contentDisposition.substring(startIndex).replaceAll('"', '');
         }
-        final filePath = '${directory.path}/${startDate.toString()}-${endDate.toString()}days-$fileName}';
+        final filePath =
+            '${directory.path}/${startDate.toString()}-${endDate.toString()}days-$fileName}';
         // Save the file
         final file = File(filePath);
         await file.writeAsBytes(response.data);
@@ -169,7 +180,7 @@ class AnalyticsDataSourceImpl extends AnalyticsDataSource {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ErrorResponse().mapDioExceptionToFailure(e));
     }
   }
 }

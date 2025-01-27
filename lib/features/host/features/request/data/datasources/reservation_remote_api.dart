@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:minapp/features/host/features/request/data/models/reservation_model.dart';
 
 import '../../../../../../core/apiConstants/api_url.dart';
+import '../../../../../../core/error/error_response.dart';
 import '../../../../../../core/error/failure.dart';
 import '../../../../../../core/network/dio_client.dart';
 import '../../../../../../service_locator.dart';
@@ -30,7 +31,7 @@ class ReservationApiDataSourceImpl implements ReservationApiDataSource {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ErrorResponse().mapDioExceptionToFailure(e));
     }
   }
 

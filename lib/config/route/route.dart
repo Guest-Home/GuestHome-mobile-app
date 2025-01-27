@@ -109,7 +109,7 @@ Future<GoRouter> createRouter() async {
       GoRoute(
           name: 'signIn',
           path: '/signIn',
-          builder: (context, state) =>SignIn(),
+          builder: (context, state) => SignIn(),
           routes: [
             GoRoute(
               name: 'accountSetup',
@@ -336,10 +336,9 @@ Future<GoRouter> createRouter() async {
                         final property = state.extra as ResultBookingEntity;
                         final token = state.pathParameters['token'];
                         return BookingDetailNonApproved(
-                            token: token!,
-                            property: property,
-                          );
-
+                          token: token!,
+                          property: property,
+                        );
                       },
                     ),
                   ]),

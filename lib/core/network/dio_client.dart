@@ -23,23 +23,23 @@ class DioClient {
         )..interceptors.addAll([
             AuthInterceptor(),
             LoggerInterceptor(),
-            RetryOnConnectionChangeInterceptor(sl<ConnectivityService>())
+            RetryOnConnectionChangeInterceptor(sl<ConnectivityService>()),
           ]);
+
   // DOWNLOAD METHOD
   Future<Response> download(
-      String url,
-      String savePath,
-      {
-        Map<String, dynamic>? queryParameters,
-        Options? options,
-        CancelToken? cancelToken,
-        ProgressCallback? onReceiveProgress,
-      }) async {
+    String url,
+    String savePath, {
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onReceiveProgress,
+  }) async {
     try {
       final Response response = await _dio.download(
-          url,
-          savePath,
-           options: options,
+        url,
+        savePath,
+        options: options,
         queryParameters: queryParameters,
         cancelToken: cancelToken,
       );
@@ -119,16 +119,17 @@ class DioClient {
       rethrow;
     }
   }
-   // PATCH METHOD
+
+  // PATCH METHOD
   Future<Response> patch(
-      String url, {
-        dynamic data,
-        Map<String, dynamic>? queryParameters,
-        Options? options,
-        CancelToken? cancelToken,
-        ProgressCallback? onSendProgress,
-        ProgressCallback? onReceiveProgress,
-      }) async {
+    String url, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
     try {
       final Response response = await _dio.patch(
         url,
@@ -144,6 +145,7 @@ class DioClient {
       rethrow;
     }
   }
+
   // DELETE METHOD
   Future<dynamic> delete(
     String url, {

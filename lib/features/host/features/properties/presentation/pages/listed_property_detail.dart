@@ -59,11 +59,10 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
         TextEditingController(text: widget.propertyEntity.price.toString());
     roomController = TextEditingController(
         text: widget.propertyEntity.numberOfRoom.toString());
-    unitController=TextEditingController();
-    lat=double.parse(widget.propertyEntity.latitude);
-    long=double.parse(widget.propertyEntity.longitude);
-    mapController=MapController();
-
+    unitController = TextEditingController();
+    lat = double.parse(widget.propertyEntity.latitude);
+    long = double.parse(widget.propertyEntity.longitude);
+    mapController = MapController();
   }
 
   @override
@@ -95,7 +94,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
         body: BlocConsumer<AddPropertyBloc, AddPropertyState>(
             listener: (context, state) {
               if (state is DeletePropertyLoading) {
-                _deletingDialog(context,"deleting property");
+                _deletingDialog(context, "deleting property");
               } else if (state is DeletePropertySuccess) {
                 context.pop();
                 context.read<PropertiesBloc>().add(GetPropertiesEvent());
@@ -104,18 +103,15 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
               } else if (state is AddNewPropertyErrorState) {
                 context.read<AddPropertyBloc>().add(ResetEvent());
                 context.pop();
-              }
-              else if(state is UpdatePropertyLoading){
-                _deletingDialog(context,"updating property");
-              }
-              else if(state is UpdatePropertySuccess){
+              } else if (state is UpdatePropertyLoading) {
+                _deletingDialog(context, "updating property");
+              } else if (state is UpdatePropertySuccess) {
                 context.pop();
                 context.read<AddPropertyBloc>().add(ResetEvent());
                 context.read<PropertiesBloc>().add(GetPropertiesEvent());
                 context.goNamed('properties');
                 showSuccessSnackBar(context, "updated deleted");
-              }
-              else if(state is AddNewPropertyErrorState){
+              } else if (state is AddNewPropertyErrorState) {
                 showErrorSnackBar(context, state.failure.message);
               }
             },
@@ -227,7 +223,8 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                       },
                                       child: SizedBox(
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
                                           spacing: 4,
                                           children: [
                                             Icon(
@@ -411,82 +408,65 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                     spacing: 10,
                                     children: [
                                       subSectionText('House Location'),
-                                      CustomTextField(
-                                        hintText: 'Google map location name',
-                                        textEditingController:
-                                            addressNmaeController,
-                                        surfixIcon: null,
-                                        isMultiLine: false,
-                                        onTextChnage: (value) {},
-                                        validator: (value) {
-                                          if (value!.isEmpty) {
-                                            return 'Please enter location';
-                                          }
-                                          return null;
-                                        },
-                                        textInputType: TextInputType.text,
-                                        prifixIcon: null,
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          showModalBottomSheet(context: context,
-                                            isDismissible: true,
-                                            isScrollControlled: true,
-                                            showDragHandle: true,
-                                            builder: (context) =>BottomSheet(onClosing:() {},
-                                              enableDrag: true,
-                                                builder:(context) =>  StatefulBuilder(
-                                                  builder: (context, setBottomState) =>  Container(
-                                                    height: MediaQuery.of(context).size.height*0.8,
-                                                      decoration: BoxDecoration(
-                                                        borderRadius: BorderRadius.only(
-                                                            topRight: Radius.circular(10),
-                                                            topLeft: Radius.circular(10)
+                                      Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.3,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            child: FlutterMap(
+                                                mapController: mapController,
+                                                options: MapOptions(
+                                                    initialZoom: 14,
+                                                    onTap:
+                                                        (tapPosition, point) {
+                                                      setState(() {
+                                                        lat = point.latitude;
+                                                        long = point.longitude;
+                                                      });
+                                                    },
+                                                    backgroundColor:
+                                                        ColorConstant.cardGrey
+                                                            .withValues(
+                                                                alpha: 0.6),
+                                                    initialCenter:
+                                                        LatLng(lat, long)),
+                                                children: [
+                                                  TileLayer(
+                                                    urlTemplate:
+                                                        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                                    userAgentPackageName:
+                                                        'dev.fleaflet.flutter_map.example',
+                                                    // Plenty of other options available!
+                                                  ),
+                                                  MarkerLayer(
+                                                    markers: [
+                                                      Marker(
+                                                        point:
+                                                            LatLng(lat, long),
+                                                        width: 50,
+                                                        height: 50,
+                                                        child: SvgPicture.asset(
+                                                          'assets/icons/marker.svg',
+                                                          semanticsLabel:
+                                                              "marker",
+                                                          fit: BoxFit.cover,
                                                         ),
                                                       ),
-                                                      child:ClipRRect(
-                                                        borderRadius: BorderRadius.only(
-                                                            topRight: Radius.circular(10),
-                                                            topLeft: Radius.circular(10)
-                                                        ),
-                                                        child: FlutterMap(
-                                                            mapController:mapController,
-                                                            options: MapOptions(
-                                                                initialZoom: 14,
-                                                                onTap: (tapPosition, point) {
-                                                                  setBottomState(() {
-                                                                    lat=point.latitude;
-                                                                    long=point.longitude;
-                                                                  });
-                                                                },
-                                                                backgroundColor: ColorConstant.cardGrey.withValues(alpha: 0.6),
-                                                                initialCenter:LatLng(lat,long)),
-                                                            children: [
-                                                              TileLayer(
-                                                                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                                                                userAgentPackageName: 'dev.fleaflet.flutter_map.example',
-                                                                // Plenty of other options available!
-                                                              ),
-                                                              MarkerLayer(
-                                                                markers: [
-                                                                  Marker(
-                                                                    point: LatLng(lat,long),
-                                                                    width: 50,
-                                                                    height: 50,
-                                                                    child:  SvgPicture.asset(
-                                                                      'assets/icons/marker.svg',
-                                                                      semanticsLabel:"marker",
-                                                                      fit: BoxFit.cover,
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-
-                                                            ]),
-                                                      )
+                                                    ],
                                                   ),
-                                                ),));
-                                        },
+                                                ]),
+                                          )),
+                                      GestureDetector(
+                                        onTap: () {},
                                         child: Align(
                                           alignment: Alignment.bottomRight,
                                           child: Row(
@@ -496,8 +476,8 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                               Icon(
                                                 Icons.location_pin,
                                                 size: 15,
-                                                color:
-                                                    ColorConstant.secondBtnColor,
+                                                color: ColorConstant
+                                                    .secondBtnColor,
                                               ),
                                               Text(
                                                 'Change House Location',
@@ -609,13 +589,21 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                       CustomTextField(
                                         hintText: 'price',
                                         textEditingController: priceController,
-                                        surfixIcon:  TextButton.icon(
+                                        surfixIcon: TextButton.icon(
                                           iconAlignment: IconAlignment.end,
                                           onPressed: () {
                                             getCurrency(context);
-                                          }, label:Text(unitController.text.isEmpty?widget.propertyEntity.unit:unitController.text,style: Theme.of(context).textTheme.bodyMedium,),
-                                          icon: Icon(Icons.keyboard_arrow_down_outlined),
-
+                                          },
+                                          label: Text(
+                                            unitController.text.isEmpty
+                                                ? widget.propertyEntity.unit
+                                                : unitController.text,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium,
+                                          ),
+                                          icon: Icon(Icons
+                                              .keyboard_arrow_down_outlined),
                                         ),
                                         isMultiLine: false,
                                         onTextChnage: (value) {},
@@ -727,7 +715,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                       _showDialog(context);
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      elevation: 0,
+                                        elevation: 0,
                                         foregroundColor: Colors.white,
                                         side: BorderSide(
                                             color:
@@ -764,32 +752,54 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                             widget.propertyEntity.numberOfRoom
                                                     .toString() !=
                                                 roomController.text) {
-                                          context.read<AddPropertyBloc>().add(UpdatePropertyEvent(
-                                            propertyEntity:{
-                                              'title':nameController.text,
-                                              'description':descriptionController.text,
-                                              'city': cityController.text,
-                                              'typeofHouse':state.houseType.isEmpty?widget.propertyEntity.typeofHouse:state.houseType,
-                                              if(widget.propertyEntity.latitude!=lat.toString())
-                                              'latitude':lat,
-                                              if(widget.propertyEntity.longitude!=long.toString())
-                                              'longitude':long,
-                                              'price':priceController.text,
-                                              'unit':unitController.text.isEmpty? widget.propertyEntity.unit:unitController.text,
-                                              'number_of_room':roomController.text,
-                                              'sub_description':widget.propertyEntity.subDescription,
-                                              'specificAddress':addressNmaeController.text
-                                            },
-                                            id: widget.propertyEntity.id
-                                          )
-                                          );
+                                          context.read<AddPropertyBloc>().add(
+                                                  UpdatePropertyEvent(
+                                                      propertyEntity: {
+                                                    'title':
+                                                        nameController.text,
+                                                    'description':
+                                                        descriptionController
+                                                            .text,
+                                                    'city': cityController.text,
+                                                    'typeofHouse':
+                                                        state.houseType.isEmpty
+                                                            ? widget
+                                                                .propertyEntity
+                                                                .typeofHouse
+                                                            : state.houseType,
+                                                    if (widget.propertyEntity
+                                                            .latitude !=
+                                                        lat.toString())
+                                                      'latitude': lat,
+                                                    if (widget.propertyEntity
+                                                            .longitude !=
+                                                        long.toString())
+                                                      'longitude': long,
+                                                    'price':
+                                                        priceController.text,
+                                                    'unit': unitController
+                                                            .text.isEmpty
+                                                        ? widget
+                                                            .propertyEntity.unit
+                                                        : unitController.text,
+                                                    'number_of_room':
+                                                        roomController.text,
+                                                    'sub_description': widget
+                                                        .propertyEntity
+                                                        .subDescription,
+                                                    'specificAddress':
+                                                        addressNmaeController
+                                                            .text
+                                                  },
+                                                      id: widget
+                                                          .propertyEntity.id));
                                         }
                                       }
 
                                       //  context.goNamed('properties');
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      elevation: 0,
+                                        elevation: 0,
                                         side: BorderSide(
                                             color: ColorConstant.primaryColor),
                                         backgroundColor:
@@ -816,26 +826,27 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
       showCurrencyCode: true,
       onSelect: (Currency currency) {
         setState(() {
-          unitController.text=currency.code;
+          unitController.text = currency.code;
         });
-
       },
     );
   }
 
   Text subSectionText(String title) => Text(
         title,
-        style: Theme.of(context)
-            .textTheme
-            .bodyMedium!
-            .copyWith(fontSize: 14, fontWeight: FontWeight.w500,color: ColorConstant.inActiveColor),
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: ColorConstant.inActiveColor),
       );
   Text sectionTitle(BuildContext context, String title) {
     return Text(title,
         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-          fontSize: 15,
-            color: ColorConstant.secondBtnColor, fontWeight: FontWeight.w700));
+            fontSize: 15,
+            color: ColorConstant.secondBtnColor,
+            fontWeight: FontWeight.w700));
   }
+
   void _showDeleteDialog(BuildContext context, int id) {
     showDialog(
       context: context,
@@ -862,7 +873,8 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Delete house?",
+                    Text(
+                      "Delete house?",
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!
@@ -919,7 +931,8 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
       ),
     );
   }
-  void _deletingDialog(BuildContext context,String title) {
+
+  void _deletingDialog(BuildContext context, String title) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -949,6 +962,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
       ),
     );
   }
+
   void _showHouseTypeDialog(BuildContext context) {
     showDialog(
         context: context,
@@ -977,7 +991,8 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                         ),
                         Expanded(
                             child: GridView.builder(
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2, // Number of columns
                                   childAspectRatio:
                                       1, // Aspect ratio of each item
@@ -1016,7 +1031,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                     Navigator.pop(context);
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    elevation: 0,
+                                      elevation: 0,
                                       side: BorderSide(
                                           color: ColorConstant.secondBtnColor),
                                       backgroundColor: Colors.white),
@@ -1042,7 +1057,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                     context.pop();
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    elevation: 0,
+                                      elevation: 0,
                                       backgroundColor:
                                           ColorConstant.primaryColor),
                                   child: Text(
@@ -1063,6 +1078,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                   })),
             ));
   }
+
   void _showDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -1121,16 +1137,15 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                   padding: EdgeInsets.all(0),
                   elevation: 0,
                   side: BorderSide(
-                      color:ColorConstant.secondBtnColor.withValues(alpha: 0.5)),
+                      color:
+                          ColorConstant.secondBtnColor.withValues(alpha: 0.5)),
                   backgroundColor: Colors.white),
               child: Text("Discard",
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         color: ColorConstant.secondBtnColor,
                       ))),
           CustomButton(
-              onPressed: () {
-
-              },
+              onPressed: () {},
               style: ElevatedButton.styleFrom(
                   elevation: 0,
                   padding: EdgeInsets.only(left: 4, right: 4),

@@ -11,6 +11,8 @@ class PropertiesInitial extends PropertiesState {}
 
 class PropertiesLoading extends PropertiesState {}
 
+class NoInternetSate extends PropertiesState {}
+
 class PropertyLoaded extends PropertiesState {
   final List<PropertyEntity> properties;
   const PropertyLoaded({required this.properties});
