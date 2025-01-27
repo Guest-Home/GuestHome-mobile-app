@@ -40,7 +40,6 @@ class _OnBordingState extends State<OnBording>
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-
         body: SafeArea(
             child: Padding(
                 padding: const EdgeInsets.all(16),
@@ -85,7 +84,7 @@ class _OnBordingState extends State<OnBording>
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width,
-                          margin: EdgeInsets.only(top: 25),
+                          margin: EdgeInsets.only(top:1),
                           child: ListTile(
                             contentPadding: EdgeInsets.all(0),
                               title: state.index == 0
