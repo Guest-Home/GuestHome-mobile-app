@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -19,12 +18,11 @@ class TgOtpVerification extends StatelessWidget {
     return BlocProvider.value(
       value: context.read<AuthBloc>(),
       child: BlocConsumer<AuthBloc, AuthState>(
-        buildWhen: (previous, current) => previous!=current,
-        listenWhen: (previous, current) => previous!=current,
+        buildWhen: (previous, current) => previous != current,
+        listenWhen: (previous, current) => previous != current,
         listener: (context, state) {
           if (state is VerifyedOtpLodedState) {
-            if (state.verifyOtpEntity.hasProfile==true)
-              {
+            if (state.verifyOtpEntity.hasProfile == true) {
               showSuccessSnackBar(context, "Otp Verified");
               context.goNamed('houseType');
             } else {
@@ -48,11 +46,13 @@ class TgOtpVerification extends StatelessWidget {
                     spacing: 16,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Otp Verification",
+                      Text(
+                        "Otp Verification",
                         style: Theme.of(context)
                             .textTheme
                             .headlineMedium!
-                            .copyWith(fontWeight: FontWeight.w700,fontSize: 20),
+                            .copyWith(
+                                fontWeight: FontWeight.w700, fontSize: 20),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 3),
@@ -61,16 +61,16 @@ class TgOtpVerification extends StatelessWidget {
                             text: TextSpan(children: [
                               TextSpan(
                                 text:
-                                'Please enter the one time password sent to your telegram username ',
+                                    'Please enter the one time password sent to your telegram username ',
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium!
                                     .copyWith(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400),
                               ),
                               TextSpan(
-                                  text:"@${state.phoneNumber}",
+                                  text: "@${state.tgUserName}",
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyMedium!
@@ -95,7 +95,7 @@ class TgOtpVerification extends StatelessWidget {
                             padding: EdgeInsets.only(right: 20),
                             decoration: BoxDecoration(
                               border:
-                              Border.all(color: ColorConstant.primaryColor),
+                                  Border.all(color: ColorConstant.primaryColor),
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
@@ -120,15 +120,17 @@ class TgOtpVerification extends StatelessWidget {
                                     .textTheme
                                     .bodyMedium!
                                     .copyWith(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400),
                               ),
                               TextSpan(
                                   text: "45 second",
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyMedium!
-                                      .copyWith(fontWeight: FontWeight.w700,fontSize: 14))
+                                      .copyWith(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 14))
                             ])),
                       ),
                       Container(
@@ -138,10 +140,10 @@ class TgOtpVerification extends StatelessWidget {
                             onPressed: state is VerifyingOtpLoadingState
                                 ? () {}
                                 : () {
-                              context
-                                  .read<AuthBloc>()
-                                  .add(VerifyOtpEvent());
-                            },
+                                    context
+                                        .read<AuthBloc>()
+                                        .add(VerifyTgOtpEvent());
+                                  },
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: ColorConstant.primaryColor,
                                 elevation: 0,
@@ -150,15 +152,15 @@ class TgOtpVerification extends StatelessWidget {
                             child: state is VerifyingOtpLoadingState
                                 ? loading
                                 : Text(
-                              "Verify",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700),
-                            )),
+                                    "Verify",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w700),
+                                  )),
                       )
                     ],
                   ),

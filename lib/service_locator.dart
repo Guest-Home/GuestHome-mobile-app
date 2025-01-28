@@ -9,6 +9,7 @@ import 'package:minapp/features/auth/domain/usecases/create_otp_usecase.dart';
 import 'package:minapp/features/auth/domain/usecases/deactivate_account_usecase.dart';
 import 'package:minapp/features/auth/domain/usecases/log_out_usecase.dart';
 import 'package:minapp/features/auth/domain/usecases/verify_otp_usecase.dart';
+import 'package:minapp/features/auth/domain/usecases/verify_tg_otp_usecase.dart';
 import 'package:minapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:minapp/features/auth/presentation/bloc/log_out/log_out_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/data/datasources/house_data_source.dart';
@@ -193,6 +194,7 @@ void setup() async {
       DownloadReportCustomUseCase());
   sl.registerSingleton<DownloadReportUseCase>(DownloadReportUseCase());
   sl.registerSingleton<CreateTgOtpUsecase>(CreateTgOtpUsecase());
+  sl.registerSingleton<VerifyTgOtpUsecase>(VerifyTgOtpUsecase());
 
   // repository
 

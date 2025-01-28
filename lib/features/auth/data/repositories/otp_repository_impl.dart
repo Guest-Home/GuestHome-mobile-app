@@ -5,6 +5,7 @@ import 'package:minapp/features/auth/data/models/customer_profile_model.dart';
 import 'package:minapp/features/auth/data/models/otp_response_model.dart';
 import 'package:minapp/features/auth/data/models/verify_otp_model.dart';
 import 'package:minapp/features/auth/domain/entities/otp_response_entity.dart';
+import 'package:minapp/features/auth/domain/entities/verify_otp_entity.dart';
 import 'package:minapp/features/auth/domain/repositories/otp_repository.dart';
 import 'package:minapp/features/auth/domain/usecases/create_customer_profile_usecase.dart';
 import 'package:minapp/features/auth/domain/usecases/create_otp_usecase.dart';
@@ -45,5 +46,11 @@ class OtpRepositoryImpl implements OtpRepository {
   Future<Either<Failure, OtpResponseEntity>> createTgOtp(
       Map<String, dynamic> data) async {
     return await sl<ApiDataSource>().createTgOtp(data);
+  }
+
+  @override
+  Future<Either<Failure, VerifyOtpEntity>> verifyTgOtp(
+      Map<String, dynamic> data) async {
+    return await sl<ApiDataSource>().verifyTgOtp(data);
   }
 }

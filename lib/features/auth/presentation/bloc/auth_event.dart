@@ -53,6 +53,8 @@ class AddTgUserNameEvent extends AuthEvent {
 
 class VerifyOtpEvent extends AuthEvent {}
 
+class VerifyTgOtpEvent extends AuthEvent {}
+
 class AddFullNameEvent extends AuthEvent {
   final String fullName;
   const AddFullNameEvent({required this.fullName});

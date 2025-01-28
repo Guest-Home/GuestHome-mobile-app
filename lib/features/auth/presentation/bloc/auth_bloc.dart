@@ -15,6 +15,7 @@ import '../../../../core/utils/connectivity_service.dart';
 import '../../../../service_locator.dart';
 import '../../domain/entities/customer_profile_entity.dart';
 import '../../domain/entities/verify_otp_entity.dart';
+import '../../domain/usecases/verify_tg_otp_usecase.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 
@@ -94,6 +95,26 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             phoneNumber: state.phoneNumber,
             otp: state.otpText,
             deviceId: deviceId));
+        response.fold(
+          (l) => emit(OtpErrorState(state, l)),
+          (r) async {
+            emit(VerifyedOtpLodedState(state, r));
+            // store token
+            await _storeTokens(r);
+          },
+        );
+      },
+    );
+    on<VerifyTgOtpEvent>(
+      (event, emit) async {
+        String deviceId = await GetDeviceId().getId();
+        emit(VerifyingOtpLoadingState(state));
+        Map<String, dynamic> data = {
+          "username": state.tgUserName,
+          "otp": state.otpText,
+          "device_id": deviceId
+        };
+        Either response = await sl<VerifyTgOtpUsecase>().call(data);
         response.fold(
           (l) => emit(OtpErrorState(state, l)),
           (r) async {
