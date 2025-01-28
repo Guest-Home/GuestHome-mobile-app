@@ -1,7 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:minapp/core/apiConstants/api_url.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../main.dart';
 
 class AuthInterceptor extends Interceptor {
   @override
@@ -10,7 +13,6 @@ class AuthInterceptor extends Interceptor {
     // Retrieve the token from local storage
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? authToken = prefs.getString('access'); // Replace with your key
-
     // If the token is not null, add it to the headers
     if (authToken != null) {
       options.headers['Authorization'] = 'Bearer $authToken';
@@ -20,24 +22,32 @@ class AuthInterceptor extends Interceptor {
   }
 
   @override
-  Future<void> onResponse(
-      Response response, ResponseInterceptorHandler handler) async {
-    // If the response indicates that the token has expired (e.g., 401 Unauthorized)
-    if (response.statusCode == 401) {
+  Future<void> onError(
+      DioException err, ErrorInterceptorHandler handler) async {
+    // Check for 401 Unauthorized error
+    if (err.response?.statusCode == 401) {
       // Attempt to refresh the token
       final newToken = await _refreshToken();
       if (newToken != null) {
-        // Update the request with the new token
-        response.requestOptions.headers['Authorization'] = 'Bearer $newToken';
+        // Update the request header with the new token
+        err.requestOptions.headers['Authorization'] = 'Bearer $newToken';
 
-        // Retry the request
-        final retryResponse = await Dio().fetch(response.requestOptions);
-        return handler.resolve(retryResponse);
+        // Retry the original request
+        try {
+          final response = await Dio().fetch(err.requestOptions);
+          return handler.resolve(response);
+        } on DioException catch (retryError) {
+          return handler.reject(retryError);
+        }
       } else {
+        // If token refresh fails, redirect to login
         _redirectToLogin();
+        return handler.reject(err);
       }
     }
-    return super.onResponse(response, handler);
+
+    // Pass other errors to the next handler
+    return handler.next(err);
   }
 
   Future<String?> _refreshToken() async {
@@ -66,13 +76,19 @@ class AuthInterceptor extends Interceptor {
       return newToken;
     } catch (e) {
       // Handle error (e.g., log it, clear tokens, etc.)
+
       return null;
     }
   }
 
   void _redirectToLogin() {
     // Use a global key or context to access GoRouter
-    final navigatorKey = GlobalKey<NavigatorState>();
-    navigatorKey.currentState?.pushReplacementNamed('/signIn');
+    final context = navigatorKey.currentContext;
+    if (context != null) {
+      GoRouter.of(context).goNamed('signIn');
+    } else {
+      debugPrint(
+          'Navigator context is null. Ensure the app is fully initialized.');
+    }
   }
 }

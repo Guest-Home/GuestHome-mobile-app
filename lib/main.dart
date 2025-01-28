@@ -20,6 +20,8 @@ import 'features/host/features/profile/presentation/bloc/profile_bloc.dart';
 import 'features/host/features/properties/presentation/bloc/add_property/add_property_bloc.dart';
 import 'features/host/features/properties/presentation/bloc/properties_bloc.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setup();
@@ -67,7 +69,7 @@ class MyApp extends StatelessWidget {
           create: (context) => sl<AmenitiesBloc>()..add(GetAmenityEvent()),
         ),
         BlocProvider(
-          lazy: false,
+          // lazy: false,
           create: (context) => sl<CityBloc>()..add(GetCitiesEvent()),
         ),
         BlocProvider(

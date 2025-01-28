@@ -87,6 +87,7 @@ import 'package:minapp/features/onbording/presentation/bloc/on_bording_bloc.dart
 import 'package:minapp/features/search/presentation/bloc/search_bloc.dart';
 
 import 'features/auth/domain/usecases/create_customer_profile_usecase.dart';
+import 'features/auth/domain/usecases/create_tg_otp_usecase.dart';
 import 'features/guest/features/booked/domain/usecases/get_booking_detail_usecase.dart';
 import 'features/search/domain/usecases/host_search_property_usecase.dart';
 
@@ -130,25 +131,25 @@ void setup() async {
     () => BookingBloc(),
   );
   sl.registerFactory<PopularPropertyBloc>(
-        () => PopularPropertyBloc(),
+    () => PopularPropertyBloc(),
   );
   sl.registerFactory<FilterBloc>(
-        () => FilterBloc(),
+    () => FilterBloc(),
   );
   sl.registerFactory<BookedBloc>(
-        () => BookedBloc(),
+    () => BookedBloc(),
   );
   sl.registerFactory<BookedDetailBloc>(
-        () => BookedDetailBloc(),
+    () => BookedDetailBloc(),
   );
   sl.registerFactory<ChangePhoneBloc>(
-        () => ChangePhoneBloc(),
+    () => ChangePhoneBloc(),
   );
   sl.registerFactory<LogOutBloc>(
-        () => LogOutBloc(),
+    () => LogOutBloc(),
   );
   sl.registerFactory<SearchBloc>(
-        () => SearchBloc(),
+    () => SearchBloc(),
   );
   // usecase
 
@@ -188,8 +189,10 @@ void setup() async {
   sl.registerSingleton<VerifyNewOtpUseCase>(VerifyNewOtpUseCase());
   sl.registerSingleton<LogOutUseCase>(LogOutUseCase());
   sl.registerSingleton<DeactivateAccountUseCase>(DeactivateAccountUseCase());
-  sl.registerSingleton<DownloadReportCustomUseCase>(DownloadReportCustomUseCase());
+  sl.registerSingleton<DownloadReportCustomUseCase>(
+      DownloadReportCustomUseCase());
   sl.registerSingleton<DownloadReportUseCase>(DownloadReportUseCase());
+  sl.registerSingleton<CreateTgOtpUsecase>(CreateTgOtpUsecase());
 
   // repository
 

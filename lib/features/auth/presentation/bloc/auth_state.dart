@@ -24,7 +24,7 @@ class AuthState extends Equatable {
       this.phoneNumber = '',
       this.otpText = '',
       this.fullName = '',
-        this.tgUserName='',
+      this.tgUserName = '',
       this.gender = Gender.male,
       this.profilePhoto});
 
@@ -35,7 +35,7 @@ class AuthState extends Equatable {
       String? otpText,
       String? fullName,
       Gender? gender,
-        String? tgUserName,
+      String? tgUserName,
       XFile? profilePhoto}) {
     return AuthState(
         countryCode: countryCode ?? this.countryCode,
@@ -43,7 +43,7 @@ class AuthState extends Equatable {
         otpText: otpText ?? this.otpText,
         fullName: fullName ?? this.fullName,
         gender: gender ?? this.gender,
-        tgUserName: tgUserName??this.tgUserName,
+        tgUserName: tgUserName ?? this.tgUserName,
         profilePhoto: profilePhoto ?? this.profilePhoto);
   }
 
@@ -54,10 +54,12 @@ class AuthState extends Equatable {
         otpText,
         fullName,
         gender,
-    tgUserName,
+        tgUserName,
         profilePhoto ?? XFile('')
       ];
 }
+
+class NoInternetSate extends AuthState {}
 
 class CreatingOtpLoadingState extends AuthState {
   CreatingOtpLoadingState(AuthState currentState)
@@ -70,6 +72,7 @@ class CreatingOtpLoadingState extends AuthState {
             tgUserName: currentState.tgUserName,
             profilePhoto: currentState.profilePhoto);
 }
+
 class OtpCreatedLodedState extends AuthState {
   final OtpResponseEntity otpResponseEntity;
   OtpCreatedLodedState(AuthState currentState, this.otpResponseEntity)
@@ -85,6 +88,7 @@ class OtpCreatedLodedState extends AuthState {
   @override
   List<Object> get props => super.props + [otpResponseEntity];
 }
+
 class OtpErrorState extends AuthState {
   final Failure failure;
   OtpErrorState(AuthState currentState, this.failure)
@@ -100,6 +104,7 @@ class OtpErrorState extends AuthState {
   @override
   List<Object> get props => super.props + [failure];
 }
+
 class VerifyingOtpLoadingState extends AuthState {
   VerifyingOtpLoadingState(AuthState currentState)
       : super(

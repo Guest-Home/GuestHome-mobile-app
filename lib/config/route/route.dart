@@ -47,13 +47,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/auth/presentation/pages/tg_otp_verification.dart';
 import '../../features/onbording/presentation/bloc/on_bording_bloc.dart';
+import '../../main.dart';
 import '../../service_locator.dart';
 
 Future<GoRouter> createRouter() async {
   final prefs = await SharedPreferences.getInstance();
   bool isFirstTimeUser = prefs.getBool('isFirstTimeUser') ?? true;
-
   final GoRouter router = GoRouter(
+    navigatorKey: navigatorKey,
     debugLogDiagnostics: true,
     observers: [MyNavigatorObserver()],
     initialLocation: isFirstTimeUser ? '/onboarding' : '/houseType',
@@ -66,9 +67,7 @@ Future<GoRouter> createRouter() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       bool isLoggedIn =
           prefs.getBool('isLogin') ?? false; // Check if the token exists
-      // Check if the current route is '/accountSetup' or starts with '/accountSetup/'
-      // bool isAccountSetupRoute =
-      //     state.uri.toString().startsWith('/accountSetup');
+
       bool isSinInRoute = state.uri.toString().startsWith('/signIn');
       bool isOnbordingRoute = state.uri.toString().startsWith('/onboarding');
 

@@ -15,8 +15,9 @@ class Validation {
     final nameRegExp = RegExp(r"^[a-zA-Za-z]");
     return nameRegExp.hasMatch(name);
   }
+
   static tgUserName(String name) {
-    final nameRegExp = RegExp(r"^@+[a-zA-Za-z]");
+    final nameRegExp = RegExp(r"^[a-zA-Za-z]");
     return nameRegExp.hasMatch(name);
   }
 

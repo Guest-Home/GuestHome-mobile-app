@@ -99,7 +99,7 @@ class _PropertiesState extends State<Properties> {
                 return SliverToBoxAdapter(
                   child: SizedBox(
                     child: Text(
-                      state.message,
+                      state.failure.message,
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),

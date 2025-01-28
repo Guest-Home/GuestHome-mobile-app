@@ -4,6 +4,7 @@ import 'package:minapp/features/auth/data/datasources/apiDataSource/api_data_sou
 import 'package:minapp/features/auth/data/models/customer_profile_model.dart';
 import 'package:minapp/features/auth/data/models/otp_response_model.dart';
 import 'package:minapp/features/auth/data/models/verify_otp_model.dart';
+import 'package:minapp/features/auth/domain/entities/otp_response_entity.dart';
 import 'package:minapp/features/auth/domain/repositories/otp_repository.dart';
 import 'package:minapp/features/auth/domain/usecases/create_customer_profile_usecase.dart';
 import 'package:minapp/features/auth/domain/usecases/create_otp_usecase.dart';
@@ -30,12 +31,19 @@ class OtpRepositoryImpl implements OtpRepository {
   }
 
   @override
-  Future<Either<Failure, String>> logOut(Map<String, dynamic> data)async{
+  Future<Either<Failure, String>> logOut(Map<String, dynamic> data) async {
     return await sl<ApiDataSource>().logOut(data);
   }
 
   @override
-  Future<Either<Failure, String>> deactivateAccount(Map<String, dynamic> data)async{
+  Future<Either<Failure, String>> deactivateAccount(
+      Map<String, dynamic> data) async {
     return await sl<ApiDataSource>().deactivateAccount(data);
+  }
+
+  @override
+  Future<Either<Failure, OtpResponseEntity>> createTgOtp(
+      Map<String, dynamic> data) async {
+    return await sl<ApiDataSource>().createTgOtp(data);
   }
 }

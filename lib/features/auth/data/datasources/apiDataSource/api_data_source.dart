@@ -18,8 +18,10 @@ abstract class ApiDataSource {
   Future<Either<Failure, VerifyOtpModel>> verifyOtp(VerifyOtpParams params);
   Future<Either<Failure, CustomerProfileModel>> createCustomerProfile(
       CreateCustomerParams params);
-  Future<Either<Failure,String>> logOut(Map<String,dynamic> data);
-  Future<Either<Failure,String>> deactivateAccount(Map<String,dynamic> data);
+  Future<Either<Failure, String>> logOut(Map<String, dynamic> data);
+  Future<Either<Failure, String>> deactivateAccount(Map<String, dynamic> data);
+  Future<Either<Failure, OtpResponseModel>> createTgOtp(
+      Map<String, dynamic> data);
 }
 
 class ApiDataSourceImpl implements ApiDataSource {
@@ -49,7 +51,7 @@ class ApiDataSourceImpl implements ApiDataSource {
       Map<String, dynamic> otpData = {
         "phone_number": params.phoneNumber,
         "otp": params.otp,
-        "device_id":params.deviceId
+        "device_id": params.deviceId
       };
 
       final response = await sl<DioClient>().put(ApiUrl.otp, data: otpData);
@@ -58,7 +60,7 @@ class ApiDataSourceImpl implements ApiDataSource {
             await Isolate.run(() => VerifyOtpModel.fromJson(response.data));
         return Right(verify);
       } else {
-       return Left(ServerFailure(response.data['Error']));
+        return Left(ServerFailure(response.data['Error']));
       }
     } on DioException catch (e) {
       return Left(ErrorResponse().mapDioExceptionToFailure(e));
@@ -95,13 +97,13 @@ class ApiDataSourceImpl implements ApiDataSource {
         return Left(ServerFailure(response.data['Error']));
       }
     } on DioException catch (e) {
-     // return Left(ServerFailure(e.response!.data.toString()));
+      // return Left(ServerFailure(e.response!.data.toString()));
       return Left(ErrorResponse().mapDioExceptionToFailure(e));
     }
   }
 
   @override
-  Future<Either<Failure, String>> logOut(Map<String, dynamic> data)async{
+  Future<Either<Failure, String>> logOut(Map<String, dynamic> data) async {
     try {
       final response = await sl<DioClient>().post(
         ApiUrl.logOut,
@@ -119,7 +121,8 @@ class ApiDataSourceImpl implements ApiDataSource {
   }
 
   @override
-  Future<Either<Failure, String>> deactivateAccount(Map<String, dynamic> data)async{
+  Future<Either<Failure, String>> deactivateAccount(
+      Map<String, dynamic> data) async {
     try {
       final response = await sl<DioClient>().post(
         ApiUrl.deactivateAccount,
@@ -132,6 +135,23 @@ class ApiDataSourceImpl implements ApiDataSource {
       }
     } on DioException catch (e) {
       // return Left(ServerFailure(e.response!.data.toString()));
+      return Left(ErrorResponse().mapDioExceptionToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, OtpResponseModel>> createTgOtp(
+      Map<String, dynamic> data) async {
+    try {
+      final response = await sl<DioClient>().post(ApiUrl.tGOtp, data: data);
+      if (response.statusCode == 200) {
+        final createdOtP =
+            await Isolate.run(() => OtpResponseModel.fromJson(response.data));
+        return Right(createdOtP);
+      } else {
+        return Left(ServerFailure(response.data['Error']));
+      }
+    } on DioException catch (e) {
       return Left(ErrorResponse().mapDioExceptionToFailure(e));
     }
   }

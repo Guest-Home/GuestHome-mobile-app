@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:minapp/core/error/failure.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/get_property_type_usecase.dart';
 import 'package:minapp/service_locator.dart';
 import '../../../../../../../core/utils/connectivity_service.dart';
@@ -16,7 +17,7 @@ class PropertyTypeBloc extends Bloc<PropertyTypeEvent, PropertyTypeState> {
       if (!hasConnection) {
         Either response = await sl<GetPropertyTypeUsecase>().call();
         response.fold(
-          (l) => emit(PropertyTypeError(message: l)),
+          (l) => emit(PropertyTypeError(failure: l)),
           (r) => emit(state.copyWith(propertyTypes: r)),
         );
       } else {

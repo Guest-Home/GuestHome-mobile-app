@@ -8,8 +8,10 @@ import 'package:minapp/core/utils/get_device_id.dart';
 import 'package:minapp/features/auth/domain/entities/otp_response_entity.dart';
 import 'package:minapp/features/auth/domain/usecases/create_customer_profile_usecase.dart';
 import 'package:minapp/features/auth/domain/usecases/create_otp_usecase.dart';
+import 'package:minapp/features/auth/domain/usecases/create_tg_otp_usecase.dart';
 import 'package:minapp/features/auth/domain/usecases/verify_otp_usecase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../../core/utils/connectivity_service.dart';
 import '../../../../service_locator.dart';
 import '../../domain/entities/customer_profile_entity.dart';
 import '../../domain/entities/verify_otp_entity.dart';
@@ -21,6 +23,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AddPhoneNumberEvent>(
       (event, emit) async {
         emit(state.copyWith(phoneNumber: event.phoneNumber));
+      },
+    );
+    on<AddTgUserNameEvent>(
+      (event, emit) async {
+        emit(state.copyWith(tgUserName: event.tgUserName));
       },
     );
     on<CountryCodeSelectorEvent>(
@@ -37,6 +44,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
       },
     );
+    on<CreateTgOtpEvent>(
+      (event, emit) async {
+        final hasConnection = await ConnectivityService.isConnected();
+        if (!hasConnection) {
+          emit(CreatingOtpLoadingState(state));
+          Map<String, dynamic> data = {'username': state.tgUserName};
+          Either response = await sl<CreateTgOtpUsecase>().call(data);
+          response.fold(
+            (l) => emit(OtpErrorState(state, l)),
+            (r) => emit(OtpCreatedLodedState(state, r)),
+          );
+        } else {
+          emit(NoInternetSate());
+        }
+      },
+    );
+
     on<AddOtpCodeEvent>(
       (event, emit) {
         emit(state.copyWith(otpText: event.otpCode));
@@ -67,11 +91,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         String deviceId = await GetDeviceId().getId();
         emit(VerifyingOtpLoadingState(state));
         Either response = await sl<VerifyOtpUsecase>().call(VerifyOtpParams(
-            phoneNumber: state.phoneNumber, otp: state.otpText,deviceId: deviceId));
+            phoneNumber: state.phoneNumber,
+            otp: state.otpText,
+            deviceId: deviceId));
         response.fold(
           (l) => emit(OtpErrorState(state, l)),
           (r) async {
-            emit(VerifyedOtpLodedState(state,r));
+            emit(VerifyedOtpLodedState(state, r));
             // store token
             await _storeTokens(r);
           },
@@ -88,8 +114,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               lastName: names.last,
               gender: state.gender.name,
               image: state.profilePhoto!,
-            typeOfCustomer: 'Guest'
-          ));
+              typeOfCustomer: 'Guest'));
       response.fold(
         (l) => emit(OtpErrorState(state, l)),
         (r) => emit(CreatedCustomerProfileLodedState(state, r)),

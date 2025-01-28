@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:minapp/core/error/failure.dart';
 import 'package:minapp/features/host/features/properties/domain/usecases/get_properties_usecase.dart';
 import 'package:minapp/service_locator.dart';
 
@@ -19,7 +20,7 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState> {
       if (!hasConnection) {
         Either response = await sl<GetPropertiesUsecase>().call();
         response.fold(
-          (l) => emit(PropertiesError(message: l)),
+          (l) => emit(PropertiesError(failure: l)),
           (r) => emit(PropertyLoaded(properties: r)),
         );
       } else {

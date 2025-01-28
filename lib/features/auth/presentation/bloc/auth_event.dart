@@ -31,11 +31,24 @@ class CreateOtpEvent extends AuthEvent {
   List<Object> get props => [phone];
 }
 
+class CreateTgOtpEvent extends AuthEvent {
+  const CreateTgOtpEvent();
+  @override
+  List<Object> get props => [];
+}
+
 class AddOtpCodeEvent extends AuthEvent {
   final String otpCode;
   const AddOtpCodeEvent({required this.otpCode});
   @override
   List<Object> get props => [otpCode];
+}
+
+class AddTgUserNameEvent extends AuthEvent {
+  final String tgUserName;
+  const AddTgUserNameEvent({required this.tgUserName});
+  @override
+  List<Object> get props => [tgUserName];
 }
 
 class VerifyOtpEvent extends AuthEvent {}
@@ -47,7 +60,8 @@ class AddFullNameEvent extends AuthEvent {
   @override
   List<Object> get props => [fullName];
 }
-class AddEmailEvent extends AuthEvent{
+
+class AddEmailEvent extends AuthEvent {
   final String email;
   const AddEmailEvent({required this.email});
   @override

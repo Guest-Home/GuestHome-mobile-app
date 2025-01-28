@@ -21,8 +21,8 @@ class PropertyLoaded extends PropertiesState {
 }
 
 class PropertiesError extends PropertiesState {
-  final String message;
-  const PropertiesError({required this.message});
+  final Failure failure;
+  const PropertiesError({required this.failure});
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [failure];
 }

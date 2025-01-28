@@ -10,9 +10,12 @@ import '../../../../core/error/failure.dart';
 
 abstract class OtpRepository {
   Future<Either<Failure, OtpResponseEntity>> createOtp(CreateOtpParams params);
+  Future<Either<Failure, OtpResponseEntity>> createTgOtp(
+      Map<String, dynamic> data);
+
   Future<Either<Failure, VerifyOtpEntity>> verifyOtp(VerifyOtpParams params);
   Future<Either<Failure, CustomerProfileEntity>> createCustomerProfile(
       CreateCustomerParams params);
-  Future<Either<Failure,String>> logOut(Map<String,dynamic> data);
-  Future<Either<Failure,String>> deactivateAccount(Map<String,dynamic> data);
+  Future<Either<Failure, String>> logOut(Map<String, dynamic> data);
+  Future<Either<Failure, String>> deactivateAccount(Map<String, dynamic> data);
 }
