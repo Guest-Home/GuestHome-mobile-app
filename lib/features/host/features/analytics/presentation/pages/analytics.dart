@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -61,12 +58,13 @@ class _AnalyticsState extends State<Analytics> {
                       child: ListTile(
                         title: Text(
                           'Total Properties',
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    color: Colors.white,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14
-                                  ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14),
                         ),
                         subtitle: Text(
                           state.totalProperty.totalNumberOfProperty.toString(),
@@ -122,7 +120,7 @@ class _AnalyticsState extends State<Analytics> {
                                             .textTheme
                                             .bodySmall!
                                             .copyWith(
-                                          fontSize: 12,
+                                              fontSize: 12,
                                               fontWeight: FontWeight.w500,
                                               color: state.selectedDate ==
                                                       state.occupancyDate[index]
@@ -139,34 +137,26 @@ class _AnalyticsState extends State<Analytics> {
                       ),
                       GestureDetector(
                         onTap: () async {
-                          if (Platform.isAndroid) {
-                            DateTimeRange? dateRange =
-                                await buildShowDateRangePicker(context);
-                            if (dateRange != null) {
-                              context
-                                  .read<AnalyticsBloc>()
-                                  .add(AddCustomDateEvent(
-                                    startDate: DateConverter().formatDateRange(
-                                        dateRange.start.toString()),
-                                    endDate: DateConverter().formatDateRange(
-                                        dateRange.end.toString()),
-                                  ));
-                              context
-                                  .read<AnalyticsBloc>()
-                                  .add(GetCustomOccupancyEvent());
-                            }
-                          } else {
-                            CupertinoDatePicker(
-                              mode: CupertinoDatePickerMode.date,
-                              initialDateTime: DateTime.now(),
-                              onDateTimeChanged: (DateTime value) {},
-                            );
+                          DateTimeRange? dateRange =
+                              await buildShowDateRangePicker(context);
+                          if (dateRange != null) {
+                            context
+                                .read<AnalyticsBloc>()
+                                .add(AddCustomDateEvent(
+                                  startDate: DateConverter().formatDateRange(
+                                      dateRange.start.toString()),
+                                  endDate: DateConverter().formatDateRange(
+                                      dateRange.end.toString()),
+                                ));
+                            context
+                                .read<AnalyticsBloc>()
+                                .add(GetCustomOccupancyEvent());
                           }
                         },
                         child: Container(
-                          width:100,
+                          width: 100,
                           margin: const EdgeInsets.only(right: 6),
-                          padding: EdgeInsets.symmetric(horizontal:5),
+                          padding: EdgeInsets.symmetric(horizontal: 5),
                           decoration: BoxDecoration(
                             color: ColorConstant.cardGrey,
                             borderRadius: BorderRadius.circular(40),
@@ -181,8 +171,8 @@ class _AnalyticsState extends State<Analytics> {
                                           .textTheme
                                           .bodySmall!
                                           .copyWith(
-                                        fontWeight: FontWeight.w500,fontSize: 12
-                                      )),
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 12)),
                                 ),
                                 Icon(Icons.arrow_drop_down)
                               ],
@@ -195,17 +185,17 @@ class _AnalyticsState extends State<Analytics> {
                 ),
                 BlocConsumer<AnalyticsBloc, AnalyticsState>(
                   listener: (context, state) {
-                    if(state is AnalyticsErrorState){
+                    if (state is AnalyticsErrorState) {
                       context.pop();
                       showErrorSnackBar(context, state.failure.message);
-                    }
-                    else if(state is DownloadingLoadingState){
-                      showDialog(context: context,
+                    } else if (state is DownloadingLoadingState) {
+                      showDialog(
+                        context: context,
                         barrierDismissible: false,
-                        builder:(context) => AlertDialog(
+                        builder: (context) => AlertDialog(
                           content: Container(
                             padding: EdgeInsets.all(10),
-                            height:100,
+                            height: 100,
                             child: Column(
                               spacing: 15,
                               children: [
@@ -214,9 +204,9 @@ class _AnalyticsState extends State<Analytics> {
                               ],
                             ),
                           ),
-                        ),);
-                    }
-                    else if(state is DownloadedState){
+                        ),
+                      );
+                    } else if (state is DownloadedState) {
                       context.pop();
                       showSuccessSnackBar(context, "report saved");
                     }
@@ -261,11 +251,9 @@ class _AnalyticsState extends State<Analytics> {
                               ),
                             ),
                             ReportDownload()
-
                           ],
                         );
-                      }
-                      else if (state.selectedDate == '60 Days') {
+                      } else if (state.selectedDate == '60 Days') {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           spacing: 10,
@@ -300,7 +288,6 @@ class _AnalyticsState extends State<Analytics> {
                               ),
                             ),
                             ReportDownload()
-
                           ],
                         );
                       } else if (state.selectedDate == '7 Days') {
@@ -338,7 +325,6 @@ class _AnalyticsState extends State<Analytics> {
                               ),
                             ),
                             ReportDownload()
-
                           ],
                         );
                       } else if (state.selectedDate == 'custom') {
@@ -399,17 +385,30 @@ class _AnalyticsState extends State<Analytics> {
     return showDateRangePicker(
         barrierLabel: "Custom",
         context: context,
-        initialDateRange:DateTimeRange(start: DateTime.now(), end: DateTime.now()),
+        saveText: "Update",
+        builder: (BuildContext context, Widget? child) {
+          return Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 100),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child:
+                Material(borderRadius: BorderRadius.circular(20), child: child),
+          );
+        },
+        initialDateRange:
+            DateTimeRange(start: DateTime.now(), end: DateTime.now()),
         firstDate: DateTime(2020),
         lastDate: DateTime.now());
   }
+
   Text sectionTitle(BuildContext context, String title) {
     return Text(
       title,
-      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-            fontWeight: FontWeight.w600,
-        fontSize: 14
-          ),
+      style: Theme.of(context)
+          .textTheme
+          .bodyMedium!
+          .copyWith(fontWeight: FontWeight.w600, fontSize: 14),
     );
   }
 }
@@ -458,66 +457,67 @@ class MetricsCard extends StatelessWidget {
     );
   }
 }
+
 class ReportDownload extends StatelessWidget {
   const ReportDownload({super.key});
   Text sectionTitle(BuildContext context, String title) {
     return Text(
       title,
-      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-          fontWeight: FontWeight.w600,
-          fontSize: 14
-      ),
+      style: Theme.of(context)
+          .textTheme
+          .bodyMedium!
+          .copyWith(fontWeight: FontWeight.w600, fontSize: 14),
     );
   }
+
   @override
   Widget build(BuildContext context) {
-    return  BlocConsumer<AnalyticsBloc, AnalyticsState>(
-  listener: (context, state) {
-  },
-  builder: (context, state) {
-    return ListTile(
-      title:   sectionTitle(context, "Report"),
-      subtitle: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        child: Column(
-          children: [
-            Text(
-              "This is report of your property performance over time. you can download and review.",
-              style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400
-              ),
-            ),
-            ElevatedButton(
-              onPressed:() => context.read<AnalyticsBloc>().add(DownloadReportEvent()),
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: ColorConstant.secondBtnColor,
-                  padding: EdgeInsets.all(10),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10))),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.download,
-                    color: Colors.white,
+    return BlocConsumer<AnalyticsBloc, AnalyticsState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        return ListTile(
+          title: sectionTitle(context, "Report"),
+          subtitle: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Column(
+              children: [
+                Text(
+                  "This is report of your property performance over time. you can download and review.",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall!
+                      .copyWith(fontSize: 12, fontWeight: FontWeight.w400),
+                ),
+                ElevatedButton(
+                  onPressed: () =>
+                      context.read<AnalyticsBloc>().add(DownloadReportEvent()),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorConstant.secondBtnColor,
+                      padding: EdgeInsets.all(10),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.download,
+                        color: Colors.white,
+                      ),
+                      Text(
+                        "Download",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(color: Colors.white),
+                      )
+                    ],
                   ),
-                  Text(
-                    "Download",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(color: Colors.white),
-                  )
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
-  },
-);
   }
 }
-

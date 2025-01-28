@@ -31,15 +31,16 @@ void main() async {
 
   await EasyLocalization.ensureInitialized();
   runApp(EasyLocalization(
-      supportedLocales: [
-        Locale('en', 'US'),
-        Locale('am', 'ET'),
-        Locale('om', 'ET'),
-      ],
-      path: 'assets/translations',
-      fallbackLocale: Locale('en', 'US'),
-      saveLocale: false,
-      child: MyApp(router: router)));
+    supportedLocales: [
+      Locale('en', 'US'),
+      Locale('am', 'ET'),
+      Locale('om', 'ET'),
+    ],
+    path: 'assets/translations',
+    fallbackLocale: Locale('en', 'US'),
+    saveLocale: false,
+    child: MyApp(router: router),
+  ));
 }
 
 class MyApp extends StatelessWidget {
