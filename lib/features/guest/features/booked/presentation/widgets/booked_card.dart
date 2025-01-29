@@ -149,13 +149,13 @@ class BookedCard extends StatelessWidget {
                               color: ColorConstant.secondBtnColor
                                   .withValues(alpha: 0.7))),
                     ])),
-                    Text(
-                      "1.3km away",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall!
-                          .copyWith(fontSize: 12, fontWeight: FontWeight.w700),
-                    )
+                    // Text(
+                    //   "1.3km away",
+                    //   style: Theme.of(context)
+                    //       .textTheme
+                    //       .bodySmall!
+                    //       .copyWith(fontSize: 12, fontWeight: FontWeight.w700),
+                    // )
                   ],
                 ),
                 Row(
@@ -167,12 +167,16 @@ class BookedCard extends StatelessWidget {
                       size: 21,
                       color: ColorConstant.secondBtnColor,
                     ),
-                    Text(
-                      "${property.house!.specificAddress!}, ${property.house!.city!}",
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 12,
-                          color: ColorConstant.secondBtnColor),
+                    Expanded(
+                      child: Text(
+                        "${property.house!.specificAddress!}, ${property.house!.city!}",
+                        textAlign: TextAlign.start,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 12,
+                            color: ColorConstant.secondBtnColor),
+                      ),
                     )
                   ],
                 )

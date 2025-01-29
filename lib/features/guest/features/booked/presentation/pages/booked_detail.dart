@@ -171,7 +171,7 @@ class _BookedDetailState extends State<BookedDetail> {
               AboutHostCard(
                 userEntity: state.booked.user!,
                 token: widget.token,
-                image: state.booked.house!.postedBy!.profilePicture!,
+                image: state.booked.house!.postedBy!.profilePicture??"",
               ),
               Divider(
                 thickness: 0.6,

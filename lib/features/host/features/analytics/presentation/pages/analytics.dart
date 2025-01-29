@@ -95,7 +95,7 @@ class _AnalyticsState extends State<Analytics> {
                               itemCount: state.occupancyDate.length,
                               scrollDirection: Axis.horizontal,
                               separatorBuilder: (context, index) => SizedBox(
-                                width: 10,
+                                width: 4,
                               ),
                               itemBuilder: (context, index) => GestureDetector(
                                 onTap: () {
@@ -388,7 +388,7 @@ class _AnalyticsState extends State<Analytics> {
         saveText: "Update",
         builder: (BuildContext context, Widget? child) {
           return Container(
-            margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 100),
+            margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
             ),

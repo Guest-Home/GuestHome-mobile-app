@@ -14,24 +14,22 @@ part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc() : super(ProfileInitial()) {
-    on<GetUserProfileEvent>((event, emit)async{
-       emit(UserProfileLoadingState());
-       Either response=await sl<GetUserProfileUseCase>().call();
-       final token=await GetToken().getUserToken();
-       response.fold((l) => emit(ProfileErrorState(l)),(r){
-         emit(UserProfileLoadedState(r,token));
-       });
-      
+    on<GetUserProfileEvent>((event, emit) async {
+      emit(UserProfileLoadingState());
+      Either response = await sl<GetUserProfileUseCase>().call();
+      String? token = await GetToken().getUserToken();
+      response.fold(
+        (l) => emit(ProfileErrorState(l)),
+        (r) => emit(UserProfileLoadedState(r, token)),
+      );
     });
-    on<UpdateUserProfileEvent>((event, emit)async{
+    on<UpdateUserProfileEvent>((event, emit) async {
       emit(UpdateUserProfileLoadingState());
-      Either response=await sl<UpdateUserProfileUseCase>().call(event.userData);
-      response.fold((l) =>emit(ProfileErrorState(l)),(r){
+      Either response =
+          await sl<UpdateUserProfileUseCase>().call(event.userData);
+      response.fold((l) => emit(ProfileErrorState(l)), (r) {
         emit(UpdateUserProfileState(isUpdate: r));
       });
     });
-
   }
-
-
 }

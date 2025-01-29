@@ -66,7 +66,7 @@ class PostedByEntity extends Equatable {
   final int id;
   final UserEntity userAccount;
   final String phoneNumber;
-  final String profilePicture;
+  final String? profilePicture;
   final String typeOfCustomer;
   final int rating;
   final String chatId;

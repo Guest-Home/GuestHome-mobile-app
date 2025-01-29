@@ -63,13 +63,15 @@ class PopularHouseCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 spacing: 10,
                 children: [
-                  Text(property.title!,
-                    textAlign:TextAlign.start,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!
-                        .copyWith(fontWeight: FontWeight.w600,fontSize: 14),
+                  Expanded(
+                    child: Text(property.title!,
+                      textAlign:TextAlign.start,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(fontWeight: FontWeight.w600,fontSize: 14),
+                    ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -77,7 +79,7 @@ class PopularHouseCard extends StatelessWidget {
                     children: [
                       Icon(
                         Icons.star,
-                        size: 20,
+                        size: 16,
                         color: ColorConstant.yellow,
                       ),
                       Text(
@@ -85,7 +87,7 @@ class PopularHouseCard extends StatelessWidget {
                         style: Theme.of(context)
                             .textTheme
                             .bodySmall!
-                            .copyWith(fontWeight: FontWeight.w700,fontSize: 13),
+                            .copyWith(fontWeight: FontWeight.w700,fontSize: 12),
                       )
                     ],
                   ),
@@ -145,12 +147,16 @@ class PopularHouseCard extends StatelessWidget {
                         size: 20,
                         color: ColorConstant.secondBtnColor,
                       ),
-                      Text(
-                        "${property.specificAddress!}, ${property.city!}",
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12,
-                            color: ColorConstant.secondBtnColor),
+                      Expanded(
+                        child: Text(
+                          "${property.specificAddress!}, ${property.city!}",
+                          textAlign: TextAlign.start,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12,
+                              color: ColorConstant.secondBtnColor),
+                        ),
                       )
                     ],
                   )

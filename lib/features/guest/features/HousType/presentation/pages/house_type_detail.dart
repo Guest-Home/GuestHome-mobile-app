@@ -311,9 +311,8 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                   return ListView.builder(
                                     shrinkWrap: true,
                                     physics: NeverScrollableScrollPhysics(),
-                                    itemCount: state.properties.count,
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 15),
+                                    itemCount: state.properties.results!.length,
+                                    padding: EdgeInsets.symmetric(horizontal: 15),
                                     itemBuilder: (context, index) {
                                       return GestureDetector(
                                         onTap: () async {

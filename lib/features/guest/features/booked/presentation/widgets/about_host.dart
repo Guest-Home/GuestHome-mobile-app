@@ -32,10 +32,17 @@ class AboutHostCard extends StatelessWidget {
             leading:  CircleAvatar(
               radius: 20,
               backgroundColor: ColorConstant.cardGrey,
-              backgroundImage: CachedNetworkImageProvider(
+              backgroundImage:image.isNotEmpty?CachedNetworkImageProvider(
                 ApiUrl.baseUrl + image,
                 headers: {'Authorization': 'Bearer $token'},
-              ),
+              ):null,
+              child:image.isEmpty
+                  ? Icon(
+                Icons.person,
+                color: Colors.white,
+                size: 20,
+              )
+                  : null,
             ),
             title: Text("${userEntity.userAccount!.firstName!} ${userEntity.userAccount!.lastName!}",
               style: Theme.of(context).textTheme

@@ -94,13 +94,20 @@ class GeneralInformation extends StatelessWidget {
                               CircleAvatar(
                                 radius: 43,
                                 backgroundColor: ColorConstant.cardGrey,
-                                backgroundImage: CachedNetworkImageProvider(
+                                backgroundImage:state.userProfileEntity.profilePicture!=null? CachedNetworkImageProvider(
                                   ApiUrl.baseUrl +
-                                      state.userProfileEntity.profilePicture,
+                                      state.userProfileEntity.profilePicture!,
                                   headers: {
-                                    'Authorization': 'Bearer ${state.token}'
+                                    'Authorization': 'Bearer ${state.token!}'
                                   },
-                                ),
+                                ):null,
+                                child: state.userProfileEntity.profilePicture == null
+                                    ? Icon(
+                                  Icons.person,
+                                  color: Colors.white,
+                                  size: 20,
+                                )
+                                    : null,
                               ),
                               Expanded(
                                 child: Column(

@@ -175,12 +175,16 @@ class NearHouseCard extends StatelessWidget {
                       size: 20,
                       color: ColorConstant.secondBtnColor,
                     ),
-                    Text(
-                      "${property.specificAddress!}, ${property.city!}",
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14,
-                          color: ColorConstant.secondBtnColor),
+                    Expanded(
+                      child: Text(
+                        "${property.specificAddress!}, ${property.city!}",
+                        textAlign: TextAlign.start,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14,
+                            color: ColorConstant.secondBtnColor),
+                      ),
                     )
                   ],
                 )

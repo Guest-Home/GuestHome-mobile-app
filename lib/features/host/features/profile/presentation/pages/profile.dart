@@ -22,7 +22,6 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
-    print(GoRouterState.of(context).name);
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -61,27 +60,34 @@ class _ProfileState extends State<Profile> {
                                 CircleAvatar(
                                   radius: 38,
                                   backgroundColor: ColorConstant.cardGrey,
-                                  backgroundImage: CachedNetworkImageProvider(
+                                  backgroundImage:state.userProfileEntity.profilePicture!=null? CachedNetworkImageProvider(
                                     ApiUrl.baseUrl +
-                                        state.userProfileEntity.profilePicture,
+                                        state.userProfileEntity.profilePicture!,
                                     headers: {
-                                      'Authorization': 'Bearer ${state.token}'
+                                      'Authorization': 'Bearer ${state.token!}'
                                     },
-                                  ),
+                                  ):null,
+                                  child: state.userProfileEntity.profilePicture == null
+                                      ? Icon(
+                                    Icons.person,
+                                    color: Colors.white,
+                                    size: 20,
+                                  )
+                                      : null,
                                 ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       "${state.userProfileEntity.userAccount.firstName} "
-                                          "${state.userProfileEntity.userAccount.lastName}",
-                                      textAlign:TextAlign.start,
-                                      overflow:TextOverflow.ellipsis,
+                                      "${state.userProfileEntity.userAccount.lastName}",
+                                      textAlign: TextAlign.start,
+                                      overflow: TextOverflow.ellipsis,
                                       style: Theme.of(context)
                                           .textTheme
                                           .headlineSmall!
                                           .copyWith(
-                                        fontSize: 21,
+                                              fontSize: 21,
                                               fontWeight: FontWeight.w700),
                                     ),
                                     Text(
@@ -90,7 +96,8 @@ class _ProfileState extends State<Profile> {
                                           .textTheme
                                           .bodySmall!
                                           .copyWith(
-                                              fontWeight: FontWeight.w600,fontSize: 14),
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 14),
                                     ),
                                     Text(
                                       state.userProfileEntity.typeOfCustomer,
@@ -98,7 +105,7 @@ class _ProfileState extends State<Profile> {
                                           .textTheme
                                           .bodySmall!
                                           .copyWith(
-                                        fontSize: 14,
+                                              fontSize: 14,
                                               fontWeight: FontWeight.w400,
                                               color:
                                                   ColorConstant.secondBtnColor),
@@ -108,11 +115,10 @@ class _ProfileState extends State<Profile> {
                               ],
                             ),
                             // based on the user display either card or container
-                            if (GoRouter.of(context).state!.name ==
-                                'profile')
+                            if (GoRouter.of(context).state!.name == 'profile')
                               Card(
                                 color: ColorConstant.cardGrey,
-                                elevation:0,
+                                elevation: 0,
                                 shadowColor: ColorConstant.cardGrey,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15),
@@ -124,10 +130,12 @@ class _ProfileState extends State<Profile> {
                                   width: MediaQuery.of(context).size.width,
                                   padding: const EdgeInsets.all(15),
                                   child: Row(
-                                    mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         spacing: 10,
                                         children: [
                                           Text(
@@ -135,28 +143,43 @@ class _ProfileState extends State<Profile> {
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyLarge!
-                                                .copyWith(fontWeight: FontWeight.w700,fontSize: 14),
+                                                .copyWith(
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 14),
                                           ),
                                           Text(
                                             tr("Lorem ipsum dolor sit amet\n consectetur."),
-                                            style:
-                                            Theme.of(context).textTheme.bodySmall,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall,
                                           ),
-
                                         ],
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        spacing:10,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        spacing: 10,
                                         children: [
-                                          Text("2344",style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 20,
-                                            color: ColorConstant.primaryColor
-                                          ),),
-                                          Text("ETB",style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                            color: ColorConstant.primaryColor
-                                          ),)
+                                          Text(
+                                            "2344",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge!
+                                                .copyWith(
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 20,
+                                                    color: ColorConstant
+                                                        .primaryColor),
+                                          ),
+                                          Text(
+                                            "ETB",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall!
+                                                .copyWith(
+                                                    color: ColorConstant
+                                                        .primaryColor),
+                                          )
                                         ],
                                       )
                                     ],
@@ -164,77 +187,75 @@ class _ProfileState extends State<Profile> {
                                 ),
                               ),
                             //switch to guest button
-                            if (GoRouter.of(context).state!.name ==
-                                'profile')
-                            Container(
-                                width: MediaQuery.of(context).size.width/2,
-                                margin: EdgeInsets.only(
-                                    left: 10, right: 10, bottom: 15,top: 10),
-                                child: CustomButton(
-                                    onPressed: () {
+                            if (GoRouter.of(context).state!.name == 'profile')
+                              Container(
+                                  width: MediaQuery.of(context).size.width / 2,
+                                  margin: EdgeInsets.only(
+                                      left: 10, right: 10, bottom: 15, top: 10),
+                                  child: CustomButton(
+                                      onPressed: () {
                                         context.goNamed('houseType');
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      elevation:10,
-                                        side: BorderSide(
-                                            color:
-                                                ColorConstant.secondBtnColor),
-                                        backgroundColor:
-                                            ColorConstant.secondBtnColor),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      spacing: 5,
-                                      children: [
-                                        Icon(
-                                          Icons.recycling,
-                                          color: Colors.white,
-                                        ),
-                                        Text("Switch to Guest",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodySmall!
-                                                    .copyWith(
-                                                      color: Colors.white,
-                                                    ))
-                                      ],
-                                    ))),
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                          elevation: 10,
+                                          side: BorderSide(
+                                              color:
+                                                  ColorConstant.secondBtnColor),
+                                          backgroundColor:
+                                              ColorConstant.secondBtnColor),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        spacing: 5,
+                                        children: [
+                                          Icon(
+                                            Icons.recycling,
+                                            color: Colors.white,
+                                          ),
+                                          Text("Switch to Guest",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall!
+                                                  .copyWith(
+                                                    color: Colors.white,
+                                                  ))
+                                        ],
+                                      ))),
                             if (GoRouter.of(context).state!.name ==
                                 'guestProfile')
-                            Container(
-                                width: MediaQuery.of(context).size.width/2,
-                                margin: EdgeInsets.only(
-                                    left: 10, right: 10, bottom: 15,top: 10),
-                                child: CustomButton(
-                                    onPressed: () {
-                                      context.goNamed('properties');
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      elevation:10,
-                                        side: BorderSide(
-                                            color:
-                                                ColorConstant.secondBtnColor),
-                                        backgroundColor:
-                                            ColorConstant.secondBtnColor),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      spacing: 5,
-                                      children: [
-                                        Icon(
-                                          Icons.recycling,
-                                          color: Colors.white,
-                                        ),
-                                        Text("Switch to Host",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall!
-                                                .copyWith(
-                                              color: Colors.white,
-                                            ))
-
-                                      ],
-                                    ))),
+                              Container(
+                                  width: MediaQuery.of(context).size.width / 2,
+                                  margin: EdgeInsets.only(
+                                      left: 10, right: 10, bottom: 15, top: 10),
+                                  child: CustomButton(
+                                      onPressed: () {
+                                        context.goNamed('properties');
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                          elevation: 10,
+                                          side: BorderSide(
+                                              color:
+                                                  ColorConstant.secondBtnColor),
+                                          backgroundColor:
+                                              ColorConstant.secondBtnColor),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        spacing: 5,
+                                        children: [
+                                          Icon(
+                                            Icons.recycling,
+                                            color: Colors.white,
+                                          ),
+                                          Text("Switch to Host",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall!
+                                                  .copyWith(
+                                                    color: Colors.white,
+                                                  ))
+                                        ],
+                                      ))),
                           ],
                         );
                       } else if (state is ProfileErrorState) {
@@ -242,9 +263,9 @@ class _ProfileState extends State<Profile> {
                           child: Text(state.failure.message),
                         );
                       }
-                      return  SizedBox(
+                      return SizedBox(
                           height: 150,
-                          child: Center(child:loadingIndicator()));
+                          child: Center(child: loadingIndicator()));
                     },
                   ),
                 ),
@@ -254,87 +275,107 @@ class _ProfileState extends State<Profile> {
                         fontSize: 16,
                         fontWeight: FontWeight.w700)),
                 ListTile(
-                  onTap: (){
-                   if(GoRouter.of(context).routerDelegate.state!.name=='guestProfile'){
+                  onTap: () {
+                    if (GoRouter.of(context).routerDelegate.state!.name ==
+                        'guestProfile') {
                       context.pushNamed('guestGeneralInformation');
-                   }else{
-                     context.pushNamed('generalInformation');
-                   }
-
+                    } else {
+                      context.pushNamed('generalInformation');
+                    }
                   },
                   leading: Image.asset("assets/icons/user.png"),
                   title: Text(
                     "General Information",
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14
-                    ),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(fontWeight: FontWeight.w400, fontSize: 14),
                   ),
-                  trailing: Icon(Icons.arrow_forward_ios,size: 17,),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    size: 17,
+                  ),
                 ),
                 ListTile(
-                  onTap: (){
-                    if(GoRouter.of(context).routerDelegate.state!.name=='guestProfile'){
+                  onTap: () {
+                    if (GoRouter.of(context).routerDelegate.state!.name ==
+                        'guestProfile') {
                       context.go("/guestProfile/guestLanguage");
-                    }else{
+                    } else {
                       context.go("/profile/language");
                     }
-
-                      },
+                  },
                   leading: Image.asset("assets/icons/lang.png"),
                   title: Text(
                     tr("language"),
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w400,fontSize: 14),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(fontWeight: FontWeight.w400, fontSize: 14),
                   ),
-                  trailing: Icon(Icons.arrow_forward_ios,size: 17,),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    size: 17,
+                  ),
                 ),
                 ListTile(
-                  onTap: (){
-                    if(GoRouter.of(context).routerDelegate.state!.name=='guestProfile'){
+                  onTap: () {
+                    if (GoRouter.of(context).routerDelegate.state!.name ==
+                        'guestProfile') {
                       context.pushNamed("guestAccount");
-                    }else{
+                    } else {
                       context.pushNamed("account");
                     }
                   },
                   leading: Image.asset("assets/icons/account.png"),
                   title: Text(
                     "Account",
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w400,fontSize: 14),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(fontWeight: FontWeight.w400, fontSize: 14),
                   ),
-                  trailing: Icon(Icons.arrow_forward_ios,size: 17,),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    size: 17,
+                  ),
                 ),
                 BlocConsumer<LogOutBloc, LogOutState>(
-  listener: (context, state) {
-    if(state is LogOutLoadingState){
-      context.pop();
-      _deletingDialog(context,"Logging Out");
-    }
-    else if(state is LogOutLoadedState){
-      context.pop();
-      context.pushNamed('signIn');
-    }
-  },
-  builder: (context, state) {
-    return ListTile(
-                  onTap: (){
-                    _showLogOutDialog(context);
+                  listener: (context, state) {
+                    if (state is LogOutLoadingState) {
+                      context.pop();
+                      _deletingDialog(context, "Logging Out");
+                    } else if (state is LogOutLoadedState) {
+                      context.pop();
+                      context.pushNamed('signIn');
+                    }
                   },
-                  leading:Icon(Icons.logout,color: ColorConstant.red,),
-                  title: Text(
-                    "LogOut",
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w400,
+                  builder: (context, state) {
+                    return ListTile(
+                      onTap: () {
+                        _showLogOutDialog(context);
+                      },
+                      leading: Icon(
+                        Icons.logout,
                         color: ColorConstant.red,
-                        fontSize: 14),
-                  ),
-                );
-  },
-),
+                      ),
+                      title: Text(
+                        "LogOut",
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontWeight: FontWeight.w400,
+                            color: ColorConstant.red,
+                            fontSize: 14),
+                      ),
+                    );
+                  },
+                ),
               ],
             ),
           ),
         ));
   }
-  void _deletingDialog(BuildContext context,String title) {
+
+  void _deletingDialog(BuildContext context, String title) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -364,6 +405,7 @@ class _ProfileState extends State<Profile> {
       ),
     );
   }
+
   void _showLogOutDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -372,8 +414,7 @@ class _ProfileState extends State<Profile> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
-        content:
-        SizedBox(
+        content: SizedBox(
           height: 130,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -383,8 +424,9 @@ class _ProfileState extends State<Profile> {
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                     color: ColorConstant.cardGrey,
-                    borderRadius: BorderRadius.only(topRight: Radius.circular(10),topLeft: Radius.circular(10))
-                ),
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(10),
+                        topLeft: Radius.circular(10))),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -395,7 +437,10 @@ class _ProfileState extends State<Profile> {
                           .bodyMedium!
                           .copyWith(fontWeight: FontWeight.bold),
                     ),
-                    Icon(Icons.cancel_outlined,size: 15,)
+                    Icon(
+                      Icons.cancel_outlined,
+                      size: 15,
+                    )
                   ],
                 ),
               ),
@@ -411,44 +456,43 @@ class _ProfileState extends State<Profile> {
         actionsPadding: EdgeInsets.all(10),
         actions: [
           CustomButton(
-              onPressed:() => context.pop(),
+              onPressed: () => context.pop(),
               style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.all(0.5),
                   side: BorderSide(
                       color:
-                      ColorConstant.secondBtnColor.withValues(alpha: 0.5)),
+                          ColorConstant.secondBtnColor.withValues(alpha: 0.5)),
                   backgroundColor: Colors.white),
               child: Text("Cancel",
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    color: ColorConstant.secondBtnColor,
-                  ))),
-          BlocConsumer
-              <ProfileBloc, ProfileState>(
+                        color: ColorConstant.secondBtnColor,
+                      ))),
+          BlocConsumer<ProfileBloc, ProfileState>(
             listener: (context, state) {
-              if(state is LogOutState){
+              if (state is LogOutState) {
                 context.pop();
-                if(GoRouter.of(context).routerDelegate.state!.name=='guestProfile'){
+                if (GoRouter.of(context).routerDelegate.state!.name ==
+                    'guestProfile') {
                   context.pushNamed("houseType");
-                }else{
+                } else {
                   context.pushNamed("properties");
                 }
               }
-
             },
-  builder: (context, state) {
-    return CustomButton(
-              onPressed: () {
-                context.read<LogOutBloc>().add(UserLogoutEvent());
-              },
-              style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.only(left: 4, right: 4),
-                  backgroundColor: ColorConstant.red),
-              child: Text("LogOut",
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    color: Colors.white,
-                  )));
-  },
-)
+            builder: (context, state) {
+              return CustomButton(
+                  onPressed: () {
+                    context.read<LogOutBloc>().add(UserLogoutEvent());
+                  },
+                  style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.only(left: 4, right: 4),
+                      backgroundColor: ColorConstant.red),
+                  child: Text("LogOut",
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            color: Colors.white,
+                          )));
+            },
+          )
         ],
       ),
     );

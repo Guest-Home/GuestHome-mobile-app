@@ -17,8 +17,10 @@ class HouseDetail extends StatelessWidget {
   final ResultEntity property;
   final String token;
 
+
   @override
   Widget build(BuildContext context) {
+    final filteredAmenities =  property.subDescription!.split(',').where((item) => item.trim().isNotEmpty).toList();
     return Scaffold(
       appBar: AppBar(
         leading: AppBarBackButton(),
@@ -132,10 +134,19 @@ class HouseDetail extends StatelessWidget {
                     CircleAvatar(
                       radius: 20,
                       backgroundColor: ColorConstant.cardGrey,
-                      backgroundImage: CachedNetworkImageProvider(
+                      backgroundImage: property.postedBy?.profilePicture != null
+                          ? CachedNetworkImageProvider(
                         ApiUrl.baseUrl + property.postedBy!.profilePicture!,
                         headers: {'Authorization': 'Bearer $token'},
-                      ),
+                      )
+                          : null,
+                      child: property.postedBy?.profilePicture == null
+                          ? Icon(
+                        Icons.person,
+                        color: Colors.white,
+                        size: 20,
+                      )
+                          : null,
                     ),
                     Text(
                       "${tr("posted by")} ${property.postedBy!.userAccount!.firstName!}",
@@ -173,28 +184,26 @@ class HouseDetail extends StatelessWidget {
                           spacing: 20,
                           runSpacing: 20,
                           children: List.generate(
-                              property.subDescription!.split(',').length,
+                            filteredAmenities.length,
                               (index) {
-                            final facilities =
-                                property.subDescription!.split(',');
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               spacing: 1,
                               children: [
-                                Container(
+                               Container(
                                     padding: EdgeInsets.all(10),
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                     ),
                                     child: SvgPicture.asset(
-                                      camenitiesIcon[facilities[index]]!,
+                                      camenitiesIcon[filteredAmenities[index]]!,
                                       fit: BoxFit.cover,
                                       width: 33,
                                       height: 33,
                                     )),
                                 Text(
-                                  facilities[index],
+                                  filteredAmenities[index],
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodySmall!

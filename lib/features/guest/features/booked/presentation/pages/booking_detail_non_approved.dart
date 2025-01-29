@@ -158,14 +158,23 @@ class BookingDetailNonApproved extends StatelessWidget {
                               spacing: 10,
                               children: [
                                 ListTile(
-                                  leading:  CircleAvatar(
+                                  leading:
+                                  CircleAvatar(
                                     radius: 20,
                                     backgroundColor: ColorConstant.cardGrey,
-                                    backgroundImage: CachedNetworkImageProvider(
-                                      ApiUrl.baseUrl + property.house!.postedBy!.profilePicture!,
-                                      headers: {'Authorization': 'Bearer $token'},
-                                    ),
+                                    backgroundImage:property.house!.postedBy!.profilePicture!=null? CachedNetworkImageProvider(
+    ApiUrl.baseUrl + property.house!.postedBy!.profilePicture!,
+    headers: {'Authorization': 'Bearer $token'},
+    ):null,
+                                    child:property.house!.postedBy!.profilePicture== null
+                                        ? Icon(
+                                      Icons.person,
+                                      color: Colors.white,
+                                      size: 20,
+                                    )
+                                        : null,
                                   ),
+
                                   title: Text("${property.user!.userAccount!.firstName!} ${property.user!.userAccount!.lastName!}",
                                     style: Theme.of(context).textTheme
                                         .bodyMedium!.copyWith(

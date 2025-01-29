@@ -119,7 +119,8 @@ class AnalyticsDataSourceImpl extends AnalyticsDataSource {
           fileName =
               contentDisposition.substring(startIndex).replaceAll('"', '');
         }
-        final filePath = '${directory.path}/${dates}days-$fileName}';
+        print(fileName);
+        final filePath = '${directory.path}/${dates}days-$fileName';
         // Save the file
         final file = File(filePath);
         await file.writeAsBytes(response.data);
@@ -170,7 +171,7 @@ class AnalyticsDataSourceImpl extends AnalyticsDataSource {
               contentDisposition.substring(startIndex).replaceAll('"', '');
         }
         final filePath =
-            '${directory.path}/${startDate.toString()}-${endDate.toString()}days-$fileName}';
+            '${directory.path}/${startDate.toString()}-${endDate.toString()}days-$fileName';
         // Save the file
         final file = File(filePath);
         await file.writeAsBytes(response.data);

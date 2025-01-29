@@ -144,6 +144,7 @@ class ApiDataSourceImpl implements ApiDataSource {
   @override
   Future<Either<Failure, OtpResponseModel>> createTgOtp(
       Map<String, dynamic> data) async {
+    print(data);
     try {
       final response = await sl<DioClient>().post(ApiUrl.tGOtp, data: data);
       if (response.statusCode == 200) {

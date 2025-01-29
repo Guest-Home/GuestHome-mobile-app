@@ -14,6 +14,7 @@ class AvailableFacilities extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final filteredAmenities =  subDesc.split(',').where((item) => item.trim().isNotEmpty).toList();
     return
       Card(
         elevation: 0,
@@ -36,9 +37,8 @@ class AvailableFacilities extends StatelessWidget {
                   spacing: 20,
                   runSpacing: 20,
                   children: List.generate(
-                     subDesc.split(',').length,
+                      filteredAmenities.length,
                           (index){
-                        final facilities=subDesc.split(',');
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -47,16 +47,15 @@ class AvailableFacilities extends StatelessWidget {
                             Container(
                                 padding: EdgeInsets.all(10),
                                 decoration: BoxDecoration(
-
                                   shape: BoxShape.circle,),
                                 child:SvgPicture.asset(
-                                  camenitiesIcon[facilities[index]]!,
+                                  camenitiesIcon[filteredAmenities[index]]!,
                                   fit: BoxFit.cover,
                                   width:33,
                                   height:33,
                                 )
                             ),
-                            Text(facilities[index],style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            Text(filteredAmenities[index],style: Theme.of(context).textTheme.bodySmall!.copyWith(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 10
                             ),)
