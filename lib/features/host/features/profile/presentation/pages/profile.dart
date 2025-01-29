@@ -115,86 +115,94 @@ class _ProfileState extends State<Profile> {
                               ],
                             ),
                             // based on the user display either card or container
-                            if (GoRouter.of(context).state!.name == 'profile')
-                              Card(
-                                color: ColorConstant.cardGrey,
-                                elevation: 0,
-                                shadowColor: ColorConstant.cardGrey,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  side: BorderSide(
-                                    color: ColorConstant.cardGrey,
-                                  ),
-                                ),
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  padding: const EdgeInsets.all(15),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        spacing: 10,
-                                        children: [
-                                          Text(
-                                            tr("Amount"),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyLarge!
-                                                .copyWith(
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 14),
-                                          ),
-                                          Text(
-                                            tr("Lorem ipsum dolor sit amet\n consectetur."),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall,
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        spacing: 10,
-                                        children: [
-                                          Text(
-                                            "2344",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyLarge!
-                                                .copyWith(
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 20,
-                                                    color: ColorConstant
-                                                        .primaryColor),
-                                          ),
-                                          Text(
-                                            "ETB",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall!
-                                                .copyWith(
-                                                    color: ColorConstant
-                                                        .primaryColor),
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
+
+                            // if (GoRouter.of(context).state!.name == 'profile')
+                            //   Card(
+                            //     color: ColorConstant.cardGrey,
+                            //     elevation: 0,
+                            //     shadowColor: ColorConstant.cardGrey,
+                            //     shape: RoundedRectangleBorder(
+                            //       borderRadius: BorderRadius.circular(15),
+                            //       side: BorderSide(
+                            //         color: ColorConstant.cardGrey,
+                            //       ),
+                            //     ),
+                            //     child: Container(
+                            //       width: MediaQuery.of(context).size.width,
+                            //       padding: const EdgeInsets.all(15),
+                            //       child: Row(
+                            //         mainAxisAlignment:
+                            //             MainAxisAlignment.spaceBetween,
+                            //         children: [
+                            //           Column(
+                            //             crossAxisAlignment:
+                            //                 CrossAxisAlignment.start,
+                            //             spacing: 10,
+                            //             children: [
+                            //               Text(
+                            //                 tr("Amount"),
+                            //                 style: Theme.of(context)
+                            //                     .textTheme
+                            //                     .bodyLarge!
+                            //                     .copyWith(
+                            //                         fontWeight: FontWeight.w700,
+                            //                         fontSize: 14),
+                            //               ),
+                            //               Text(
+                            //                 tr("Lorem ipsum dolor sit amet\n consectetur."),
+                            //                 style: Theme.of(context)
+                            //                     .textTheme
+                            //                     .bodySmall,
+                            //               ),
+                            //             ],
+                            //           ),
+                            //           Row(
+                            //             mainAxisAlignment:
+                            //                 MainAxisAlignment.end,
+                            //             spacing: 10,
+                            //             children: [
+                            //               Text(
+                            //                 "2344",
+                            //                 style: Theme.of(context)
+                            //                     .textTheme
+                            //                     .bodyLarge!
+                            //                     .copyWith(
+                            //                         fontWeight: FontWeight.w700,
+                            //                         fontSize: 20,
+                            //                         color: ColorConstant
+                            //                             .primaryColor),
+                            //               ),
+                            //               Text(
+                            //                 "ETB",
+                            //                 style: Theme.of(context)
+                            //                     .textTheme
+                            //                     .bodySmall!
+                            //                     .copyWith(
+                            //                         color: ColorConstant
+                            //                             .primaryColor),
+                            //               )
+                            //             ],
+                            //           )
+                            //         ],
+                            //       ),
+                            //     ),
+                            //   ),
+
+
                             //switch to guest button
-                            if (GoRouter.of(context).state!.name == 'profile')
+                            // if (GoRouter.of(context).state!.name == 'profile')
                               Container(
                                   width: MediaQuery.of(context).size.width / 2,
                                   margin: EdgeInsets.only(
                                       left: 10, right: 10, bottom: 15, top: 10),
                                   child: CustomButton(
                                       onPressed: () {
-                                        context.goNamed('houseType');
+                                        if (GoRouter.of(context).state!.name == 'profile'){
+                                          context.goNamed('houseType');
+                                        }else{
+                                          context.goNamed('properties');
+                                        }
+
                                       },
                                       style: ElevatedButton.styleFrom(
                                           elevation: 10,
@@ -212,50 +220,59 @@ class _ProfileState extends State<Profile> {
                                             Icons.recycling,
                                             color: Colors.white,
                                           ),
+                                          if (GoRouter.of(context).state!.name == 'profile')
                                           Text("Switch to Guest",
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodySmall!
                                                   .copyWith(
                                                     color: Colors.white,
-                                                  ))
+                                                  )),
+                                          if (GoRouter.of(context).state!.name =='guestProfile')
+                                            Text("Switch to Host",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall!
+                                                    .copyWith(
+                                                  color: Colors.white,
+                                                )),
                                         ],
                                       ))),
-                            if (GoRouter.of(context).state!.name ==
-                                'guestProfile')
-                              Container(
-                                  width: MediaQuery.of(context).size.width / 2,
-                                  margin: EdgeInsets.only(
-                                      left: 10, right: 10, bottom: 15, top: 10),
-                                  child: CustomButton(
-                                      onPressed: () {
-                                        context.goNamed('properties');
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                          elevation: 10,
-                                          side: BorderSide(
-                                              color:
-                                                  ColorConstant.secondBtnColor),
-                                          backgroundColor:
-                                              ColorConstant.secondBtnColor),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        spacing: 5,
-                                        children: [
-                                          Icon(
-                                            Icons.recycling,
-                                            color: Colors.white,
-                                          ),
-                                          Text("Switch to Host",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall!
-                                                  .copyWith(
-                                                    color: Colors.white,
-                                                  ))
-                                        ],
-                                      ))),
+                            // if (GoRouter.of(context).state!.name ==
+                            //     'guestProfile')
+                            //   Container(
+                            //       width: MediaQuery.of(context).size.width / 2,
+                            //       margin: EdgeInsets.only(
+                            //           left: 10, right: 10, bottom: 15, top: 10),
+                            //       child: CustomButton(
+                            //           onPressed: () {
+                            //             context.goNamed('properties');
+                            //           },
+                            //           style: ElevatedButton.styleFrom(
+                            //               elevation: 10,
+                            //               side: BorderSide(
+                            //                   color:
+                            //                       ColorConstant.secondBtnColor),
+                            //               backgroundColor:
+                            //                   ColorConstant.secondBtnColor),
+                            //           child: Row(
+                            //             mainAxisAlignment:
+                            //                 MainAxisAlignment.center,
+                            //             spacing: 5,
+                            //             children: [
+                            //               Icon(
+                            //                 Icons.recycling,
+                            //                 color: Colors.white,
+                            //               ),
+                            //               Text("Switch to Host",
+                            //                   style: Theme.of(context)
+                            //                       .textTheme
+                            //                       .bodySmall!
+                            //                       .copyWith(
+                            //                         color: Colors.white,
+                            //                       ))
+                            //             ],
+                            //           ))),
                           ],
                         );
                       } else if (state is ProfileErrorState) {

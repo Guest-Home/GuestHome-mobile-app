@@ -60,6 +60,7 @@ class BookingDetailNonApproved extends StatelessWidget {
                                     elevation: 0,
                                     reverse: false,
                                     backgroundColor: ColorConstant.cardGrey,
+                                    shrinkExtent: 20,
                                     itemExtent: MediaQuery.of(context).size.width,
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(13)
@@ -90,7 +91,7 @@ class BookingDetailNonApproved extends StatelessWidget {
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Container(
-                                              height: 25,
+                                              height: 18,
                                               padding: EdgeInsets.symmetric(
                                                   horizontal: 20, vertical: 5),
                                               decoration: BoxDecoration(
@@ -163,9 +164,9 @@ class BookingDetailNonApproved extends StatelessWidget {
                                     radius: 20,
                                     backgroundColor: ColorConstant.cardGrey,
                                     backgroundImage:property.house!.postedBy!.profilePicture!=null? CachedNetworkImageProvider(
-    ApiUrl.baseUrl + property.house!.postedBy!.profilePicture!,
-    headers: {'Authorization': 'Bearer $token'},
-    ):null,
+                                    ApiUrl.baseUrl + property.house!.postedBy!.profilePicture!,
+                                     headers: {'Authorization': 'Bearer $token'},
+                                      ):null,
                                     child:property.house!.postedBy!.profilePicture== null
                                         ? Icon(
                                       Icons.person,
@@ -174,13 +175,23 @@ class BookingDetailNonApproved extends StatelessWidget {
                                     )
                                         : null,
                                   ),
-
-                                  title: Text("${property.user!.userAccount!.firstName!} ${property.user!.userAccount!.lastName!}",
-                                    style: Theme.of(context).textTheme
-                                        .bodyMedium!.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 12
-                                    ),),
+                                  title: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text("${property.house!.postedBy!.userAccount!.firstName!} ${property.house!.postedBy!.userAccount!.lastName!}",
+                                        style: Theme.of(context).textTheme
+                                            .bodyMedium!.copyWith(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 12
+                                        ),),
+                                      Text("${property.house!.postedBy!.typeOfCustomer}",
+                                        style: Theme.of(context).textTheme
+                                            .bodyMedium!.copyWith(
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 10
+                                        ),),
+                                    ],
+                                  ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -319,7 +330,6 @@ class BookingDetailNonApproved extends StatelessWidget {
                           )
                         ],
                       )
-
               ],
             )
 
@@ -384,7 +394,6 @@ class BookingDetailNonApproved extends StatelessWidget {
           )),
     );
   }
-
   Future<dynamic> showCancelBookBotomSheet(BuildContext context) {
     return showModalBottomSheet(
       context: context,

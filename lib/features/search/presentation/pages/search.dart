@@ -59,7 +59,7 @@ class Search extends StatelessWidget {
                         child: Container(
                             padding:EdgeInsets.all(5),
                             width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height*0.13,
+                           // height: MediaQuery.of(context).size.height*0.13,
                             child:Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,7 +83,7 @@ class Search extends StatelessWidget {
                                 ),
                                 Expanded(child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     spacing:2,
                                     children: [
                                       Text(state.property.results![index].title!,style: Theme.of(context).textTheme.bodyLarge!.copyWith(
@@ -157,10 +157,10 @@ class Search extends StatelessWidget {
                                 .of(context)
                                 .size
                                 .width,
-                            height: MediaQuery
-                                .of(context)
-                                .size
-                                .height * 0.16,
+                            // height: MediaQuery
+                            //     .of(context)
+                            //     .size
+                            //     .height * 0.16,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -194,10 +194,12 @@ class Search extends StatelessWidget {
                                     crossAxisAlignment: CrossAxisAlignment
                                         .start,
                                     mainAxisAlignment: MainAxisAlignment
-                                        .spaceEvenly,
+                                        .start,
                                     spacing: 2,
                                     children: [
                                       Text(state.properties![index].title,
+                                        textAlign: TextAlign.start,
+                                        overflow: TextOverflow.ellipsis,
                                         style: Theme
                                             .of(context)
                                             .textTheme
@@ -237,9 +239,12 @@ class Search extends StatelessWidget {
                                       Row(
                                         spacing: 4,
                                         children: [
-                                          Icon(Icons.location_pin, size: 18,),
+                                          Icon(Icons.location_pin, size: 15,),
                                           Text(state.properties![index]
-                                              .specificAddress, style:
+                                              .specificAddress,
+                                            textAlign: TextAlign.start,
+                                            overflow: TextOverflow.ellipsis,
+                                            style:
                                           Theme
                                               .of(context)
                                               .textTheme
@@ -248,7 +253,6 @@ class Search extends StatelessWidget {
                                               fontWeight: FontWeight.w400,
                                               fontSize: 14
                                           ),),
-
                                         ],
                                       ),
                                       Row(
@@ -256,7 +260,7 @@ class Search extends StatelessWidget {
                                         children: [
                                           Icon(Icons.star,
                                             color: ColorConstant.yellow,
-                                            size: 18,),
+                                            size: 15,),
                                           Text(
                                             "${state.properties![index].postedBy
                                                 .rating}/5.0 ", style:

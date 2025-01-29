@@ -110,7 +110,7 @@ class _BookedDetailState extends State<BookedDetail> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
-                                  height: 25,
+                                  height: 18,
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 20, vertical: 5),
                                   decoration: BoxDecoration(
@@ -169,7 +169,7 @@ class _BookedDetailState extends State<BookedDetail> {
                     SecctionHeader(title: tr("About Host"), isSeeMore: false),
               ),
               AboutHostCard(
-                userEntity: state.booked.user!,
+                postedByDetailEntity: state.booked.house!.postedBy!,
                 token: widget.token,
                 image: state.booked.house!.postedBy!.profilePicture??"",
               ),

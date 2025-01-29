@@ -10,10 +10,10 @@ import '../../../../../../core/common/custom_button.dart';
 class AboutHostCard extends StatelessWidget {
   const AboutHostCard({
     super.key,
-    required this.userEntity, required this.image, required this.token
+    required this.postedByDetailEntity, required this.image, required this.token
   });
 
-  final UserDetailEntity userEntity;
+  final PostedByDetailEntity postedByDetailEntity;
   final String image;
   final String token;
 
@@ -44,12 +44,23 @@ class AboutHostCard extends StatelessWidget {
               )
                   : null,
             ),
-            title: Text("${userEntity.userAccount!.firstName!} ${userEntity.userAccount!.lastName!}",
-              style: Theme.of(context).textTheme
-              .bodyMedium!.copyWith(
-              fontWeight: FontWeight.w600,
-              fontSize: 12
-            ),),
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("${postedByDetailEntity.userAccount!.firstName!} ${postedByDetailEntity.userAccount!.lastName!}",
+                  style: Theme.of(context).textTheme
+                  .bodyMedium!.copyWith(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12
+                ),),
+                Text("${postedByDetailEntity.typeOfCustomer}",
+                  style: Theme.of(context).textTheme
+                      .bodyMedium!.copyWith(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 10
+                  ),),
+              ],
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -61,7 +72,7 @@ class AboutHostCard extends StatelessWidget {
                   fontWeight: FontWeight.w400
                 ),),
                 Text(
-                  userEntity.phoneNumber!,
+                  postedByDetailEntity.phoneNumber!,
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium!
@@ -80,7 +91,7 @@ class AboutHostCard extends StatelessWidget {
     fontWeight: FontWeight.w400
     ),),
                 Text(
-                  userEntity.userAccount!.username!,
+                  postedByDetailEntity.userAccount!.username==postedByDetailEntity.phoneNumber?"": postedByDetailEntity.userAccount!.username!,
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium!
@@ -95,7 +106,7 @@ class AboutHostCard extends StatelessWidget {
               Expanded(
                   child: CustomButton(
                       onPressed: ()async{
-                       makePhoneCall(userEntity.phoneNumber!);
+                       makePhoneCall(postedByDetailEntity.phoneNumber!);
                       },
                       style: ElevatedButton.styleFrom(
                           elevation: 0,
@@ -114,7 +125,7 @@ class AboutHostCard extends StatelessWidget {
               Expanded(
                   child: CustomButton(
                       onPressed: () {
-                      sendSMS(userEntity.phoneNumber!, "");
+                      sendSMS(postedByDetailEntity.phoneNumber!, "");
                       },
                       style: ElevatedButton.styleFrom(
                           elevation: 0,

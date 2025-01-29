@@ -46,6 +46,7 @@ import 'package:minapp/features/onbording/presentation/pages/splash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/auth/presentation/pages/tg_otp_verification.dart';
+import '../../features/host/features/properties/presentation/bloc/add_property/add_property_bloc.dart';
 import '../../features/onbording/presentation/bloc/on_bording_bloc.dart';
 import '../../main.dart';
 import '../../service_locator.dart';
@@ -93,7 +94,10 @@ Future<GoRouter> createRouter() async {
       GoRoute(
         name: 'addProperty',
         path: '/addProperty',
-        builder: (context, state) => AddProperties(),
+        builder: (context, state) => BlocProvider(
+  create: (context) =>sl<AddPropertyBloc>()..add(ResetEvent()),
+  child: AddProperties(),
+),
       ),
       GoRoute(
         name: 'propertyDetail',

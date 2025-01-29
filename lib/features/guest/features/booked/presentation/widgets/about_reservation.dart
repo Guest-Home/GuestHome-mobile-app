@@ -29,11 +29,10 @@ class AboutReservationsCard extends StatelessWidget {
           children: [
             resText(context,"${tr('Reservation ID')}:$id"),
             resText(context, '${tr('Requested Reservation Price')}: $price'),
-
             resText(context, '${tr('Unit of Price')}: $unit'),
             resText(context, '${tr('Reservation Check in')}:  ${DateConverter().formatDateRange(checkIn)}'),
             resText(context, '${tr('Reservation Check out')}: ${DateConverter().formatDateRange(checkOut)}'),
-            resText(context, '${tr('Reservation Decision time')}: $decisionTime'),
+            resText(context, '${tr('Reservation Decision time')}: ${DateConverter().formatWithTime(decisionTime.toString())}'),
             resText(context, "${tr('Reservation Decision')}: $decision"),
           ],
         ),

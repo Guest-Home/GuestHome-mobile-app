@@ -186,7 +186,7 @@ class BookedCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Row(
-              spacing: 100,
+              spacing: 10,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(

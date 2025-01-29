@@ -39,5 +39,14 @@ class DateConverter{
 
     return formattedDate;
   }
+  String formatWithTime(String dateStr) {
+    // Parse the date string
+    DateTime dateTime = DateTime.parse(dateStr);
+
+    // Format the date to a full date and time format
+    String formattedDate = DateFormat('y-MM-d h:mm a').format(dateTime);
+
+    return formattedDate;
+  }
 
 }

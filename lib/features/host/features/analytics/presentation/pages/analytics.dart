@@ -291,6 +291,9 @@ class _AnalyticsState extends State<Analytics> {
                           ],
                         );
                       } else if (state.selectedDate == '7 Days') {
+                        final revenu=state.occupancyRateEntity.last7Days!.totalRevenue;
+                        final reservation=state.occupancyRateEntity.last7Days!.totalReservations;
+                        final oRate=state.occupancyRateEntity.last7Days!.averageOccupancy;
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           spacing: 10,
@@ -301,17 +304,17 @@ class _AnalyticsState extends State<Analytics> {
                                 MetricsCard(
                                   title: 'Revenue',
                                   value:
-                                      "${state.occupancyRateEntity.last7Days!.totalRevenue} ETB",
+                                      "$revenu ETB",
                                 ),
                                 MetricsCard(
                                   title: "Active Bookings",
                                   value:
-                                      "${state.occupancyRateEntity.last7Days!.totalReservations}",
+                                      "$reservation",
                                 ),
                                 MetricsCard(
                                   title: 'Occupancy Rate',
                                   value:
-                                      "${state.occupancyRateEntity.last7Days!.averageOccupancy}%",
+                                      "$oRate%",
                                 ),
                               ],
                             ),

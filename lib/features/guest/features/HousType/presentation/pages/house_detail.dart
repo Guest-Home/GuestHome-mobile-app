@@ -62,7 +62,7 @@ class HouseDetail extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Container(
-                                    height: 25,
+                                    height: 18,
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 20, vertical: 5),
                                     decoration: BoxDecoration(

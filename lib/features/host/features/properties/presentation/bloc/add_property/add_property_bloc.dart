@@ -103,7 +103,9 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
       },
     );
 
-    on<ResetEvent>((event, emit) => emit(const AddPropertyState()));
+    on<ResetEvent>((event, emit) {
+      emit(const AddPropertyState());
+    },);
     // create property
     on<AddNewPropertyEvent>(
       (event, emit) async {
@@ -157,6 +159,7 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
       (event, emit) async {
         emit(UpdatePropertyLoading(state));
         final formMap = event.propertyEntity;
+        print(formMap);
         if (state.images.isNotEmpty) {
           final imageMultipartFiles =
               await Future.wait(state.images.map((image) async {
