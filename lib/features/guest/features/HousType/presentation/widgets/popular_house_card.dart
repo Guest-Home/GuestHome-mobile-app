@@ -149,7 +149,7 @@ class PopularHouseCard extends StatelessWidget {
                       ),
                       Expanded(
                         child: Text(
-                          "${property.specificAddress!}, ${property.city!}",
+                          "${property.city!}, ${property.specificAddress!}",
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.ellipsis,
                           style: Theme.of(context).textTheme.bodySmall!.copyWith(

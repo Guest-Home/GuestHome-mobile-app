@@ -49,7 +49,6 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
         } else {
           updatedAmenityList.add(event.amenityName);
         }
-
         // Emit the new state with the updated list
         emit(state.copyWith(amenities: updatedAmenityList));
       },
@@ -159,7 +158,6 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
       (event, emit) async {
         emit(UpdatePropertyLoading(state));
         final formMap = event.propertyEntity;
-        print(formMap);
         if (state.images.isNotEmpty) {
           final imageMultipartFiles =
               await Future.wait(state.images.map((image) async {
@@ -173,7 +171,7 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
         Either response = await sl<UpdatePropertyUseCase>()
             .call(UpdatePropertyParam(formData: formData, id: event.id));
         response.fold(
-          (l) => emit(AddNewPropertyErrorState(state, l)),
+          (l) => emit(UpdatePropertyErrorState(state, l)),
           (r) => emit(UpdatePropertySuccess(isUpdate: r)),
         );
       },

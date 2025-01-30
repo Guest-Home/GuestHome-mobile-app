@@ -87,7 +87,7 @@ class PostedByDetailEntity extends Equatable {
   final  bool? isApproved;
   final  String? points;
   final String? gender;
-  final  dynamic agent;
+  final  AgentDetailEntity? agent;
   final String? language;
 
   const PostedByDetailEntity({
@@ -144,4 +144,66 @@ class UserDetailEntity extends Equatable {
 
   @override
   List<Object?> get props =>[id,userAccount,phoneNumber,chatId];
+}
+
+class AgentDetailEntity extends Equatable {
+ final int? id;
+ final AgentUserEntity? user;
+ final String? profilePicture;
+ final String? document;
+ final bool? isActive;
+ final String? sex;
+ final  String? phoneNumber;
+ final  String? city;
+ final List<BankEntity>? bank;
+ final String? createdAt;
+ final String? modifiedAt;
+
+  const AgentDetailEntity({
+    this.id,
+    this.user,
+    this.profilePicture,
+    this.document,
+    this.isActive,
+    this.sex,
+    this.phoneNumber,
+    this.city,
+    this.bank,
+    this.createdAt,
+    this.modifiedAt,
+  });
+
+
+  @override
+  List<Object?> get props =>[id,user,profilePicture,document,isActive,sex,phoneNumber,city,bank,createdAt,modifiedAt];
+}
+
+class BankEntity extends Equatable{
+ final int? id;
+ final String? bankName;
+ final String? accountNumber;
+
+  const BankEntity({
+    this.id,
+    this.bankName,
+    this.accountNumber,
+  });
+
+  @override
+  List<Object?> get props =>[id,bankName,accountNumber];
+}
+
+class AgentUserEntity extends Equatable{
+  final String? firstName;
+ final String? lastName;
+ final String? email;
+
+  const AgentUserEntity({
+    this.firstName,
+    this.lastName,
+    this.email,
+  });
+
+  @override
+  List<Object?> get props =>[firstName,lastName,email];
 }

@@ -59,23 +59,23 @@ class _OnBordingState extends State<OnBording>
                               LanguageSelection(),
                               OnbordScreen(
                                 title:
-                                    "List your Property hassle free",
+                                    "Book a Room, Anytime, Anywhere",
                                 subtitle:
-                                    "Lorem ipsum dolor sit amet consectetur. Est sed ridiculus nisl massa.",
+                                    "",
                                 image: "assets/icons/on1.png",
                               ),
                               OnbordScreen(
                                 title:
                                     "Manage your Property easily",
                                 subtitle:
-                                    "Lorem ipsum dolor sit amet consectetur. Est sed ridiculus nisl massa.",
+                                    "",
                                 image: "assets/icons/on2.png",
                               ),
                               OnbordScreen(
                                 title:
                                     "Post your homes and go viral.",
                                 subtitle:
-                                    "Lorem ipsum dolor sit amet consectetur. Est sed ridiculus nisl massa.",
+                                    "",
                                 image: "assets/icons/on3.png",
                               ),
 

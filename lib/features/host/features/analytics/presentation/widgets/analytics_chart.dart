@@ -95,6 +95,7 @@ class AnalyticsChart extends StatelessWidget {
              dotData: FlDotData(show: true),
              belowBarData: BarAreaData(show: false),
              color:ColorConstant.primaryColor,
+
            ),
          ],
          minX: 1,

@@ -8,6 +8,7 @@ sealed class AmenitiesEvent extends Equatable {
 }
 
 class GetAmenityEvent extends AmenitiesEvent {}
+class ResetAmenityEvent extends AmenitiesEvent {}
 
 class SelectAmenityEvent extends AmenitiesEvent {
   final AmenityEntity amenity;

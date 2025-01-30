@@ -113,8 +113,7 @@ class HouseDetail extends StatelessWidget {
                       Icons.location_pin,
                       size: 17,
                     ),
-                    Text(
-                      property.specificAddress!,
+                    Text("${  property.city!}, ${property.specificAddress!}",
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!

@@ -26,10 +26,10 @@ class HouseTypeCard extends StatelessWidget {
       ),
       elevation: 0,
       color: isSelected
-          ? ColorConstant.primaryColor.withValues(alpha: 0.0)
+          ? ColorConstant.primaryColor.withValues(alpha: 0.06)
           : ColorConstant.cardGrey.withValues(alpha: 0.8),
       child: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(10),
         child: SizedBox(
           child: Row(
             spacing: 5,
@@ -46,7 +46,6 @@ class HouseTypeCard extends StatelessWidget {
                 child: Text(title,
                     textAlign: TextAlign.start,
                     overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontWeight: FontWeight.w500,
                           fontSize: 12,

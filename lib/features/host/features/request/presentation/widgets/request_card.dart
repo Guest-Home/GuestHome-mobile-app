@@ -58,43 +58,53 @@ class RequestCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 10,
                 children: [
-                  ListTile(
-                      leading: CircleAvatar(
-                        radius: 36,
-                        backgroundColor:
-                            ColorConstant.primaryColor.withValues(alpha: 0.1),
-                        child: Text(
-                          reservationEntity.user!.userAccount!.firstName!
-                                  .substring(0, 1)
-                                  .toUpperCase() +
-                              reservationEntity.user!.userAccount!.lastName!
-                                  .substring(0, 1)
-                                  .toUpperCase(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(
-                                  color: ColorConstant.primaryColor,
-                                  fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                      title: Text(
-                        "${reservationEntity.user!.userAccount!.firstName!.toUpperCase()} ${reservationEntity.user!.userAccount!.lastName!.toUpperCase()}",
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    spacing: 10,
+                    children: [
+                    CircleAvatar(
+                      radius: 30,
+                      backgroundColor:
+                      ColorConstant.primaryColor.withValues(alpha: 0.1),
+                      child: Text(
+                        reservationEntity.user!.userAccount!.firstName!
+                            .substring(0, 1)
+                            .toUpperCase() +
+                            reservationEntity.user!.userAccount!.lastName!
+                                .substring(0, 1)
+                                .toUpperCase(),
                         style: Theme.of(context)
                             .textTheme
-                            .bodyMedium!
+                            .bodyLarge!
                             .copyWith(
-                            fontSize: 14,
+                            color: ColorConstant.primaryColor,
                             fontWeight: FontWeight.w700),
                       ),
-                      subtitle: Text(
-                        reservationEntity.user!.phoneNumber!,
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                           fontSize: 12,
-                            fontWeight: FontWeight.w700,
-                            color: ColorConstant.secondBtnColor
-                                .withValues(alpha: 0.7)),
-                      )),
+                    ),
+    Expanded(child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+      Text(
+        "${reservationEntity.user!.userAccount!.firstName!.toUpperCase()} ${reservationEntity.user!.userAccount!.lastName!.toUpperCase()}",
+        style: Theme.of(context)
+            .textTheme
+            .bodyMedium!
+            .copyWith(
+            fontSize: 14,
+            fontWeight: FontWeight.w700),
+      ),
+      Text(
+        reservationEntity.user!.phoneNumber!,
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+            fontSize: 12,
+            fontWeight: FontWeight.w700,
+            color: ColorConstant.secondBtnColor
+                .withValues(alpha: 0.7)),
+      )
+
+    ],))
+
+                  ],),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,

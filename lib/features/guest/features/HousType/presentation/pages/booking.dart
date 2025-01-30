@@ -7,6 +7,7 @@ import 'package:minapp/core/common/custom_text_field.dart';
 import 'package:minapp/core/utils/show_snack_bar.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/booking/booking_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/widgets/section_header_text.dart';
+import 'package:minapp/features/guest/features/booked/presentation/bloc/booked_bloc.dart';
 import '../../../../../../config/color/color.dart';
 import '../../../../../../core/common/back_button.dart';
 import '../../../../../../core/common/custom_button.dart';
@@ -264,7 +265,8 @@ final int id;
                   margin: EdgeInsets.symmetric(horizontal: 20),
                   child: CustomButton(
                       onPressed: () {
-                        context.goNamed('houseType');
+                        context.read<BookedBloc>().add(GetMyBookingEvent());
+                        context.goNamed('booked');
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: ColorConstant.primaryColor,

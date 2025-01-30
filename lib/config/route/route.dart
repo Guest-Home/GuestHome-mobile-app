@@ -311,11 +311,7 @@ Future<GoRouter> createRouter() async {
               GoRoute(
                   name: 'booked',
                   path: '/booked',
-                  builder: (context, state) => BlocProvider(
-                        create: (context) =>
-                            sl<BookedBloc>()..add(GetMyBookingEvent()),
-                        child: Booked(),
-                      ),
+                  builder: (context, state) => Booked(),
                   routes: [
                     GoRoute(
                       name: 'bookedDetail',
@@ -344,7 +340,8 @@ Future<GoRouter> createRouter() async {
                         );
                       },
                     ),
-                  ]),
+                  ]
+              ),
             ],
           ),
           StatefulShellBranch(

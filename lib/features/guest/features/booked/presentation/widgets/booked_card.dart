@@ -169,7 +169,7 @@ class BookedCard extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        "${property.house!.specificAddress!}, ${property.house!.city!}",
+                        "${property.house!.city!}, ${property.house!.specificAddress!}",
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(

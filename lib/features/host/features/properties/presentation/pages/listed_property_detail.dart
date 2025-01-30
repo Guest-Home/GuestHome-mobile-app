@@ -1,3 +1,5 @@
+import 'dart:isolate';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:currency_picker/currency_picker.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,11 +14,13 @@ import 'package:minapp/core/common/back_button.dart';
 import 'package:minapp/core/common/constants/house_type_icons.dart';
 import 'package:minapp/core/common/custom_button.dart';
 import 'package:minapp/core/common/custom_text_field.dart';
+import 'package:minapp/core/common/loading_indicator_widget.dart';
 import 'package:minapp/core/common/spin_kit_loading.dart';
 import 'package:minapp/core/common/upload_photo_widget.dart';
 import 'package:minapp/core/utils/show_snack_bar.dart';
 import 'package:minapp/features/host/features/properties/domain/entities/property_entity.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/add_property/add_property_bloc.dart';
+import 'package:minapp/features/host/features/properties/presentation/bloc/amenities/amenities_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/properties_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/property_type/property_type_bloc.dart';
 import '../widgets/house_type_card.dart';
@@ -63,7 +67,11 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
     lat = double.parse(widget.propertyEntity.latitude);
     long = double.parse(widget.propertyEntity.longitude);
     mapController = MapController();
+    context.read<AmenitiesBloc>().add(GetAmenityEvent());
+
+
   }
+
 
   @override
   void dispose() {
@@ -79,7 +87,15 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    context.read<AddPropertyBloc>().add(ResetEvent());
+    context.read<AmenitiesBloc>().add(ResetAmenityEvent());
+  }
+
+  @override
   Widget build(BuildContext context) {
+    addPropertyAmenity();
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -111,8 +127,10 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                 context.read<PropertiesBloc>().add(GetPropertiesEvent());
                 context.goNamed('properties');
                 showSuccessSnackBar(context, "updated deleted");
-              } else if (state is AddNewPropertyErrorState) {
+              } else if (state is UpdatePropertyErrorState){
+                context.pop();
                 showErrorSnackBar(context, state.failure.message);
+
               }
             },
             buildWhen: (previous, current) => previous != current,
@@ -338,35 +356,68 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                 borderRadius: BorderRadius.circular(10),
                                 side:
                                     BorderSide(color: ColorConstant.cardGrey)),
-                            child: ListTile(
-                              title: sectionTitle(context, "House Amenities"),
-                              subtitle: SizedBox(
-                                child: GridView.builder(
-                                  physics: NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  padding: EdgeInsets.all(10),
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 2,
-                                          childAspectRatio: 1,
-                                          crossAxisSpacing: 2,
-                                          mainAxisSpacing: 4,
-                                          mainAxisExtent: 55),
-                                  itemCount:
-                                      widget.propertyEntity.subDescription ==
-                                              null
-                                          ? 0
-                                          : widget.propertyEntity
-                                              .subDescription!.length,
-                                  itemBuilder: (context, index) {
-                                    return HouseTypeCard(
-                                      iconData:
-                                          amenitiesIcon[amenitiesList[index]]!,
-                                      title: amenitiesList[index],
-                                      isSelected: false,
-                                    ); // Replace with your actual card widget
-                                  },
-                                ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                spacing: 10,
+                                children:[
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      sectionTitle(context, "House Amenities"),
+                                      Text(
+                                          "Edit",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall!
+                                              .copyWith(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                              decoration:
+                                              TextDecoration.underline),
+                                        ),
+
+                                    ],
+                                  ),
+                                  BlocBuilder<AmenitiesBloc, AmenitiesState>(
+                                        builder: (context, amState) {
+                                          if(amState is AmenityLoadingState){
+                                            return loadingIndicator();
+                                          }
+                                          return  GridView.builder(
+                                            physics: NeverScrollableScrollPhysics(),
+                                            shrinkWrap: true,
+                                            gridDelegate:SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 2, // Number of columns
+                                                childAspectRatio:
+                                                1, // Aspect ratio of each item
+                                                crossAxisSpacing:
+                                                4, // Spacing between columns
+                                                mainAxisSpacing: 4,
+                                                mainAxisExtent: 55),
+                                            itemCount: amState.amenities.length, // Number of HouseTypeCard items
+                                            itemBuilder: (context, index) {
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  context.read<AddPropertyBloc>().add(
+                                                      AddAmenityEvent(amenityName:amState.amenities[index].amenity));
+                                                },
+                                                child: HouseTypeCard(
+                                                  iconData: amenitiesIcon[
+                                                  amState.amenities[index].amenity]!,
+                                                  title: amState.amenities[index].amenity,
+                                                  isSelected:state.amenities.contains(amState.amenities[index].amenity)
+
+                                              ),
+                                              ); // Replace with your actual card widget
+                                            },
+
+                                          );
+
+                                        }),
+                                ]
+
                               ),
                             ),
                           ),
@@ -518,8 +569,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                         textInputType: TextInputType.text,
                                         textEditingController: cityController,
                                         surfixIcon: SizedBox(
-                                          child:
-                                              CityDropDown(onSelected: (value) {
+                                          child:CityDropDown(onSelected: (value) {
                                             cityController.text = value;
                                             context
                                                 .read<AddPropertyBloc>()
@@ -735,8 +785,11 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                     onPressed: () {
                                       _formKey.currentState!.save();
                                       if (_formKey.currentState!.validate()) {
-                                        if (widget.propertyEntity.typeofHouse !=
+                                        if (
+                                        widget.propertyEntity.typeofHouse !=
                                                 state.houseType ||
+                                            widget.propertyEntity.subDescription !=
+                                                state.amenities ||
                                             widget.propertyEntity.title !=
                                                 nameController.text ||
                                             widget.propertyEntity.description !=
@@ -752,44 +805,24 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                             widget.propertyEntity.numberOfRoom
                                                     .toString() !=
                                                 roomController.text) {
-                                          context.read<AddPropertyBloc>().add(
+                                            context.read<AddPropertyBloc>().add(
                                                   UpdatePropertyEvent(
                                                       propertyEntity: {
-                                                    'title':
-                                                        nameController.text,
-                                                    'description':
-                                                        descriptionController
-                                                            .text,
+                                                    'title': nameController.text,
+                                                    'description': descriptionController.text,
                                                     'city': cityController.text,
-                                                    'typeofHouse':
-                                                        state.houseType.isEmpty
-                                                            ? widget
-                                                                .propertyEntity
-                                                                .typeofHouse
-                                                            : state.houseType,
-                                                    if (widget.propertyEntity
-                                                            .latitude !=
-                                                        lat.toString())
+                                                    'typeofHouse': state.houseType.isEmpty? widget.propertyEntity.typeofHouse : state.houseType,
+                                                    if (widget.propertyEntity.latitude != lat.toString())
                                                       'latitude': lat,
-                                                    if (widget.propertyEntity
-                                                            .longitude !=
-                                                        long.toString())
+                                                    if (widget.propertyEntity.longitude != long.toString())
                                                       'longitude': long,
-                                                    'price':
-                                                        priceController.text,
-                                                    'unit': unitController
-                                                            .text.isEmpty
-                                                        ? widget
-                                                            .propertyEntity.unit
+                                                    'price': priceController.text,
+                                                    'unit': unitController.text.isEmpty
+                                                        ? widget.propertyEntity.unit
                                                         : unitController.text,
-                                                    'number_of_room':
-                                                        roomController.text,
-                                                    'sub_description': widget
-                                                        .propertyEntity
-                                                        .subDescription,
-                                                    'specificAddress':
-                                                        addressNmaeController
-                                                            .text
+                                                    'number_of_room': roomController.text,
+                                                    'sub_description':state.amenities.join(','),
+                                                    'specificAddress': addressNmaeController.text
                                                   },
                                                       id: widget
                                                           .propertyEntity.id));
@@ -846,7 +879,6 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
             color: ColorConstant.secondBtnColor,
             fontWeight: FontWeight.w700));
   }
-
   void _showDeleteDialog(BuildContext context, int id) {
     showDialog(
       context: context,
@@ -931,7 +963,6 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
       ),
     );
   }
-
   void _deletingDialog(BuildContext context, String title) {
     showDialog(
       context: context,
@@ -962,7 +993,6 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
       ),
     );
   }
-
   void _showHouseTypeDialog(BuildContext context) {
     showDialog(
         context: context,
@@ -999,16 +1029,14 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                   crossAxisSpacing:
                                       4, // Spacing between columns
                                   mainAxisSpacing: 4,
-                                  mainAxisExtent: 60),
+                                  mainAxisExtent: 56),
                           itemCount: state.propertyTypes
                               .length, // Number of HouseTypeCard items
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: () {
                                 context.read<PropertyTypeBloc>().add(
-                                    SelectPropertyType(
-                                        propertyType:
-                                            state.propertyTypes[index]));
+                                    SelectPropertyType(propertyType: state.propertyTypes[index]));
                               },
                               child: HouseTypeCard(
                                 iconData: houseTypeIcons[
@@ -1157,6 +1185,16 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
         ],
       ),
     );
+  }
+
+  void addPropertyAmenity() {
+    if(widget.propertyEntity.subDescription!=null){
+      widget.propertyEntity.subDescription?.forEach((element) {
+      context.read<AddPropertyBloc>().add(
+      AddAmenityEvent(amenityName:element));
+      });
+    }
+
   }
 }
 

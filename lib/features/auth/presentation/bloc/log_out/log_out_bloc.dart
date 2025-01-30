@@ -34,7 +34,7 @@ class LogOutBloc extends Bloc<LogOutEvent, LogOutState> {
       Either response=await sl<LogOutUseCase>().call(data);
       response.fold((l) =>emit(LogOutErrorState(failure: l)) , (r){
         emit(DeactivatedState());
-        //_removeTokens();
+        _removeTokens();
       },);
     });
   }

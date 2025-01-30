@@ -69,11 +69,8 @@ class DeleteAccount extends StatelessWidget {
     if(state is DeactivatedState){
       context.pop();
       showSuccessSnackBar(context, 'your account is deactivated');
-      if(GoRouter.of(context).routerDelegate.state!.name=='guestDeleteAccount'){
-        context.pushNamed('guestProfile');
-      }else{
-        context.pushNamed('profile');
-      }
+        context.pushNamed('signIn');
+
     }
   },
   builder: (context, state) {

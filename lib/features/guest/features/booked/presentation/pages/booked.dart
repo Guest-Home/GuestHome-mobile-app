@@ -29,7 +29,7 @@ class Booked extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
-    return 
+    return
       SafeArea(
         child: Scaffold(
         body: RefreshIndicator(
@@ -58,17 +58,24 @@ class Booked extends StatelessWidget {
                       )),
                   Expanded(
                     child: BlocBuilder<BookedBloc, BookedState>(
+                      buildWhen: (previous, current) => previous!=current,
                       builder: (context, state) {
-                        if (state is MyBookingLoadingState|| state.booking.results==null) {
+                        if (state is MyBookingLoadingState) {
+                          return Center(
+                            child: loadingIndicator(),
+                          );
+                        }
+                        else if (state.booking.results==null) {
                           return Center(
                             child: loadingIndicator(),
                           );
                         }
                          else if (state.booking.count==0) {
-                            return EmptyBooked();
+                            return ListView(children:[ EmptyBooked()]);
                           }
                          else if(state.booking.results!.isNotEmpty){
-                          return ListView.builder(
+                          return
+                            ListView.builder(
                             padding: EdgeInsets.all(10),
                             itemCount: state.booking.results!.length,
                             itemBuilder: (context, index) => GestureDetector(
@@ -100,7 +107,7 @@ class Booked extends StatelessWidget {
               ),
             ),
           ),
-        
+
             ),
       );
   }
@@ -115,50 +122,53 @@ class EmptyBooked extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10),
-      child: Center(
-        child: Column(
-          spacing: 15,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset(
-              "assets/icons/Inboxe.png",
-              width: 100,
-              height: 100,
-            ),
-            Text(
-              "You did’t booked any Properties.\n  search and book properties. ",
-              textAlign: TextAlign.center,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge!
-                  .copyWith(fontWeight: FontWeight.w600,fontSize: 14),
-            ),
-            SizedBox(height: 10,),
-            SizedBox(
-              width:MediaQuery.of(context).size.width*0.6,
-              child: CustomButton(
-                  onPressed: () {
-                    context.pushNamed("search");
-                  },
-                  style: ElevatedButton.styleFrom(
-                      elevation: 0,
-                      backgroundColor: Colors.white,
-                      overlayColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          side: BorderSide(color: ColorConstant.secondBtnColor))),
-                  child: Text(
-                    "Search properties ",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(fontWeight: FontWeight.w700,fontSize: 14),
-                  )),
-            )
-          ],
+      child:
+      SingleChildScrollView(
+        child:
+          Column(
+            spacing: 15,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(
+                "assets/icons/Inboxe.png",
+                width: 100,
+                height: 100,
+              ),
+              Text(
+                "You did’t booked any Properties.\n  search and book properties. ",
+                textAlign: TextAlign.center,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge!
+                    .copyWith(fontWeight: FontWeight.w600,fontSize: 14),
+              ),
+              SizedBox(height: 10,),
+              SizedBox(
+                width:MediaQuery.of(context).size.width*0.6,
+                child: CustomButton(
+                    onPressed: () {
+                      context.pushNamed("search");
+                    },
+                    style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        backgroundColor: Colors.white,
+                        overlayColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            side: BorderSide(color: ColorConstant.secondBtnColor))),
+                    child: Text(
+                      "Search properties ",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(fontWeight: FontWeight.w700,fontSize: 14),
+                    )),
+              )
+            ],
+          ),
         ),
-      ),
+
     );
   }
 }

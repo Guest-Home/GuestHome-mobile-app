@@ -8,6 +8,7 @@ abstract class BookedEvent extends Equatable {
 }
 
 class GetMyBookingEvent extends BookedEvent{}
+class BookedResetEvent extends BookedEvent{}
 
 class CancelBookingEvent extends BookedEvent{
   final int id;

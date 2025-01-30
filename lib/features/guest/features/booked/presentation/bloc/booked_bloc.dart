@@ -20,6 +20,9 @@ class BookedBloc extends Bloc<BookedEvent, BookedState> {
         state.copyWith(booking: r)
       ),);
     });
+    on<BookedResetEvent>((event, emit)async {
+      emit(BookedInitial());
+    });
 
     on<CancelBookingEvent>((event, emit)async{
       emit(CancelBookingLoadingState());

@@ -102,7 +102,7 @@ class PostedByDetailModel extends PostedByDetailEntity {
     isApproved: json["is_approved"],
     points: json["points"],
     gender: json["gender"],
-    agent: json["agent"],
+    agent: AgentDetailModel.fromMap(json["agent"]),
     language: json["language"],
   );
 }
@@ -127,7 +127,6 @@ class UserAccountDetailModel extends UserAccountDetailEntity {
   );
 
 }
-
 class UserDetailModel extends UserDetailEntity {
   const UserDetailModel({
     required super.id,
@@ -143,4 +142,72 @@ class UserDetailModel extends UserDetailEntity {
     chatId: json["chatId"],
   );
 
+}
+
+
+class AgentDetailModel extends AgentDetailEntity {
+
+   const AgentDetailModel({
+   required super.id,
+     required super.user,
+     required super.profilePicture,
+     required super.document,
+     required super.isActive,
+     required super.sex,
+     required super.phoneNumber,
+     required super.city,
+     required super.bank,
+     required super.createdAt,
+     required super.modifiedAt,
+  });
+
+  factory AgentDetailModel.fromMap(Map<String, dynamic> json) => AgentDetailModel(
+    id: json["id"],
+    user: AgentUser.fromMap(json["user"]),
+    profilePicture: json["profilePicture"],
+    document: json["document"],
+    isActive: json["is_active"],
+    sex: json["sex"],
+    phoneNumber: json["phoneNumber"],
+    city: json["city"],
+    bank: List<Bank>.from(json["bank"].map((x) => Bank.fromMap(x))),
+    createdAt:json["created_at"],
+    modifiedAt:json["modified_at"],
+  );
+}
+
+class Bank extends BankEntity{
+  final int? id;
+  final String? bankName;
+  final String? accountNumber;
+
+  const Bank({
+    this.id,
+    this.bankName,
+    this.accountNumber,
+  });
+
+  factory Bank.fromMap(Map<String, dynamic> json) => Bank(
+    id: json["id"],
+    bankName: json["bankName"],
+    accountNumber: json["accountNumber"],
+  );
+
+  @override
+  List<Object?> get props =>[id,bankName,accountNumber];
+}
+
+class AgentUser extends AgentUserEntity{
+
+  const AgentUser({
+    required super.firstName,
+    required super.lastName,
+    required super.email,
+  });
+
+  factory AgentUser.fromMap(Map<String, dynamic> json) => AgentUser(
+    firstName: json["first_name"],
+    lastName: json["last_name"],
+    email: json["email"],
+  );
 }

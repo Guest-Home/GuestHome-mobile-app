@@ -151,8 +151,7 @@ class _BookedDetailState extends State<BookedDetail> {
                       size: 19,
                       color: ColorConstant.secondBtnColor,
                     ),
-                    Text(
-                      state.booked.house!.specificAddress!,
+                    Text("${state.booked.house!.city!}, ${state.booked.house!.specificAddress!}",
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
                           fontWeight: FontWeight.bold,
                           color: ColorConstant.secondBtnColor),
@@ -301,8 +300,7 @@ class _BookedDetailState extends State<BookedDetail> {
                         child: CustomButton(
                             onPressed: () {
                               context.pop();
-                              context
-                                  .read<BookedBloc>()
+                              context.read<BookedBloc>()
                                   .add(GetMyBookingEvent());
                               context.goNamed('houseType');
                             },

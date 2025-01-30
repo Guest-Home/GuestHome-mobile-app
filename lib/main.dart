@@ -16,6 +16,7 @@ import 'package:minapp/features/host/features/properties/presentation/bloc/prope
 import 'package:minapp/service_locator.dart';
 import 'core/utils/custom_local_delegate.dart';
 import 'features/guest/features/HousType/presentation/bloc/filter_bloc/filter_bloc.dart';
+import 'features/guest/features/booked/presentation/bloc/booked_bloc.dart';
 import 'features/host/features/profile/presentation/bloc/profile_bloc.dart';
 import 'features/host/features/properties/presentation/bloc/add_property/add_property_bloc.dart';
 import 'features/host/features/properties/presentation/bloc/properties_bloc.dart';
@@ -59,6 +60,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => sl<AddPropertyBloc>()),
         BlocProvider(create: (context) => sl<ChangePhoneBloc>()),
         BlocProvider(create: (context) => sl<LogOutBloc>()),
+        BlocProvider(create: (context) =>sl<BookedBloc>()..add(GetMyBookingEvent()),),
         BlocProvider(
           create: (context) => sl<PropertiesBloc>()..add(GetPropertiesEvent()),
         ),

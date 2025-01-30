@@ -30,5 +30,6 @@ class AmenitiesBloc extends Bloc<AmenitiesEvent, AmenitiesState> {
       // Emit the new state with the updated list
       emit(state.copyWith(selectedAmenity: updatedAmenityList));
     });
+    on<ResetAmenityEvent>((event, emit) => emit(AmenitiesState()),);
   }
 }

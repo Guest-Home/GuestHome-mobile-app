@@ -41,8 +41,6 @@ class ApiDataSourceImpl implements ApiDataSource {
         return Left(ServerFailure(response.data['Error']));
       }
     } on DioException catch (e) {
-      print(e);
-      // return Left(ServerFailure(e.response!.data["Error"].toString()));
       return Left(ErrorResponse().mapDioExceptionToFailure(e));
     }
   }

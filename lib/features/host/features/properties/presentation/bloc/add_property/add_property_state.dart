@@ -180,6 +180,31 @@ class AddNewPropertyErrorState extends AddPropertyState {
   @override
   List<Object> get props => super.props + [failure];
 }
+class UpdatePropertyErrorState extends AddPropertyState {
+  final Failure failure;
+  UpdatePropertyErrorState(AddPropertyState currentState, this.failure)
+      : super(
+            step: currentState.step,
+            title: currentState.title,
+            description: currentState.description,
+            amenities: currentState.amenities,
+            images: currentState.images,
+            city: currentState.city,
+            houseType: currentState.houseType,
+            noRoom: currentState.noRoom,
+            price: currentState.price,
+            unit: currentState.unit,
+            agentId: currentState.agentId,
+            latitude: currentState.latitude,
+            longitude: currentState.longitude,
+      agentPEntity: currentState.agentPEntity,
+      token: currentState.token,
+      agentSelected: currentState.agentSelected,
+            specificAddress: currentState.specificAddress);
+
+  @override
+  List<Object> get props => super.props + [failure];
+}
 class DeletePropertyLoading extends AddPropertyState {
   DeletePropertyLoading(AddPropertyState currentState)
       : super(

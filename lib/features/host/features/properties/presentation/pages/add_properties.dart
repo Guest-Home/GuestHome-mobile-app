@@ -325,8 +325,12 @@ class _AddPropertiesState extends State<AddProperties> {
                                     child: BlocBuilder<AddPropertyBloc,
                                         AddPropertyState>(
                                       buildWhen: (previous, current) =>
-                                          previous.latitude != current.latitude,
+                                          previous.latitude != current.latitude||
+                                              previous.longitude != current.longitude,
                                       builder: (context, state) {
+                                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                                          mapController.move(LatLng(state.latitude, state.longitude), 15);
+                                                                                });
                                         return RepaintBoundary(
                                           child: ClipRRect(
                                               borderRadius:
@@ -337,9 +341,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                                       initialZoom: 15,
                                                       onTap: (tapPosition,
                                                           point) {
-                                                        context
-                                                            .read<
-                                                                AddPropertyBloc>()
+                                                        context.read<AddPropertyBloc>()
                                                             .add(SelectLocationEvent(
                                                                 lat: point
                                                                     .latitude,
@@ -452,14 +454,13 @@ class _AddPropertiesState extends State<AddProperties> {
                                     return null;
                                   },
                                   textInputType: TextInputType.text,
-                                  surfixIcon: SizedBox(
-                                    child: CityDropDown(onSelected: (value) {
+                                  surfixIcon: CityDropDown(onSelected: (value) {
                                       cityController.text = value;
                                       context
                                           .read<AddPropertyBloc>()
                                           .add(AddCityEvent(city: value));
                                     }),
-                                  ),
+
                                   isMultiLine: false,
                                   onTextChnage: (value) {
                                     context
@@ -977,20 +978,25 @@ class CityDropDown extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CityBloc, CityState>(
       builder: (context, state) {
-        return PopupMenuButton<String>(
-          icon: Icon(Icons.arrow_drop_down),
-          onSelected: (value) => onSelected(value),
-          position: PopupMenuPosition.over,
-          color: Colors.white,
-          itemBuilder: (BuildContext context) {
-            return List.generate(
-              state.cities.length,
-              (index) => PopupMenuItem(
+        return
+          PopupMenuButton<String>(
+            icon: Icon(Icons.arrow_drop_down),
+            // Remove ButtonStyle alignment (not needed for menu position)
+            onSelected: (value) => onSelected(value),
+            position: PopupMenuPosition.under, // Position menu under the button
+            offset: Offset(0, 10), // Adjust vertical offset for spacing
+            popUpAnimationStyle: AnimationStyle.noAnimation,
+            color: Colors.white,
+            itemBuilder: (BuildContext context) {
+              return List.generate(
+                state.cities.length,
+                    (index) => PopupMenuItem(
                   value: state.cities[index].city,
-                  child: Text(tr(state.cities[index].city))),
-            );
-          },
-        );
+                  child: Text(tr(state.cities[index].city)),
+                ),
+              );
+            },
+          );
       },
     );
   }
