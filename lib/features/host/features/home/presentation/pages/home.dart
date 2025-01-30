@@ -34,6 +34,15 @@ class Home extends StatelessWidget {
     if (location.startsWith('/deleteAccount')) {
       return 4;
     }
+    if (location.startsWith('/paymentSetting')) {
+      return 4;
+    }
+    if (location.startsWith('/addFunds')) {
+      return 4;
+    }
+    if (location.startsWith('/commission')) {
+      return 4;
+    }
     if (location.startsWith('/verifyOldPhone')) {
       return 4;
     }

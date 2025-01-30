@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// ignore: unused_import
 import 'package:go_router/go_router.dart';
 import 'package:minapp/core/common/back_button.dart';
 import 'package:minapp/core/common/custom_text_field.dart';
@@ -44,8 +42,7 @@ class GeneralInformation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: AppBarBackButton(),
+        automaticallyImplyLeading: true,
         title: Text(
           'General Information',
           style: Theme.of(context)
@@ -68,7 +65,8 @@ class GeneralInformation extends StatelessWidget {
             padding: EdgeInsets.all(20),
             child: BlocProvider.value(
               value: context.read<ProfileBloc>(),
-              child: BlocBuilder<ProfileBloc, ProfileState>(
+              child:
+              BlocBuilder<ProfileBloc, ProfileState>(
                 builder: (context, state) {
                   if (state is UpdateUserProfileLoadingState) {
                     return SizedBox(
@@ -170,7 +168,7 @@ class GeneralInformation extends StatelessWidget {
                                 .withValues(alpha: 0.8),
                           ),
                           SizedBox(
-                            height: 10,
+                            height: 5,
                           ),
                           subSectionText("Full Name", context),
                           CustomTextField(
@@ -188,7 +186,19 @@ class GeneralInformation extends StatelessWidget {
                               onTextChnage: (value) {},
                               isMultiLine: false,
                               textInputType: TextInputType.text),
-                          subSectionText("Phone number", context),
+                          SizedBox(
+                            height: 3,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              subSectionText("Phone number", context),
+                              Text("change phone number",style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                fontWeight: FontWeight.w400,
+                                color: ColorConstant.primaryColor,fontSize: 14
+                              ),)
+                            ],
+                          ),
                           CustomTextField(
                               hintText: state.userProfileEntity.phoneNumber,
                               surfixIcon: null,

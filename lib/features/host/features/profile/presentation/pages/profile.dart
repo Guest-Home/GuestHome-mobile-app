@@ -20,6 +20,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -191,7 +192,7 @@ class _ProfileState extends State<Profile> {
 
                             //switch to guest button
                             // if (GoRouter.of(context).state!.name == 'profile')
-                              Container(
+                            Container(
                                   width: MediaQuery.of(context).size.width / 2,
                                   margin: EdgeInsets.only(
                                       left: 10, right: 10, bottom: 15, top: 10),
@@ -220,7 +221,7 @@ class _ProfileState extends State<Profile> {
                                             Icons.recycling,
                                             color: Colors.white,
                                           ),
-                                          if (GoRouter.of(context).state!.name == 'profile')
+                                          if (GoRouterState.of(context).matchedLocation == '/profile')
                                           Text("Switch to Guest",
                                               style: Theme.of(context)
                                                   .textTheme
@@ -228,7 +229,7 @@ class _ProfileState extends State<Profile> {
                                                   .copyWith(
                                                     color: Colors.white,
                                                   )),
-                                          if (GoRouter.of(context).state!.name =='guestProfile')
+                                          if (GoRouterState.of(context).matchedLocation=='/guestProfile')
                                             Text("Switch to Host",
                                                 style: Theme.of(context)
                                                     .textTheme
@@ -238,46 +239,7 @@ class _ProfileState extends State<Profile> {
                                                 )),
                                         ],
                                       ))),
-                            // if (GoRouter.of(context).state!.name ==
-                            //     'guestProfile')
-                            //   Container(
-                            //       width: MediaQuery.of(context).size.width / 2,
-                            //       margin: EdgeInsets.only(
-                            //           left: 10, right: 10, bottom: 15, top: 10),
-                            //       child: CustomButton(
-                            //           onPressed: () {
-                            //             context.goNamed('properties');
-                            //           },
-                            //           style: ElevatedButton.styleFrom(
-                            //               elevation: 10,
-                            //               side: BorderSide(
-                            //                   color:
-                            //                       ColorConstant.secondBtnColor),
-                            //               backgroundColor:
-                            //                   ColorConstant.secondBtnColor),
-                            //           child: Row(
-                            //             mainAxisAlignment:
-                            //                 MainAxisAlignment.center,
-                            //             spacing: 5,
-                            //             children: [
-                            //               Icon(
-                            //                 Icons.recycling,
-                            //                 color: Colors.white,
-                            //               ),
-                            //               Text("Switch to Host",
-                            //                   style: Theme.of(context)
-                            //                       .textTheme
-                            //                       .bodySmall!
-                            //                       .copyWith(
-                            //                         color: Colors.white,
-                            //                       ))
-                            //             ],
-                            //           ))),
                           ],
-                        );
-                      } else if (state is ProfileErrorState) {
-                        return SizedBox(
-                          child: Text(state.failure.message),
                         );
                       }
                       return SizedBox(
@@ -347,6 +309,30 @@ class _ProfileState extends State<Profile> {
                   leading: Image.asset("assets/icons/account.png"),
                   title: Text(
                     "Account",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(fontWeight: FontWeight.w400, fontSize: 14),
+                  ),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    size: 17,
+                  ),
+                ),
+                if (GoRouterState.of(context).matchedLocation == '/profile')
+                Text(tr('Payment Setting'),
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: ColorConstant.secondBtnColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700)),
+                if (GoRouterState.of(context).matchedLocation == '/profile')
+                ListTile(
+                  onTap: () {
+                      context.pushNamed("paymentSetting");
+                  },
+                  leading: Icon(Icons.currency_exchange,color: ColorConstant.secondBtnColor.withValues(alpha: 0.6),size: 22,),
+                  title: Text(
+                    "Payment Setting",
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium!

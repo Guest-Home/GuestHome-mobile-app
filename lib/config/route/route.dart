@@ -27,9 +27,12 @@ import 'package:minapp/features/auth/presentation/pages/otp_verification.dart';
 import 'package:minapp/features/auth/presentation/pages/profile_setup.dart';
 import 'package:minapp/features/host/features/home/presentation/pages/home.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/account.dart';
+import 'package:minapp/features/host/features/profile/presentation/pages/add_funds.dart';
+import 'package:minapp/features/host/features/profile/presentation/pages/commission.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/delete_account.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/general_information.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/language.dart';
+import 'package:minapp/features/host/features/profile/presentation/pages/payment_setting.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/profile.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/verify_new_phone.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/verify_old_phone.dart';
@@ -246,6 +249,24 @@ Future<GoRouter> createRouter() async {
                           builder: (context, state) => const DeleteAccount(),
                         ),
                       ]),
+                  GoRoute(
+                    name: 'paymentSetting',
+                    path: '/paymentSetting',
+                    builder: (context, state) => const PaymentSetting(),
+                    routes: [
+                      GoRoute(
+                        name: 'addFunds',
+                        path: '/addFunds',
+                        builder: (context, state) => const AddFunds(),
+                      ),
+                      GoRoute(
+                        name: 'commission',
+                        path: '/commission',
+                        builder: (context, state) => const Commission(),
+                      ),
+                    ]
+                  ),
+
                 ],
               ),
             ],
