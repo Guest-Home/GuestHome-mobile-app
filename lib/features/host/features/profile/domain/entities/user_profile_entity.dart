@@ -9,7 +9,7 @@ class UserProfileEntity extends Equatable {
   final int rating;
   final dynamic chatId;
   final bool isApproved;
-  final String points;
+  final double? points;
   final String gender;
   final dynamic agent;
   final String language;

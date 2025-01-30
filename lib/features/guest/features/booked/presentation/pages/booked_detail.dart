@@ -290,9 +290,7 @@ class _BookedDetailState extends State<BookedDetail> {
               spacing: 10,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                BlocProvider.value(
-                  value: sl<BookedBloc>(),
-                  child: BlocBuilder<BookedBloc, BookedState>(
+                 BlocBuilder<BookedBloc, BookedState>(
                     builder: (context, state) {
                       return Container(
                         width: MediaQuery.of(context).size.width,
@@ -302,7 +300,7 @@ class _BookedDetailState extends State<BookedDetail> {
                               context.pop();
                               context.read<BookedBloc>()
                                   .add(GetMyBookingEvent());
-                              context.goNamed('houseType');
+                              context.goNamed('booked');
                             },
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: ColorConstant.primaryColor,
@@ -313,7 +311,7 @@ class _BookedDetailState extends State<BookedDetail> {
                             )),
                       );
                     },
-                  ),
+
                 )
               ],
             ),

@@ -44,7 +44,7 @@ class _ProfileState extends State<Profile> {
                   width: MediaQuery.of(context).size.width,
                   child: BlocBuilder<ProfileBloc, ProfileState>(
                     builder: (context, state) {
-                      if (state is UserProfileLoadingState) {
+                      if (state is UserProfileLoadingState ||state is ProfileErrorState) {
                         return SizedBox(
                           height: 150,
                           child: Center(child: loadingIndicator()),

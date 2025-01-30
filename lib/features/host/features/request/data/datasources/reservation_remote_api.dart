@@ -31,6 +31,7 @@ class ReservationApiDataSourceImpl implements ReservationApiDataSource {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
+      print(e);
       return Left(ErrorResponse().mapDioExceptionToFailure(e));
     }
   }

@@ -94,7 +94,7 @@ class RequestCard extends StatelessWidget {
             fontWeight: FontWeight.w700),
       ),
       Text(
-        reservationEntity.user!.phoneNumber!,
+        reservationEntity.user!.phoneNumber??"",
         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
             fontSize: 12,
             fontWeight: FontWeight.w700,

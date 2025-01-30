@@ -7,7 +7,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/features/guest/features/booked/domain/entities/my_booking_entity.dart';
 import '../../../../../../config/color/color.dart';
-import '../../../../../../core/apiConstants/api_url.dart';
 import '../../../../../../core/common/back_button.dart';
 import '../../../../../../core/common/custom_button.dart';
 import '../../../../../../core/common/spin_kit_loading.dart';
@@ -361,9 +360,7 @@ class BookingDetailNonApproved extends StatelessWidget {
               spacing: 10,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                BlocProvider.value(
-                  value: sl<BookedBloc>(),
-                  child: BlocBuilder<BookedBloc, BookedState>(
+                BlocBuilder<BookedBloc, BookedState>(
                     builder: (context, state) {
                       return Container(
                         width: MediaQuery.of(context).size.width,
@@ -385,7 +382,7 @@ class BookingDetailNonApproved extends StatelessWidget {
                       );
                     },
                   ),
-                )
+
               ],
             ),
           )),

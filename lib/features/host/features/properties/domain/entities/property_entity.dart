@@ -71,7 +71,7 @@ class PostedByEntity extends Equatable {
   final int rating;
   final String chatId;
   final bool isApproved;
-  final String points;
+  final double? points;
   final String gender;
   final AgentEntity? agent;
   final String language;

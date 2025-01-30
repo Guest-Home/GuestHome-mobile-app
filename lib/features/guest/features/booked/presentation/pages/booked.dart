@@ -58,7 +58,6 @@ class Booked extends StatelessWidget {
                       )),
                   Expanded(
                     child: BlocBuilder<BookedBloc, BookedState>(
-                      buildWhen: (previous, current) => previous!=current,
                       builder: (context, state) {
                         if (state is MyBookingLoadingState) {
                           return Center(

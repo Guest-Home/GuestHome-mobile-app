@@ -17,6 +17,9 @@ class ErrorResponse{
         if (e.response?.statusCode == 401) {
           return UnauthorizedFailure('Unauthorized access');
         }
+        if (e.response?.statusCode == 502) {
+          return UnauthorizedFailure('Server error occurred');
+        }
         return ServerFailure(e.response?.data['error'] ?? 'Server error occurred');
       case DioExceptionType.cancel:
         return NetworkFailure('Request was cancelled');
