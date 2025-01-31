@@ -73,7 +73,15 @@ class _RequestState extends State<Request> {
                     child:loadingIndicator()
                   )
                   );
-                } else if (state is ReservationLoadedState) {
+                }
+                if (state is ReservationErrorState) {
+                  return SliverToBoxAdapter(
+                      child: Center(
+                          child:Text(state.failure.message,)
+                      )
+                  );
+                }
+                else if (state is ReservationLoadedState) {
                   if (state.reservation.results!.isEmpty) {
                     return SliverToBoxAdapter(
                         child: SizedBox(

@@ -3,6 +3,7 @@ import 'dart:isolate';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:minapp/features/auth/data/models/otp_response_model.dart';
+import 'package:minapp/features/host/features/profile/data/models/platform_commission_model.dart';
 import 'package:minapp/features/host/features/profile/data/models/user_profile_model.dart';
 
 import '../../../../../../core/apiConstants/api_url.dart';
@@ -20,6 +21,10 @@ abstract class UserProfileDataSource {
   Future<Either<Failure, OtpResponseModel>> getOtpForNew(
       Map<String, dynamic> userData);
   Future<Either<Failure, String>> verifyNewOtp(Map<String, dynamic> userData);
+  Future<Either<Failure,bool>> deposit(Map<String,dynamic> data);
+  Future<Either<Failure,PlatformCommissionModel>> getPlatformCommission();
+
+
 }
 
 class UserProfileDataSourceImple implements UserProfileDataSource {
@@ -119,5 +124,36 @@ class UserProfileDataSourceImple implements UserProfileDataSource {
     } on DioException catch (e) {
       return Left(ServerFailure(e.response!.data['error'].toString()));
     }
+  }
+
+  @override
+  Future<Either<Failure, bool>> deposit(Map<String, dynamic> data)async{
+    try {
+      final response = await sl<DioClient>().post(ApiUrl.deposit, data: data);
+      if (response.statusCode == 200) {
+        return Right(true);
+      } else {
+        return Left(ServerFailure(response.data['error']));
+      }
+    } on DioException catch (e) {
+      return Left(ErrorResponse().mapDioExceptionToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, PlatformCommissionModel>> getPlatformCommission()async{
+    try {
+      final response = await sl<DioClient>().get(ApiUrl.commission);
+      if (response.statusCode == 200) {
+        final commission =
+        await Isolate.run(() => PlatformCommissionModel.fromMap(response.data));
+        return Right(commission);
+      } else {
+        return Left(ServerFailure(response.data['error']));
+      }
+    } on DioException catch (e) {
+      return Left(ErrorResponse().mapDioExceptionToFailure(e));
+    }
+
   }
 }

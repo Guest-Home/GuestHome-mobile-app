@@ -252,17 +252,17 @@ Future<GoRouter> createRouter() async {
                   GoRoute(
                     name: 'paymentSetting',
                     path: '/paymentSetting',
-                    builder: (context, state) => const PaymentSetting(),
+                    builder: (context, state) => PaymentSetting(),
                     routes: [
                       GoRoute(
                         name: 'addFunds',
                         path: '/addFunds',
-                        builder: (context, state) => const AddFunds(),
+                        builder: (context, state) =>  AddFunds(),
                       ),
                       GoRoute(
                         name: 'commission',
                         path: '/commission',
-                        builder: (context, state) => const Commission(),
+                        builder: (context, state) =>  Commission(),
                       ),
                     ]
                   ),

@@ -160,8 +160,6 @@ final int id;
                           onChanged: (value) {
                             context.read<BookingBloc>().add(AddIdEvent(id:id));
                           },
-
-
                     );
                   }
 

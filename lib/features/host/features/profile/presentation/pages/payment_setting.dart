@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:minapp/core/common/back_button.dart';
 import 'package:minapp/core/common/custom_button.dart';
-
 import '../../../../../../config/color/color.dart';
 
 class PaymentSetting extends StatelessWidget {
@@ -87,6 +85,7 @@ class PaymentSetting extends StatelessWidget {
                     spacing: 15,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      SizedBox(height:1,),
                       RichText(
                           text: TextSpan(children: [
                         TextSpan(
@@ -178,6 +177,8 @@ class PaymentSetting extends StatelessWidget {
                                     .textTheme
                                     .bodySmall!
                                     .copyWith(
+                                  fontSize: 12,
+                                        fontWeight: FontWeight.w600,
                                         color: ColorConstant.primaryColor),
                               ),
                               Icon(Icons.arrow_forward_ios,size: 17,color: ColorConstant.primaryColor,),
@@ -238,6 +239,8 @@ class PaymentSetting extends StatelessWidget {
                                   .textTheme
                                   .bodySmall!
                                   .copyWith(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
                                   color: ColorConstant.primaryColor),
                             ),
                             Icon(Icons.arrow_forward_ios,size: 17,color: ColorConstant.primaryColor,),

@@ -43,6 +43,7 @@ import 'package:minapp/features/host/features/analytics/presentation/bloc/total_
 import 'package:minapp/features/host/features/profile/data/datasources/user_proile_datasource.dart';
 import 'package:minapp/features/host/features/profile/data/repositories/user_profile_repository_impl.dart';
 import 'package:minapp/features/host/features/profile/domain/repositories/user_profile_repository.dart';
+import 'package:minapp/features/host/features/profile/domain/usecases/deposit_usecase.dart';
 import 'package:minapp/features/host/features/profile/domain/usecases/get_otp_new_usecase.dart';
 import 'package:minapp/features/host/features/profile/domain/usecases/get_otp_old_phone_usecase.dart';
 import 'package:minapp/features/host/features/profile/domain/usecases/get_user_profile_usecase.dart';
@@ -50,6 +51,7 @@ import 'package:minapp/features/host/features/profile/domain/usecases/update_use
 import 'package:minapp/features/host/features/profile/domain/usecases/verify_new_otp_usecase.dart';
 import 'package:minapp/features/host/features/profile/domain/usecases/verify_old_otp_usecase.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/change_phone_number/change_phone_bloc.dart';
+import 'package:minapp/features/host/features/profile/presentation/bloc/payment_setting_bloc/payment_setting_bloc.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:minapp/features/host/features/properties/data/datasources/property_api_data_source.dart';
 import 'package:minapp/features/host/features/properties/data/repositories/amenity_repository_impl.dart';
@@ -90,6 +92,7 @@ import 'package:minapp/features/search/presentation/bloc/search_bloc.dart';
 import 'features/auth/domain/usecases/create_customer_profile_usecase.dart';
 import 'features/auth/domain/usecases/create_tg_otp_usecase.dart';
 import 'features/guest/features/booked/domain/usecases/get_booking_detail_usecase.dart';
+import 'features/host/features/profile/domain/usecases/get_commision_usecase.dart';
 import 'features/search/domain/usecases/host_search_property_usecase.dart';
 
 final sl = GetIt.instance;
@@ -152,6 +155,9 @@ void setup() async {
   sl.registerFactory<SearchBloc>(
     () => SearchBloc(),
   );
+  sl.registerFactory<PaymentSettingBloc>(
+        () => PaymentSettingBloc(),
+  );
   // usecase
 
   sl.registerSingleton<CreateOtpUsecase>(CreateOtpUsecase());
@@ -195,6 +201,8 @@ void setup() async {
   sl.registerSingleton<DownloadReportUseCase>(DownloadReportUseCase());
   sl.registerSingleton<CreateTgOtpUsecase>(CreateTgOtpUsecase());
   sl.registerSingleton<VerifyTgOtpUsecase>(VerifyTgOtpUsecase());
+  sl.registerSingleton<DepositUseCase>(DepositUseCase());
+  sl.registerSingleton<GetCommissionUseCase>(GetCommissionUseCase());
 
   // repository
 
