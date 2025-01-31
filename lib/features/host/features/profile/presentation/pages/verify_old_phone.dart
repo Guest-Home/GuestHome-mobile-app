@@ -42,7 +42,6 @@ class _VerifyOldPhoneState extends State<VerifyOldPhone> {
     setState(() {
       _remainingTime = _initialCountdown;
     });
-
     _timer?.cancel();
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (_remainingTime > 0) {

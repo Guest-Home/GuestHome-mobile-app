@@ -81,6 +81,7 @@ class _OtpVerificationState extends State<OtpVerification> {
             setState(() {
               _startCountdown();
             });
+            showSuccessSnackBar(context, state.otpResponseEntity.message);
           }
         },
         builder: (context, state) {

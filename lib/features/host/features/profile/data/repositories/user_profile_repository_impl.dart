@@ -5,10 +5,10 @@ import 'package:minapp/features/auth/data/models/otp_response_model.dart';
 import 'package:minapp/features/host/features/profile/data/datasources/user_proile_datasource.dart';
 import 'package:minapp/features/host/features/profile/data/models/platform_commission_model.dart';
 import 'package:minapp/features/host/features/profile/data/models/user_profile_model.dart';
-import 'package:minapp/features/host/features/profile/domain/entities/platform_commission_entity.dart';
 import 'package:minapp/features/host/features/profile/domain/repositories/user_profile_repository.dart';
 
 import '../../../../../../service_locator.dart';
+import '../../domain/usecases/update_user_profile_usecase.dart';
 
 class UserProfileRepositoryImple implements UserProfileRepository{
   @override
@@ -17,7 +17,7 @@ class UserProfileRepositoryImple implements UserProfileRepository{
   }
 
   @override
-  Future<Either<Failure, bool>> updateUserProfile(Map<String,dynamic> userData)async{
+  Future<Either<Failure, bool>> updateUserProfile(UpdateCustomerParams userData)async{
     return await sl<UserProfileDataSource>().updateUserProfile(userData);
   }
 

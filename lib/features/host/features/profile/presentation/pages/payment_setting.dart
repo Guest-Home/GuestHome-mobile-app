@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/core/common/custom_button.dart';
+import 'package:minapp/features/host/features/profile/presentation/bloc/payment_setting_bloc/payment_setting_bloc.dart';
 import '../../../../../../config/color/color.dart';
+import '../../../../../../service_locator.dart';
 
 class PaymentSetting extends StatelessWidget {
   const PaymentSetting({super.key});
@@ -53,12 +56,19 @@ class PaymentSetting extends StatelessWidget {
                         color:
                             ColorConstant.inActiveColor.withValues(alpha: 0.5)),
                   ),
-                  trailing: Switch.adaptive(
-                    value: true,
-                    onChanged: (value) {},
+                  trailing: BlocBuilder<PaymentSettingBloc, PaymentSettingState>(
+                    buildWhen: (previous, current) => previous.isAcceptingPayment!=current.isAcceptingPayment,
+  builder: (context, state) {
+    return Switch.adaptive(
+                    value: state.isAcceptingPayment,
+                    onChanged: (value) {
+                      context.read<PaymentSettingBloc>().add(IsAcceptingPaymentEvent(isAccepting: value));
+                    },
                     activeColor: Colors.white,
                     activeTrackColor: ColorConstant.green,
-                  ),
+                  );
+  },
+),
                 ),
               ),
             ),
@@ -151,17 +161,27 @@ class PaymentSetting extends StatelessWidget {
                                   fontSize: 14,
                                 ),
                           ),
-                          subtitle: Text(
-                            "Current rate: 5%",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14,
-                                    color: ColorConstant.inActiveColor
-                                        .withValues(alpha: 0.5)),
-                          ),
+                          subtitle: BlocProvider(
+  create: (context) => sl<PaymentSettingBloc>()..add(GetPlatformCommissionEvent()),
+  child: BlocBuilder<PaymentSettingBloc, PaymentSettingState>(
+  builder: (context, state) {
+    if(state is PlatformCommissionLoaded){
+      return Text("Current rate: ${state.platformCommissionEntity.currentCommissionRate}",
+        style: Theme.of(context)
+            .textTheme
+            .bodyMedium!
+            .copyWith(
+            fontWeight: FontWeight.w500,
+            fontSize: 14,
+            color: ColorConstant.inActiveColor
+                .withValues(alpha: 0.5)),
+      );
+    }
+    return Text("");
+
+  },
+),
+),
                         ),
                       ),
                       GestureDetector(

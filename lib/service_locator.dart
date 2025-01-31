@@ -53,6 +53,7 @@ import 'package:minapp/features/host/features/profile/domain/usecases/verify_old
 import 'package:minapp/features/host/features/profile/presentation/bloc/change_phone_number/change_phone_bloc.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/payment_setting_bloc/payment_setting_bloc.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:minapp/features/host/features/profile/presentation/bloc/update_profile_bloc/update_profile_bloc.dart';
 import 'package:minapp/features/host/features/properties/data/datasources/property_api_data_source.dart';
 import 'package:minapp/features/host/features/properties/data/repositories/amenity_repository_impl.dart';
 import 'package:minapp/features/host/features/properties/data/repositories/city_repository_impl.dart';
@@ -157,6 +158,9 @@ void setup() async {
   );
   sl.registerFactory<PaymentSettingBloc>(
         () => PaymentSettingBloc(),
+  );
+  sl.registerFactory<UpdateProfileBloc>(
+        () => UpdateProfileBloc(),
   );
   // usecase
 

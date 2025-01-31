@@ -18,6 +18,13 @@ class AddAmountEvent extends PaymentSettingEvent{
   @override
   List<Object?> get props =>[amount];
 }
+class IsAcceptingPaymentEvent extends PaymentSettingEvent{
+  final bool isAccepting;
+  const IsAcceptingPaymentEvent({required this.isAccepting});
+
+  @override
+  List<Object?> get props =>[isAccepting];
+}
 class MakePaymentEvent extends PaymentSettingEvent{
   @override
   List<Object?> get props =>[];

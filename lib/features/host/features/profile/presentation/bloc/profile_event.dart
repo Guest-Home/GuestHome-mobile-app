@@ -9,8 +9,4 @@ abstract class ProfileEvent extends Equatable {
 
 
 class GetUserProfileEvent extends ProfileEvent{}
-class UpdateUserProfileLoading extends ProfileEvent{}
-class UpdateUserProfileEvent extends ProfileEvent{
-  final Map<String,dynamic> userData;
-  const UpdateUserProfileEvent({required this.userData});
-}
+

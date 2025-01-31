@@ -218,7 +218,9 @@ Future<GoRouter> createRouter() async {
                   GoRoute(
                       name: 'generalInformation',
                       path: '/generalInformation',
-                      builder: (context, state) => GeneralInformation(),
+                      builder: (context, state){
+                       return GeneralInformation();
+                      },
                       routes: [
                         GoRoute(
                             name: 'verifyOldPhone',

@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/core/common/spin_kit_loading.dart';
 import 'package:minapp/core/utils/show_snack_bar.dart';
@@ -13,6 +15,56 @@ class AddFunds extends StatelessWidget {
 
   final _formKey=GlobalKey<FormState>();
   final TextEditingController amountController=TextEditingController();
+
+   Future<dynamic> showBookedDialog(BuildContext context) {
+     return showDialog(
+       context: context,
+       barrierDismissible: false,
+       builder: (context) => AlertDialog(
+           backgroundColor: Colors.white,
+           title: Text(
+             'Deposit Request Success',
+             style: Theme.of(context)
+                 .textTheme
+                 .headlineSmall!
+                 .copyWith(fontWeight: FontWeight.bold),
+           ),
+           icon: SvgPicture.asset(
+             'assets/icons/congrates.svg',
+             semanticsLabel: 'language',
+             fit: BoxFit.cover,
+           ),
+           content: SizedBox(
+             height: 150,
+             child: Column(
+               spacing: 10,
+               mainAxisAlignment: MainAxisAlignment.start,
+               children: [
+                 Text(
+                   "you will receive USSD code and please verify your payment",
+                   textAlign: TextAlign.center,
+                 ),
+                 Container(
+                   width: MediaQuery.of(context).size.width,
+                   margin: EdgeInsets.symmetric(horizontal: 20),
+                   child: CustomButton(
+                       onPressed: () {
+                         context.pop();
+                         context.pop();
+                       },
+                       style: ElevatedButton.styleFrom(
+                           backgroundColor: ColorConstant.primaryColor,
+                           padding: EdgeInsets.all(15)),
+                       child: Text(
+                         tr("Done"),
+                         style: TextStyle(color: Colors.white),
+                       )),
+                 )
+               ],
+             ),
+           )),
+     );
+   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,8 +85,8 @@ class AddFunds extends StatelessWidget {
          BlocConsumer<PaymentSettingBloc, PaymentSettingState>(
   listener: (context, state) {
     if(state is DepositPaymentSuccess){
-      context.pop();
-      showSuccessSnackBar(context, "deposit request success");
+      showBookedDialog(context);
+
     }
     else if(state is PaymentSettingError){
      showErrorSnackBar(context, "deposit error");

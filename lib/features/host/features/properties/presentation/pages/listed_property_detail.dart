@@ -120,7 +120,8 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                 context.read<AddPropertyBloc>().add(ResetEvent());
                 context.pop();
               } else if (state is UpdatePropertyLoading) {
-                _deletingDialog(context, "updating property");
+                lodingDialog(context);
+                // _deletingDialog(context, "updating property");
               } else if (state is UpdatePropertySuccess) {
                 context.pop();
                 context.read<AddPropertyBloc>().add(ResetEvent());
@@ -850,6 +851,8 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                   ],
                 ))));
   }
+
+
 
   void getCurrency(BuildContext context) {
     return showCurrencyPicker(

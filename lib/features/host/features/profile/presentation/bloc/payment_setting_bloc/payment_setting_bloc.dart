@@ -21,13 +21,13 @@ class PaymentSettingBloc extends Bloc<PaymentSettingEvent, PaymentSettingState> 
       emit(state.copyWith(amount: event.amount));
     });
     on<MakePaymentEvent>((event, emit)async{
-      emit(DepositPaymentLoading());
+      emit(DepositPaymentLoading(state));
       Map<String,dynamic> data={
         "amount":double.parse(state.amount),
         "paymentMethods":state.paymentMethod.code
       };
       Either response= await sl<DepositUseCase>().call(data);
-      response.fold((l) => emit(PaymentSettingError(failure: l)),(r) => emit(DepositPaymentSuccess()),);
+      response.fold((l) => emit(PaymentSettingError(failure: l)),(r) => emit(DepositPaymentSuccess(state)),);
     });
 
     on<GetPlatformCommissionEvent>((event, emit)async{
@@ -35,5 +35,9 @@ class PaymentSettingBloc extends Bloc<PaymentSettingEvent, PaymentSettingState> 
       Either response= await sl<GetCommissionUseCase>().call();
       response.fold((l) => emit(PaymentSettingError(failure: l)), (r) => emit(PlatformCommissionLoaded(platformCommissionEntity: r)),);
     });
+    on<IsAcceptingPaymentEvent>((event, emit) {
+      emit(state.copyWith(isAcceptingPayment: !state.isAcceptingPayment));
+
+    },);
   }
 }

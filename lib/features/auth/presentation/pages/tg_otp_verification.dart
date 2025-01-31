@@ -83,6 +83,7 @@ class _TgOtpVerificationState extends State<TgOtpVerification> {
             setState(() {
               _startCountdown();
             });
+            showSuccessSnackBar(context, state.otpResponseEntity.message);
           }
         },
         builder: (context, state) {

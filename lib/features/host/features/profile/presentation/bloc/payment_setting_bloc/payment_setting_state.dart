@@ -14,19 +14,22 @@ enum PaymentMethod{
 class PaymentSettingState extends Equatable {
   const PaymentSettingState({
     this.amount='500',
-    this.paymentMethod=PaymentMethod.telebirr
+    this.paymentMethod=PaymentMethod.telebirr,
+    this.isAcceptingPayment=true
 
 });
 
   final String amount;
+  final bool isAcceptingPayment;
   final PaymentMethod paymentMethod;
 
   PaymentSettingState copyWith({
     String? amount,
+    bool? isAcceptingPayment,
     PaymentMethod? paymentMethod
 }){
     return PaymentSettingState(
-      amount: amount??this.amount,
+      amount: amount??this.amount, isAcceptingPayment: isAcceptingPayment??this.isAcceptingPayment,
       paymentMethod: paymentMethod??this.paymentMethod
     );
   }
@@ -47,10 +50,20 @@ final class PaymentSettingError extends PaymentSettingState {
   List<Object> get props => [failure];
 }
 
-class DepositPaymentLoading extends PaymentSettingState{}
+class DepositPaymentLoading extends PaymentSettingState{
+   DepositPaymentLoading(PaymentSettingState currentState):super(
+     paymentMethod: currentState.paymentMethod,
+     amount: currentState.amount
+   );
+}
 class PlatformCommissionLoading extends PaymentSettingState{}
 class PlatformCommissionLoaded extends PaymentSettingState{
   final PlatformCommissionEntity platformCommissionEntity;
   const PlatformCommissionLoaded({required this.platformCommissionEntity});
 }
-class DepositPaymentSuccess extends PaymentSettingState{}
+class DepositPaymentSuccess extends PaymentSettingState{
+  DepositPaymentSuccess(PaymentSettingState currentState):super(
+  paymentMethod: currentState.paymentMethod,
+  amount: currentState.amount
+  );
+}
