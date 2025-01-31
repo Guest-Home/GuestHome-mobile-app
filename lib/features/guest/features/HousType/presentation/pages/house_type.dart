@@ -102,11 +102,16 @@ class HouseType extends StatelessWidget {
                 if (state is NoInternetSate) {
                   noInternetDialog(context);
                 }
+                // else if(state is PropertyTypeError){
+                //   showDialog(context: context, builder: (context) => AlertDialog(
+                //     content: Text(state.failure.message),
+                //   ),);
+                // }
               },
               child: BlocBuilder<PropertyTypeBloc, PropertyTypeState>(
                 builder: (context, state) {
-                  if (state is PropertyTypeLoadingState ||
-                      state.propertyTypes.isEmpty) {
+                  if (state is PropertyTypeLoadingState
+                      ) {
                     return Center(
                       child: loadingIndicator(),
                     );

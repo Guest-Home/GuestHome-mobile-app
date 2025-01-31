@@ -30,7 +30,6 @@ class UpdateProfileBloc extends Bloc<UpdateProfileEvent, UpdateProfileState> {
       try {
         final XFile? image = await FilePicker().picImage();
         if (image != null) {
-          print(image);
           emit(state.copyWith(profilePhoto: image));
         } else {
           emit(ImagePickerError(state, 'No image selected.'));
