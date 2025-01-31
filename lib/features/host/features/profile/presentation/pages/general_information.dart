@@ -69,6 +69,10 @@ class GeneralInformation extends StatelessWidget {
                 context.pop();
                 context.read<ProfileBloc>().add(GetUserProfileEvent());
               }
+              if (state is UpdateProfileError) {
+                showErrorSnackBar(context, state.failure.message);
+
+              }
             },
           ),
           BlocListener<ChangePhoneBloc, ChangePhoneState>(

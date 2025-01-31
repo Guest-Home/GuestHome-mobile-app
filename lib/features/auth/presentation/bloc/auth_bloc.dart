@@ -37,12 +37,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       (event, emit) async {
         emit(state.copyWith(phoneNumber: event.phone));
         emit(CreatingOtpLoadingState(state));
-        Either response = await sl<CreateOtpUsecase>()
-            .call(CreateOtpParams(phoneNumber: event.phone.substring(1)));
-        response.fold(
-          (l) => emit(OtpErrorState(state, l)),
-          (r) => emit(OtpCreatedLodedState(state, r)),
-        );
+        final hasConnection = await ConnectivityService.isConnected();
+        if (!hasConnection) {
+          Either response = await sl<CreateOtpUsecase>()
+              .call(CreateOtpParams(phoneNumber: event.phone.substring(1)));
+          response.fold(
+                (l) => emit(OtpErrorState(state, l)),
+                (r) => emit(OtpCreatedLodedState(state, r)),
+          );
+        }else{
+          emit(NoInternetSate());
+        }
+
       },
     );
     on<CreateTgOtpEvent>(
@@ -91,38 +97,49 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       (event, emit) async {
         String deviceId = await GetDeviceId().getId();
         emit(VerifyingOtpLoadingState(state));
-        Either response = await sl<VerifyOtpUsecase>().call(VerifyOtpParams(
-            phoneNumber: state.phoneNumber.substring(1),
-            otp: state.otpText,
-            deviceId: deviceId));
-        response.fold(
-          (l) => emit(OtpErrorState(state, l)),
-          (r) async {
-            emit(VerifyedOtpLodedState(state, r));
-            // store token
-            await _storeTokens(r);
-          },
-        );
+        final hasConnection = await ConnectivityService.isConnected();
+        if (!hasConnection) {
+          Either response = await sl<VerifyOtpUsecase>().call(VerifyOtpParams(
+              phoneNumber: state.phoneNumber.substring(1),
+              otp: state.otpText,
+              deviceId: deviceId));
+          response.fold(
+                (l) => emit(OtpErrorState(state, l)),
+                (r) async {
+              emit(VerifyedOtpLodedState(state, r));
+              // store token
+              await _storeTokens(r);
+            },
+          );
+        }else{
+          emit(NoInternetSate());
+        }
+
       },
     );
     on<VerifyTgOtpEvent>(
       (event, emit) async {
         String deviceId = await GetDeviceId().getId();
         emit(VerifyingOtpLoadingState(state));
-        Map<String, dynamic> data = {
-          "username": state.tgUserName,
-          "otp": state.otpText,
-          "device_id": deviceId
-        };
-        Either response = await sl<VerifyTgOtpUsecase>().call(data);
-        response.fold(
-          (l) => emit(OtpErrorState(state, l)),
-          (r) async {
-            emit(VerifyedOtpLodedState(state, r));
-            // store token
-            await _storeTokens(r);
-          },
-        );
+        final hasConnection = await ConnectivityService.isConnected();
+        if (!hasConnection) {
+          Map<String, dynamic> data = {
+            "username": state.tgUserName,
+            "otp": state.otpText,
+            "device_id": deviceId
+          };
+          Either response = await sl<VerifyTgOtpUsecase>().call(data);
+          response.fold(
+                (l) => emit(OtpErrorState(state, l)),
+                (r) async {
+              emit(VerifyedOtpLodedState(state, r));
+              // store token
+              await _storeTokens(r);
+            },
+          );
+        }else{
+          emit(NoInternetSate());
+        }
       },
     );
 

@@ -21,7 +21,7 @@ class ErrorResponse{
           return UnauthorizedFailure(e.response?.statusMessage?? 'Server error');
         }
         if (e.response?.statusCode == 502) {
-          return UnauthorizedFailure(e.response?.data['Error'] ?? 'Server error');
+          return UnauthorizedFailure(e.response?.statusMessage ?? 'Server error');
         }
         if (e.response?.statusCode == 413) {
           return UnauthorizedFailure(e.response?.statusMessage ?? 'Client error');
@@ -29,7 +29,8 @@ class ErrorResponse{
         if (e.response?.statusCode == 404) {
           return UnauthorizedFailure(e.response?.statusMessage ?? 'Client error');
         }
-        return ServerFailure(e.response?.data['Error'] ?? 'Server error occurred');
+        return ServerFailure(e.response?.statusMessage ?? 'Server error occurred');
+        //return ServerFailure(e.response?.data['Error'] ?? 'Server error occurred');
       case DioExceptionType.cancel:
         return NetworkFailure('Request was cancelled');
 

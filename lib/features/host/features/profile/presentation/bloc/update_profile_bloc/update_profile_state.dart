@@ -41,7 +41,13 @@ class UpdateProfileError extends UpdateProfileState {
   @override
   List<Object> get props => super.props + [failure];
 }
-class UpdateUserProfileLoadingState extends UpdateProfileState {}
+class UpdateUserProfileLoadingState extends UpdateProfileState {
+  UpdateUserProfileLoadingState(UpdateProfileState currentState,)
+      : super(
+      profilePhoto: currentState.profilePhoto);
+
+
+}
 class UpdateUserProfileLoadedState extends UpdateProfileState {
   final bool isUpdate;
   const UpdateUserProfileLoadedState({required this.isUpdate});

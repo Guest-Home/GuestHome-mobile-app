@@ -113,6 +113,11 @@ class HouseType extends StatelessWidget {
                       child: loadingIndicator(),
                     );
                   }
+                  else  if (state is PropertyTypeError) {
+                    return Center(
+                      child: Text(state.failure.message)
+                    );
+                  }
                   return GridView.builder(
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,

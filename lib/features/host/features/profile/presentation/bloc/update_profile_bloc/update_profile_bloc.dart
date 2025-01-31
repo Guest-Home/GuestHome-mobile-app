@@ -15,7 +15,7 @@ class UpdateProfileBloc extends Bloc<UpdateProfileEvent, UpdateProfileState> {
   UpdateProfileBloc() : super(UpdateProfileInitial()) {
 
     on<UpdateUserProfileEvent>((event, emit) async {
-      emit(UpdateUserProfileLoadingState());
+      emit(UpdateUserProfileLoadingState(state));
       Either response =
       await sl<UpdateUserProfileUseCase>().call(UpdateCustomerParams(
           firstName: event.userData['first_name'],
@@ -30,6 +30,7 @@ class UpdateProfileBloc extends Bloc<UpdateProfileEvent, UpdateProfileState> {
       try {
         final XFile? image = await FilePicker().picImage();
         if (image != null) {
+          print(image);
           emit(state.copyWith(profilePhoto: image));
         } else {
           emit(ImagePickerError(state, 'No image selected.'));

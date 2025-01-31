@@ -189,23 +189,7 @@ class _AnalyticsState extends State<Analytics> {
                       context.pop();
                       showErrorSnackBar(context, state.failure.message);
                     } else if (state is DownloadingLoadingState) {
-                      showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (context) => AlertDialog(
-                          content: Container(
-                            padding: EdgeInsets.all(10),
-                            height: 100,
-                            child: Column(
-                              spacing: 15,
-                              children: [
-                                loadingWithPrimary,
-                                Text("Downloading report")
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
+                      lodingDialog(context);
                     } else if (state is DownloadedState) {
                       context.pop();
                       showSuccessSnackBar(context, "report saved");

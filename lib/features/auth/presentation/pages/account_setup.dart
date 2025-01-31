@@ -34,6 +34,9 @@ class AccountSetup extends StatelessWidget {
           } else if (state is OtpErrorState) {
             showErrorSnackBar(context, state.failure.message);
           }
+          else if (state is NoInternetSate) {
+            noInternetDialog(context);
+          }
         },
         buildWhen: (previous, current) => previous != current,
         builder: (context, state) {
