@@ -71,7 +71,7 @@ class _ProfileState extends State<Profile> {
                                   child: state.userProfileEntity.profilePicture == null
                                       ? Icon(
                                     Icons.person,
-                                    color: Colors.white,
+                                    color: Colors.black12,
                                     size: 20,
                                   )
                                       : null,

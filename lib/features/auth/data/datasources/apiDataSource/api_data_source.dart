@@ -98,7 +98,7 @@ class ApiDataSourceImpl implements ApiDataSource {
         return Left(ServerFailure(response.data['Error']));
       }
     } on DioException catch (e) {
-      // return Left(ServerFailure(e.response!.data.toString()));
+    //  return Left(ServerFailure(e.response!.data.toString()));
       return Left(ErrorResponse().mapDioExceptionToFailure(e));
     }
   }
@@ -143,7 +143,6 @@ class ApiDataSourceImpl implements ApiDataSource {
   @override
   Future<Either<Failure, OtpResponseModel>> createTgOtp(
       Map<String, dynamic> data) async {
-    print(data);
     try {
       final response = await sl<DioClient>().post(ApiUrl.tGOtp, data: data);
       if (response.statusCode == 200) {

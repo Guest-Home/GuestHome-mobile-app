@@ -9,7 +9,7 @@ class CustomerProfileEntity extends Equatable {
   final int rating;
   final String? chatId;
   final bool isApproved;
-  final String points;
+  final double? points;
   final int? agent;
   final String language;
 

@@ -29,8 +29,8 @@ class ProfileSetup extends StatelessWidget {
             child: BlocConsumer<AuthBloc, AuthState>(
               listener: (context, state) {
                 if (state is CreatedCustomerProfileLodedState) {
-                  context.goNamed('houseType');
                   showSuccessSnackBar(context, "Profile Created Successfully");
+                  context.goNamed('houseType');
 
                 } else if (state is OtpErrorState) {
                   showErrorSnackBar(context, state.failure.message);

@@ -38,7 +38,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(state.copyWith(phoneNumber: event.phone));
         emit(CreatingOtpLoadingState(state));
         Either response = await sl<CreateOtpUsecase>()
-            .call(CreateOtpParams(phoneNumber: event.phone));
+            .call(CreateOtpParams(phoneNumber: event.phone.substring(1)));
         response.fold(
           (l) => emit(OtpErrorState(state, l)),
           (r) => emit(OtpCreatedLodedState(state, r)),
@@ -92,7 +92,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         String deviceId = await GetDeviceId().getId();
         emit(VerifyingOtpLoadingState(state));
         Either response = await sl<VerifyOtpUsecase>().call(VerifyOtpParams(
-            phoneNumber: state.phoneNumber,
+            phoneNumber: state.phoneNumber.substring(1),
             otp: state.otpText,
             deviceId: deviceId));
         response.fold(

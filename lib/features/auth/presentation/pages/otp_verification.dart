@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -9,8 +11,52 @@ import 'package:minapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:pinput/pinput.dart';
 import '../../../../core/common/custom_button.dart';
 
-class OtpVerification extends StatelessWidget {
+class OtpVerification extends StatefulWidget {
   const OtpVerification({super.key});
+
+  @override
+  State<OtpVerification> createState() => _OtpVerificationState();
+}
+
+class _OtpVerificationState extends State<OtpVerification> {
+  static const int _initialCountdown = 120; // 2 minutes in seconds
+  int _remainingTime = _initialCountdown;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _startCountdown();
+  }
+
+  void _startCountdown() {
+    setState(() {
+      _remainingTime = _initialCountdown;
+    });
+
+    _timer?.cancel();
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (_remainingTime > 0) {
+        setState(() {
+          _remainingTime--;
+        });
+      } else {
+        _timer?.cancel();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  String _formatTime(int seconds) {
+    int minutes = seconds ~/ 60;
+    int secs = seconds % 60;
+    return "$minutes:${secs.toString().padLeft(2, '0')}";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +64,6 @@ class OtpVerification extends StatelessWidget {
       value: context.read<AuthBloc>(),
       child: BlocConsumer<AuthBloc, AuthState>(
         buildWhen: (previous, current) => previous!=current,
-        listenWhen: (previous, current) => previous!=current,
         listener: (context, state) {
           if (state is VerifyedOtpLodedState) {
             if (state.verifyOtpEntity.hasProfile==true) {
@@ -31,6 +76,11 @@ class OtpVerification extends StatelessWidget {
           }
           if (state is OtpErrorState) {
             showErrorSnackBar(context, state.failure.message);
+          }
+          if(state is OtpCreatedLodedState){
+            setState(() {
+              _startCountdown();
+            });
           }
         },
         builder: (context, state) {
@@ -113,7 +163,7 @@ class OtpVerification extends StatelessWidget {
                             textAlign: TextAlign.start,
                             text: TextSpan(children: [
                               TextSpan(
-                                text: 'Did’t receive the code?\n Resend in ',
+                                text: 'Did’t receive the code?\nResend in ',
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium!
@@ -122,7 +172,7 @@ class OtpVerification extends StatelessWidget {
                                         fontWeight: FontWeight.w400),
                               ),
                               TextSpan(
-                                  text: "45 second",
+                                  text: "${_formatTime(_remainingTime)} second",
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyMedium!
@@ -132,7 +182,33 @@ class OtpVerification extends StatelessWidget {
                       Container(
                         margin: EdgeInsets.only(top: 30),
                         width: MediaQuery.of(context).size.width,
-                        child: CustomButton(
+                        child:_remainingTime==0?
+                        CustomButton(
+                            onPressed: state is CreatingOtpLoadingState
+                                ? () {}
+                                : () {
+                                    context
+                                        .read<AuthBloc>()
+                                        .add(CreateOtpEvent(phone:state.phoneNumber));
+                                  },
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                                backgroundColor: ColorConstant.primaryColor,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 24, vertical: 18)),
+                            child: state is CreatingOtpLoadingState
+                                ? loading
+                                : Text(
+                                    "Resend",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w700),
+                                  )):
+                        CustomButton(
                             onPressed: state is VerifyingOtpLoadingState
                                 ? () {}
                                 : () {
@@ -167,3 +243,6 @@ class OtpVerification extends StatelessWidget {
     );
   }
 }
+
+
+

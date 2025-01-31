@@ -102,7 +102,7 @@ class GeneralInformation extends StatelessWidget {
                                 child: state.userProfileEntity.profilePicture == null
                                     ? Icon(
                                   Icons.person,
-                                  color: Colors.white,
+                                  color: Colors.black12,
                                   size: 20,
                                 )
                                     : null,
@@ -205,8 +205,7 @@ class GeneralInformation extends StatelessWidget {
                               textEditingController: phone,
                               validator: (value) {
                                 if (value!.isEmpty ||
-                                    !Validation.phoneNumberValidation(value) ||
-                                    !value.startsWith("+")) {
+                                    !Validation.phoneNumberValidation(value)) {
                                   return "please provide valid phone number with country code";
                                 }
                                 return null;
@@ -262,10 +261,12 @@ class GeneralInformation extends StatelessWidget {
                                           context.read<ProfileBloc>().add(
                                               UpdateUserProfileEvent(
                                                   userData: userProfileUpdate));
-                                        } else if (phone.text !=
+                                        }
+                                        else if (phone.text !=
                                             state.userProfileEntity
                                                 .phoneNumber) {
-                                          context.read<ChangePhoneBloc>().add(GetOtpForOldPhoneEvent(oldPone:state.userProfileEntity.phoneNumber));
+                                          context.read<ChangePhoneBloc>()
+                                              .add(GetOtpForOldPhoneEvent(oldPone:state.userProfileEntity.phoneNumber));
                                         }
                                       }
                                     },
