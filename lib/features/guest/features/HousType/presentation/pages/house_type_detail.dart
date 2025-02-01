@@ -8,7 +8,6 @@ import 'package:minapp/core/common/constants/house_type_icons.dart';
 import 'package:minapp/core/common/custom_text_field.dart';
 import 'package:minapp/core/common/loading_indicator_widget.dart';
 import 'package:minapp/core/utils/show_snack_bar.dart';
-import 'package:minapp/features/guest/features/HousType/data/models/g_property_model.dart';
 import 'package:minapp/features/guest/features/HousType/domain/entities/g_property_entity.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/filter_bloc/filter_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/houstype_bloc.dart';
