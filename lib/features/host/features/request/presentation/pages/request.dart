@@ -76,9 +76,19 @@ class _RequestState extends State<Request> {
                 }
                 if (state is ReservationErrorState) {
                   return SliverToBoxAdapter(
+                    child: SizedBox(
                       child: Center(
-                          child:Text(state.failure.message,)
-                      )
+                        child: Column(
+                          children: [
+                            Icon(Icons.error_outline,size: 25,color: ColorConstant.red,),
+                            Text(
+                              state.failure.message,
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   );
                 }
                 else if (state is ReservationLoadedState) {

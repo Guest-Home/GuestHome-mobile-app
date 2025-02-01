@@ -98,6 +98,23 @@ class Booked extends StatelessWidget {
                             ),
                           );
                         }
+                         else if(state is MyBookingErrorState){
+                          return SizedBox(
+                              height: MediaQuery.of(context).size.height/2,
+                              child: Center(
+                                child: Column(
+                                  children: [
+                                    Icon(Icons.error_outline,size: 25,color: ColorConstant.red,),
+                                    Text(
+                                      state.failure.message,
+                                      style: Theme.of(context).textTheme.bodySmall,
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                          );
+                        }
                         return SizedBox.shrink();
                       },
                     ),

@@ -11,4 +11,5 @@ class ColorConstant {
 
   static Color snacSuccessBg=Color(0xffE7F7EF);
   static Color snacErrorBg=Color(0xffFFEDEC);
+  static Color snacWrningBg=Color(0xffEBF3FF);
 }

@@ -68,6 +68,17 @@ class _PropertiesState extends State<Properties> {
               if (state is NoInternetSate) {
                 noInternetDialog(context);
               }
+              // else if(state is PropertiesError){
+              //   showDialog(context: context, builder: (context) =>AlertDialog(
+              //     icon:  Icon(Icons.error_outline,size:35,color: ColorConstant.red,),
+              //     content: SizedBox(
+              //     child: Text(
+              //             state.failure.message,
+              //             textAlign: TextAlign.center,
+              //             style: Theme.of(context).textTheme.bodySmall,
+              //           ),
+              //   ),));
+              // }
             },
             builder: (context, state) {
               if (state is PropertiesLoading) {
@@ -95,12 +106,20 @@ class _PropertiesState extends State<Properties> {
                     ),
                   );
                 }
-              } else if (state is PropertiesError) {
+              }
+              else if(state is PropertiesError){
                 return SliverToBoxAdapter(
                   child: SizedBox(
-                    child: Text(
-                      state.failure.message,
-                      style: Theme.of(context).textTheme.bodySmall,
+                    child: Center(
+                      child: Column(
+                        children: [
+                          Icon(Icons.error_outline,size: 25,color: ColorConstant.red,),
+                          Text(
+                            state.failure.message,
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 );

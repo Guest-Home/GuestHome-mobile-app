@@ -119,7 +119,25 @@ class GeneralInformation extends StatelessWidget {
                           child: loadingIndicator(),
                         ));
                   }
-                  if (state is UserProfileLoadedState) {
+                  else if(state is ProfileErrorState){
+                    return  SizedBox(
+                        height: MediaQuery.of(context).size.height/2,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.error_outline,size: 25,color: ColorConstant.red,),
+                              Text(
+                                state.failure.message,
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                            ],
+                          ),
+                        ),
+
+                    );
+                  }
+                 else if (state is UserProfileLoadedState) {
                     phone.text = state.userProfileEntity.phoneNumber;
                     fullName.text =
                         "${state.userProfileEntity.userAccount.firstName} ${state.userProfileEntity.userAccount.lastName}";
@@ -140,14 +158,14 @@ class GeneralInformation extends StatelessWidget {
                                           updateProfileState
                                               .profilePhoto!.path.isNotEmpty)
                                       ? CircleAvatar(
-                                          radius: 43,
+                                          radius:50,
                                           backgroundColor:
                                               ColorConstant.cardGrey,
                                           backgroundImage: FileImage(File(
                                               updateProfileState
                                                   .profilePhoto!.path)))
                                       : CircleAvatar(
-                                          radius: 43,
+                                          radius: 50,
                                           backgroundColor:
                                               ColorConstant.cardGrey,
                                           backgroundImage: state

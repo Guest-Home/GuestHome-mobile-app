@@ -60,7 +60,9 @@ class UserProfileDataSourceImple implements UserProfileDataSource {
       );
       formData.files.add(MapEntry('profilePicture', multipartFile));
     }
-
+    print(formData.files);
+    print(userData.image!.path);
+    print(formData.fields);
     try {
       final response =
           await sl<DioClient>().put(ApiUrl.customer, data: formData);

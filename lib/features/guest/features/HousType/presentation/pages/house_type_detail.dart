@@ -365,7 +365,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
             if (state is FilterDataLoadedState) {
 
             } else if (state is FilterErrorState) {
-              showErrorSnackBar(context, state.failure.message);
+              showWarningSnackBar(context, state.failure.message);
             }
           },
           child: BlocBuilder<FilterBloc, FilterState>(

@@ -198,7 +198,25 @@ class _AnalyticsState extends State<Analytics> {
                   builder: (context, state) {
                     if (state.occupancyRateEntity.last7Days == null) {
                       return Center(child: loadingIndicator());
-                    } else {
+                    }
+                    else if(state is AnalyticsErrorState){
+                      return SliverToBoxAdapter(
+                        child: SizedBox(
+                          child: Center(
+                            child: Column(
+                              children: [
+                                Icon(Icons.error_outline,size: 25,color: ColorConstant.red,),
+                                Text(
+                                  state.failure.message,
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                    else {
                       if (state.selectedDate == '30 Days') {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -374,7 +392,7 @@ class _AnalyticsState extends State<Analytics> {
         saveText: "Update",
         builder: (BuildContext context, Widget? child) {
           return Container(
-            margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
+
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
             ),

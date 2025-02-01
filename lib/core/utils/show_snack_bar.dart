@@ -27,7 +27,31 @@ showErrorSnackBar(BuildContext context, String message) =>
       backgroundColor: ColorConstant.snacErrorBg,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
     ));
-
+showWarningSnackBar(BuildContext context, String message) =>
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: ListTile(
+        leading: SvgPicture.asset(
+          'assets/icons/warning.svg',
+          semanticsLabel: 'language',
+          fit: BoxFit.cover,
+        ),
+        title: Text("Information",
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: Colors.blue,
+                fontWeight: FontWeight.w700,
+                fontSize: 14)),
+        subtitle: Text(message,
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                fontSize: 12,
+                color: Colors.blue,
+                fontWeight: FontWeight.w500)),
+      ),
+      behavior: SnackBarBehavior.floating,
+      elevation: 0,
+      padding: EdgeInsets.all(0),
+      backgroundColor: ColorConstant.snacWrningBg,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+    ));
 showSuccessSnackBar(BuildContext context, String message) =>
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: ListTile(
@@ -69,7 +93,7 @@ Future<dynamic> noInternetDialog(BuildContext context) {
       ),
       iconColor: ColorConstant.red,
       title: Text(
-        "No connection! please check your internet connection",
+        "No connection! please check your internet connection and try again",
         textAlign: TextAlign.center,
       ),
       titleTextStyle:
