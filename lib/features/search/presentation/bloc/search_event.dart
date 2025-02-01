@@ -14,3 +14,6 @@ class HostSearchPropertyEvent extends SearchEvent{
   final String name;
   const HostSearchPropertyEvent({required this.name});
 }
+class LoadMoreGuestPropertiesEvent extends SearchEvent {
+}
+class LoadMoreHostPropertiesEvent extends SearchEvent {}

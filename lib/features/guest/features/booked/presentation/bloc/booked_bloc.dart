@@ -15,7 +15,7 @@ class BookedBloc extends Bloc<BookedEvent, BookedState> {
   BookedBloc() : super(BookedInitial()) {
     on<GetMyBookingEvent>((event, emit)async {
       emit(MyBookingLoadingState(state));
-      Either response= await sl<GetMyBookingUseCase>().call();
+      Either response= await sl<GetMyBookingUseCase>().call("");
       response.fold((l) => emit(MyBookingErrorState(state,failure: l)), (r) => emit(
         state.copyWith(booking: r)
       ),);
@@ -29,5 +29,26 @@ class BookedBloc extends Bloc<BookedEvent, BookedState> {
       Either response=await sl<CancelBookingUseCase>().call(event.id);
       response.fold((l) => emit(CancelBookingErrorState(failure: l)), (r) => emit(CancelBookingSuccessState()),);
     },);
+
+    on<LoadMoreBookedEvent>(_loadMoreProperties);
+
+  }
+
+  void _loadMoreProperties(LoadMoreBookedEvent event, Emitter<BookedState> emit) async {
+    if (state is! MyBookingLoadingMoreState && state.booking.next != null) {
+      emit(MyBookingLoadingMoreState(state));
+      final response = await sl<GetMyBookingUseCase>().call(state.booking.next!);
+      response.fold(
+            (l) => emit(MyBookingErrorState(state, failure: l)),
+            (r) {
+              MyBookingEntity updatedBooking = state.booking;
+              updatedBooking.results!.addAll(r.results!);
+              updatedBooking.next!=r.next;
+              updatedBooking.count!=r.count;
+              updatedBooking.previous!=r.previous;
+          emit(state.copyWith(booking: updatedBooking));
+        },
+      );
+    }
   }
 }

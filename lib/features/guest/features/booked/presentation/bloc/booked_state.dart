@@ -21,6 +21,11 @@ class MyBookingLoadingState extends BookedState{
      booking: currentState.booking
    );
 }
+class MyBookingLoadingMoreState extends BookedState{
+  MyBookingLoadingMoreState(BookedState currentState):super(
+     booking: currentState.booking
+   );
+}
 class MyBookingLoadedState extends BookedState{
    MyBookingLoadedState(BookedState currentState):super(
       booking: currentState.booking

@@ -23,3 +23,5 @@ class AddIsNearSearchEvent extends FilterEvent{
 class ResetEvent extends FilterEvent{}
 
 class FilterPropertyEvent extends FilterEvent{}
+
+class LoadMoreFilterPropertiesEvent extends FilterEvent {}

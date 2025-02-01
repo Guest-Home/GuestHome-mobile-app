@@ -10,6 +10,7 @@ import 'package:minapp/features/guest/features/booked/presentation/bloc/booked_b
 import 'package:minapp/features/guest/features/booked/presentation/widgets/booked_card.dart';
 
 import '../../../../../../core/common/enum/reservation_status_enum.dart';
+import '../../../../../../core/common/spin_kit_loading.dart';
 import '../../../../../../core/utils/get_token.dart';
 
 class Booked extends StatelessWidget {
@@ -74,29 +75,47 @@ class Booked extends StatelessWidget {
                           }
                          else if(state.booking.results!.isNotEmpty){
                           return
-                            ListView.builder(
-                            padding: EdgeInsets.all(10),
-                            itemCount: state.booking.results!.length,
-                            itemBuilder: (context, index) => GestureDetector(
-                              onTap: () async {
-                                final token = await GetToken().getUserToken();
-                                if( getStatus(state.booking.results![index].status!)==BookingStatus.approved){
-                                  context.goNamed('bookedDetail',
-                                      pathParameters: {'token': token},
-                                      extra: state.booking.results![index].id);
-                                }else{
-                                  context.goNamed('bookedDetailNonApproved',
-                                      pathParameters: {'token': token},
-                                      extra: state.booking.results![index]);
+                            NotificationListener<ScrollNotification>(
+                              onNotification: (scrollInfo) {
+                                if (scrollInfo.metrics.pixels ==
+                                    scrollInfo.metrics.maxScrollExtent) {
+                                  context.read<BookedBloc>().add(LoadMoreBookedEvent());
                                 }
+                                return false;
                               },
-                              child: BookedCard(
-                                width: MediaQuery.of(context).size.width,
-                                height: 400,
-                                property: state.booking.results![index],
+                              child: ListView.builder(
+                              padding: EdgeInsets.all(10),
+                              itemCount: state.booking.results!.length+
+                                  (state is MyBookingLoadingMoreState
+                                      ? 1
+                                      : 0),
+                              itemBuilder: (context, index){
+                                if (index >= state.booking.results!.length) {
+                                  return Center(
+                                      child: loadingWithPrimary);
+                                }
+                                return  GestureDetector(
+                                  onTap: () async {
+                                    final token = await GetToken().getUserToken();
+                                    if( getStatus(state.booking.results![index].status!)==BookingStatus.approved){
+                                      context.goNamed('bookedDetail',
+                                          pathParameters: {'token': token},
+                                          extra: state.booking.results![index].id);
+                                    }else{
+                                      context.goNamed('bookedDetailNonApproved',
+                                          pathParameters: {'token': token},
+                                          extra: state.booking.results![index]);
+                                    }
+                                  },
+                                  child: BookedCard(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 400,
+                                    property: state.booking.results![index],
+                                  ),
+                                );
+                              }
                               ),
-                            ),
-                          );
+                            );
                         }
                          else if(state is MyBookingErrorState){
                           return SizedBox(

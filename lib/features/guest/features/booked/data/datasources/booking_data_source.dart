@@ -12,16 +12,16 @@ import '../../../../../../core/network/dio_client.dart';
 import '../../../../../../service_locator.dart';
 
 abstract class BookingDataSource {
-  Future<Either<Failure, MyBookingModel>> getMyBookings();
+  Future<Either<Failure, MyBookingModel>> getMyBookings(String url);
   Future<Either<Failure, bool>> cancelMyBookings(int id);
   Future<Either<Failure, BookedDetailModel>> getMyBooking(int id);
 }
 
 class BookingDataSourceImpl extends BookingDataSource {
   @override
-  Future<Either<Failure, MyBookingModel>> getMyBookings() async {
+  Future<Either<Failure, MyBookingModel>> getMyBookings(String url) async {
     try {
-      final response = await sl<DioClient>().get(ApiUrl.propertyBooking);
+      final response =url.isNotEmpty?await sl<DioClient>().get(url.substring(ApiUrl.baseUrl.length)):await sl<DioClient>().get(ApiUrl.propertyBooking);
       if (response.statusCode == 200) {
         final booking = await Isolate.run(
           () {

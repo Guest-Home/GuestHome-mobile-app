@@ -19,5 +19,28 @@ class HoustypeBloc extends Bloc<HoustypeEvent, HoustypeState> {
         properties: r
       )),);
     });
+    on<LoadMorePropertiesEvent>(_loadMoreProperties);
+
+  }
+
+  void _loadMoreProperties(LoadMorePropertiesEvent event, Emitter<HoustypeState> emit) async {
+    if (state is! HouseTypeLoadingMoreState && state.properties.next!= null) {
+      final currentProperties = state.properties;
+
+        emit(HouseTypeLoadingMoreState(state));
+        final response = await sl<GetHouseBytypeUsecase>().call(currentProperties.next!);
+        response.fold(
+              (l) => emit(HouseTYpeErrorState(state, failure: l)),
+              (r) {
+                final updatedProperties = currentProperties.copyWith(
+                  results: [...currentProperties.results!, ...r.results!],
+                  next: r.next, // Will be null when no more pages
+                  count: r.count,
+                  previous: r.previous,
+                );
+            emit(state.copyWith(properties: updatedProperties));
+          },
+        );
+    }
   }
 }

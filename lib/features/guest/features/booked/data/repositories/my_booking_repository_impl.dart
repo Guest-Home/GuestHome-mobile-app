@@ -12,8 +12,8 @@ import '../../../../../../service_locator.dart';
 
 class MyBookingRepositoryImpl implements MyBookingRepository{
   @override
-  Future<Either<Failure, MyBookingModel>> getMyBookings()async{
-    return await sl<BookingDataSource>().getMyBookings();
+  Future<Either<Failure, MyBookingModel>> getMyBookings(String url)async{
+    return await sl<BookingDataSource>().getMyBookings(url);
   }
 
   @override

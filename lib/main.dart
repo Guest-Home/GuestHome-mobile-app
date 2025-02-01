@@ -15,6 +15,7 @@ import 'package:minapp/features/host/features/profile/presentation/bloc/update_p
 import 'package:minapp/features/host/features/properties/presentation/bloc/amenities/amenities_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/city/city_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/property_type/property_type_bloc.dart';
+import 'package:minapp/features/search/presentation/bloc/search_bloc.dart';
 import 'package:minapp/service_locator.dart';
 import 'core/utils/custom_local_delegate.dart';
 import 'features/guest/features/HousType/presentation/bloc/filter_bloc/filter_bloc.dart';
@@ -88,6 +89,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => sl<UpdateProfileBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => sl<SearchBloc>(),
         ),
       ],
       child: BlocBuilder<LanguageBloc, LanguageState>(

@@ -3,7 +3,7 @@ part of 'houstype_bloc.dart';
 class HoustypeState extends Equatable {
     const HoustypeState({this.properties=const GpropertyEntity()});
 
-  final GpropertyEntity properties;
+    final GpropertyEntity properties;
 
    HoustypeState copyWith({
      GpropertyEntity? properties
@@ -27,6 +27,11 @@ class HouseTypeLoadingState extends HoustypeState {
 
 class HouseTYpeLoadedState extends HoustypeState {
    HouseTYpeLoadedState(HoustypeState currentState):super(
+      properties: currentState.properties
+  );
+}
+class HouseTypeLoadingMoreState extends HoustypeState {
+  HouseTypeLoadingMoreState(HoustypeState currentState):super(
       properties: currentState.properties
   );
 }

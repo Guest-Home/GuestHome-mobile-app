@@ -11,3 +11,4 @@ class GetPropertyByHouseTypeEvent extends HoustypeEvent {
   final String name;
   const GetPropertyByHouseTypeEvent({required this.name});
 }
+class LoadMorePropertiesEvent extends HoustypeEvent {}

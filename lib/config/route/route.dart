@@ -163,10 +163,7 @@ Future<GoRouter> createRouter() async {
                       name: 'hostSearch',
                       path: '/hostSearch',
                       builder: (context, state) {
-                        return BlocProvider(
-                          create: (context) => sl<SearchBloc>(),
-                          child: Search(),
-                        );
+                        return Search();
                       },
                     ),
                   ]),
@@ -317,10 +314,7 @@ Future<GoRouter> createRouter() async {
                             name: 'search',
                             path: '/search',
                             builder: (context, state) {
-                              return BlocProvider(
-                                create: (context) => sl<SearchBloc>(),
-                                child: Search(),
-                              );
+                              return  Search();
                             },
                           ),
                         ]),

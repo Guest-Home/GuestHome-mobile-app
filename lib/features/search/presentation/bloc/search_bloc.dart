@@ -15,15 +15,37 @@ part 'search_state.dart';
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   SearchBloc() : super(SearchInitial()) {
     on<SearchPropertyEvent>((event, emit)async{
-        emit(SearchLoading());
+        emit(SearchLoading(state));
         Either response=await sl<SearchPropertyUseCase>().call(event.name);
-        response.fold((l) => emit(SearchErrorState(failure: l)),(r) => emit(SearchGuestLodeState(property: r)));
+        response.fold((l) => emit(SearchErrorState(state,failure: l)),(r) => emit(state.copyWith(property: r)));
 
     });
     on<HostSearchPropertyEvent>((event, emit)async{
-      emit(SearchLoading());
+      emit(SearchLoading(state));
       Either response=await sl<HostSearchPropertyUseCase>().call(event.name);
-      response.fold((l) => emit(SearchErrorState(failure: l)),(r) => emit(SearchHostLodeState(properties: r)),);
+      response.fold((l) => emit(SearchErrorState(state,failure: l)),(r) => emit(state.copyWith(hostProperties: r)),);
     });
+    on<LoadMoreGuestPropertiesEvent>(_loadMoreProperties);
+
   }
+  void _loadMoreProperties(LoadMoreGuestPropertiesEvent event, Emitter<SearchState> emit) async {
+    if (state is! SearchGuestLoadingMoreState && state.property.next != null) {
+      final currentProperties = state.property;
+      emit(SearchGuestLoadingMoreState(state));
+      final response = await sl<SearchPropertyUseCase>().call(currentProperties.next);
+      response.fold(
+            (l) => emit(SearchErrorState(state,failure: l)),
+            (r) {
+              final updatedProperties = currentProperties.copyWith(
+                results: [...currentProperties.results!, ...r.results!],
+                next: r.next,
+                count: r.count,
+                previous: r.previous,
+              );
+          emit(state.copyWith(property: updatedProperties));
+        },
+      );
+    }
+  }
+
 }

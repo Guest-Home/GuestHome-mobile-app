@@ -10,6 +10,8 @@ class FilterState extends Equatable {
   final RangeValues priceRange;
   final bool isNearSearch;
 
+  final GpropertyEntity properties;
+
   const FilterState({
      this.category='',
      this.city='',
@@ -17,7 +19,8 @@ class FilterState extends Equatable {
      this.longtiude=0.0,
     this.range=0,
     this.priceRange=const RangeValues(100, 5000),
-    this.isNearSearch=false
+    this.isNearSearch=false,
+    this.properties=const GpropertyEntity()
 });
 
   FilterState copyWith({
@@ -27,7 +30,8 @@ class FilterState extends Equatable {
     double? longtiude,
     int? range,
     RangeValues? priceRange,
-    bool? isNearSearch
+    bool? isNearSearch,
+    GpropertyEntity? properties
   }){
     return FilterState(
       category: category??this.category,
@@ -36,12 +40,13 @@ class FilterState extends Equatable {
       longtiude: longtiude??this.longtiude,
       range: range??this.range,
       priceRange: priceRange??this.priceRange,
-      isNearSearch: isNearSearch??this.isNearSearch
+      isNearSearch: isNearSearch??this.isNearSearch,
+        properties: properties??this.properties
     );
   }
 
   @override
-  List<Object?> get props =>[category,city,longtiude,latitude,range,priceRange,isNearSearch];
+  List<Object?> get props =>[category,city,longtiude,latitude,range,priceRange,isNearSearch,properties];
 
 }
 
@@ -54,21 +59,36 @@ class FilterDataLoadingState extends FilterState{
     longtiude: currentState.longtiude,
     latitude: currentState.latitude,
     city: currentState.city,
-    category: currentState.category
+    category: currentState.category,
+      properties: currentState.properties
+
   );
 }
 class FilterDataLoadedState extends FilterState{
-  final GpropertyEntity properties;
-   FilterDataLoadedState({required FilterState currentState, required this.properties}):super(
+   FilterDataLoadedState({required FilterState currentState}):super(
       isNearSearch: currentState.isNearSearch,
       priceRange: currentState.priceRange,
       range: currentState.range,
       longtiude: currentState.longtiude,
       latitude: currentState.latitude,
       city: currentState.city,
-      category: currentState.category
+      category: currentState.category,
+     properties: currentState.properties
   );
 }
+class FilterDataLoadingMoreState extends FilterState{
+  FilterDataLoadingMoreState({required FilterState currentState}):super(
+      isNearSearch: currentState.isNearSearch,
+      priceRange: currentState.priceRange,
+      range: currentState.range,
+      longtiude: currentState.longtiude,
+      latitude: currentState.latitude,
+      city: currentState.city,
+      category: currentState.category,
+      properties: currentState.properties
+  );
+}
+
 class FilterErrorState extends FilterState{
   final Failure failure;
     FilterErrorState({required FilterState currentState,required this.failure}):super(
@@ -78,6 +98,8 @@ class FilterErrorState extends FilterState{
        longtiude: currentState.longtiude,
        latitude: currentState.latitude,
        city: currentState.city,
-       category: currentState.category
-   );
+       category: currentState.category,
+        properties: currentState.properties
+
+    );
 }

@@ -28,6 +28,11 @@ class PopularPropertyLoadedState extends PopularPropertyState{
         properties: currentState.properties
     );
 }
+class PopularPropertyLoadingMoreState extends PopularPropertyState {
+  PopularPropertyLoadingMoreState(PopularPropertyState currentState):super(
+      properties: currentState.properties
+  );
+}
 
 class PopularPropertyErrorState extends PopularPropertyState{
   final Failure failure;

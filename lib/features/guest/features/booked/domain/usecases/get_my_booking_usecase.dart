@@ -8,10 +8,10 @@ import 'package:minapp/features/guest/features/booked/domain/repositories/my_boo
 
 import '../../../../../../service_locator.dart';
 
-class GetMyBookingUseCase extends UseCaseWithOutProp<Either<Failure,MyBookingEntity>>{
+class GetMyBookingUseCase extends UseCase<Either<Failure,MyBookingEntity>,String>{
   @override
-  Future<Either<Failure, MyBookingEntity>> call()async{
-    return await sl<MyBookingRepository>().getMyBookings();
+  Future<Either<Failure, MyBookingEntity>> call(param)async{
+    return await sl<MyBookingRepository>().getMyBookings(param);
   }
 
 }

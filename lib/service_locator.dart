@@ -92,6 +92,7 @@ import 'package:minapp/features/search/presentation/bloc/search_bloc.dart';
 
 import 'features/auth/domain/usecases/create_customer_profile_usecase.dart';
 import 'features/auth/domain/usecases/create_tg_otp_usecase.dart';
+import 'features/guest/features/HousType/domain/usecases/filter_next_usecase.dart';
 import 'features/guest/features/booked/domain/usecases/get_booking_detail_usecase.dart';
 import 'features/host/features/profile/domain/usecases/get_commision_usecase.dart';
 import 'features/search/domain/usecases/host_search_property_usecase.dart';
@@ -207,6 +208,7 @@ void setup() async {
   sl.registerSingleton<VerifyTgOtpUsecase>(VerifyTgOtpUsecase());
   sl.registerSingleton<DepositUseCase>(DepositUseCase());
   sl.registerSingleton<GetCommissionUseCase>(GetCommissionUseCase());
+  sl.registerSingleton<FilterNextUseCase>(FilterNextUseCase());
 
   // repository
 

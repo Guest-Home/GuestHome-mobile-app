@@ -12,17 +12,18 @@ import '../../../../../../core/network/dio_client.dart';
 
 abstract class HouseDataSource {
   Future<Either<Failure, GpropertyModel>> getPropertyByType(String name);
-  Future<Either<Failure, GpropertyModel>> getPopularProperty();
+  Future<Either<Failure, GpropertyModel>> getPopularProperty(String? url);
   Future<Either<Failure, bool>> bookingProperty(Map<String, dynamic> bookData);
   Future<Either<Failure, GpropertyModel>> filterProperty(
       Map<String, dynamic> filterData);
+  Future<Either<Failure, GpropertyModel>> filterNextProperty(Map<String,dynamic> filterData);
 }
 
 class HouseDataSourceImpl implements HouseDataSource {
   @override
   Future<Either<Failure, GpropertyModel>> getPropertyByType(String name) async {
     try {
-      final response =
+      final response =name.contains(ApiUrl.baseUrl)?await sl<DioClient>().get(name.substring(ApiUrl.baseUrl.length)):
           await sl<DioClient>().get("${ApiUrl.propertyByType}?category=$name");
       if (response.statusCode == 200) {
         final properties = await Isolate.run(
@@ -41,9 +42,9 @@ class HouseDataSourceImpl implements HouseDataSource {
   }
 
   @override
-  Future<Either<Failure, GpropertyModel>> getPopularProperty() async {
+  Future<Either<Failure, GpropertyModel>> getPopularProperty(String? url) async {
     try {
-      final response = await sl<DioClient>().get(ApiUrl.tradingProperty);
+      final response =url!.isNotEmpty?await sl<DioClient>().get(url.substring(ApiUrl.baseUrl.length)): await sl<DioClient>().get(ApiUrl.tradingProperty);
       if (response.statusCode == 200) {
         final properties = await Isolate.run(
           () {
@@ -84,6 +85,28 @@ class HouseDataSourceImpl implements HouseDataSource {
       if (response.statusCode == 200) {
         final properties = await Isolate.run(
           () {
+            return gpropertyModelFromMap(response.data);
+          },
+        );
+        return Right(properties);
+      } else {
+        return Left(ServerFailure(response.data['msg']));
+      }
+    } on DioException catch (e) {
+      return Left(ServerFailure(e.response!.data['msg'] ?? "".toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, GpropertyModel>> filterNextProperty(Map<String,dynamic> filterData)async{
+    try {
+      final url=filterData['url'];
+      Map<String, dynamic> dataItem = Map.from(filterData)..remove("url");
+      final response =
+          await sl<DioClient>().post(url!.substring(ApiUrl.baseUrl.length),data: dataItem);
+      if (response.statusCode == 200) {
+        final properties = await Isolate.run(
+              () {
             return gpropertyModelFromMap(response.data);
           },
         );

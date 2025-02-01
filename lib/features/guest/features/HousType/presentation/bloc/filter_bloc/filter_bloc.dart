@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:minapp/core/error/failure.dart';
 import 'package:minapp/features/guest/features/HousType/domain/entities/g_property_entity.dart';
+import 'package:minapp/features/guest/features/HousType/domain/usecases/filter_next_usecase.dart';
 import 'package:minapp/features/guest/features/HousType/domain/usecases/filter_property_usecase.dart';
 
 import '../../../../../../../core/utils/get_location.dart';
@@ -53,7 +54,44 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
       emit(FilterDataLoadingState(state));
       Either response= await sl<FilterPropertyUseCase>().call(filterData);
       response.fold((l) => emit(FilterErrorState(currentState: state, failure: l)),
-            (r) => emit(FilterDataLoadedState(currentState: state, properties: r)),);
+            (r){
+              emit(state.copyWith(properties: r));
+              emit(FilterDataLoadedState(currentState: state));
+            });
     },);
+    on<LoadMoreFilterPropertiesEvent>(_loadMoreProperties,);
+  }
+
+  void _loadMoreProperties(LoadMoreFilterPropertiesEvent event, Emitter<FilterState> emit) async {
+    if (state is! FilterDataLoadingMoreState && state.properties.next != null) {
+      final currentProperties = state.properties;
+      Map<String,dynamic> filterData={
+        "url":currentProperties.next,
+          if(state.latitude!=0.0)
+            "latitude":state.latitude,
+          if(state.longtiude!=0.0)
+            "longitude":state.longtiude,
+          if(state.latitude!=0.0|| state.longtiude!=0.0)
+            "range": 10,//in KM
+          "minPrice": state.priceRange.start.ceil(),
+          "maxPrice": state.priceRange.end.ceil(),
+          "city":state.city,
+          "category": state.category
+      };
+      emit(FilterDataLoadingMoreState(currentState: state));
+      final response = await sl<FilterNextUseCase>().call(filterData);
+      response.fold(
+            (l) => emit(FilterErrorState(currentState: state, failure: l)),
+            (r) {
+              final updatedProperties = currentProperties.copyWith(
+                results: [...currentProperties.results!, ...r.results!],
+                next: r.next, // Will be null when no more pages
+                count: r.count,
+                previous: r.previous,
+              );
+          emit(state.copyWith(properties: updatedProperties));
+        },
+      );
+    }
   }
 }

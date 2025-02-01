@@ -14,3 +14,4 @@ class CancelBookingEvent extends BookedEvent{
   final int id;
   const CancelBookingEvent({required this.id});
 }
+class LoadMoreBookedEvent extends BookedEvent {}

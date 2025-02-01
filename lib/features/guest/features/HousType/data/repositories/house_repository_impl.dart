@@ -13,11 +13,7 @@ class HouseRepositoryImpl implements HouseRepository {
     return await sl<HouseDataSource>().getPropertyByType(name);
   }
 
-  @override
-  Future<Either<Failure, GpropertyModel>> getPopularProperty()async {
-    return await sl<HouseDataSource>().getPopularProperty();
 
-  }
 
   @override
   Future<Either<Failure, bool>> bookingProperty(Map<String, dynamic> bookData)async{
@@ -25,7 +21,18 @@ class HouseRepositoryImpl implements HouseRepository {
   }
 
   @override
-  Future<Either<Failure, GpropertyEntity>> filterProperty(Map<String, dynamic> filterData)async{
+  Future<Either<Failure, GpropertyModel>> filterProperty(Map<String, dynamic> filterData)async{
     return await sl<HouseDataSource>().filterProperty(filterData);
+  }
+
+  @override
+  Future<Either<Failure, GpropertyModel>> getPopularProperty(String? url)async{
+      return await sl<HouseDataSource>().getPopularProperty(url);
+
+  }
+
+  @override
+  Future<Either<Failure, GpropertyModel>> filterNextProperty(Map<String,dynamic> filterData) async{
+    return await sl<HouseDataSource>().filterNextProperty(filterData);
   }
 }

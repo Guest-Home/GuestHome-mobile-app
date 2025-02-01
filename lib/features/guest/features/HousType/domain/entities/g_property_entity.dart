@@ -14,6 +14,21 @@ class GpropertyEntity extends Equatable {
     this.results,
   });
 
+
+ GpropertyEntity copyWith({
+   List<ResultEntity>? results,
+   dynamic next,
+   int? count,
+   String? previous,
+ }) {
+   return GpropertyEntity(
+     results: results ?? this.results,
+     next: next,
+     count: count ?? this.count,
+     previous: previous ?? this.previous,
+   );
+ }
+
   @override
   List<Object?> get props =>[count,next,previous,results];
 }
