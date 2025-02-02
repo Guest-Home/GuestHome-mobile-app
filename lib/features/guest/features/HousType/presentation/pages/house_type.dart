@@ -39,7 +39,7 @@ class HouseType extends StatelessWidget {
           children: [
             //carousel
             SizedBox(
-                height: MediaQuery.of(context).size.height * 0.27,
+                height: MediaQuery.of(context).size.height * 0.30,
                 width: MediaQuery.of(context).size.width,
                 child: RepaintBoundary(
                   child: Stack(
@@ -62,33 +62,20 @@ class HouseType extends StatelessWidget {
 
                         )),
                       Positioned(
-                          bottom: 8,
-                          left: 0,
-                          right: 0,
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                    height: 17,
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 5),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(100),
-                                      color: Colors.black.withValues(alpha: 0.2),
-                                    ),
-                                    child: Row(
-                                      children: List.generate(
-                                          3,
-                                              (index) => Container(
-                                            width: 5,
-                                            height: 5,
-                                            margin: EdgeInsets.only(right: 5),
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Colors.white),
-                                          )),
-                                    ))
-                              ]))
+                        bottom:10,
+                          left: 10,right: 10,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text("Discover the ultimate solution for all your property needs with our app.",
+                            textAlign: TextAlign.start,
+                            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16
+
+                            ),
+                            ),
+                          ))
         ]
                   ),
                 )),

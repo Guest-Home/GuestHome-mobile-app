@@ -38,22 +38,23 @@ class HouseDetail extends StatelessWidget {
                   child: Stack(
                     children: [
                       CarouselView(
-                          itemExtent: MediaQuery.of(context).size.width,
-                          children: List.generate(
-                            property.houseImage!.length,
-                            (index) => ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: CachedNetworkImage(
-                                imageUrl: property.houseImage![index].image!,
-                                placeholder: (context, url) =>
-                                    CupertinoActivityIndicator(),
-                                errorWidget: (context, url, error) =>
-                                    Icon(Icons.error),
-                                fit: BoxFit.cover,
-                                width: MediaQuery.of(context).size.width,
+                            itemExtent: MediaQuery.of(context).size.width,
+                            children: List.generate(
+                              property.houseImage!.length,
+                              (index) => ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: CachedNetworkImage(
+                                  imageUrl: property.houseImage![index].image!,
+                                  placeholder: (context, url) =>
+                                      CupertinoActivityIndicator(),
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
+                                  fit: BoxFit.cover,
+                                  width: MediaQuery.of(context).size.width,
+                                ),
                               ),
-                            ),
-                          )),
+                            )),
+
                       Positioned(
                           bottom: 10,
                           left: 0,
