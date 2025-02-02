@@ -8,8 +8,8 @@ import '../../../../../../service_locator.dart';
 
 class ReservationRepositoryImpl implements ReservationRepository{
   @override
-  Future<Either<Failure, ReservationModel>> getReservation()async {
-    return await sl<ReservationApiDataSource>().getReservation();
+  Future<Either<Failure, ReservationModel>> getReservation(String url)async {
+    return await sl<ReservationApiDataSource>().getReservation(url);
   }
 
   @override

@@ -18,3 +18,4 @@ class RejectReservationEvent extends RequestEvent{
   final int id;
   const RejectReservationEvent({required this.id});
 }
+class LoadMoreReservationEvent extends RequestEvent {}

@@ -3,17 +3,31 @@ ReservationModel reservationFromMap(Map<String,dynamic> str) => ReservationModel
 
 
 class ReservationModel {
-   int? count;
-   dynamic next;
-   dynamic previous;
-   List<Result>? results;
+  final int? count;
+  final dynamic next;
+  final dynamic previous;
+  final List<Result>? results;
 
-   ReservationModel({
+   const ReservationModel({
     this.count,
     this.next,
     this.previous,
     this.results,
   });
+
+  ReservationModel copyWith({
+    List<Result>? results,
+    dynamic next,
+    int? count,
+    String? previous,
+  }) {
+    return ReservationModel(
+      results: results ?? this.results,
+      next: next,
+      count: count ?? this.count,
+      previous: previous ?? this.previous,
+    );
+  }
 
   factory ReservationModel.fromMap(Map<String, dynamic> json) => ReservationModel(
     count: json["count"],

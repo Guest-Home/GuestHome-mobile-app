@@ -1,32 +1,68 @@
 part of 'request_bloc.dart';
 
-abstract class RequestState extends Equatable {
+class RequestState extends Equatable {
+  const RequestState({this.reservation=const ReservationModel()});
+
+  final ReservationModel reservation;
+  RequestState copyWith({
+    ReservationModel? reservation
+  }){
+    return RequestState(
+        reservation: reservation??this.reservation
+    );
+  }
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [reservation];
 }
 class RequestInitial extends RequestState {}
 
-class ReservationLoadingState extends RequestState{}
+class ReservationLoadingState extends RequestState{
+  ReservationLoadingState(RequestState currentState):super(
+    reservation: currentState.reservation
+  );
+}
 
 class ReservationLoadedState extends RequestState{
-  final ReservationModel reservation;
-   ReservationLoadedState({required this.reservation});
-
+   ReservationLoadedState(RequestState currentState):super(
+       reservation: currentState.reservation
+   );
 }
 
 class ReservationErrorState extends RequestState{
   final Failure failure;
-  ReservationErrorState({required this.failure,});
+  ReservationErrorState(RequestState currentState,{required this.failure,}):super(
+  reservation: currentState.reservation
+  );
 }
 
 
-class AcceptingReservationState extends RequestState{}
+class AcceptingReservationState extends RequestState{
+  AcceptingReservationState(RequestState currentState):super(
+      reservation: currentState.reservation
+  );
+}
+
 class AcceptedReservationState extends RequestState{
   final bool isAccepted;
-  AcceptedReservationState({required this.isAccepted});
+  AcceptedReservationState(RequestState currentState,{required this.isAccepted}):super(
+  reservation: currentState.reservation
+  );
 }
-class RejectingReservationState extends RequestState{}
+class RejectingReservationState extends RequestState{
+  RejectingReservationState(RequestState currentState):super(
+      reservation: currentState.reservation
+  );
+}
 class RejectedReservationState extends RequestState{
   final bool isRejected;
-  RejectedReservationState({required this.isRejected});
+  RejectedReservationState(RequestState currentState,{required this.isRejected}):super(
+reservation: currentState.reservation
+);
+}
+
+class ReservationLoadingMoreState extends RequestState {
+  ReservationLoadingMoreState(RequestState currentState):super(
+      reservation: currentState.reservation
+  );
 }

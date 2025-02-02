@@ -10,16 +10,16 @@ import '../../../../../../core/network/dio_client.dart';
 import '../../../../../../service_locator.dart';
 
 abstract class ReservationApiDataSource {
-  Future<Either<Failure, ReservationModel>> getReservation();
+  Future<Either<Failure, ReservationModel>> getReservation(String url);
   Future<Either<Failure, bool>> acceptReservation(int id);
   Future<Either<Failure, bool>> rejectReservation(int id);
 }
 
 class ReservationApiDataSourceImpl implements ReservationApiDataSource {
   @override
-  Future<Either<Failure, ReservationModel>> getReservation() async {
+  Future<Either<Failure, ReservationModel>> getReservation(String url) async {
     try {
-      final response = await sl<DioClient>().get(ApiUrl.reservations);
+      final response =url.isNotEmpty?await sl<DioClient>().get(url.substring(ApiUrl.baseUrl.length)): await sl<DioClient>().get(ApiUrl.reservations);
       if (response.statusCode == 200) {
         final reservation = await Isolate.run(
           () {

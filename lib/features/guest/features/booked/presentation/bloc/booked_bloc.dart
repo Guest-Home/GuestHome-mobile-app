@@ -36,17 +36,20 @@ class BookedBloc extends Bloc<BookedEvent, BookedState> {
 
   void _loadMoreProperties(LoadMoreBookedEvent event, Emitter<BookedState> emit) async {
     if (state is! MyBookingLoadingMoreState && state.booking.next != null) {
+      final currentProperties = state.booking;
+
       emit(MyBookingLoadingMoreState(state));
-      final response = await sl<GetMyBookingUseCase>().call(state.booking.next!);
+      final response = await sl<GetMyBookingUseCase>().call(currentProperties.next!);
       response.fold(
             (l) => emit(MyBookingErrorState(state, failure: l)),
             (r) {
-              MyBookingEntity updatedBooking = state.booking;
-              updatedBooking.results!.addAll(r.results!);
-              updatedBooking.next!=r.next;
-              updatedBooking.count!=r.count;
-              updatedBooking.previous!=r.previous;
-          emit(state.copyWith(booking: updatedBooking));
+              final updatedProperties = currentProperties.copyWith(
+                results: [...currentProperties.results!, ...r.results!],
+                next: r.next, // Will be null when no more pages
+                count: r.count,
+                previous: r.previous,
+              );
+          emit(state.copyWith(booking: updatedProperties));
         },
       );
     }

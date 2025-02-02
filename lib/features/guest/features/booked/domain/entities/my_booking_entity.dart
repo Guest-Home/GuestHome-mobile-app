@@ -15,6 +15,19 @@ class MyBookingEntity extends Equatable{
     this.previous,
     this.results,
   });
+ MyBookingEntity copyWith({
+   List<ResultBookingEntity>? results,
+   dynamic next,
+   int? count,
+   String? previous,
+ }) {
+   return MyBookingEntity(
+     results: results ?? this.results,
+     next: next,
+     count: count ?? this.count,
+     previous: previous ?? this.previous,
+   );
+ }
 
   @override
   List<Object?> get props =>[count,next,previous,results];

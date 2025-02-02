@@ -7,9 +7,9 @@ import 'package:minapp/features/host/features/request/domain/repositories/reserv
 import '../../../../../../service_locator.dart';
 
 class GetRservationUseCase
-    extends UseCaseWithOutProp<Either<Failure, ReservationModel>> {
+    extends UseCase<Either<Failure, ReservationModel>,String> {
   @override
-  Future<Either<Failure, ReservationModel>> call() async {
-    return await sl<ReservationRepository>().getReservation();
+  Future<Either<Failure, ReservationModel>> call(param) async {
+    return await sl<ReservationRepository>().getReservation(param);
   }
 }

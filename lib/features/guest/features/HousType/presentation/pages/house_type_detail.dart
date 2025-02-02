@@ -223,13 +223,13 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                   );
                                 } else if (state.properties.count == 0 ||
                                     state.properties.results == null) {
-                                  // Center(
-                                  //   child: Text(
-                                  //     "no popular found",
-                                  //     style:Theme.of(context).textTheme.bodySmall,
-                                  //   ),
-                                  // );
-                                  return SizedBox.shrink();
+                                 return Center(
+                                    child: Text(
+                                      "no popular found",
+                                      style:Theme.of(context).textTheme.bodySmall,
+                                    ),
+                                  );
+
                                 } else if (state.properties.results!.isNotEmpty) {
                                   return SizedBox(
                                     height:
