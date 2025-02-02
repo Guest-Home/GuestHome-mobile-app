@@ -199,7 +199,16 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                 ],
                             );
                         }
-                        return Column(
+                        return NotificationListener<ScrollNotification>(
+                            onNotification: (scrollInfo) {
+                          if (scrollInfo.metrics.pixels ==
+                              scrollInfo.metrics.maxScrollExtent) {
+                            context.read<HoustypeBloc>().add(LoadMorePropertiesEvent());
+                          }
+                          return false;
+                        },
+                            child: SingleChildScrollView(
+                        child:   Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Padding(
@@ -215,8 +224,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                               builder: (context, state) {
                                 if (state is PopularPropertyLoadingState) {
                                   return SizedBox(
-                                    height:
-                                        MediaQuery.of(context).size.height * 0.40,
+                                    height: MediaQuery.of(context).size.height * 0.40,
                                     child: Center(
                                       child: loadingIndicator(),
                                     ),
@@ -232,11 +240,9 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
 
                                 } else if (state.properties.results!.isNotEmpty) {
                                   return SizedBox(
-                                    height:
-                                        MediaQuery.of(context).size.height * 0.42,
+                                    height: MediaQuery.of(context).size.height * 0.42,
                                     width: MediaQuery.of(context).size.width,
-                                    child:
-                                        NotificationListener<ScrollNotification>(
+                                    child: NotificationListener<ScrollNotification>(
                                       onNotification: (scrollInfo) {
                                         if (scrollInfo.metrics.pixels ==
                                             scrollInfo.metrics.maxScrollExtent) {
@@ -319,19 +325,9 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                     state.properties.results == null) {
                                   return _buildNoProperties();
                                 } else if (state.properties.results!.isNotEmpty) {
-                                  return  Expanded(
-                                    child:
-                                    NotificationListener<ScrollNotification>(
-                                      onNotification: (scrollInfo) {
-                                        if (scrollInfo.metrics.pixels ==
-                                            scrollInfo.metrics.maxScrollExtent) {
-                                          context.read<HoustypeBloc>().add(LoadMorePropertiesEvent());
-                                        }
-                                        return false;
-                                      },
-                                      child: ListView.builder(
-                                          // shrinkWrap: true,
-                                          // physics: NeverScrollableScrollPhysics(),
+                                  return   ListView.builder(
+                                          shrinkWrap: true,
+                                          physics: NeverScrollableScrollPhysics(),
                                           itemCount: state.properties.results!.length +
                                               (state is HouseTypeLoadingMoreState
                                                   ? 1
@@ -346,22 +342,18 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                                 state.properties.results![index]);
                                           },
 
-                                      ),
-                                    ),
-                                  );
+                                      );
                                 }
                                 return SizedBox.shrink();
                               },
                             ),
                           ],
-                        );
+                        )));
                       },
                     ),
                   )
                 ]),
           ),
-
-
     );
   }
 
