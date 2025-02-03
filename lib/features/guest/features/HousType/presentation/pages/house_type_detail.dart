@@ -14,8 +14,6 @@ import 'package:minapp/features/guest/features/HousType/presentation/bloc/housty
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/popular_property/popular_property_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/widgets/near_house_card.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/property_type/property_type_bloc.dart';
-
-import '../../../../../../core/common/back_button.dart';
 import '../../../../../../core/common/custom_button.dart';
 import '../../../../../../core/common/spin_kit_loading.dart';
 import '../../../../../../core/utils/get_token.dart';
