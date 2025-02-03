@@ -1,4 +1,4 @@
-
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -398,32 +398,3 @@ class GeneralInformation extends StatelessWidget {
     );
   }
 }
-
-// BlocConsumer<ChangePhoneBloc,
-//     ChangePhoneState>(
-// listener: (context, phoneState) {
-// if (phoneState
-// is GettingOtpOldPhoneSuccess) {
-// showSuccessSnackBar(context,
-// phoneState.otpResponseEntity.message);
-// if (GoRouter.of(context)
-//     .routerDelegate
-//     .state!
-//     .name ==
-// 'guestGeneralInformation') {
-// context.goNamed(
-// "guestVerifyOldPhone",
-// );
-// } else {
-// context.goNamed(
-// "verifyOldPhone",
-// );
-// }
-// } else if (phoneState
-// is PhoneChangeErrorState) {
-// showErrorSnackBar(
-// context, phoneState.failure.message);
-// }
-// },
-// builder: (context, phoneState) {
-// return
