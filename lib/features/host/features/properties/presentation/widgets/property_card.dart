@@ -1,4 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:minapp/features/host/features/properties/domain/entities/property_entity.dart';
 import '../../../../../../config/color/color.dart';
@@ -13,6 +15,7 @@ class PropertyCard extends StatefulWidget {
 }
 
 class _PropertyCardState extends State<PropertyCard> {
+  int photoIndex=0;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -29,25 +32,35 @@ class _PropertyCardState extends State<PropertyCard> {
               children: [
                 SizedBox(
                   height: MediaQuery.of(context).size.height*0.25,
-                  child: CarouselView(
-                      elevation: 0,
-                      padding: EdgeInsets.all(0),
-                      reverse: true,
-                      backgroundColor: ColorConstant.cardGrey,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      itemExtent: MediaQuery.of(context).size.width,
-                      children: List.generate(
-                        widget.propertyEntity.houseImage.length,
-                        (index) => ClipRRect(
-                          borderRadius: BorderRadius.circular(13),
+                  child:  CarouselSlider.builder(
+                    options:CarouselOptions(
+                      height: MediaQuery.of(context).size.height * 0.36,
+                      aspectRatio: 16/9,
+                      viewportFraction:1,
+                      initialPage: 0,
+                      enableInfiniteScroll: true,
+                      reverse: false,
+                      autoPlay: false,
+                      autoPlayInterval: Duration(seconds: 3),
+                      autoPlayAnimationDuration: Duration(milliseconds: 800),
+                      autoPlayCurve: Curves.fastOutSlowIn,
+                      enlargeCenterPage: true,
+                      enlargeFactor: 0.3,
+                      onPageChanged:(index, reason) {
+                        setState(() {
+                          photoIndex=index;
+                        });
+                      },
+                      scrollDirection: Axis.horizontal,
+                    ),
+                    itemCount: widget.propertyEntity.houseImage.length,
+                    itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
                           child: CachedNetworkImage(
-                            imageUrl:
-                                widget.propertyEntity.houseImage[index].image,
-                            placeholder: (context, url) => Icon(
-                              Icons.photo,
-                              color: ColorConstant.inActiveColor,
-                            ),
+                            imageUrl: widget.propertyEntity.houseImage[itemIndex].image,
+                            placeholder: (context, url) =>
+                                RepaintBoundary(child: CupertinoActivityIndicator()),
                             errorWidget: (context, url, error) =>
                                 Icon(Icons.error),
                             fit: BoxFit.cover,
@@ -55,27 +68,45 @@ class _PropertyCardState extends State<PropertyCard> {
                             height:MediaQuery.of(context).size.height*0.25,
                           ),
                         ),
-                      )),
+
+                  ),
+
                 ),
                 Positioned(
                     bottom: 10,
                     left: 0,
                     right: 0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(
-                        widget.propertyEntity.houseImage.length,
-                        (index) => Container(
-                          width: 8,
-                          height: 8,
-                          margin: EdgeInsets.only(right: 5),
-                          decoration: BoxDecoration(
-                              color:
-                                  ColorConstant.cardGrey.withValues(alpha: 0.9),
-                              borderRadius: BorderRadius.circular(40)),
-                        ),
-                      ),
-                    ))
+                    child:widget.propertyEntity.houseImage.length>=2? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                              height: 18,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 5),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                color:
+                                Colors.black.withValues(alpha: 0.4),
+                              ),
+                              child: Row(
+                                children: List.generate(
+                                    widget.propertyEntity.houseImage.length,
+                                        (index) => AnimatedContainer(
+                                      duration:Duration(milliseconds: 800),
+                                      width: 7,
+                                      height: 7,
+                                      margin:
+                                      EdgeInsets.only(right: 5),
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: index == photoIndex
+                                              ? Colors.white
+                                              : ColorConstant.cardGrey
+                                              .withValues(
+                                              alpha: 0.4)),
+                                    )),
+                              ))
+                        ]):SizedBox())
               ],
             ),
             ListTile(

@@ -213,10 +213,14 @@ class _BookedDetailState extends State<BookedDetail> {
                       size: 19,
                       color: ColorConstant.secondBtnColor,
                     ),
-                    Text("${state.booked.house!.city!}, ${state.booked.house!.specificAddress!}",
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: ColorConstant.secondBtnColor),
+                    Expanded(
+                      child: Text("${state.booked.house!.city!}, ${state.booked.house!.specificAddress!}",
+                        textAlign: TextAlign.start,
+                        maxLines: 2,
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: ColorConstant.secondBtnColor),
+                      ),
                     )
                   ],
                 ),

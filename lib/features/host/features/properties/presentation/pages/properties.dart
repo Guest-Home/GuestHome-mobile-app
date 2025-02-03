@@ -39,7 +39,7 @@ class _PropertiesState extends State<Properties> {
             ),
             floating: true,
             snap: true,
-            pinned: false,
+            pinned: true,
             expandedHeight: 150,
             collapsedHeight: 150,
             elevation: 0,
@@ -53,7 +53,7 @@ class _PropertiesState extends State<Properties> {
                   context.goNamed("hostSearch");
                 },
                 child: Container(
-                  padding: EdgeInsets.all(16),
+                  padding: EdgeInsets.symmetric(horizontal: 16),
                   child: SearchField(
                     isActive: false,
                     prifixIcon: Icon(Icons.search),

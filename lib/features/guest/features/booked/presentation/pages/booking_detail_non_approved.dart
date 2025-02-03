@@ -190,150 +190,18 @@ class _BookingDetailNonApprovedState extends State<BookingDetailNonApproved> {
                                   size: 19,
                                   color: ColorConstant.secondBtnColor,
                                 ),
-                                Text("${ widget.property.house!.city!}, ${ widget.property.house!.specificAddress!}",
-                                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: ColorConstant.secondBtnColor),
+                                Expanded(
+                                  child: Text("${ widget.property.house!.city!}, ${ widget.property.house!.specificAddress!}",
+                                    textAlign: TextAlign.start,
+                                    maxLines: 2,
+                                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: ColorConstant.secondBtnColor),
+                                  ),
                                 )
                               ],
                             ),
                           ),
-                          // Divider(
-                          //   color: ColorConstant.cardGrey.withValues(alpha: 0.9),
-                          // ),
-                          // Padding(
-                          //   padding: const EdgeInsets.symmetric(horizontal: 11),
-                          //   child:
-                          //   SecctionHeader(title: tr("About Host"), isSeeMore: false),
-                          // ),
-                          // Card(
-                          //   elevation: 0,
-                          //   color: Colors.white,
-                          //   shape: RoundedRectangleBorder(
-                          //       borderRadius: BorderRadius.circular(10),
-                          //       side: BorderSide(color: Colors.white)),
-                          //   child: Column(
-                          //     spacing: 10,
-                          //     children: [
-                          //       ListTile(
-                          //         leading:
-                          //         CircleAvatar(
-                          //           radius: 20,
-                          //           backgroundColor: ColorConstant.cardGrey,
-                          //           backgroundImage:property.house!.postedBy!.profilePicture!=null? CachedNetworkImageProvider(
-                          //           ApiUrl.baseUrl + property.house!.postedBy!.profilePicture!,
-                          //            headers: {'Authorization': 'Bearer $token'},
-                          //             ):null,
-                          //           child:property.house!.postedBy!.profilePicture== null
-                          //               ? Icon(
-                          //             Icons.person,
-                          //             color: Colors.white,
-                          //             size: 20,
-                          //           )
-                          //               : null,
-                          //         ),
-                          //         title: Column(
-                          //           crossAxisAlignment: CrossAxisAlignment.start,
-                          //           children: [
-                          //             Text("${property.house!.postedBy!.userAccount!.firstName!} ${property.house!.postedBy!.userAccount!.lastName!}",
-                          //               style: Theme.of(context).textTheme
-                          //                   .bodyMedium!.copyWith(
-                          //                   fontWeight: FontWeight.w600,
-                          //                   fontSize: 12
-                          //               ),),
-                          //             Text("${property.house!.postedBy!.typeOfCustomer}",
-                          //               style: Theme.of(context).textTheme
-                          //                   .bodyMedium!.copyWith(
-                          //                   fontWeight: FontWeight.w400,
-                          //                   fontSize: 10
-                          //               ),),
-                          //           ],
-                          //         ),
-                          //       ),
-                          //       // Padding(
-                          //       //   padding: const EdgeInsets.symmetric(horizontal: 8),
-                          //       //   child: Row(
-                          //       //     spacing: 10,
-                          //       //     children: [
-                          //       //       Text(tr("Phone number"),style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          //       //           fontSize: 12,
-                          //       //           fontWeight: FontWeight.w400
-                          //       //       ),),
-                          //       //       Text(
-                          //       //         property.user!.phoneNumber!,
-                          //       //         style: Theme.of(context)
-                          //       //             .textTheme
-                          //       //             .bodyMedium!
-                          //       //             .copyWith(fontWeight: FontWeight.w700,fontSize: 12),
-                          //       //       )
-                          //       //     ],
-                          //       //   ),
-                          //       // ),
-                          //       // Padding(
-                          //       //   padding: const EdgeInsets.symmetric(horizontal: 8),
-                          //       //   child: Row(
-                          //       //     spacing: 10,
-                          //       //     children: [
-                          //       //       Text(tr("Telegram Username"),style:Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          //       //           fontSize: 12,
-                          //       //           fontWeight: FontWeight.w400
-                          //       //       ),),
-                          //       //       Text(
-                          //       //         property.user!.userAccount!.username!,
-                          //       //         style: Theme.of(context)
-                          //       //             .textTheme
-                          //       //             .bodyMedium!
-                          //       //             .copyWith(fontWeight: FontWeight.w700,fontSize: 12),
-                          //       //       )
-                          //       //     ],
-                          //       //   ),
-                          //       // ),
-                          //       // Row(
-                          //       //   spacing: 10,
-                          //       //   children: [
-                          //       //     Expanded(
-                          //       //         child: CustomButton(
-                          //       //             onPressed: ()async{
-                          //       //               makePhoneCall(property.user!.phoneNumber!);
-                          //       //             },
-                          //       //             style: ElevatedButton.styleFrom(
-                          //       //                 elevation: 0,
-                          //       //                 padding: EdgeInsets.all(4),
-                          //       //                 backgroundColor: ColorConstant.green,
-                          //       //                 shape: RoundedRectangleBorder(
-                          //       //                   borderRadius: BorderRadius.circular(100),
-                          //       //                 )),
-                          //       //             child: Text(tr(
-                          //       //                 "Call"),
-                          //       //               style: Theme.of(context)
-                          //       //                   .textTheme
-                          //       //                   .bodyMedium!
-                          //       //                   .copyWith(color: Colors.white,fontSize: 12,fontWeight: FontWeight.w400),
-                          //       //             ))),
-                          //       //     Expanded(
-                          //       //         child: CustomButton(
-                          //       //             onPressed: () {
-                          //       //               sendSMS(property.user!.phoneNumber!, "");
-                          //       //             },
-                          //       //             style: ElevatedButton.styleFrom(
-                          //       //                 elevation: 0,
-                          //       //                 padding: EdgeInsets.all(4),
-                          //       //                 backgroundColor: ColorConstant.primaryColor,
-                          //       //                 shape: RoundedRectangleBorder(
-                          //       //                   borderRadius: BorderRadius.circular(100),
-                          //       //                 )),
-                          //       //             child: Text(tr(
-                          //       //                 "Message"),
-                          //       //               style: Theme.of(context)
-                          //       //                   .textTheme
-                          //       //                   .bodyMedium!
-                          //       //                   .copyWith(color: Colors.white,fontSize: 12,fontWeight: FontWeight.w400),
-                          //       //             ))),
-                          //       //   ],
-                          //       // ),
-                          //     ],
-                          //   ),
-                          // ),
 
                           Divider(
                             thickness: 0.6,

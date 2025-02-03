@@ -980,7 +980,7 @@ class CityDropDown extends StatelessWidget {
       builder: (context, state) {
         return
           PopupMenuButton<String>(
-            icon: Icon(Icons.arrow_drop_down),
+            icon: Icon(Icons.arrow_drop_down,size:26,),
             // Remove ButtonStyle alignment (not needed for menu position)
             onSelected: (value) => onSelected(value),
             position: PopupMenuPosition.under, // Position menu under the button

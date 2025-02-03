@@ -143,11 +143,16 @@ class _HouseDetailState extends State<HouseDetail> {
                       Icons.location_pin,
                       size: 17,
                     ),
-                    Text("${  widget.property.city!}, ${widget.property.specificAddress!}",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(fontWeight: FontWeight.w600,fontSize: 12),
+                    Expanded(
+                      child: Text("${  widget.property.city!}, ${widget.property.specificAddress!}",
+                        textAlign: TextAlign.start,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(fontWeight: FontWeight.w600,fontSize: 12),
+                      ),
                     )
                   ],
                 ),
@@ -259,7 +264,7 @@ class _HouseDetailState extends State<HouseDetail> {
           ),
           Container(
             width: MediaQuery.of(context).size.width,
-            padding: EdgeInsets.all(15),
+            padding: EdgeInsets.symmetric(horizontal: 15,vertical: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               spacing: 30,

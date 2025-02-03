@@ -593,9 +593,6 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                       ),
                       RangeSlider(
                         values: filterState.priceRange,
-                        labels: RangeLabels(
-                            filterState.priceRange.start.toString(),
-                            filterState.priceRange.end.toString()),
                         activeColor: ColorConstant.primaryColor,
                         inactiveColor: Colors.grey,
                         min: 100,
@@ -607,7 +604,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                 .read<FilterBloc>()
                                 .add(AddPriceRange(prices: value));
                           }
-                        },
+                        }
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -678,6 +675,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                         height: 5,
                       ),
                       CustomTextField(
+                        readOnly: true,
                           hintText: tr("Addis Ababa"),
                           validator: (value) {
                             return null;
