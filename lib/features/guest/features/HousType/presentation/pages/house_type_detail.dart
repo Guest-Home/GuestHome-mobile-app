@@ -190,7 +190,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                             child: SingleChildScrollView(
                         child:Column(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          spacing: 5,
+                          spacing:10,
                           children: [
                             // search
                             Container(
