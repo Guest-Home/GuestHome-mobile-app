@@ -5,13 +5,11 @@ import 'package:dio/dio.dart';
 import 'package:minapp/features/auth/data/models/otp_response_model.dart';
 import 'package:minapp/features/host/features/profile/data/models/platform_commission_model.dart';
 import 'package:minapp/features/host/features/profile/data/models/user_profile_model.dart';
-
 import '../../../../../../core/apiConstants/api_url.dart';
 import '../../../../../../core/error/error_response.dart';
 import '../../../../../../core/error/failure.dart';
 import '../../../../../../core/network/dio_client.dart';
 import '../../../../../../service_locator.dart';
-import '../../domain/usecases/update_user_profile_usecase.dart';
 
 abstract class UserProfileDataSource {
   Future<Either<Failure, UserProfileModel>> getUserProfile();
