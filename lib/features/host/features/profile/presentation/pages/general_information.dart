@@ -66,12 +66,16 @@ class GeneralInformation extends StatelessWidget {
             listener: (context, state) {
               if (state is UpdateUserProfileLoadedState) {
                 showSuccessSnackBar(context, "profile updated");
-                context.pop();
+                context.read<ProfileBloc>().add(ResetProfileEvent());
                 context.read<ProfileBloc>().add(GetUserProfileEvent());
+                if (GoRouterState.of(context).matchedLocation == '/profile'){
+                  context.goNamed("profile");
+                }else{
+                  context.goNamed("guestProfile");
+                }
               }
               if (state is UpdateProfileError) {
                 showErrorSnackBar(context, state.failure.message);
-
               }
             },
           ),
@@ -95,8 +99,7 @@ class GeneralInformation extends StatelessWidget {
                     "guestVerifyOldPhone",
                   );
                 } else {
-                  context.goNamed(
-                    "verifyOldPhone",
+                  context.goNamed("verifyOldPhone",
                   );
                 }
               } else if (state is PhoneChangeErrorState) {
@@ -108,11 +111,9 @@ class GeneralInformation extends StatelessWidget {
         ],
         child: SingleChildScrollView(
             padding: EdgeInsets.all(20),
-            child: BlocProvider.value(
-              value: context.read<ProfileBloc>(),
-              child: BlocBuilder<ProfileBloc, ProfileState>(
+            child:BlocBuilder<ProfileBloc, ProfileState>(
                 builder: (context, state) {
-                  if (state is UpdateUserProfileLoadingState) {
+                  if (state is UserProfileLoadingState) {
                     return SizedBox(
                         height: MediaQuery.of(context).size.height * 0.5,
                         child: Center(
@@ -390,7 +391,7 @@ class GeneralInformation extends StatelessWidget {
                   return SizedBox.shrink();
                 },
               ),
-            )),
+            ),
       ),
     );
   }

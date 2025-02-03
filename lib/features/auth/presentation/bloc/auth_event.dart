@@ -78,6 +78,7 @@ class AddGenderEvent extends AuthEvent {
 }
 
 class SelectPictureEvent extends AuthEvent {}
+class AuthResetEvent extends AuthEvent {}
 
 class RemovePictureEvent extends AuthEvent {}
 

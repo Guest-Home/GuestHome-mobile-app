@@ -9,4 +9,5 @@ abstract class ProfileEvent extends Equatable {
 
 
 class GetUserProfileEvent extends ProfileEvent{}
+class ResetProfileEvent extends ProfileEvent{}
 

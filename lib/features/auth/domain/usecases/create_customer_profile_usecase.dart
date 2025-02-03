@@ -27,8 +27,7 @@ class CreateCustomerParams extends Equatable {
       {required this.firstName,
       required this.lastName,
       required this.gender,
-        required this.typeOfCustomer,
-      required this.image});
+        required this.typeOfCustomer, required this.image,});
 
   @override
   List<Object> get props => [firstName, lastName, gender, image,typeOfCustomer];

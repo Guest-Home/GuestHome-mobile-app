@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/core/common/custom_button.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/payment_setting_bloc/payment_setting_bloc.dart';
+import 'package:minapp/features/host/features/profile/presentation/bloc/profile_bloc.dart';
 import '../../../../../../config/color/color.dart';
 import '../../../../../../service_locator.dart';
 
@@ -56,19 +57,24 @@ class PaymentSetting extends StatelessWidget {
                         color:
                             ColorConstant.inActiveColor.withValues(alpha: 0.5)),
                   ),
-                  trailing: BlocBuilder<PaymentSettingBloc, PaymentSettingState>(
-                    buildWhen: (previous, current) => previous.isAcceptingPayment!=current.isAcceptingPayment,
-  builder: (context, state) {
-    return Switch.adaptive(
-                    value: state.isAcceptingPayment,
-                    onChanged: (value) {
-                      context.read<PaymentSettingBloc>().add(IsAcceptingPaymentEvent(isAccepting: value));
+                  trailing:
+                      BlocBuilder<PaymentSettingBloc, PaymentSettingState>(
+                    buildWhen: (previous, current) =>
+                        previous.isAcceptingPayment !=
+                        current.isAcceptingPayment,
+                    builder: (context, state) {
+                      return Switch.adaptive(
+                        value: state.isAcceptingPayment,
+                        onChanged: (value) {
+                          context
+                              .read<PaymentSettingBloc>()
+                              .add(IsAcceptingPaymentEvent(isAccepting: value));
+                        },
+                        activeColor: Colors.white,
+                        activeTrackColor: ColorConstant.green,
+                      );
                     },
-                    activeColor: Colors.white,
-                    activeTrackColor: ColorConstant.green,
-                  );
-  },
-),
+                  ),
                 ),
               ),
             ),
@@ -95,33 +101,47 @@ class PaymentSetting extends StatelessWidget {
                     spacing: 15,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height:1,),
-                      RichText(
-                          text: TextSpan(children: [
-                        TextSpan(
-                          text: "500",
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 25,
+                      SizedBox(
+                        height: 1,
+                      ),
+                      BlocBuilder<ProfileBloc, ProfileState>(
+                        builder: (context, state) {
+                          if(state is UserProfileLoadedState){
+                            return RichText(
+                                text: TextSpan(children: [
+                                  TextSpan(
+                                    text:"${state.userProfileEntity.points}",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 25,
+                                    ),
                                   ),
-                        ),
-                        TextSpan(
-                          text: " ETB",
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 13,
+                                  TextSpan(
+                                    text: " ETB",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 13,
+                                    ),
                                   ),
-                        ),
-                      ])),
+                                ]));
+                          }
+                          return SizedBox.shrink();
+
+                        },
+                      ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width,
                         child: CustomButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: ColorConstant.primaryColor,
                             ),
-                            onPressed:() => context.goNamed('addFunds'),
+                            onPressed: () => context.goNamed('addFunds'),
                             child: Text(
                               "Add Funds",
                               style: Theme.of(context)
@@ -151,7 +171,8 @@ class PaymentSetting extends StatelessWidget {
                   child: Row(
                     children: [
                       Expanded(
-                        child: ListTile(title: Text(
+                        child: ListTile(
+                          title: Text(
                             "Platform Commission",
                             style: Theme.of(context)
                                 .textTheme
@@ -162,30 +183,32 @@ class PaymentSetting extends StatelessWidget {
                                 ),
                           ),
                           subtitle: BlocProvider(
-  create: (context) => sl<PaymentSettingBloc>()..add(GetPlatformCommissionEvent()),
-  child: BlocBuilder<PaymentSettingBloc, PaymentSettingState>(
-  builder: (context, state) {
-    if(state is PlatformCommissionLoaded){
-      return Text("Current rate: ${state.platformCommissionEntity.currentCommissionRate}",
-        style: Theme.of(context)
-            .textTheme
-            .bodyMedium!
-            .copyWith(
-            fontWeight: FontWeight.w500,
-            fontSize: 14,
-            color: ColorConstant.inActiveColor
-                .withValues(alpha: 0.5)),
-      );
-    }
-    return Text("");
-
-  },
-),
-),
+                            create: (context) => sl<PaymentSettingBloc>()
+                              ..add(GetPlatformCommissionEvent()),
+                            child: BlocBuilder<PaymentSettingBloc,
+                                PaymentSettingState>(
+                              builder: (context, state) {
+                                if (state is PlatformCommissionLoaded) {
+                                  return Text(
+                                    "Current rate: ${state.platformCommissionEntity.currentCommissionRate}",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14,
+                                            color: ColorConstant.inActiveColor
+                                                .withValues(alpha: 0.5)),
+                                  );
+                                }
+                                return Text("");
+                              },
+                            ),
+                          ),
                         ),
                       ),
                       GestureDetector(
-                        onTap: () =>  context.goNamed('commission'),
+                        onTap: () => context.goNamed('commission'),
                         child: Center(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -197,16 +220,22 @@ class PaymentSetting extends StatelessWidget {
                                     .textTheme
                                     .bodySmall!
                                     .copyWith(
-                                  fontSize: 12,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.w600,
                                         color: ColorConstant.primaryColor),
                               ),
-                              Icon(Icons.arrow_forward_ios,size: 17,color: ColorConstant.primaryColor,),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                size: 17,
+                                color: ColorConstant.primaryColor,
+                              ),
                             ],
                           ),
                         ),
                       ),
-                      SizedBox(width: 10,)
+                      SizedBox(
+                        width: 10,
+                      )
                     ],
                   )),
             ),
@@ -271,7 +300,6 @@ class PaymentSetting extends StatelessWidget {
             //         ],
             //       )),
             // ),
-
           ],
         ),
       ),

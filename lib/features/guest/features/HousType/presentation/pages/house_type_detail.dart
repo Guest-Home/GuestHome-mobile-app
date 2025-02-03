@@ -43,7 +43,10 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
       appBar: AppBar(
         elevation: 0,
         automaticallyImplyLeading: false,
-        leading: AppBarBackButton(),
+        leading:IconButton(onPressed: () {
+          context.read<FilterBloc>().add(ResetEvent());
+          context.pop();
+        }, icon: Icon(Icons.arrow_back,size: 27,)),
         shadowColor: Colors.transparent,
         scrolledUnderElevation: 0,
       ),

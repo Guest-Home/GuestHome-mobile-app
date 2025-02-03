@@ -68,6 +68,7 @@ class _OtpVerificationState extends State<OtpVerification> {
           if (state is VerifyedOtpLodedState) {
             if (state.verifyOtpEntity.hasProfile==true) {
               showSuccessSnackBar(context, "Otp Verified");
+              context.read<AuthBloc>().add(AuthResetEvent());
               context.goNamed('houseType');
             } else {
               context.goNamed('profileSetup');
@@ -119,7 +120,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                                         fontWeight: FontWeight.w400),
                               ),
                               TextSpan(
-                                  text: state.phoneNumber,
+                                  text: state.phoneNumber.substring(1),
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyMedium!

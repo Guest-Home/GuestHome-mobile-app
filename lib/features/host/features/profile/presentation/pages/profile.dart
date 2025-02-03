@@ -48,6 +48,7 @@ class _ProfileState extends State<Profile> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: BlocBuilder<ProfileBloc, ProfileState>(
+                        buildWhen: (previous, current) => previous!=current,
                         builder: (context, state) {
                           if (state is UserProfileLoadingState) {
                             return SizedBox(
@@ -65,6 +66,9 @@ class _ProfileState extends State<Profile> {
                                         state.failure.message,
                                         style: Theme.of(context).textTheme.bodySmall,
                                       ),
+                                      GestureDetector(
+                                        onTap: () => context.goNamed("profileSetup"),
+                                          child: Text("create your pofile"))
                                     ],
                                   ),
                                 ),
@@ -81,7 +85,8 @@ class _ProfileState extends State<Profile> {
                                     CircleAvatar(
                                       radius: 38,
                                       backgroundColor: ColorConstant.cardGrey,
-                                      backgroundImage:state.userProfileEntity.profilePicture!=null? CachedNetworkImageProvider(
+                                      backgroundImage:state.userProfileEntity.profilePicture!=null?
+                                      CachedNetworkImageProvider(
                                         ApiUrl.baseUrl +
                                             state.userProfileEntity.profilePicture!,
                                         headers: {
@@ -417,7 +422,8 @@ class _ProfileState extends State<Profile> {
                           _deletingDialog(context, "Logging Out");
                         } else if (state is LogOutLoadedState) {
                           context.pop();
-                          context.pushNamed('signIn');
+                          context.goNamed('signIn');
+
                         }
                       },
                       builder: (context, state) {

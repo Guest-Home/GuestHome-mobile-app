@@ -22,9 +22,6 @@ class UpdateProfileBloc extends Bloc<UpdateProfileEvent, UpdateProfileState> {
         if(state.profilePhoto!=null)
         "image":state.profilePhoto
       };
-      print("bloc//////");
-      print(data);
-
       Either response = await sl<UpdateUserProfileUseCase>().call(data);
       response.fold((l) => emit(UpdateProfileError(state,l)), (r) {
         emit(UpdateUserProfileLoadedState(isUpdate: r));

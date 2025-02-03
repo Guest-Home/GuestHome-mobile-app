@@ -74,7 +74,6 @@ class _VerifyNewPhoneState extends State<VerifyNewPhone> {
               .copyWith(fontWeight: FontWeight.bold),
         ),
       ),
-
       body: Padding(padding:EdgeInsets.all(16),
       child:   SingleChildScrollView(
         child: BlocConsumer<ChangePhoneBloc, ChangePhoneState>(
@@ -82,11 +81,8 @@ class _VerifyNewPhoneState extends State<VerifyNewPhone> {
     if(state is VerifyingOtpNewSuccess){
       showSuccessSnackBar(context, state.message);
       context.read<ProfileBloc>().add(GetUserProfileEvent());
-      if (GoRouter.of(context)
-          .routerDelegate
-          .state!
-          .name ==
-          'guestVerifyOldPhone') {
+      if (GoRouterState.of(context).matchedLocation ==
+          '/guestVerifyNewPhone') {
         context.goNamed('guestProfile');
       } else {
         context.goNamed('profile',

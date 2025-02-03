@@ -22,6 +22,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       );
     });
 
+    on<ResetProfileEvent>((event, emit) {
+      emit(ProfileInitial());
+    },);
+
 
   }
 }

@@ -26,6 +26,7 @@ class VerifyOldPhone extends StatefulWidget {
 class _VerifyOldPhoneState extends State<VerifyOldPhone> {
   final PageController _pageController = PageController(initialPage: 0);
   final TextEditingController _newPhoneController = TextEditingController();
+  final TextEditingController _codeController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   static const int _initialCountdown = 120; // 2 minutes in seconds
@@ -66,6 +67,7 @@ class _VerifyOldPhoneState extends State<VerifyOldPhone> {
     _timer?.cancel();
     _pageController.dispose();
     _newPhoneController.dispose();
+    _codeController.dispose();
   }
 
   @override
@@ -91,8 +93,8 @@ class _VerifyOldPhoneState extends State<VerifyOldPhone> {
               showErrorSnackBar(context, state.failure.message);
             } else if (state is GettingOtpNewPhoneSuccess) {
               showSuccessSnackBar(context, state.otpResponseEntity.message);
-              if (GoRouter.of(context).routerDelegate.state!.name ==
-                  'guestVerifyOldPhone') {
+              if (GoRouterState.of(context).matchedLocation ==
+                  '/guestVerifyOldPhone') {
                 context.goNamed('guestVerifyNewPhone');
               } else {
                 context.goNamed(
@@ -114,7 +116,7 @@ class _VerifyOldPhoneState extends State<VerifyOldPhone> {
                   controller: _pageController,
                   physics: NeverScrollableScrollPhysics(),
                   children: [
-                    // old otp
+                    // verify old otp
                     SingleChildScrollView(
                       child: Column(
                         spacing: 16,
@@ -318,9 +320,11 @@ class _VerifyOldPhoneState extends State<VerifyOldPhone> {
                                 },
                                 textEditingController: _newPhoneController,
                                 prifixIcon: CountryCodeSelector(
-                                  onInit: (value) {},
+                                  onInit: (value) {
+                                    _codeController.text=value.dialCode!;
+                                  },
                                   onChange: (value) {
-                                    _newPhoneController.text = value.dialCode!;
+                                    _codeController.text = value.dialCode!;
                                   },
                                 ),
                                 onTextChnage: (value) {},
@@ -333,10 +337,10 @@ class _VerifyOldPhoneState extends State<VerifyOldPhone> {
                                   onPressed: () {
                                     _formKey.currentState!.save();
                                     if (_formKey.currentState!.validate()) {
+                                      String phone=_codeController.text+_newPhoneController.text;
                                       context.read<ChangePhoneBloc>().add(
                                           GetOtpForNewPhoneEvent(
-                                              newPhone:
-                                                  _newPhoneController.text));
+                                              newPhone:phone.substring(1)));
                                     }
                                   },
                                   style: ElevatedButton.styleFrom(

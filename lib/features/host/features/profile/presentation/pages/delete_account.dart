@@ -69,8 +69,7 @@ class DeleteAccount extends StatelessWidget {
     if(state is DeactivatedState){
       context.pop();
       showSuccessSnackBar(context, 'your account is deactivated');
-        context.pushNamed('signIn');
-
+        context.goNamed('signIn');
     }
   },
   builder: (context, state) {

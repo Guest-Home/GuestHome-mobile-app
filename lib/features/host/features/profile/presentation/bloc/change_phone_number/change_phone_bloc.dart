@@ -51,7 +51,7 @@ class ChangePhoneBloc extends Bloc<ChangePhoneEvent, ChangePhoneState> {
         emit(GettingOtpNewPhone(state));
         String deviceId = await GetDeviceId().getId();
         Map<String, dynamic> data = {
-          "phone_number": state.newPhone.substring(1),
+          "phone_number": state.newPhone,
           "device_id": deviceId
         };
         Either response = await sl<GetOtpForNewUseCase>().call(data);

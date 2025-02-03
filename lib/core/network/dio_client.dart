@@ -15,7 +15,7 @@ class DioClient {
                 'x-api-key': ApiUrl.apiKey,
               },
               responseType: ResponseType.json,
-              // sendTimeout: const Duration(seconds: 20),
+              sendTimeout: const Duration(seconds: 20),
               receiveTimeout: const Duration(seconds: 20)),
         )..interceptors.addAll([
             AuthInterceptor(),

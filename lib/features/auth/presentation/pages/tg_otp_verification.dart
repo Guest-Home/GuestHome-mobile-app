@@ -69,6 +69,7 @@ class _TgOtpVerificationState extends State<TgOtpVerification> {
           if (state is VerifyedOtpLodedState) {
             if (state.verifyOtpEntity.hasProfile == true) {
               showSuccessSnackBar(context, "Otp Verified");
+              context.read<AuthBloc>().add(AuthResetEvent());
               context.goNamed('houseType');
             } else {
               context.goNamed('profileSetup');

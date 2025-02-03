@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 class CustomerProfileEntity extends Equatable {
   final int id;
    // final int userAccount;
-  final String profilePicture;
+  final String? profilePicture;
   final String phoneNumber;
   final String typeOfCustomer;
   final int rating;

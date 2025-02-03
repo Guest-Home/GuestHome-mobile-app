@@ -72,19 +72,21 @@ class ApiDataSourceImpl implements ApiDataSource {
   Future<Either<Failure, CustomerProfileModel>> createCustomerProfile(
       CreateCustomerParams params) async {
 
-    MultipartFile multipartFile = await MultipartFile.fromFile(
-      params.image.path,
-    );
-
-    // Create a FormData object
-    final formData = FormData.fromMap({
-      'profilePicture': multipartFile,
+    FormData formData = FormData.fromMap({
       'language': 'en',
       'gender': params.gender,
       'first_name': params.firstName,
       'last_name': params.lastName,
       'typeOfCustomer': params.typeOfCustomer
     });
+
+    // Check if image is provided before adding to FormData
+    if (params.image.path.isNotEmpty) {
+      MultipartFile multipartFile = await MultipartFile.fromFile(
+        params.image.path,
+      );
+      formData.files.add(MapEntry('profilePicture', multipartFile));
+    }
 
     try {
       final response = await sl<DioClient>().post(

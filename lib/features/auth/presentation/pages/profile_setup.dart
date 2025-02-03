@@ -30,6 +30,7 @@ class ProfileSetup extends StatelessWidget {
               listener: (context, state) {
                 if (state is CreatedCustomerProfileLodedState) {
                   showSuccessSnackBar(context, "Profile Created Successfully");
+                  context.read<AuthBloc>().add(AuthResetEvent());
                   context.goNamed('houseType');
 
                 } else if (state is OtpErrorState) {
@@ -190,8 +191,7 @@ class ProfileSetup extends StatelessWidget {
                                 spacing: 10,
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Expanded(
-                                      child: CustomButton(
+                                  Expanded(child: CustomButton(
                                           onPressed: () {
                                             context.pop();
                                           },
@@ -222,16 +222,8 @@ class ProfileSetup extends StatelessWidget {
                                                   _formKey.currentState!.save();
                                                   if (_formKey.currentState!
                                                       .validate()) {
-                                                    if (state.profilePhoto ==
-                                                            null ||
-                                                        state.profilePhoto!.path
-                                                            .isEmpty) {
-                                                      showErrorSnackBar(context, "Please select a profile photo");
-
-                                                    } else {
                                                       context.read<AuthBloc>().add(
                                                           CreateCustomerProfileEvent());
-                                                    }
                                                   }
                                                 },
                                           style: ElevatedButton.styleFrom(
