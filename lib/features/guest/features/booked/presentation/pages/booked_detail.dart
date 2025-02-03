@@ -42,34 +42,41 @@ class _BookedDetailState extends State<BookedDetail> {
 
 
   Future<dynamic> showFullScreen(BuildContext context, String itemIndex) {
-    return showDialog(context: context, builder:(context) {
-      return GestureDetector(
-        onTap: () => context.pop(),
-        child: Container(
-          padding: EdgeInsets.all(15),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: InteractiveViewer(
-              panEnabled: true, // Enable panning
-              boundaryMargin: EdgeInsets.all(20), // Allow panning outside bounds
-              minScale: 3.0,
-              maxScale: 8.0, // Enable zooming
-              child:ClipRRect(
-                borderRadius: BorderRadius.circular(15),
-                child: CachedNetworkImage(
-                  imageUrl:itemIndex,
-                  placeholder: (context, url) => RepaintBoundary(child: CupertinoActivityIndicator()),
-                  errorWidget: (context, url, error) =>
-                      Icon(Icons.error),
-                  fit: BoxFit.cover,
-                  width: MediaQuery.of(context).size.width,
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        showDragHandle: true,
+        builder: (context) => GestureDetector(
+          onTap: () {
+            context.pop();
+          },
+          child: SizedBox(
+            // padding: EdgeInsets.all(15),
+            height: MediaQuery.of(context).size.height,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: InteractiveViewer(
+                panEnabled: true, // Enable panning
+                scaleEnabled: true,
+                constrained: true,
+                boundaryMargin:
+                EdgeInsets.all(20), // Allow panning outside bounds
+                minScale: 3.0,
+                maxScale: 8.0, // Enable zooming
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: CachedNetworkImage(
+                    imageUrl:itemIndex,
+                    placeholder: (context, url) =>
+                        CupertinoActivityIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                    width: MediaQuery.of(context).size.width,
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-      );
-    },);
+        ));
   }
   @override
   Widget build(BuildContext context) {

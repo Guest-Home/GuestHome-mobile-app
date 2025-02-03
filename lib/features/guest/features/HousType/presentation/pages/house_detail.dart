@@ -23,10 +23,13 @@ class HouseDetail extends StatefulWidget {
 }
 
 class _HouseDetailState extends State<HouseDetail> {
-  int photoIndex=0;
+  int photoIndex = 0;
   @override
   Widget build(BuildContext context) {
-    final filteredAmenities =  widget.property.subDescription!.split(',').where((item) => item.trim().isNotEmpty).toList();
+    final filteredAmenities = widget.property.subDescription!
+        .split(',')
+        .where((item) => item.trim().isNotEmpty)
+        .toList();
     return Scaffold(
       appBar: AppBar(
         leading: AppBarBackButton(),
@@ -34,7 +37,8 @@ class _HouseDetailState extends State<HouseDetail> {
       body: Column(
         spacing: 15,
         children: [
-          Expanded(child: ListView(
+          Expanded(
+              child: ListView(
             padding: EdgeInsets.all(15),
             children: [
               SizedBox(
@@ -43,46 +47,49 @@ class _HouseDetailState extends State<HouseDetail> {
                   child: Stack(
                     children: [
                       CarouselSlider.builder(
-                        options:CarouselOptions(
+                        options: CarouselOptions(
                           height: MediaQuery.of(context).size.height * 0.36,
-                          aspectRatio: 16/9,
-                          viewportFraction:0.96,
+                          aspectRatio: 16 / 9,
+                          viewportFraction: 0.96,
                           initialPage: 0,
                           enableInfiniteScroll: true,
                           reverse: false,
                           autoPlay: false,
                           autoPlayInterval: Duration(seconds: 3),
-                          autoPlayAnimationDuration: Duration(milliseconds: 800),
+                          autoPlayAnimationDuration:
+                              Duration(milliseconds: 800),
                           autoPlayCurve: Curves.fastOutSlowIn,
                           enlargeCenterPage: true,
                           enlargeFactor: 0.3,
-                          onPageChanged:(index, reason) {
+                          onPageChanged: (index, reason) {
                             setState(() {
-                              photoIndex=index;
+                              photoIndex = index;
                             });
                           },
                           scrollDirection: Axis.horizontal,
                         ),
-                        itemCount:   widget.property.houseImage!.length,
-                        itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
-                             GestureDetector(
-                               onTap: () {
-                                 showFullScreen(context, itemIndex);
-                               },
-                               child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
-                                  child: CachedNetworkImage(
-                                    imageUrl: widget.property.houseImage![itemIndex].image!,
-                                    placeholder: (context, url) =>
-                                        RepaintBoundary(child: CupertinoActivityIndicator()),
-                                    errorWidget: (context, url, error) =>
-                                        Icon(Icons.error),
-                                    fit: BoxFit.cover,
-                                    width: MediaQuery.of(context).size.width,
-                                  ),
-                                ),
-                             ),
+                        itemCount: widget.property.houseImage!.length,
+                        itemBuilder: (BuildContext context, int itemIndex,
+                                int pageViewIndex) =>
+                            GestureDetector(
+                          onTap: () {
+                            showFullScreen(context, itemIndex);
+                          },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: CachedNetworkImage(
+                              imageUrl:
+                                  widget.property.houseImage![itemIndex].image!,
+                              placeholder: (context, url) => RepaintBoundary(
+                                  child: CupertinoActivityIndicator()),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
+                              fit: BoxFit.cover,
+                              width: MediaQuery.of(context).size.width,
                             ),
+                          ),
+                        ),
+                      ),
                       Positioned(
                           bottom: 10,
                           left: 0,
@@ -103,7 +110,8 @@ class _HouseDetailState extends State<HouseDetail> {
                                       children: List.generate(
                                           widget.property.houseImage!.length,
                                           (index) => AnimatedContainer(
-                                            duration:Duration(milliseconds: 800),
+                                                duration:
+                                                    Duration(milliseconds: 800),
                                                 width: 7,
                                                 height: 7,
                                                 margin:
@@ -121,14 +129,13 @@ class _HouseDetailState extends State<HouseDetail> {
                     ],
                   )),
               ListTile(
-                  title:Text(
+                  title: Text(
                     widget.property.title!,
                     style: Theme.of(context)
                         .textTheme
                         .bodyLarge!
                         .copyWith(fontWeight: FontWeight.w700, fontSize: 14),
                   ),
-
                   subtitle: SeeMoreText(
                     text: widget.property.description!,
                     maxLines: 4,
@@ -144,14 +151,13 @@ class _HouseDetailState extends State<HouseDetail> {
                       size: 17,
                     ),
                     Expanded(
-                      child: Text("${  widget.property.city!}, ${widget.property.specificAddress!}",
+                      child: Text(
+                        "${widget.property.city!}, ${widget.property.specificAddress!}",
                         textAlign: TextAlign.start,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .copyWith(fontWeight: FontWeight.w600,fontSize: 12),
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontWeight: FontWeight.w600, fontSize: 12),
                       ),
                     )
                   ],
@@ -168,18 +174,22 @@ class _HouseDetailState extends State<HouseDetail> {
                     CircleAvatar(
                       radius: 20,
                       backgroundColor: ColorConstant.cardGrey,
-                      backgroundImage: widget.property.postedBy?.profilePicture != null
-                          ? CachedNetworkImageProvider(
-                        ApiUrl.baseUrl + widget.property.postedBy!.profilePicture!,
-                        headers: {'Authorization': 'Bearer ${widget.token}'},
-                      )
-                          : null,
+                      backgroundImage:
+                          widget.property.postedBy?.profilePicture != null
+                              ? CachedNetworkImageProvider(
+                                  ApiUrl.baseUrl +
+                                      widget.property.postedBy!.profilePicture!,
+                                  headers: {
+                                    'Authorization': 'Bearer ${widget.token}'
+                                  },
+                                )
+                              : null,
                       child: widget.property.postedBy?.profilePicture == null
                           ? Icon(
-                        Icons.person,
-                        color: Colors.white,
-                        size: 20,
-                      )
+                              Icons.person,
+                              color: Colors.white,
+                              size: 20,
+                            )
                           : null,
                     ),
                     Text(
@@ -187,7 +197,7 @@ class _HouseDetailState extends State<HouseDetail> {
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!
-                          .copyWith(fontWeight: FontWeight.w600,fontSize: 12),
+                          .copyWith(fontWeight: FontWeight.w600, fontSize: 12),
                     )
                   ],
                 ),
@@ -217,15 +227,14 @@ class _HouseDetailState extends State<HouseDetail> {
                         child: Wrap(
                           spacing: 20,
                           runSpacing: 20,
-                          children: List.generate(
-                            filteredAmenities.length,
-                              (index) {
+                          children:
+                              List.generate(filteredAmenities.length, (index) {
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               spacing: 1,
                               children: [
-                               Container(
+                                Container(
                                     padding: EdgeInsets.all(10),
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
@@ -264,7 +273,7 @@ class _HouseDetailState extends State<HouseDetail> {
           ),
           Container(
             width: MediaQuery.of(context).size.width,
-            padding: EdgeInsets.symmetric(horizontal: 15,vertical: 10),
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               spacing: 30,
@@ -272,7 +281,8 @@ class _HouseDetailState extends State<HouseDetail> {
                 Row(
                   spacing: 3,
                   children: [
-                    Text("${widget.property.price} ${widget.property.unit}",
+                    Text(
+                      "${widget.property.price} ${widget.property.unit}",
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge!
@@ -313,36 +323,42 @@ class _HouseDetailState extends State<HouseDetail> {
   }
 
   Future<dynamic> showFullScreen(BuildContext context, int itemIndex) {
-    return showDialog(context: context, builder:(context) {
-                                 return GestureDetector(
-                                   onTap: (){context.pop();},
-                                   child: Container(
-                                     padding: EdgeInsets.all(15),
-                                     child: ClipRRect(
-                                       borderRadius: BorderRadius.circular(15),
-                                       child: InteractiveViewer(
-                                         panEnabled: true, // Enable panning
-                                         scaleEnabled: true,
-                                         constrained: true,
-                                         boundaryMargin: EdgeInsets.all(20), // Allow panning outside bounds
-                                                                        minScale: 3.0,
-                                                                        maxScale: 8.0, // Enable zooming
-                                                                        child:ClipRRect(
-                                                                          borderRadius: BorderRadius.circular(15),
-                                                                          child: CachedNetworkImage(
-                                                                                                               imageUrl: widget.property.houseImage![itemIndex].image!,
-                                                                                                               placeholder: (context, url) => CupertinoActivityIndicator(),
-                                                                                                               errorWidget: (context, url, error) =>
-                                                                                                                   Icon(Icons.error),
-                                                                                                               fit: BoxFit.cover,
-                                                                                                               width: MediaQuery.of(context).size.width,
-                                                                          ),
-                                                                        ),
-                                         ),
-                                     ),
-                                   ),
-                                 );
-                               },);
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        showDragHandle: true,
+        builder: (context) => GestureDetector(
+              onTap: () {
+                context.pop();
+              },
+              child: SizedBox(
+                // padding: EdgeInsets.all(15),
+                height: MediaQuery.of(context).size.height,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: InteractiveViewer(
+                    panEnabled: true, // Enable panning
+                    scaleEnabled: true,
+                    constrained: true,
+                    boundaryMargin:
+                        EdgeInsets.all(20), // Allow panning outside bounds
+                    minScale: 1.0,
+                    maxScale: 5.0, // Enable zooming
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: CachedNetworkImage(
+                        imageUrl: widget.property.houseImage![itemIndex].image!,
+                        placeholder: (context, url) =>
+                            CupertinoActivityIndicator(),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                        fit: BoxFit.cover,
+                        width: MediaQuery.of(context).size.width,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ));
   }
 }
 
@@ -371,10 +387,10 @@ class SeeMoreTextState extends State<SeeMoreText> {
           softWrap: true,
           // maxLines: _isExpanded ? null : widget.maxLines,
           // overflow: TextOverflow.ellipsis,
-          style: Theme.of(context)
-              .textTheme
-              .bodyLarge!
-              .copyWith(fontSize: 12, fontWeight: FontWeight.w400,color: ColorConstant.secondBtnColor.withValues(alpha: 0.7)),
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
+              color: ColorConstant.secondBtnColor.withValues(alpha: 0.7)),
         ),
         GestureDetector(
           onTap: () {

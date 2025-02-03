@@ -60,9 +60,7 @@ class _TgOtpVerificationState extends State<TgOtpVerification> {
   }
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: context.read<AuthBloc>(),
-      child: BlocConsumer<AuthBloc, AuthState>(
+    return  BlocConsumer<AuthBloc, AuthState>(
         buildWhen: (previous, current) => previous != current,
         listenWhen: (previous, current) => previous != current,
         listener: (context, state) {
@@ -244,7 +242,6 @@ class _TgOtpVerificationState extends State<TgOtpVerification> {
                 ),
               ));
         },
-      ),
-    );
+      );
   }
 }

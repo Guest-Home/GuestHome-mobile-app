@@ -14,6 +14,11 @@ class RemovePictureUpdateEvent extends UpdateProfileEvent{
   List<Object?> get props =>[];
 
 }
+class ResetUpdateEvent extends UpdateProfileEvent{
+  @override
+  List<Object?> get props =>[];
+
+}
 class UpdateUserProfileEvent extends UpdateProfileEvent{
   final Map<String,dynamic> userData;
   const UpdateUserProfileEvent({required this.userData});

@@ -33,7 +33,8 @@ class PaymentSettingBloc extends Bloc<PaymentSettingEvent, PaymentSettingState> 
     on<GetPlatformCommissionEvent>((event, emit)async{
       emit(PlatformCommissionLoading());
       Either response= await sl<GetCommissionUseCase>().call();
-      response.fold((l) => emit(PaymentSettingError(failure: l)), (r) => emit(PlatformCommissionLoaded(platformCommissionEntity: r)),);
+      response.fold((l) => emit(PaymentSettingError(failure: l)), (r) =>
+          emit(state.copyWith(platformCommissionEntity: r)));
     });
     on<IsAcceptingPaymentEvent>((event, emit) {
       emit(state.copyWith(isAcceptingPayment: !state.isAcceptingPayment));

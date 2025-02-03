@@ -67,6 +67,7 @@ class GeneralInformation extends StatelessWidget {
               if (state is UpdateUserProfileLoadedState) {
                 showSuccessSnackBar(context, "profile updated");
                 context.read<ProfileBloc>().add(ResetProfileEvent());
+                context.read<UpdateProfileBloc>().add(ResetUpdateEvent());
                 context.read<ProfileBloc>().add(GetUserProfileEvent());
                 if (GoRouterState.of(context).matchedLocation == '/profile'){
                   context.goNamed("profile");
@@ -112,6 +113,7 @@ class GeneralInformation extends StatelessWidget {
         child: SingleChildScrollView(
             padding: EdgeInsets.all(20),
             child:BlocBuilder<ProfileBloc, ProfileState>(
+              bloc: context.read<ProfileBloc>(),
                 builder: (context, state) {
                   if (state is UserProfileLoadingState) {
                     return SizedBox(

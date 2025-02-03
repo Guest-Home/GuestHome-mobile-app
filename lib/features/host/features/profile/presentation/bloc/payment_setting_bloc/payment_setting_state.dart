@@ -10,34 +10,39 @@ enum PaymentMethod{
   const PaymentMethod({required this.name, required this.code});
 
 }
-
 class PaymentSettingState extends Equatable {
   const PaymentSettingState({
     this.amount='0',
     this.paymentMethod=PaymentMethod.telebirr,
-    this.isAcceptingPayment=false
+    this.isAcceptingPayment=false,
+    this.platformCommissionEntity=const PlatformCommissionEntity()
+
 
 });
 
   final String amount;
   final bool isAcceptingPayment;
   final PaymentMethod paymentMethod;
+  final PlatformCommissionEntity platformCommissionEntity;
+
 
   PaymentSettingState copyWith({
     String? amount,
     bool? isAcceptingPayment,
-    PaymentMethod? paymentMethod
+    PaymentMethod? paymentMethod,
+    PlatformCommissionEntity? platformCommissionEntity
 }){
     return PaymentSettingState(
       amount: amount??this.amount,
         isAcceptingPayment: isAcceptingPayment??this.isAcceptingPayment,
-      paymentMethod: paymentMethod??this.paymentMethod
+      paymentMethod: paymentMethod??this.paymentMethod,
+      platformCommissionEntity: platformCommissionEntity??this.platformCommissionEntity
     );
   }
 
 
   @override
-  List<Object?> get props =>[amount,paymentMethod,isAcceptingPayment];
+  List<Object?> get props =>[amount,paymentMethod,isAcceptingPayment,platformCommissionEntity];
 }
 
 final class PaymentSettingInitial extends PaymentSettingState {
@@ -54,17 +59,22 @@ final class PaymentSettingError extends PaymentSettingState {
 class DepositPaymentLoading extends PaymentSettingState{
    DepositPaymentLoading(PaymentSettingState currentState):super(
      paymentMethod: currentState.paymentMethod,
-     amount: currentState.amount
+     amount: currentState.amount,
+     platformCommissionEntity: currentState.platformCommissionEntity
    );
 }
 class PlatformCommissionLoading extends PaymentSettingState{}
 class PlatformCommissionLoaded extends PaymentSettingState{
-  final PlatformCommissionEntity platformCommissionEntity;
-  const PlatformCommissionLoaded({required this.platformCommissionEntity});
+   PlatformCommissionLoaded(PaymentSettingState currentState):super(
+      paymentMethod: currentState.paymentMethod,
+      amount: currentState.amount,
+     platformCommissionEntity: currentState.platformCommissionEntity
+  );
 }
 class DepositPaymentSuccess extends PaymentSettingState{
   DepositPaymentSuccess(PaymentSettingState currentState):super(
   paymentMethod: currentState.paymentMethod,
-  amount: currentState.amount
+  amount: currentState.amount,
+    platformCommissionEntity: currentState.platformCommissionEntity
   );
 }

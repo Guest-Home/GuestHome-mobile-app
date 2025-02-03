@@ -329,12 +329,10 @@ class _AddPropertiesState extends State<AddProperties> {
                                               previous.longitude != current.longitude,
                                       builder: (context, state) {
                                         WidgetsBinding.instance.addPostFrameCallback((_) {
-                                          mapController.move(LatLng(state.latitude, state.longitude), 15);
-                                                                                });
+                                          mapController.move(LatLng(state.latitude, state.longitude), 15);});
                                         return RepaintBoundary(
                                           child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
+                                              borderRadius: BorderRadius.circular(10),
                                               child: FlutterMap(
                                                   mapController: mapController,
                                                   options: MapOptions(
@@ -445,6 +443,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                 stepSutTitle(context,
                                     "Please select the name of the city", true),
                                 CustomTextField(
+                                  readOnly: true,
                                   textEditingController: cityController,
                                   hintText: state.city,
                                   validator: (value) {

@@ -7,15 +7,16 @@ part of 'profile_bloc.dart';
   @override
   List<Object> get props => [];
 }
-class ProfileInitial extends ProfileState {}
+class ProfileInitial extends ProfileState {
+  @override
+  List<Object> get props => [];
+}
 class UserProfileLoadingState extends ProfileState {}
 class UserProfileLoadedState extends ProfileState {
   final UserProfileEntity userProfileEntity;
   final String? token;
    const UserProfileLoadedState(this.userProfileEntity, this.token);
 }
-
-
 
 class ProfileErrorState extends ProfileState {
   final Failure failure;

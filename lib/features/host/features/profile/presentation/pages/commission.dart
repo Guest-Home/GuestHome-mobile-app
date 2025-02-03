@@ -17,7 +17,7 @@ class Commission extends StatelessWidget {
       backgroundColor: ColorConstant.primaryColor,
       color: Colors.white,
       onRefresh: ()async{
-        context.read<PaymentSettingBloc>().add(GetPlatformCommissionEvent());
+      //  context.read<PaymentSettingBloc>().add(GetPlatformCommissionEvent());
       },
       child: Scaffold(
         appBar: AppBar(
@@ -38,10 +38,13 @@ class Commission extends StatelessWidget {
         create: (context) => sl<PaymentSettingBloc>()..add(GetPlatformCommissionEvent()),
         child: BlocBuilder<PaymentSettingBloc, PaymentSettingState>(
             builder: (context, state) {
-              if(state is PlatformCommissionLoading || state is PaymentSettingError){
+              if(state is PlatformCommissionLoading || state is PaymentSettingError ||
+                  state.platformCommissionEntity.currentCommissionRate==null
+              ){
           return Center(child: loadingIndicator(),);
               }
-              else if(state is PlatformCommissionLoaded) {
+              else if(state.platformCommissionEntity.currentCommissionRate!=null ||
+                  state.platformCommissionEntity.currentCommissionRate!.isNotEmpty) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 10,

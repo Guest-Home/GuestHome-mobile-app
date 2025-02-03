@@ -8,6 +8,7 @@ import '../../../../../../config/color/color.dart';
 import '../../../../../../core/common/back_button.dart';
 import '../../../../../../core/common/custom_button.dart';
 import '../../../../../../core/common/spin_kit_loading.dart';
+import '../bloc/profile_bloc.dart';
 
 class DeleteAccount extends StatelessWidget {
   const DeleteAccount({super.key});
@@ -69,6 +70,7 @@ class DeleteAccount extends StatelessWidget {
     if(state is DeactivatedState){
       context.pop();
       showSuccessSnackBar(context, 'your account is deactivated');
+      //context.read<ProfileBloc>().add(ResetProfileEvent());
         context.goNamed('signIn');
     }
   },

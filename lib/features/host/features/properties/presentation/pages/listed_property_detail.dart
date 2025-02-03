@@ -22,6 +22,7 @@ import 'package:minapp/features/host/features/properties/presentation/bloc/add_p
 import 'package:minapp/features/host/features/properties/presentation/bloc/amenities/amenities_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/properties_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/property_type/property_type_bloc.dart';
+import '../../../../../../core/utils/get_location.dart';
 import '../widgets/house_type_card.dart';
 import '../widgets/property_photo_card.dart';
 import 'add_properties.dart';
@@ -459,66 +460,93 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                     spacing: 10,
                                     children: [
                                       subSectionText('House Location'),
-                                      Container(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.3,
-                                          width:
+                                      Stack(
+                                        children: [
+                                          Container(
+                                              height: MediaQuery.of(context).size.height * 0.4,
+                                              width:
                                               MediaQuery.of(context).size.width,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
+                                              decoration: BoxDecoration(
+                                                borderRadius:
                                                 BorderRadius.circular(10),
-                                          ),
-                                          child: ClipRRect(
-                                            borderRadius:
+                                              ),
+                                              child: ClipRRect(
+                                                borderRadius:
                                                 BorderRadius.circular(10),
-                                            child: FlutterMap(
-                                                mapController: mapController,
-                                                options: MapOptions(
-                                                    initialZoom: 14,
-                                                    onTap:
-                                                        (tapPosition, point) {
-                                                      setState(() {
-                                                        lat = point.latitude;
-                                                        long = point.longitude;
-                                                      });
-                                                    },
-                                                    backgroundColor:
-                                                        ColorConstant.cardGrey
+                                                child: FlutterMap(
+                                                    mapController: mapController,
+                                                    options: MapOptions(
+                                                        initialZoom: 14,
+                                                        onTap:
+                                                            (tapPosition, point) {
+                                                          setState(() {
+                                                            lat = point.latitude;
+                                                            long = point.longitude;
+                                                          });
+                                                        },
+                                                        backgroundColor: ColorConstant.cardGrey
                                                             .withValues(
-                                                                alpha: 0.6),
-                                                    initialCenter:
+                                                            alpha: 0.6),
+                                                        initialCenter:
                                                         LatLng(lat, long)),
-                                                children: [
-                                                  TileLayer(
-                                                    urlTemplate:
+                                                    children: [
+                                                      TileLayer(
+                                                        urlTemplate:
                                                         'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                                                    userAgentPackageName:
+                                                        userAgentPackageName:
                                                         'dev.fleaflet.flutter_map.example',
-                                                    // Plenty of other options available!
-                                                  ),
-                                                  MarkerLayer(
-                                                    markers: [
-                                                      Marker(
-                                                        point:
-                                                            LatLng(lat, long),
-                                                        width: 50,
-                                                        height: 50,
-                                                        child: SvgPicture.asset(
-                                                          'assets/icons/marker.svg',
-                                                          semanticsLabel:
-                                                              "marker",
-                                                          fit: BoxFit.cover,
-                                                        ),
+                                                        // Plenty of other options available!
                                                       ),
-                                                    ],
-                                                  ),
-                                                ]),
-                                          )),
-                                      GestureDetector(
-                                        onTap: () {},
-                                        child: Align(
+                                                      MarkerLayer(
+                                                        markers: [
+                                                          Marker(
+                                                            point:
+                                                            LatLng(lat, long),
+                                                            width: 50,
+                                                            height: 50,
+                                                            child: SvgPicture.asset(
+                                                              'assets/icons/marker.svg',
+                                                              semanticsLabel:
+                                                              "marker",
+                                                              fit: BoxFit.cover,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ]),
+                                              )),
+                                          Positioned(
+                                            bottom: 10,
+                                            left:30,
+                                            right: 30,
+                                            child: CustomButton(
+                                                onPressed: ()async{
+                                                  final loc = await GetLocation().gatePosition();
+                                                  setState(() {
+                                                    lat = loc.latitude;
+                                                    long = loc.longitude;
+                                                  });
+                                                   mapController.move(LatLng(lat,long), 15);
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                  elevation: 0,
+                                                  backgroundColor:
+                                                  ColorConstant.primaryColor,
+                                                  padding: EdgeInsets.symmetric(horizontal: 5),
+                                                ),
+                                                child: Text("use current location",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodySmall!
+                                                        .copyWith(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                        FontWeight.w400))),
+                                          )
+                                        ],
+                                      ),
+
+                                       Align(
                                           alignment: Alignment.bottomRight,
                                           child: Row(
                                             mainAxisAlignment:
@@ -541,7 +569,6 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                               ),
                                             ],
                                           ),
-                                        ),
                                       ),
                                       SizedBox(height: 5),
                                       subSectionText(
@@ -1176,12 +1203,14 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                         color: ColorConstant.secondBtnColor,
                       ))),
           CustomButton(
-              onPressed: () {},
+              onPressed: () {
+                context.pop();
+              },
               style: ElevatedButton.styleFrom(
                   elevation: 0,
                   padding: EdgeInsets.only(left: 4, right: 4),
                   backgroundColor: ColorConstant.primaryColor),
-              child: Text("save changes",
+              child: Text("No",
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         color: Colors.white,
                       )))

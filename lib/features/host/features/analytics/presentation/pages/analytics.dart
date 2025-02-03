@@ -390,9 +390,9 @@ class _AnalyticsState extends State<Analytics> {
         barrierLabel: "Custom",
         context: context,
         saveText: "Update",
+        initialEntryMode: DatePickerEntryMode.calendarOnly,
         builder: (BuildContext context, Widget? child) {
           return Container(
-
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
             ),

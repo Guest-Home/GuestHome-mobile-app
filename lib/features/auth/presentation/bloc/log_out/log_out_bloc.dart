@@ -44,6 +44,6 @@ class LogOutBloc extends Bloc<LogOutEvent, LogOutState> {
     await sharedPreferences.remove("isLogin");
     await sharedPreferences.remove('access');
     await sharedPreferences.remove('refresh');
-    await sharedPreferences.clear();
+    // await sharedPreferences.clear();
   }
 }

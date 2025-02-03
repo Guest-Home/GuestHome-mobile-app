@@ -151,11 +151,16 @@ class PaymentSetting extends StatelessWidget {
                                       color: Colors.white,
                                       fontWeight: FontWeight.w500),
                             )),
-                      )
+                      ),
+                      Text("Deposit  history ",style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: ColorConstant.primaryColor,
+                        fontWeight: FontWeight.w600
+                      ),)
                     ],
                   ),
                 ),
               ),
+
             ),
             Card(
               shape: RoundedRectangleBorder(
@@ -188,9 +193,8 @@ class PaymentSetting extends StatelessWidget {
                             child: BlocBuilder<PaymentSettingBloc,
                                 PaymentSettingState>(
                               builder: (context, state) {
-                                if (state is PlatformCommissionLoaded) {
-                                  return Text(
-                                    "Current rate: ${state.platformCommissionEntity.currentCommissionRate}",
+                              return Text(
+                                    "Current rate: ${state.platformCommissionEntity.currentCommissionRate??0}",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium!
@@ -200,8 +204,7 @@ class PaymentSetting extends StatelessWidget {
                                             color: ColorConstant.inActiveColor
                                                 .withValues(alpha: 0.5)),
                                   );
-                                }
-                                return Text("");
+
                               },
                             ),
                           ),

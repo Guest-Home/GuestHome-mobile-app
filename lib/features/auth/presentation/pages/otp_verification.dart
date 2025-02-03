@@ -60,15 +60,14 @@ class _OtpVerificationState extends State<OtpVerification> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: context.read<AuthBloc>(),
-      child: BlocConsumer<AuthBloc, AuthState>(
+    return
+      BlocConsumer<AuthBloc, AuthState>(
         buildWhen: (previous, current) => previous!=current,
         listener: (context, state) {
           if (state is VerifyedOtpLodedState) {
             if (state.verifyOtpEntity.hasProfile==true) {
               showSuccessSnackBar(context, "Otp Verified");
-              context.read<AuthBloc>().add(AuthResetEvent());
+              // context.read<AuthBloc>().add(AuthResetEvent());
               context.goNamed('houseType');
             } else {
               context.goNamed('profileSetup');
@@ -241,8 +240,8 @@ class _OtpVerificationState extends State<OtpVerification> {
                 ),
               ));
         },
-      ),
-    );
+      );
+
   }
 }
 

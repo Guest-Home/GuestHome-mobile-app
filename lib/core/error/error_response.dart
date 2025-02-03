@@ -35,7 +35,7 @@ class ErrorResponse{
         return NetworkFailure('Request was cancelled');
 
       default:
-        return UnknownFailure('An unexpected error occurred: ${e.message}');
+        return UnknownFailure('An unexpected error occurred');
     }
   }
 }

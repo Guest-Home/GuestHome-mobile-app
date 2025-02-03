@@ -27,6 +27,7 @@ class UpdateProfileBloc extends Bloc<UpdateProfileEvent, UpdateProfileState> {
         emit(UpdateUserProfileLoadedState(isUpdate: r));
       });
     });
+    on<ResetUpdateEvent>((event, emit) => emit(UpdateProfileInitial()),);
 
     on<SelectPictureUpdateEvent>((event, emit) async {
       try {
