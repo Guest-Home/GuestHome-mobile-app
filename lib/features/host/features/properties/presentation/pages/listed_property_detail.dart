@@ -565,6 +565,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                       SizedBox(height: 5),
                                       subSectionText("Name of the city"),
                                       CustomTextField(
+                                        readOnly: true,
                                         hintText: widget.propertyEntity.city,
                                         textInputType: TextInputType.text,
                                         textEditingController: cityController,

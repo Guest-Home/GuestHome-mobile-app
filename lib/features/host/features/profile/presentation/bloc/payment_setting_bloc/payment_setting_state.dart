@@ -13,9 +13,9 @@ enum PaymentMethod{
 
 class PaymentSettingState extends Equatable {
   const PaymentSettingState({
-    this.amount='500',
+    this.amount='0',
     this.paymentMethod=PaymentMethod.telebirr,
-    this.isAcceptingPayment=true
+    this.isAcceptingPayment=false
 
 });
 
@@ -29,14 +29,15 @@ class PaymentSettingState extends Equatable {
     PaymentMethod? paymentMethod
 }){
     return PaymentSettingState(
-      amount: amount??this.amount, isAcceptingPayment: isAcceptingPayment??this.isAcceptingPayment,
+      amount: amount??this.amount,
+        isAcceptingPayment: isAcceptingPayment??this.isAcceptingPayment,
       paymentMethod: paymentMethod??this.paymentMethod
     );
   }
 
 
   @override
-  List<Object?> get props =>[amount,paymentMethod];
+  List<Object?> get props =>[amount,paymentMethod,isAcceptingPayment];
 }
 
 final class PaymentSettingInitial extends PaymentSettingState {

@@ -210,67 +210,67 @@ class PaymentSetting extends StatelessWidget {
                     ],
                   )),
             ),
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-                side: BorderSide(
-                  color: ColorConstant.cardGrey,
-                ),
-              ),
-              elevation: 0,
-              color: Colors.white,
-              child: Padding(
-                  padding: const EdgeInsets.all(4),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: ListTile(
-                          title: Text(
-                            "Payment Notification",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14,
-                            ),
-                          ),
-                          subtitle: Text(
-                            "Configure alerts and reminders",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14,
-                                color: ColorConstant.inActiveColor
-                                    .withValues(alpha: 0.5)),
-                          ),
-                        ),
-                      ),
-                      Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          spacing: 4,
-                          children: [
-                            Text(
-                              "Configure",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                  color: ColorConstant.primaryColor),
-                            ),
-                            Icon(Icons.arrow_forward_ios,size: 17,color: ColorConstant.primaryColor,),
-                          ],
-                        ),
-                      ),
-                      SizedBox(width: 10,)
-                    ],
-                  )),
-            ),
+            // Card(
+            //   shape: RoundedRectangleBorder(
+            //     borderRadius: BorderRadius.circular(10),
+            //     side: BorderSide(
+            //       color: ColorConstant.cardGrey,
+            //     ),
+            //   ),
+            //   elevation: 0,
+            //   color: Colors.white,
+            //   child: Padding(
+            //       padding: const EdgeInsets.all(4),
+            //       child: Row(
+            //         children: [
+            //           Expanded(
+            //             child: ListTile(
+            //               title: Text(
+            //                 "Payment Notification",
+            //                 style: Theme.of(context)
+            //                     .textTheme
+            //                     .bodyMedium!
+            //                     .copyWith(
+            //                   fontWeight: FontWeight.w600,
+            //                   fontSize: 14,
+            //                 ),
+            //               ),
+            //               subtitle: Text(
+            //                 "Configure alerts and reminders",
+            //                 style: Theme.of(context)
+            //                     .textTheme
+            //                     .bodyMedium!
+            //                     .copyWith(
+            //                     fontWeight: FontWeight.w500,
+            //                     fontSize: 14,
+            //                     color: ColorConstant.inActiveColor
+            //                         .withValues(alpha: 0.5)),
+            //               ),
+            //             ),
+            //           ),
+            //           Center(
+            //             child: Row(
+            //               mainAxisAlignment: MainAxisAlignment.end,
+            //               spacing: 4,
+            //               children: [
+            //                 Text(
+            //                   "Configure",
+            //                   style: Theme.of(context)
+            //                       .textTheme
+            //                       .bodySmall!
+            //                       .copyWith(
+            //                       fontSize: 12,
+            //                       fontWeight: FontWeight.w600,
+            //                       color: ColorConstant.primaryColor),
+            //                 ),
+            //                 Icon(Icons.arrow_forward_ios,size: 17,color: ColorConstant.primaryColor,),
+            //               ],
+            //             ),
+            //           ),
+            //           SizedBox(width: 10,)
+            //         ],
+            //       )),
+            // ),
 
           ],
         ),
