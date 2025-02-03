@@ -45,6 +45,8 @@ class Home extends StatelessWidget {
     }
     if (location.startsWith('/verifyOldPhone')) {
       return 4;
+    } if (location.startsWith('/depositHistory')) {
+      return 4;
     }
     if (location.startsWith('/verifyNewPhone')) {
       return 4;

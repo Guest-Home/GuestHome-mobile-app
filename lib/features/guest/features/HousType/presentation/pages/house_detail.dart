@@ -342,8 +342,8 @@ class _HouseDetailState extends State<HouseDetail> {
                     constrained: true,
                     boundaryMargin:
                         EdgeInsets.all(20), // Allow panning outside bounds
-                    minScale: 1.0,
-                    maxScale: 5.0, // Enable zooming
+                    minScale: 3.0,
+                    maxScale: 8.0, // Enable zooming
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(15),
                       child: CachedNetworkImage(
@@ -351,7 +351,6 @@ class _HouseDetailState extends State<HouseDetail> {
                         placeholder: (context, url) =>
                             CupertinoActivityIndicator(),
                         errorWidget: (context, url, error) => Icon(Icons.error),
-                        fit: BoxFit.cover,
                         width: MediaQuery.of(context).size.width,
                       ),
                     ),

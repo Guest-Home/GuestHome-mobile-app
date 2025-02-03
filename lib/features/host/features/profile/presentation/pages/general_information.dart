@@ -140,11 +140,12 @@ class GeneralInformation extends StatelessWidget {
 
                     );
                   }
-                 else if (state is UserProfileLoadedState) {
-                    phone.text = state.userProfileEntity.phoneNumber.substring("251".length);
-                    fullName.text =
-                        "${state.userProfileEntity.userAccount.firstName} ${state.userProfileEntity.userAccount.lastName}";
+
+                    phone.text = state.userProfileEntity.phoneNumber!.substring("251".length);
+                    fullName.text ="${state.userProfileEntity.userAccount!.firstName}"
+                        " ${state.userProfileEntity.userAccount!.lastName}";
                     return BlocBuilder<UpdateProfileBloc, UpdateProfileState>(
+                      buildWhen: (previous, current) => previous!=current,
                       builder: (context, updateProfileState) {
                         return Form(
                           key: _formKey,
@@ -175,15 +176,12 @@ class GeneralInformation extends StatelessWidget {
                                                       .userProfileEntity
                                                       .profilePicture !=
                                                   null
-                                              ? CachedNetworkImageProvider(
-                                                  ApiUrl.baseUrl +
-                                                      state.userProfileEntity
-                                                          .profilePicture!,
-                                                  headers: {
-                                                    'Authorization':
-                                                        'Bearer ${state.token!}'
-                                                  },
-                                                )
+                                              ?  NetworkImage(
+                                            ApiUrl.baseUrl + state.userProfileEntity.profilePicture!,
+                                            headers: {
+                                              'Authorization': 'Bearer ${state.token}'
+                                            },// Use custom manager
+                                          )
                                               : null,
                                           child: state.userProfileEntity
                                                       .profilePicture ==
@@ -193,7 +191,11 @@ class GeneralInformation extends StatelessWidget {
                                                   color: Colors.black12,
                                                   size: 20,
                                                 )
-                                              : null,
+                                              : Icon(
+                                            Icons.person,
+                                            color: Colors.black12,
+                                            size: 20,
+                                          ),
                                         ),
                                   Expanded(
                                     child: Column(
@@ -275,8 +277,8 @@ class GeneralInformation extends StatelessWidget {
                               subSectionText("Full Name", context),
                               CustomTextField(
                                   hintText:
-                                      "${state.userProfileEntity.userAccount.firstName}"
-                                          " ${state.userProfileEntity.userAccount.lastName??""}",
+                                      "${state.userProfileEntity.userAccount!.firstName}"
+                                          " ${state.userProfileEntity.userAccount!.lastName??""}",
                                   surfixIcon: null,
                                   textEditingController: fullName,
                                   validator: (value) {
@@ -302,7 +304,7 @@ class GeneralInformation extends StatelessWidget {
                                       context.read<ChangePhoneBloc>().add(
                                           GetOtpForOldPhoneEvent(
                                               oldPone: state.userProfileEntity
-                                                  .phoneNumber));
+                                                  .phoneNumber!));
                                     },
                                     child: Text(
                                       "change phone number",
@@ -318,7 +320,7 @@ class GeneralInformation extends StatelessWidget {
                                 ],
                               ),
                               CustomTextField(
-                                  hintText: state.userProfileEntity.phoneNumber.substring("251".length),
+                                  hintText: state.userProfileEntity.phoneNumber!.substring("251".length),
                                   surfixIcon: null,
                                   textEditingController: phone,
                                   validator: (value) {
@@ -343,8 +345,8 @@ class GeneralInformation extends StatelessWidget {
                                       onPressed: () {
                                         _formKey.currentState!.save();
                                         if (_formKey.currentState!.validate()) {
-                                          if (fullName.text !="${state.userProfileEntity.userAccount.firstName}"
-                                                      " ${state.userProfileEntity.userAccount.lastName}" ||
+                                          if (fullName.text !="${state.userProfileEntity.userAccount!.firstName}"
+                                                      " ${state.userProfileEntity.userAccount!.lastName}" ||
                                               (updateProfileState.profilePhoto != null &&
                                                   updateProfileState
                                                       .profilePhoto!
@@ -389,8 +391,8 @@ class GeneralInformation extends StatelessWidget {
                         );
                       },
                     );
-                  }
-                  return SizedBox.shrink();
+
+                  // return SizedBox.shrink();
                 },
               ),
             ),

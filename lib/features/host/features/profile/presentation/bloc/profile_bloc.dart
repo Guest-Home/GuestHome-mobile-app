@@ -13,12 +13,15 @@ part 'profile_state.dart';
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc() : super(ProfileInitial()) {
     on<GetUserProfileEvent>((event, emit) async {
-      emit(UserProfileLoadingState());
+      emit(UserProfileLoadingState(state));
       Either response = await sl<GetUserProfileUseCase>().call();
       String? token = await GetToken().getUserToken();
       response.fold(
-        (l) => emit(ProfileErrorState(l)),
-        (r) => emit(UserProfileLoadedState(r, token)),
+        (l) => emit(ProfileErrorState(state,failure: l)),
+        (r){
+          emit(ProfileInitial());
+          emit(state.copyWith(userProfileEntity: r,token: token));
+        }
       );
     });
 

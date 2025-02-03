@@ -1,32 +1,32 @@
 import 'package:equatable/equatable.dart';
 
 class UserProfileEntity extends Equatable {
-  final int id;
-  final UserAccountEntity userAccount;
-  final String phoneNumber;
+  final int? id;
+  final UserAccountEntity? userAccount;
+  final String? phoneNumber;
   final String? profilePicture;
-  final String typeOfCustomer;
-  final int rating;
+  final String? typeOfCustomer;
+  final int? rating;
   final dynamic chatId;
-  final bool isApproved;
+  final bool? isApproved;
   final double? points;
-  final String gender;
+  final String? gender;
   final dynamic agent;
-  final String language;
+  final String? language;
 
   const UserProfileEntity({
-    required this.id,
-    required this.userAccount,
-    required this.phoneNumber,
-    required this.profilePicture,
-    required this.typeOfCustomer,
-    required this.rating,
-    required this.chatId,
-    required this.isApproved,
-    required this.points,
-    required this.gender,
-    required this.agent,
-    required this.language,
+     this.id,
+     this.userAccount,
+     this.phoneNumber,
+     this.profilePicture,
+     this.typeOfCustomer,
+     this.rating,
+     this.chatId,
+     this.isApproved,
+     this.points,
+     this.gender,
+     this.agent,
+     this.language,
   });
 
   @override

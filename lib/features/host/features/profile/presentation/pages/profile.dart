@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
 import 'package:minapp/core/apiConstants/api_url.dart';
@@ -63,24 +64,23 @@ class _ProfileState extends State<Profile> {
                               child: Center(child: loadingIndicator()),
                             );
                           }
-                          else if(state is ProfileErrorState){
+                          else if(state is ProfileErrorState || state.userProfileEntity.id==null){
                             return SizedBox(
                                 child: Center(
                                   child: Column(
                                     children: [
                                       Icon(Icons.error_outline,size: 25,color: ColorConstant.red,),
-                                      Text(
-                                        state.failure.message,
-                                        style: Theme.of(context).textTheme.bodySmall,
-                                      ),
+                                      // Text(
+                                      //   state.failure.message,
+                                      //   style: Theme.of(context).textTheme.bodySmall,
+                                      // ),
 
                                     ],
                                   ),
                                 ),
                             );
                           }
-                          else if (state is UserProfileLoadedState) {
-                            return Column(
+                          return Column(
                               spacing: 15,
                               children: [
                                 Row(
@@ -91,27 +91,31 @@ class _ProfileState extends State<Profile> {
                                       radius: 38,
                                       backgroundColor: ColorConstant.cardGrey,
                                       backgroundImage:state.userProfileEntity.profilePicture!=null?
-                                      CachedNetworkImageProvider(
-                                        ApiUrl.baseUrl +
-                                            state.userProfileEntity.profilePicture!,
+                                      NetworkImage(
+                                        ApiUrl.baseUrl + state.userProfileEntity.profilePicture!,
                                         headers: {
-                                          'Authorization': 'Bearer ${state.token!}'
-                                        },
-                                      ):null,
+                                          'Authorization': 'Bearer ${state.token}'
+                                        },// Use custom manager
+                                      )
+                                          :null,
                                       child: state.userProfileEntity.profilePicture == null
                                           ? Icon(
                                         Icons.person,
                                         color: Colors.black12,
                                         size: 20,
                                       )
-                                          : null,
+                                          : Icon(
+                                        Icons.person,
+                                        color: Colors.black12,
+                                        size: 20,
+                                      ),
                                     ),
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "${state.userProfileEntity.userAccount.firstName} "
-                                          "${state.userProfileEntity.userAccount.lastName}",
+                                          "${state.userProfileEntity.userAccount!.firstName} "
+                                          "${state.userProfileEntity.userAccount!.lastName}",
                                           textAlign: TextAlign.start,
                                           overflow: TextOverflow.ellipsis,
                                           style: Theme.of(context)
@@ -122,7 +126,7 @@ class _ProfileState extends State<Profile> {
                                                   fontWeight: FontWeight.w700),
                                         ),
                                         Text(
-                                          state.userProfileEntity.phoneNumber,
+                                          state.userProfileEntity.phoneNumber!,
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodySmall!
@@ -131,7 +135,7 @@ class _ProfileState extends State<Profile> {
                                                   fontSize: 14),
                                         ),
                                         Text(
-                                          state.userProfileEntity.typeOfCustomer,
+                                          state.userProfileEntity.typeOfCustomer!,
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodySmall!
@@ -271,10 +275,10 @@ class _ProfileState extends State<Profile> {
                                 //           ))),
                               ],
                             );
-                          }
-                          return SizedBox(
-                              height: 150,
-                              child: Center(child: loadingIndicator()));
+
+                          // return SizedBox(
+                          //     height: 150,
+                          //     child: Center(child: loadingIndicator()));
                         },
                       ),
                     ),
@@ -580,4 +584,16 @@ class _ProfileState extends State<Profile> {
       ),
     );
   }
+}
+
+
+class NoCacheManager extends CacheManager {
+  static const key = 'noCacheManager';
+
+  NoCacheManager()
+      : super(Config(
+    key,
+    stalePeriod: Duration.zero, // Disable cache
+    maxNrOfCacheObjects: 0,
+  ));
 }

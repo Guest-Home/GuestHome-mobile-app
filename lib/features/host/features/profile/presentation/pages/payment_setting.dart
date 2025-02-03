@@ -106,8 +106,10 @@ class PaymentSetting extends StatelessWidget {
                       ),
                       BlocBuilder<ProfileBloc, ProfileState>(
                         builder: (context, state) {
-                          if(state is UserProfileLoadedState){
-                            return RichText(
+                          if(state is ProfileErrorState || state.userProfileEntity.id==null){
+                          return SizedBox();
+                          }
+                        return RichText(
                                 text: TextSpan(children: [
                                   TextSpan(
                                     text:"${state.userProfileEntity.points}",
@@ -130,8 +132,7 @@ class PaymentSetting extends StatelessWidget {
                                     ),
                                   ),
                                 ]));
-                          }
-                          return SizedBox.shrink();
+
 
                         },
                       ),
@@ -152,15 +153,17 @@ class PaymentSetting extends StatelessWidget {
                                       fontWeight: FontWeight.w500),
                             )),
                       ),
-                      Text("Deposit  history ",style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: ColorConstant.primaryColor,
-                        fontWeight: FontWeight.w600
-                      ),)
+                      GestureDetector(
+                        onTap: () => context.goNamed('depositHistory'),
+                        child: Text("Deposit  history ",style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: ColorConstant.primaryColor,
+                          fontWeight: FontWeight.w600
+                        ),),
+                      )
                     ],
                   ),
                 ),
               ),
-
             ),
             Card(
               shape: RoundedRectangleBorder(

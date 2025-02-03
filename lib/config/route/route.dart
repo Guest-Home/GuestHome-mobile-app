@@ -29,6 +29,7 @@ import 'package:minapp/features/host/features/profile/presentation/pages/account
 import 'package:minapp/features/host/features/profile/presentation/pages/add_funds.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/commission.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/delete_account.dart';
+import 'package:minapp/features/host/features/profile/presentation/pages/deposit_history.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/general_information.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/language.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/payment_setting.dart';
@@ -260,6 +261,11 @@ Future<GoRouter> createRouter() async {
                         name: 'commission',
                         path: '/commission',
                         builder: (context, state) =>  Commission(),
+                      ),
+                      GoRoute(
+                        name: 'depositHistory',
+                        path: '/depositHistory',
+                        builder: (context, state) =>  DepositHistory(),
                       ),
                     ]
                   ),
