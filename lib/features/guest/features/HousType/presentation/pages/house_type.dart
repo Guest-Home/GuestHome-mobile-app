@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -44,23 +45,40 @@ class HouseType extends StatelessWidget {
                 child: RepaintBoundary(
                   child: Stack(
                     children:[
-                      CarouselView(
-                        itemExtent: MediaQuery.of(context).size.width,
-                        backgroundColor:
-                            ColorConstant.cardGrey.withValues(alpha: 0.6),
-                        children: List.generate(
-                          3,
-                          (index) =>
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.asset("assets/icons/img${index+1}.png",
+                      CarouselSlider.builder(
+                        options:CarouselOptions(
+                          height: MediaQuery.of(context).size.height * 0.36,
+                          aspectRatio: 16/9,
+                          viewportFraction:1,
+                          initialPage: 0,
+                          enableInfiniteScroll: true,
+                          reverse: false,
+                          autoPlay: true,
+                          autoPlayInterval: Duration(seconds: 3),
+                          autoPlayAnimationDuration: Duration(milliseconds: 800),
+                          autoPlayCurve: Curves.fastOutSlowIn,
+                          enlargeCenterPage: true,
+                          enlargeFactor: 0.3,
+                          scrollDirection: Axis.horizontal,
+                        ),
+                        itemCount:3,
+                        itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
+                            ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Image.asset("assets/icons/img${itemIndex+1}.png",
                                   fit: BoxFit.fill,
                                   width: MediaQuery.of(context).size.width,
                                   height:
                                   MediaQuery.of(context).size.height * 0.27,
-                                ),),
-
-                        )),
+                                ),
+                            ),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.black12,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
                       Positioned(
                         bottom:10,
                           left: 10,right: 10,

@@ -8,9 +8,9 @@ import '../../../../../../core/error/failure.dart';
 import '../../../../../../service_locator.dart';
 import '../repositories/user_profile_repository.dart';
 
-class UpdateUserProfileUseCase extends UseCase<Either<Failure,bool>,UpdateCustomerParams>{
+class UpdateUserProfileUseCase extends UseCase<Either<Failure,bool>,Map<String,dynamic>>{
   @override
-  Future<Either<Failure, bool>> call(UpdateCustomerParams param)async{
+  Future<Either<Failure, bool>> call(Map<String,dynamic> param)async{
     return await sl<UserProfileRepository>().updateUserProfile(param);
   }
 

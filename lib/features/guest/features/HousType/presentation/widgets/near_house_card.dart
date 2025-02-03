@@ -1,12 +1,14 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:minapp/features/guest/features/HousType/domain/entities/g_property_entity.dart';
 
 import '../../../../../../config/color/color.dart';
 
-class NearHouseCard extends StatelessWidget {
+class NearHouseCard extends StatefulWidget {
   const NearHouseCard({
     super.key,
     required this.width,
@@ -20,9 +22,15 @@ class NearHouseCard extends StatelessWidget {
   final ResultEntity property;
 
   @override
+  State<NearHouseCard> createState() => _NearHouseCardState();
+}
+
+class _NearHouseCardState extends State<NearHouseCard> {
+  int indexItem=0;
+  @override
   Widget build(BuildContext context) {
     return Container(
-      width: width,
+      width: widget.width,
       height: MediaQuery.of(context).size.height*0.6,
       margin: EdgeInsets.only(bottom:10),
       child:
@@ -31,36 +39,51 @@ class NearHouseCard extends StatelessWidget {
           Expanded(
               child: Stack(
                 children: [
-                  CarouselView(
-                      elevation: 0,
-                      padding: EdgeInsets.all(0),
+                  CarouselSlider.builder(
+                    options:CarouselOptions(
+                      height: MediaQuery.of(context).size.height * 0.6,
+                      aspectRatio: 16/9,
+                      viewportFraction:1,
+                      initialPage: 0,
+                      enableInfiniteScroll: true,
                       reverse: false,
-                      backgroundColor: ColorConstant.cardGrey,
-
-                      itemExtent: MediaQuery.of(context).size.width,
-                      children: List.generate(
-                        property.houseImage!.length,
-                            (index) => ClipRRect(
-                          child: CachedNetworkImage(
-                            imageUrl:
-                            property.houseImage![index].image!,
-                            placeholder: (context, url) => Icon(
-                              Icons.photo,
-                              color: ColorConstant.inActiveColor,
+                      autoPlay: false,
+                      autoPlayInterval: Duration(seconds: 3),
+                      autoPlayAnimationDuration: Duration(milliseconds: 800),
+                      autoPlayCurve: Curves.fastOutSlowIn,
+                      enlargeCenterPage: true,
+                      enlargeFactor: 0.3,
+                      onPageChanged:(index, reason) {
+                        setState(() {
+                          indexItem=index;
+                        });
+                      },
+                      scrollDirection: Axis.horizontal,
+                    ),
+                    itemCount:   widget.property.houseImage!.length,
+                    itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
+                         ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: CachedNetworkImage(
+                              imageUrl: widget.property.houseImage![itemIndex].image!,
+                              placeholder: (context, url) =>
+                                  RepaintBoundary(child: CupertinoActivityIndicator()),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
+                              fit: BoxFit.cover,
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height*0.6,
                             ),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
-                            fit: BoxFit.cover,
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height*0.6,
-                          ),
+                          
                         ),
-                      )),
+                  ),
+
                     Positioned(
                         bottom: 8,
                         left: 0,
                         right: 0,
-                        child: Row(
+                        child: widget.property.houseImage!.length>=2?
+                        Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
@@ -73,17 +96,18 @@ class NearHouseCard extends StatelessWidget {
                                   ),
                                   child: Row(
                                     children: List.generate(
-                                        property.houseImage!.length,
+                                        widget.property.houseImage!.length,
                                             (index) => Container(
                                           width: 7,
                                           height: 7,
                                           margin: EdgeInsets.only(right: 5),
                                           decoration: BoxDecoration(
                                               shape: BoxShape.circle,
-                                              color: Colors.white),
+                                              color:index==indexItem?
+                                              Colors.white:ColorConstant.cardGrey.withValues(alpha: 0.4)),
                                         )),
                                   ))
-                            ]))
+                            ]):SizedBox())
                 ],
               )),
           ListTile(
@@ -91,7 +115,7 @@ class NearHouseCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               spacing: 10,
               children: [
-                Text(property.title!,
+                Text(widget.property.title!,
                   textAlign:TextAlign.start,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context)
@@ -109,7 +133,7 @@ class NearHouseCard extends StatelessWidget {
                       color: ColorConstant.yellow,
                     ),
                     Text(
-                      "${property.postedBy!.rating}/5.0",
+                      "${widget.property.postedBy!.rating}/5.0",
                       style: Theme.of(context)
                           .textTheme
                           .bodySmall!
@@ -123,7 +147,7 @@ class NearHouseCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               spacing: 6,
               children: [
-                Text(property.subDescription!.toString(),
+                Text(widget.property.subDescription!.toString(),
                     textAlign: TextAlign.start,
                     overflow: TextOverflow.ellipsis,
                     style:Theme.of(context).textTheme.bodySmall!.copyWith(
@@ -144,7 +168,7 @@ class NearHouseCard extends StatelessWidget {
                                   .withValues(alpha: 0.4)
                           )),
                       TextSpan(
-                          text: " @${property.postedBy!.userAccount!.firstName} ${property.postedBy!.userAccount!.lastName}",
+                          text: " @${widget.property.postedBy!.userAccount!.firstName} ${widget.property.postedBy!.userAccount!.lastName}",
                           style:Theme.of(context).textTheme.bodySmall!.copyWith(
     fontSize: 14,
     fontWeight: FontWeight.w400,
@@ -155,7 +179,7 @@ class NearHouseCard extends StatelessWidget {
                 RichText(
                     text: TextSpan(children: [
                       TextSpan(
-                          text: "${property.price} ${property.unit} ",
+                          text: "${widget.property.price} ${widget.property.unit} ",
                           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               fontSize: 14,
                               fontWeight: FontWeight.w700,
@@ -177,7 +201,7 @@ class NearHouseCard extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        "${property.city!}, ${property.specificAddress!}",
+                        "${widget.property.city!}, ${widget.property.specificAddress!}",
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(

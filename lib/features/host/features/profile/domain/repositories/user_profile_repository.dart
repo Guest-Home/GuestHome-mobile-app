@@ -8,7 +8,7 @@ import '../usecases/update_user_profile_usecase.dart';
 
 abstract class UserProfileRepository{
   Future<Either<Failure,UserProfileEntity>> getUserProfile();
-  Future<Either<Failure,bool>> updateUserProfile(UpdateCustomerParams userData);
+  Future<Either<Failure,bool>> updateUserProfile(Map<String,dynamic> userData);
   Future<Either<Failure,OtpResponseEntity>> getOtpForOld();
   Future<Either<Failure, String>> verifyOldOtp(Map<String,dynamic> userData);
   Future<Either<Failure, String>> verifyNewOtp(Map<String,dynamic> userData);

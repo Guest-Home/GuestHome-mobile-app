@@ -16,11 +16,16 @@ class UpdateProfileBloc extends Bloc<UpdateProfileEvent, UpdateProfileState> {
 
     on<UpdateUserProfileEvent>((event, emit) async {
       emit(UpdateUserProfileLoadingState(state));
-      Either response =
-      await sl<UpdateUserProfileUseCase>().call(UpdateCustomerParams(
-          firstName: event.userData['first_name'],
-          lastName: event.userData['last_name'],
-          image:state.profilePhoto,));
+      Map<String,dynamic> data={
+        "first_name":event.userData['first_name'],
+        "last_name":event.userData['last_name'],
+        if(state.profilePhoto!=null)
+        "image":state.profilePhoto
+      };
+      print("bloc//////");
+      print(data);
+
+      Either response = await sl<UpdateUserProfileUseCase>().call(data);
       response.fold((l) => emit(UpdateProfileError(state,l)), (r) {
         emit(UpdateUserProfileLoadedState(isUpdate: r));
       });

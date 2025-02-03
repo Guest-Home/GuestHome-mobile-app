@@ -71,6 +71,7 @@ class ApiDataSourceImpl implements ApiDataSource {
   @override
   Future<Either<Failure, CustomerProfileModel>> createCustomerProfile(
       CreateCustomerParams params) async {
+
     MultipartFile multipartFile = await MultipartFile.fromFile(
       params.image.path,
     );

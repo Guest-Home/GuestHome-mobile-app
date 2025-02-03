@@ -67,24 +67,28 @@ final int id;
                 stepSutTitle(context, tr("Check-in"), true),
                 SizedBox(height: 10,),
                 CustomTextField(
-                    enabled: true,
+                    readOnly:true,
                     hintText:DateConverter().formatDateRange(DateTime.now().toString()),
                     surfixIcon:  GestureDetector(
-                        onTap: ()async{
-                          DateTime? time=  await showDatePicker(
-                              context: context,
-                              firstDate: DateTime.now(),
-                              lastDate: DateTime(2060));
-                          if(time!=null){
-                            context.read<BookingBloc>().add(AddCheckInEvent(checkIn: time.toString()));
-                            checkInController.text=DateConverter().formatDateRange(time.toString());
-                          }
-                        },
-                        child: Icon(
-                          Icons.calendar_month,
-                          size: 20,
-                          color: ColorConstant.secondBtnColor,
-                        )),
+                          onTap: ()async{
+                            DateTime? time=  await showDatePicker(
+                                helpText: "Check-In date",
+                                initialEntryMode: DatePickerEntryMode.calendarOnly, // Forces vertical scrolling
+                                context: context,
+                                firstDate: DateTime.now(),
+                                lastDate: DateTime(2060),
+                            );
+                            if(time!=null){
+                              context.read<BookingBloc>().add(AddCheckInEvent(checkIn: time.toString()));
+                              checkInController.text=DateConverter().formatDateRange(time.toString());
+                            }
+                          },
+                          child: Icon(
+                            Icons.calendar_month,
+                            size: 20,
+                            color: ColorConstant.secondBtnColor,
+                          )
+                    ),
                     textEditingController: checkInController,
                     onTextChnage: (value) {},
                     validator: (value) {
@@ -99,23 +103,27 @@ final int id;
                 stepSutTitle(context, tr("Check-out"), true),
                 SizedBox(height: 10,),
                 CustomTextField(
+                  readOnly: true,
                     hintText:DateConverter().formatDateRange(DateTime.now().toString()),
                     surfixIcon: GestureDetector(
-                        onTap: ()async{
-                          DateTime? time=  await showDatePicker(
-                              context: context,
-                              firstDate: DateTime.now(),
-                              lastDate: DateTime(2060));
-                          if(time!=null){
-                            context.read<BookingBloc>().add(AddCheckOutEvent(checkOut: time.toString()));
-                            checkOutController.text=DateConverter().formatDateRange(time.toString());
-                          }
-                        },
-                        child: Icon(
-                          size: 20,
-                          Icons.calendar_month,
-                          color: ColorConstant.secondBtnColor,
-                        )),
+                          onTap: ()async{
+                            DateTime? time=  await showDatePicker(
+                              helpText: "Check-Out date",
+                                context: context,
+                                initialEntryMode: DatePickerEntryMode.calendarOnly, // Forces vertical scrolling
+                                firstDate: DateTime.now(),
+                                lastDate: DateTime(2060));
+                            if(time!=null){
+                              context.read<BookingBloc>().add(AddCheckOutEvent(checkOut: time.toString()));
+                              checkOutController.text=DateConverter().formatDateRange(time.toString());
+                            }
+                          },
+                          child: Icon(
+                            size: 20,
+                            Icons.calendar_month,
+                            color: ColorConstant.secondBtnColor,
+                          ),
+                    ),
                     validator: (value) {
                       if(value!.isEmpty){
                         return "add checkout";

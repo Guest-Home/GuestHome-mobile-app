@@ -6,9 +6,7 @@ import 'package:minapp/features/host/features/profile/data/datasources/user_proi
 import 'package:minapp/features/host/features/profile/data/models/platform_commission_model.dart';
 import 'package:minapp/features/host/features/profile/data/models/user_profile_model.dart';
 import 'package:minapp/features/host/features/profile/domain/repositories/user_profile_repository.dart';
-
 import '../../../../../../service_locator.dart';
-import '../../domain/usecases/update_user_profile_usecase.dart';
 
 class UserProfileRepositoryImple implements UserProfileRepository{
   @override
@@ -17,7 +15,7 @@ class UserProfileRepositoryImple implements UserProfileRepository{
   }
 
   @override
-  Future<Either<Failure, bool>> updateUserProfile(UpdateCustomerParams userData)async{
+  Future<Either<Failure, bool>> updateUserProfile(Map<String,dynamic> userData)async{
     return await sl<UserProfileDataSource>().updateUserProfile(userData);
   }
 

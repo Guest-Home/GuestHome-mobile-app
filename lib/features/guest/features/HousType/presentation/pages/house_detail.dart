@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,15 +13,20 @@ import 'package:minapp/features/guest/features/HousType/domain/entities/g_proper
 
 import '../../../../../../core/apiConstants/api_url.dart';
 
-class HouseDetail extends StatelessWidget {
+class HouseDetail extends StatefulWidget {
   const HouseDetail({super.key, required this.property, required this.token});
   final ResultEntity property;
   final String token;
 
+  @override
+  State<HouseDetail> createState() => _HouseDetailState();
+}
 
+class _HouseDetailState extends State<HouseDetail> {
+  int photoIndex=0;
   @override
   Widget build(BuildContext context) {
-    final filteredAmenities =  property.subDescription!.split(',').where((item) => item.trim().isNotEmpty).toList();
+    final filteredAmenities =  widget.property.subDescription!.split(',').where((item) => item.trim().isNotEmpty).toList();
     return Scaffold(
       appBar: AppBar(
         leading: AppBarBackButton(),
@@ -28,33 +34,55 @@ class HouseDetail extends StatelessWidget {
       body: Column(
         spacing: 15,
         children: [
-          Expanded(
-              child: ListView(
+          Expanded(child: ListView(
             padding: EdgeInsets.all(15),
             children: [
               SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.34,
+                  height: MediaQuery.of(context).size.height * 0.36,
                   width: MediaQuery.of(context).size.width,
                   child: Stack(
                     children: [
-                      CarouselView(
-                            itemExtent: MediaQuery.of(context).size.width,
-                            children: List.generate(
-                              property.houseImage!.length,
-                              (index) => ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: CachedNetworkImage(
-                                  imageUrl: property.houseImage![index].image!,
-                                  placeholder: (context, url) =>
-                                      CupertinoActivityIndicator(),
-                                  errorWidget: (context, url, error) =>
-                                      Icon(Icons.error),
-                                  fit: BoxFit.cover,
-                                  width: MediaQuery.of(context).size.width,
+                      CarouselSlider.builder(
+                        options:CarouselOptions(
+                          height: MediaQuery.of(context).size.height * 0.36,
+                          aspectRatio: 16/9,
+                          viewportFraction:0.96,
+                          initialPage: 0,
+                          enableInfiniteScroll: true,
+                          reverse: false,
+                          autoPlay: false,
+                          autoPlayInterval: Duration(seconds: 3),
+                          autoPlayAnimationDuration: Duration(milliseconds: 800),
+                          autoPlayCurve: Curves.fastOutSlowIn,
+                          enlargeCenterPage: true,
+                          enlargeFactor: 0.3,
+                          onPageChanged:(index, reason) {
+                            setState(() {
+                              photoIndex=index;
+                            });
+                          },
+                          scrollDirection: Axis.horizontal,
+                        ),
+                        itemCount:   widget.property.houseImage!.length,
+                        itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
+                             GestureDetector(
+                               onTap: () {
+                                 showFullScreen(context, itemIndex);
+                               },
+                               child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: CachedNetworkImage(
+                                    imageUrl: widget.property.houseImage![itemIndex].image!,
+                                    placeholder: (context, url) =>
+                                        RepaintBoundary(child: CupertinoActivityIndicator()),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                    fit: BoxFit.cover,
+                                    width: MediaQuery.of(context).size.width,
+                                  ),
                                 ),
-                              ),
-                            )),
-
+                             ),
+                            ),
                       Positioned(
                           bottom: 10,
                           left: 0,
@@ -73,19 +101,20 @@ class HouseDetail extends StatelessWidget {
                                     ),
                                     child: Row(
                                       children: List.generate(
-                                          property.houseImage!.length,
-                                          (index) => Container(
+                                          widget.property.houseImage!.length,
+                                          (index) => AnimatedContainer(
+                                            duration:Duration(milliseconds: 800),
                                                 width: 7,
                                                 height: 7,
                                                 margin:
                                                     EdgeInsets.only(right: 5),
                                                 decoration: BoxDecoration(
                                                     shape: BoxShape.circle,
-                                                    color: index == 0
+                                                    color: index == photoIndex
                                                         ? Colors.white
                                                         : ColorConstant.cardGrey
                                                             .withValues(
-                                                                alpha: 0.6)),
+                                                                alpha: 0.4)),
                                               )),
                                     ))
                               ]))
@@ -93,7 +122,7 @@ class HouseDetail extends StatelessWidget {
                   )),
               ListTile(
                   title:Text(
-                    property.title!,
+                    widget.property.title!,
                     style: Theme.of(context)
                         .textTheme
                         .bodyLarge!
@@ -101,7 +130,7 @@ class HouseDetail extends StatelessWidget {
                   ),
 
                   subtitle: SeeMoreText(
-                    text: property.description!,
+                    text: widget.property.description!,
                     maxLines: 4,
                   )),
               Padding(
@@ -114,7 +143,7 @@ class HouseDetail extends StatelessWidget {
                       Icons.location_pin,
                       size: 17,
                     ),
-                    Text("${  property.city!}, ${property.specificAddress!}",
+                    Text("${  widget.property.city!}, ${widget.property.specificAddress!}",
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!
@@ -134,13 +163,13 @@ class HouseDetail extends StatelessWidget {
                     CircleAvatar(
                       radius: 20,
                       backgroundColor: ColorConstant.cardGrey,
-                      backgroundImage: property.postedBy?.profilePicture != null
+                      backgroundImage: widget.property.postedBy?.profilePicture != null
                           ? CachedNetworkImageProvider(
-                        ApiUrl.baseUrl + property.postedBy!.profilePicture!,
-                        headers: {'Authorization': 'Bearer $token'},
+                        ApiUrl.baseUrl + widget.property.postedBy!.profilePicture!,
+                        headers: {'Authorization': 'Bearer ${widget.token}'},
                       )
                           : null,
-                      child: property.postedBy?.profilePicture == null
+                      child: widget.property.postedBy?.profilePicture == null
                           ? Icon(
                         Icons.person,
                         color: Colors.white,
@@ -149,7 +178,7 @@ class HouseDetail extends StatelessWidget {
                           : null,
                     ),
                     Text(
-                      "${tr("posted by")} ${property.postedBy!.userAccount!.firstName!}",
+                      "${tr("posted by")} ${widget.property.postedBy!.userAccount!.firstName!}",
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!
@@ -238,7 +267,7 @@ class HouseDetail extends StatelessWidget {
                 Row(
                   spacing: 3,
                   children: [
-                    Text("${property.price} ${property.unit}",
+                    Text("${widget.property.price} ${widget.property.unit}",
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge!
@@ -255,7 +284,7 @@ class HouseDetail extends StatelessWidget {
                 Expanded(
                     child: CustomButton(
                         onPressed: () {
-                          context.push('/booking', extra: property.id);
+                          context.push('/booking', extra: widget.property.id);
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: ColorConstant.primaryColor,
@@ -276,6 +305,39 @@ class HouseDetail extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<dynamic> showFullScreen(BuildContext context, int itemIndex) {
+    return showDialog(context: context, builder:(context) {
+                                 return GestureDetector(
+                                   onTap: (){context.pop();},
+                                   child: Container(
+                                     padding: EdgeInsets.all(15),
+                                     child: ClipRRect(
+                                       borderRadius: BorderRadius.circular(15),
+                                       child: InteractiveViewer(
+                                         panEnabled: true, // Enable panning
+                                         scaleEnabled: true,
+                                         constrained: true,
+                                         boundaryMargin: EdgeInsets.all(20), // Allow panning outside bounds
+                                                                        minScale: 3.0,
+                                                                        maxScale: 8.0, // Enable zooming
+                                                                        child:ClipRRect(
+                                                                          borderRadius: BorderRadius.circular(15),
+                                                                          child: CachedNetworkImage(
+                                                                                                               imageUrl: widget.property.houseImage![itemIndex].image!,
+                                                                                                               placeholder: (context, url) => CupertinoActivityIndicator(),
+                                                                                                               errorWidget: (context, url, error) =>
+                                                                                                                   Icon(Icons.error),
+                                                                                                               fit: BoxFit.cover,
+                                                                                                               width: MediaQuery.of(context).size.width,
+                                                                          ),
+                                                                        ),
+                                         ),
+                                     ),
+                                   ),
+                                 );
+                               },);
   }
 }
 

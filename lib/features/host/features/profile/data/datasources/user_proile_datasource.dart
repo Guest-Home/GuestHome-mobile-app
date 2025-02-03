@@ -16,7 +16,7 @@ import '../../domain/usecases/update_user_profile_usecase.dart';
 abstract class UserProfileDataSource {
   Future<Either<Failure, UserProfileModel>> getUserProfile();
   Future<Either<Failure, bool>> updateUserProfile(
-      UpdateCustomerParams userData);
+      Map<String,dynamic> userData);
   Future<Either<Failure, OtpResponseModel>> getOtpForOld();
   Future<Either<Failure, String>> verifyOldOtp(Map<String, dynamic> userData);
   Future<Either<Failure, OtpResponseModel>> getOtpForNew(
@@ -47,19 +47,23 @@ class UserProfileDataSourceImple implements UserProfileDataSource {
 
   @override
   Future<Either<Failure, bool>> updateUserProfile(
-      UpdateCustomerParams userData) async {
+      Map<String,dynamic> userData) async {
     FormData formData = FormData.fromMap({
-      'first_name': userData.firstName,
-      'last_name': userData.lastName,
+      'first_name': userData['first_name'],
+      'last_name': userData["last_name"],
     });
 
     // Check if image is provided before adding to FormData
-    if (userData.image != null) {
+    if (userData['image'] != null) {
       MultipartFile multipartFile = await MultipartFile.fromFile(
-        userData.image!.path,
+        userData['image']!.path,
       );
       formData.files.add(MapEntry('profilePicture', multipartFile));
     }
+
+    print("////form data");
+    print(formData.fields);
+    print(formData.files);
     try {
       final response =
           await sl<DioClient>().put(ApiUrl.customer, data: formData);

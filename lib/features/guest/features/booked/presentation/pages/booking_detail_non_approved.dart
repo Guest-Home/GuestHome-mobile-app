@@ -1,6 +1,8 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -17,13 +19,50 @@ import '../../../HousType/presentation/widgets/section_header_text.dart';
 import '../bloc/booked_bloc.dart';
 import '../widgets/available_facilities.dart';
 
-class BookingDetailNonApproved extends StatelessWidget {
+class BookingDetailNonApproved extends StatefulWidget {
   const BookingDetailNonApproved({super.key,required this.property,required this.token});
 
   final ResultBookingEntity property;
   final String token;
 
+  @override
+  State<BookingDetailNonApproved> createState() => _BookingDetailNonApprovedState();
+}
 
+class _BookingDetailNonApprovedState extends State<BookingDetailNonApproved> {
+  int photoIndex=0;
+
+
+  Future<dynamic> showFullScreen(BuildContext context, int itemIndex) {
+    return showDialog(context: context, builder:(context) {
+      return GestureDetector(
+        onTap: () => context.pop(),
+        child: Container(
+          padding: EdgeInsets.all(15),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: InteractiveViewer(
+              panEnabled: true, // Enable panning
+              boundaryMargin: EdgeInsets.all(20), // Allow panning outside bounds
+              minScale: 3.0,
+              maxScale: 8.0, // Enable zooming
+              child:ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: CachedNetworkImage(
+                  imageUrl: widget.property.house!.houseImage![itemIndex].image!,
+                  placeholder: (context, url) => CupertinoActivityIndicator(),
+                  errorWidget: (context, url, error) =>
+                      Icon(Icons.error),
+                  fit: BoxFit.cover,
+                  width: MediaQuery.of(context).size.width,
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    },);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +75,7 @@ class BookingDetailNonApproved extends StatelessWidget {
             Column(
               children: [
                 ListTile(
-                  title:property.status=="Rejected"? SecctionHeader(title: "Rejected Book", isSeeMore: false): SecctionHeader(title: "Pending Book", isSeeMore: false),
+                  title:widget.property.status=="Rejected"? SecctionHeader(title: "Rejected Book", isSeeMore: false): SecctionHeader(title: "Pending Book", isSeeMore: false),
                   subtitle: Text(
                     "Detail of your reservation",
                     style: Theme.of(context)
@@ -54,35 +93,49 @@ class BookingDetailNonApproved extends StatelessWidget {
                             width: MediaQuery.of(context).size.width,
                             child: Stack(
                               children: [
-                                CarouselView(
-                                    elevation: 0,
+                                CarouselSlider.builder(
+                                  options:CarouselOptions(
+                                    height: MediaQuery.of(context).size.height * 0.34,
+                                    aspectRatio: 16/9,
+                                    viewportFraction:0.96,
+                                    initialPage: 0,
+                                    enableInfiniteScroll: true,
                                     reverse: false,
-                                    backgroundColor: ColorConstant.cardGrey,
-                                    shrinkExtent: 20,
-                                    itemExtent: MediaQuery.of(context).size.width,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(13)
-                                    ),
-                                    children: List.generate(
-                                     property.house!.houseImage!.length,
-                                          (index) => ClipRRect(
-                                        child: CachedNetworkImage(
-                                          imageUrl:
-                                          property.house!.houseImage![index].image!,
-                                          placeholder: (context, url) => Icon(
-                                            Icons.photo,
-                                            color: ColorConstant.inActiveColor,
+                                    autoPlay: false,
+                                    autoPlayInterval: Duration(seconds: 3),
+                                    autoPlayAnimationDuration: Duration(milliseconds: 800),
+                                    autoPlayCurve: Curves.fastOutSlowIn,
+                                    enlargeCenterPage: true,
+                                    enlargeFactor: 0.3,
+                                    onPageChanged:(index, reason) {
+                                      setState(() {
+                                        photoIndex=index;
+                                      });
+                                    },
+                                    scrollDirection: Axis.horizontal,
+                                  ),
+                                  itemCount:   widget.property.house!.houseImage!.length,
+                                  itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
+                                      GestureDetector(
+                                        onTap: () {
+                                          showFullScreen(context, itemIndex);
+                                        },
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(15),
+                                          child: CachedNetworkImage(
+                                            imageUrl: widget.property.house!.houseImage![itemIndex].image!,
+                                            placeholder: (context, url) =>
+                                                RepaintBoundary(child: CupertinoActivityIndicator()),
+                                            errorWidget: (context, url, error) =>
+                                                Icon(Icons.error),
+                                            fit: BoxFit.cover,
+                                            width: MediaQuery.of(context).size.width,
                                           ),
-                                          errorWidget: (context, url, error) =>
-                                              Icon(Icons.error),
-                                          fit: BoxFit.cover,
-                                          width: MediaQuery.of(context).size.width,
-                                          height: MediaQuery.of(context).size.height * 0.8,
                                         ),
                                       ),
-                                    )),
+                                ),
                                 Positioned(
-                                    bottom: 8,
+                                    bottom: 10,
                                     left: 0,
                                     right: 0,
                                     child: Row(
@@ -94,18 +147,25 @@ class BookingDetailNonApproved extends StatelessWidget {
                                                   horizontal: 20, vertical: 5),
                                               decoration: BoxDecoration(
                                                 borderRadius: BorderRadius.circular(100),
-                                                color: Colors.black.withValues(alpha: 0.4),
+                                                color:
+                                                Colors.black.withValues(alpha: 0.4),
                                               ),
                                               child: Row(
                                                 children: List.generate(
-                                                    property.house!.houseImage!.length,
-                                                        (index) => Container(
+                                                    widget.property.house!.houseImage!.length,
+                                                        (index) => AnimatedContainer(
+                                                      duration:Duration(milliseconds: 800),
                                                       width: 7,
                                                       height: 7,
-                                                      margin: EdgeInsets.only(right: 5),
+                                                      margin:
+                                                      EdgeInsets.only(right: 5),
                                                       decoration: BoxDecoration(
                                                           shape: BoxShape.circle,
-                                                          color: Colors.white),
+                                                          color: index == photoIndex
+                                                              ? Colors.white
+                                                              : ColorConstant.cardGrey
+                                                              .withValues(
+                                                              alpha: 0.4)),
                                                     )),
                                               ))
                                         ]))
@@ -114,9 +174,9 @@ class BookingDetailNonApproved extends StatelessWidget {
                           ),
                           ListTile(
                               title: SecctionHeader(
-                                  title:    property.house!.title!, isSeeMore: false),
+                                  title:    widget.property.house!.title!, isSeeMore: false),
                               subtitle: SeeMoreText(
-                                text:    property.house!.description!,
+                                text:    widget.property.house!.description!,
                                 maxLines: 4,
                               )),
                           Padding(
@@ -130,7 +190,7 @@ class BookingDetailNonApproved extends StatelessWidget {
                                   size: 19,
                                   color: ColorConstant.secondBtnColor,
                                 ),
-                                Text("${ property.house!.city!}, ${ property.house!.specificAddress!}",
+                                Text("${ widget.property.house!.city!}, ${ widget.property.house!.specificAddress!}",
                                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
                                       fontWeight: FontWeight.bold,
                                       color: ColorConstant.secondBtnColor),
@@ -281,9 +341,9 @@ class BookingDetailNonApproved extends StatelessWidget {
                           ),
 
                           AvailableFacilities(
-                            subDesc:   property.house!.subDescription!,
+                            subDesc:   widget.property.house!.subDescription!,
                           ),
-                          if(property.status!="Rejected")
+                          if(widget.property.status!="Rejected")
                           ListTile(
                             title: SecctionHeader(
                                 title: tr("Booking Cancellation"), isSeeMore: false),
@@ -388,6 +448,7 @@ class BookingDetailNonApproved extends StatelessWidget {
           )),
     );
   }
+
   Future<dynamic> showCancelBookBotomSheet(BuildContext context) {
     return showModalBottomSheet(
       context: context,
@@ -469,7 +530,7 @@ class BookingDetailNonApproved extends StatelessWidget {
                                 return CustomButton(
                                     onPressed: () {
                                       context.read<BookedBloc>().add(
-                                          CancelBookingEvent(id:property.id!));
+                                          CancelBookingEvent(id:widget.property.id!));
                                     },
                                     style: ElevatedButton.styleFrom(
                                         elevation: 0,
@@ -500,5 +561,5 @@ class BookingDetailNonApproved extends StatelessWidget {
       ),
     );
   }
-  }
+}
 

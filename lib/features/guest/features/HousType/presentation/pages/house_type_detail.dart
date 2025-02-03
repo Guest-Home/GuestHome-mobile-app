@@ -59,61 +59,6 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 10,
                 children: [
-                  Container(
-                      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                      child: Row(
-                        spacing: 15,
-                        children: [
-                          Expanded(
-                            child: GestureDetector(
-                              onTap: () => context.pushNamed("search"),
-                              child: SearchField(
-                                isActive: false,
-                                prifixIcon: Icon(
-                                  Icons.search,
-                                  color: ColorConstant.secondBtnColor,
-                                ),
-                                onTextChnage: (value) {},
-                              ),
-                            ),
-                          ),
-                          BlocBuilder<FilterBloc, FilterState>(
-                            buildWhen: (previous, current) =>
-                                previous != current,
-                            builder: (context, state) {
-                              if (state is FilterDataLoadedState) {
-                                return Badge(
-                                  label:
-                                      Text(state.properties.count.toString()),
-                                  alignment: Alignment.topRight,
-                                  offset: Offset(0.0, 10.0),
-                                  isLabelVisible:
-                                      state.category.isNotEmpty ? true : false,
-                                  child: IconButton(
-                                    iconSize: 33,
-                                    icon: Icon(Icons.filter_list),
-                                    onPressed: () =>
-                                        filterModalBottomSheet(context),
-                                  ),
-                                );
-                              }
-                              return Badge(
-                                label: Text(""),
-                                alignment: Alignment.topRight,
-                                offset: Offset(0.0, 10.0),
-                                isLabelVisible:
-                                    state.category.isNotEmpty ? true : false,
-                                child: IconButton(
-                                  iconSize: 33,
-                                  icon: Icon(Icons.filter_list),
-                                  onPressed: () =>
-                                      filterModalBottomSheet(context),
-                                ),
-                              );
-                            },
-                          )
-                        ],
-                      )),
                   Expanded(
                     child: BlocBuilder<FilterBloc, FilterState>(
                       builder: (context, filterState) {
@@ -126,7 +71,42 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                             filterState.properties.results!.isNotEmpty) {
                             return Column(
                               mainAxisAlignment: MainAxisAlignment.start,
+                                spacing: 5,
                                 children: [
+                                  //search
+                                  Container(
+                                      padding: EdgeInsets.symmetric(horizontal: 15),
+                                      child: Row(
+                                        spacing: 10,
+                                        children: [
+                                          Expanded(
+                                            child: GestureDetector(
+                                              onTap: () => context.pushNamed("search"),
+                                              child: SearchField(
+                                                isActive: false,
+                                                prifixIcon: Icon(
+                                                  Icons.search,
+                                                  color: ColorConstant.secondBtnColor,
+                                                ),
+                                                onTextChnage: (value) {},
+                                              ),
+                                            ),
+                                          ),
+                                          Badge(
+                                                label:Text(filterState.properties.count!.toString()),
+                                                alignment: Alignment.topRight,
+                                                offset: Offset(0.0, 10.0),
+                                                isLabelVisible:
+                                                filterState.category.isNotEmpty ? true : false,
+                                                child: IconButton(
+                                                  iconSize: 33,
+                                                  icon: Icon(Icons.filter_list),
+                                                  onPressed: () =>
+                                                      filterModalBottomSheet(context),
+                                                ),
+                                              )
+                                        ],
+                                      )),
                                   Padding(
                                     padding: EdgeInsets.symmetric(horizontal: 15),
                                     child: Row(
@@ -155,7 +135,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                   SizedBox(
                                     height: 15,
                                   ),
-                                    Expanded(
+                                  Expanded(
                                       child: NotificationListener<ScrollNotification>(
                                         onNotification: (scrollInfo) {
                                           if (scrollInfo.metrics.pixels ==
@@ -208,9 +188,66 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                           return false;
                         },
                             child: SingleChildScrollView(
-                        child:   Column(
+                        child:Column(
                           mainAxisAlignment: MainAxisAlignment.start,
+                          spacing: 5,
                           children: [
+                            // search
+                            Container(
+                                padding: EdgeInsets.symmetric(horizontal: 15),
+                                child: Row(
+                                  spacing: 10,
+                                  children: [
+                                    Expanded(
+                                      child: GestureDetector(
+                                        onTap: () => context.pushNamed("search"),
+                                        child: SearchField(
+                                          isActive: false,
+                                          prifixIcon: Icon(
+                                            Icons.search,
+                                            color: ColorConstant.secondBtnColor,
+                                          ),
+                                          onTextChnage: (value) {},
+                                        ),
+                                      ),
+                                    ),
+                                    BlocBuilder<FilterBloc, FilterState>(
+                                      buildWhen: (previous, current) =>
+                                      previous != current,
+                                      builder: (context, state) {
+                                        if (state is FilterDataLoadedState) {
+                                          return Badge(
+                                            label:
+                                            Text(state.properties.count.toString()),
+                                            alignment: Alignment.topRight,
+                                            offset: Offset(0.0, 10.0),
+                                            isLabelVisible:
+                                            state.category.isNotEmpty ? true : false,
+                                            child: IconButton(
+                                              iconSize: 33,
+                                              icon: Icon(Icons.filter_list),
+                                              onPressed: () =>
+                                                  filterModalBottomSheet(context),
+                                            ),
+                                          );
+                                        }
+                                        return Badge(
+                                          label: Text(""),
+                                          alignment: Alignment.topRight,
+                                          offset: Offset(0.0, 10.0),
+                                          isLabelVisible:
+                                          state.category.isNotEmpty ? true : false,
+                                          child: IconButton(
+                                            iconSize: 33,
+                                            icon: Icon(Icons.filter_list),
+                                            onPressed: () =>
+                                                filterModalBottomSheet(context),
+                                          ),
+                                        );
+                                      },
+                                    )
+                                  ],
+                                )),
                             Padding(
                               padding: const EdgeInsets.only(left: 15, right: 15),
                               child: SecctionHeader(
@@ -231,13 +268,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                   );
                                 } else if (state.properties.count == 0 ||
                                     state.properties.results == null) {
-                                 return Center(
-                                    child: Text(
-                                      "no popular found",
-                                      style:Theme.of(context).textTheme.bodySmall,
-                                    ),
-                                  );
-
+                                 return SizedBox.shrink();
                                 } else if (state.properties.results!.isNotEmpty) {
                                   return SizedBox(
                                     height: MediaQuery.of(context).size.height * 0.42,
@@ -252,8 +283,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                         return false;
                                       },
                                       child: ListView.builder(
-                                          itemCount: state
-                                                  .properties.results!.length +
+                                          itemCount: state.properties.results!.length +
                                               (state is PopularPropertyLoadingMoreState
                                                   ? 1
                                                   : 0),
@@ -276,8 +306,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                                 );
                                               },
                                               child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
+                                                padding: const EdgeInsets.symmetric(
                                                         horizontal: 10,
                                                         vertical: 15),
                                                 child: Material(
@@ -288,8 +317,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                                   borderRadius:
                                                       BorderRadius.circular(10),
                                                   child: PopularHouseCard(
-                                                      width:
-                                                          MediaQuery.of(context)
+                                                      width:MediaQuery.of(context)
                                                                   .size
                                                                   .width *
                                                               0.7,
@@ -475,7 +503,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                     Text(
                                       filterState.category.isNotEmpty
                                           ? filterState.category
-                                          : widget.name,
+                                          :"",
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium!
@@ -509,20 +537,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                                 margin:
                                                     EdgeInsets.only(right: 10),
                                                 decoration: BoxDecoration(
-                                                  color: filterState
-                                                          .category.isNotEmpty
-                                                      ? filterState.category ==
-                                                              state
-                                                                  .propertyTypes[
-                                                                      index]
-                                                                  .propertyType
-                                                          ? ColorConstant
-                                                              .primaryColor
-                                                              .withValues(
-                                                                  alpha: 0.5)
-                                                          : ColorConstant
-                                                              .cardGrey
-                                                      : widget.name ==
+                                                  color:filterState.category ==
                                                               state
                                                                   .propertyTypes[
                                                                       index]

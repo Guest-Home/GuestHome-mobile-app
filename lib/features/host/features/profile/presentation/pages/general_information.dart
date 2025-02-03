@@ -138,7 +138,7 @@ class GeneralInformation extends StatelessWidget {
                     );
                   }
                  else if (state is UserProfileLoadedState) {
-                    phone.text = state.userProfileEntity.phoneNumber;
+                    phone.text = state.userProfileEntity.phoneNumber.substring("251".length);
                     fullName.text =
                         "${state.userProfileEntity.userAccount.firstName} ${state.userProfileEntity.userAccount.lastName}";
                     return BlocBuilder<UpdateProfileBloc, UpdateProfileState>(
@@ -272,7 +272,8 @@ class GeneralInformation extends StatelessWidget {
                               subSectionText("Full Name", context),
                               CustomTextField(
                                   hintText:
-                                      "${state.userProfileEntity.userAccount.firstName} ${state.userProfileEntity.userAccount.lastName}",
+                                      "${state.userProfileEntity.userAccount.firstName}"
+                                          " ${state.userProfileEntity.userAccount.lastName??""}",
                                   surfixIcon: null,
                                   textEditingController: fullName,
                                   validator: (value) {
@@ -314,7 +315,7 @@ class GeneralInformation extends StatelessWidget {
                                 ],
                               ),
                               CustomTextField(
-                                  hintText: state.userProfileEntity.phoneNumber,
+                                  hintText: state.userProfileEntity.phoneNumber.substring("251".length),
                                   surfixIcon: null,
                                   textEditingController: phone,
                                   validator: (value) {
@@ -339,22 +340,17 @@ class GeneralInformation extends StatelessWidget {
                                       onPressed: () {
                                         _formKey.currentState!.save();
                                         if (_formKey.currentState!.validate()) {
-                                          if (fullName.text !=
-                                                  "${state.userProfileEntity.userAccount.firstName}"
+                                          if (fullName.text !="${state.userProfileEntity.userAccount.firstName}"
                                                       " ${state.userProfileEntity.userAccount.lastName}" ||
-                                              (updateProfileState
-                                                          .profilePhoto !=
-                                                      null &&
+                                              (updateProfileState.profilePhoto != null &&
                                                   updateProfileState
                                                       .profilePhoto!
                                                       .path
                                                       .isNotEmpty)) {
-                                            List<String> names =
-                                                fullName.text.trim().split(' ');
+                                            List<String> names =fullName.text.trim().split(' ');
                                             Map<String, dynamic>
                                                 userProfileUpdate = {
-                                              "id": state.userProfileEntity
-                                                  .userAccount.id,
+                                             // "id": state.userProfileEntity.userAccount.id,
                                               "first_name": names.first,
                                               "last_name": names.last
                                             };

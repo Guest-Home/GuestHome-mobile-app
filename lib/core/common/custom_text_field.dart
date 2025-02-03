@@ -14,6 +14,7 @@ class CustomTextField extends StatelessWidget {
       this.validator,
       this.textEditingController,
         this.enabled,
+        this.readOnly,
       this.intialValue});
 
   final String hintText;
@@ -26,11 +27,13 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController? textEditingController;
   final String? intialValue;
   final bool? enabled;
+  final bool? readOnly;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       enabled: enabled??true,
+        readOnly:readOnly??false ,
         controller: textEditingController,
         keyboardType: textInputType,
         minLines: 1,

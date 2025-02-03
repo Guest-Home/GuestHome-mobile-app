@@ -53,7 +53,7 @@ class PopularHouseCard extends StatelessWidget {
                               Icon(Icons.error),
                           fit: BoxFit.cover,
                           width: MediaQuery.of(context).size.width,
-                          height:300,
+                          height:height,
                         ),
                       ),
                     )),

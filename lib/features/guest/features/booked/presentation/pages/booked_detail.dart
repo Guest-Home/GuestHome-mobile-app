@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -31,10 +33,43 @@ class BookedDetail extends StatefulWidget {
 }
 
 class _BookedDetailState extends State<BookedDetail> {
+  int photoIndex=0;
   @override
   void initState() {
     super.initState();
     context.read<BookedDetailBloc>().add(GetBookedDetail(id:widget.id));
+  }
+
+
+  Future<dynamic> showFullScreen(BuildContext context, String itemIndex) {
+    return showDialog(context: context, builder:(context) {
+      return GestureDetector(
+        onTap: () => context.pop(),
+        child: Container(
+          padding: EdgeInsets.all(15),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: InteractiveViewer(
+              panEnabled: true, // Enable panning
+              boundaryMargin: EdgeInsets.all(20), // Allow panning outside bounds
+              minScale: 3.0,
+              maxScale: 8.0, // Enable zooming
+              child:ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: CachedNetworkImage(
+                  imageUrl:itemIndex,
+                  placeholder: (context, url) => RepaintBoundary(child: CupertinoActivityIndicator()),
+                  errorWidget: (context, url, error) =>
+                      Icon(Icons.error),
+                  fit: BoxFit.cover,
+                  width: MediaQuery.of(context).size.width,
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    },);
   }
   @override
   Widget build(BuildContext context) {
@@ -76,34 +111,53 @@ class _BookedDetailState extends State<BookedDetail> {
                 width: MediaQuery.of(context).size.width,
                 child: Stack(
                   children: [
-                    CarouselView(
-                        elevation: 0,
+                    CarouselSlider.builder(
+                      options:CarouselOptions(
+                        height: MediaQuery.of(context).size.height * 0.8,
+                        aspectRatio: 16/9,
+                        viewportFraction:0.96,
+                        initialPage: 0,
+                        enableInfiniteScroll: true,
                         reverse: false,
-                        backgroundColor: ColorConstant.cardGrey,
-                        itemExtent: MediaQuery.of(context).size.width,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(13)
-                        ),
-                        children: List.generate(
-                          state.booked.house!.houseImage!.length,
-                          (index) => ClipRRect(
-                            child: CachedNetworkImage(
-                              imageUrl:
-                                  state.booked.house!.houseImage![index].image!,
-                              placeholder: (context, url) => Icon(
-                                Icons.photo,
-                                color: ColorConstant.inActiveColor,
+                        autoPlay: false,
+                        autoPlayInterval: Duration(seconds: 3),
+                        autoPlayAnimationDuration: Duration(milliseconds: 800),
+                        autoPlayCurve: Curves.fastOutSlowIn,
+                        enlargeCenterPage: true,
+                        enlargeFactor: 0.3,
+                        onPageChanged:(index, reason) {
+                          setState(() {
+                            photoIndex=index;
+                          });
+                        },
+                        scrollDirection: Axis.horizontal,
+                      ),
+                      itemCount:  state.booked.house!.houseImage!.length,
+                      itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
+                          GestureDetector(
+                            onTap: () {
+                              showFullScreen(context,   state.booked.house!.houseImage![itemIndex].image!);
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                state.booked.house!.houseImage![itemIndex].image!,
+                                placeholder: (context, url) => Icon(
+                                  Icons.photo,
+                                  color: ColorConstant.inActiveColor,
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
+                                fit: BoxFit.cover,
+                                width: MediaQuery.of(context).size.width,
+                                height: MediaQuery.of(context).size.height * 0.8,
                               ),
-                              errorWidget: (context, url, error) =>
-                                  Icon(Icons.error),
-                              fit: BoxFit.cover,
-                              width: MediaQuery.of(context).size.width,
-                              height: MediaQuery.of(context).size.height * 0.8,
                             ),
                           ),
-                        )),
+                    ),
                     Positioned(
-                        bottom: 8,
+                        bottom: 10,
                         left: 0,
                         right: 0,
                         child: Row(
@@ -115,21 +169,29 @@ class _BookedDetailState extends State<BookedDetail> {
                                       horizontal: 20, vertical: 5),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(100),
-                                    color: Colors.black.withValues(alpha: 0.4),
+                                    color:
+                                    Colors.black.withValues(alpha: 0.4),
                                   ),
                                   child: Row(
                                     children: List.generate(
                                         state.booked.house!.houseImage!.length,
-                                        (index) => Container(
-                                              width: 7,
-                                              height: 7,
-                                              margin: EdgeInsets.only(right: 5),
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: Colors.white),
-                                            )),
+                                            (index) => AnimatedContainer(
+                                          duration:Duration(milliseconds: 800),
+                                          width: 7,
+                                          height: 7,
+                                          margin:
+                                          EdgeInsets.only(right: 5),
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: index == photoIndex
+                                                  ? Colors.white
+                                                  : ColorConstant.cardGrey
+                                                  .withValues(
+                                                  alpha: 0.4)),
+                                        )),
                                   ))
                             ]))
+                    
                   ],
                 ),
               ),
