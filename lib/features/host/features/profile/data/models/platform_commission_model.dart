@@ -2,7 +2,7 @@
 import 'package:minapp/features/host/features/profile/domain/entities/platform_commission_entity.dart';
 
 class PlatformCommissionModel extends PlatformCommissionEntity {
-  PlatformCommissionModel({
+  const PlatformCommissionModel({
    required super.currentCommissionRate,
     required super.commissionBreakdown,
     required super.recentCommissionHistory,
@@ -18,7 +18,7 @@ class PlatformCommissionModel extends PlatformCommissionEntity {
 
 class CommissionBreakdownModel extends CommissionBreakdownEntity {
 
-  CommissionBreakdownModel({
+  const CommissionBreakdownModel({
     required super.totalBooking,
     required super.commissionPaid,
   });
@@ -31,7 +31,7 @@ class CommissionBreakdownModel extends CommissionBreakdownEntity {
 }
 
 class RecentCommissionHistoryModel extends RecentCommissionHistoryEntity {
-  RecentCommissionHistoryModel({
+  const RecentCommissionHistoryModel({
     required super.bookingId,
     required super.transactionDate,
     required super.amount,

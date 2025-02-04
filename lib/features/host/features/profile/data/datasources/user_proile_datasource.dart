@@ -3,6 +3,7 @@ import 'dart:isolate';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:minapp/features/auth/data/models/otp_response_model.dart';
+import 'package:minapp/features/host/features/profile/data/models/deposit_transaction_model.dart';
 import 'package:minapp/features/host/features/profile/data/models/platform_commission_model.dart';
 import 'package:minapp/features/host/features/profile/data/models/user_profile_model.dart';
 import '../../../../../../core/apiConstants/api_url.dart';
@@ -22,6 +23,8 @@ abstract class UserProfileDataSource {
   Future<Either<Failure, String>> verifyNewOtp(Map<String, dynamic> userData);
   Future<Either<Failure,bool>> deposit(Map<String,dynamic> data);
   Future<Either<Failure,PlatformCommissionModel>> getPlatformCommission();
+  Future<Either<Failure,DepositTransactionModel>> getDepositTransaction(String url);
+
 
 
 }
@@ -58,10 +61,6 @@ class UserProfileDataSourceImple implements UserProfileDataSource {
       );
       formData.files.add(MapEntry('profilePicture', multipartFile));
     }
-
-    print("////form data");
-    print(formData.fields);
-    print(formData.files);
     try {
       final response =
           await sl<DioClient>().put(ApiUrl.customer, data: formData);
@@ -170,5 +169,21 @@ class UserProfileDataSourceImple implements UserProfileDataSource {
       return Left(ErrorResponse().mapDioExceptionToFailure(e));
     }
 
+  }
+
+  @override
+  Future<Either<Failure, DepositTransactionModel>> getDepositTransaction(String url)async{
+    try {
+      final response =url.isNotEmpty?await sl<DioClient>().get(url.substring(ApiUrl.baseUrl.length)): await sl<DioClient>().get(ApiUrl.depositTransaction);
+      if (response.statusCode == 200) {
+        final depositTransaction =
+        await Isolate.run(() => DepositTransactionModel.fromMap(response.data));
+        return Right(depositTransaction);
+      } else {
+        return Left(ServerFailure(response.data['error']));
+      }
+    } on DioException catch (e) {
+      return Left(ErrorResponse().mapDioExceptionToFailure(e));
+    }
   }
 }

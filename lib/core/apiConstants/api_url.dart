@@ -45,5 +45,6 @@ class ApiUrl {
   //payment
   static const String deposit = "/payment/api/v1/deposit_point_to_system/";
   static const String commission = "/hostapp/api/v1/commission_history/";
+  static const String depositTransaction = "/payment/api/v1/deposit_transaction/";
 
 }

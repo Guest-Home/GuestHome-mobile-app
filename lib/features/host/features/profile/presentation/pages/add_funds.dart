@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:minapp/core/common/spin_kit_loading.dart';
 import 'package:minapp/core/utils/show_snack_bar.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/payment_setting_bloc/payment_setting_bloc.dart';
+import 'package:minapp/features/host/features/profile/presentation/bloc/profile_bloc.dart';
 import '../../../../../../config/color/color.dart';
 import '../../../../../../core/common/custom_button.dart';
 import '../../../../../../core/common/custom_text_field.dart';
@@ -37,11 +38,11 @@ class AddFunds extends StatelessWidget {
            content: SizedBox(
              height: 150,
              child: Column(
-               spacing: 10,
+               spacing:5,
                mainAxisAlignment: MainAxisAlignment.start,
                children: [
                  Text(
-                   "you will receive USSD code and please verify your payment",
+                   "you will receive USSD payment dialog and please verify your payment",
                    textAlign: TextAlign.center,
                  ),
                  Container(
@@ -50,7 +51,7 @@ class AddFunds extends StatelessWidget {
                    child: CustomButton(
                        onPressed: () {
                          context.pop();
-                         context.pop();
+                         context.read<ProfileBloc>().add(GetUserProfileEvent());
                        },
                        style: ElevatedButton.styleFrom(
                            backgroundColor: ColorConstant.primaryColor,

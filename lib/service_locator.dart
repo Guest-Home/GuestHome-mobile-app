@@ -44,6 +44,7 @@ import 'package:minapp/features/host/features/profile/data/datasources/user_proi
 import 'package:minapp/features/host/features/profile/data/repositories/user_profile_repository_impl.dart';
 import 'package:minapp/features/host/features/profile/domain/repositories/user_profile_repository.dart';
 import 'package:minapp/features/host/features/profile/domain/usecases/deposit_usecase.dart';
+import 'package:minapp/features/host/features/profile/domain/usecases/get_deposit_transaction_usecase.dart';
 import 'package:minapp/features/host/features/profile/domain/usecases/get_otp_new_usecase.dart';
 import 'package:minapp/features/host/features/profile/domain/usecases/get_otp_old_phone_usecase.dart';
 import 'package:minapp/features/host/features/profile/domain/usecases/get_user_profile_usecase.dart';
@@ -51,6 +52,7 @@ import 'package:minapp/features/host/features/profile/domain/usecases/update_use
 import 'package:minapp/features/host/features/profile/domain/usecases/verify_new_otp_usecase.dart';
 import 'package:minapp/features/host/features/profile/domain/usecases/verify_old_otp_usecase.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/change_phone_number/change_phone_bloc.dart';
+import 'package:minapp/features/host/features/profile/presentation/bloc/deposit_transaction_bloc/deposit_transaction_bloc.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/payment_setting_bloc/payment_setting_bloc.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/update_profile_bloc/update_profile_bloc.dart';
@@ -160,6 +162,9 @@ void setup() async {
   sl.registerFactory<PaymentSettingBloc>(
         () => PaymentSettingBloc(),
   );
+  sl.registerFactory<DepositTransactionBloc>(
+        () => DepositTransactionBloc(),
+  );
   sl.registerFactory<UpdateProfileBloc>(
         () => UpdateProfileBloc(),
   );
@@ -209,6 +214,7 @@ void setup() async {
   sl.registerSingleton<DepositUseCase>(DepositUseCase());
   sl.registerSingleton<GetCommissionUseCase>(GetCommissionUseCase());
   sl.registerSingleton<FilterNextUseCase>(FilterNextUseCase());
+  sl.registerSingleton<GetDepositTransactionUsecase>(GetDepositTransactionUsecase());
 
   // repository
 
