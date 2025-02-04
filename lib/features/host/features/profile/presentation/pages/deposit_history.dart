@@ -6,8 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:minapp/core/common/spin_kit_loading.dart';
 import 'package:minapp/core/utils/date_converter.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/deposit_transaction_bloc/deposit_transaction_bloc.dart';
-import 'package:minapp/features/host/features/profile/presentation/bloc/payment_setting_bloc/payment_setting_bloc.dart';
-
 import '../../../../../../config/color/color.dart';
 import '../../../../../../core/common/custom_button.dart';
 import '../bloc/profile_bloc.dart';
