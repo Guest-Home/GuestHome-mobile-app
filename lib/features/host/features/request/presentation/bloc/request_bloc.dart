@@ -30,7 +30,12 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
     on<AcceptReservationEvent>(
       (event, emit) async {
         emit(AcceptingReservationState(state));
-        Either response = await sl<AcceptReservationUsecase>().call(event.id);
+        Map<String,dynamic> data={
+          "room_number":event.roomNumber.toString(),
+          "id":event.id
+        };
+
+        Either response = await sl<AcceptReservationUsecase>().call(data);
         response.fold(
           (l) => emit(ReservationErrorState(state,failure: l)),
           (r) => emit(AcceptedReservationState(state,isAccepted: r)),

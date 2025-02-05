@@ -11,7 +11,8 @@ class GetReservationEvent extends RequestEvent{}
 
 class AcceptReservationEvent extends RequestEvent{
   final int id;
-  const AcceptReservationEvent({required this.id});
+  final String roomNumber;
+  const AcceptReservationEvent({required this.roomNumber, required this.id});
 }
 
 class RejectReservationEvent extends RequestEvent{

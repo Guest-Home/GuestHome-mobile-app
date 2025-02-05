@@ -6,6 +6,7 @@ import 'package:minapp/features/guest/features/booked/domain/entities/my_booking
 import 'package:minapp/features/guest/features/booked/domain/usecases/cancel_booking_usecase.dart';
 import 'package:minapp/features/guest/features/booked/domain/usecases/get_my_booking_usecase.dart';
 
+import '../../../../../../core/utils/connectivity_service.dart';
 import '../../../../../../service_locator.dart';
 
 part 'booked_event.dart';
@@ -15,10 +16,15 @@ class BookedBloc extends Bloc<BookedEvent, BookedState> {
   BookedBloc() : super(BookedInitial()) {
     on<GetMyBookingEvent>((event, emit)async {
       emit(MyBookingLoadingState(state));
+      final hasConnection = await ConnectivityService.isConnected();
+      if (!hasConnection) {
       Either response= await sl<GetMyBookingUseCase>().call("");
       response.fold((l) => emit(MyBookingErrorState(state,failure: l)), (r) => emit(
         state.copyWith(booking: r)
       ),);
+      } else {
+        emit(NoInternetSate());
+      }
     });
     on<BookedResetEvent>((event, emit)async {
       emit(BookedInitial());

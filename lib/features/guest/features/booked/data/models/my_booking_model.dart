@@ -21,22 +21,24 @@ class Result extends ResultBookingEntity{
   const Result({
     required super.id,
     required super.house,
-    required super.user,
+   // required super.user,
     required super.checkIn,
     required super.checkOut,
     required super.status,
     required super.decisionTime,
+    required super.assignedRoom
 });
 
 
   factory Result.fromMap(Map<String, dynamic> json) => Result(
     id: json["id"],
     house: House.fromMap(json["house"]),
-    user: User.fromMap(json["user"]),
+   // user: User.fromMap(json["user"]),
     checkIn: DateTime.parse(json["checkIn"]),
     checkOut: DateTime.parse(json["checkOut"]),
     status: json["status"],
     decisionTime: json["decisionTime"],
+    assignedRoom: json["assigned_room"]
   );
 }
 
@@ -116,36 +118,37 @@ class PostedByUserAccount extends PostedByUserAccountEntity{
     lastName: json["last_name"],
   );
 }
-class User extends UserEntity{
-  const User({
-    required super.id,
-    required super.phoneNumber,
-    required super.userAccount,
-    required super.chatId,
-});
-  factory User.fromMap(Map<String, dynamic> json) => User(
-    id: json["id"],
-    userAccount: UserUserAccount.fromMap(json["userAccount"]),
-    phoneNumber: json["phoneNumber"],
-    chatId: json["chatId"],
-  );
-}
 
-class UserUserAccount extends UserUserAccountEntity{
-  const UserUserAccount({
-    required super.id,
-    required super.firstName,
-    required super.lastName,
-    required super.email,
-    required super.isStaff,
-    required super.username,
-});
-  factory UserUserAccount.fromMap(Map<String, dynamic> json) => UserUserAccount(
-    id: json["id"],
-    username: json["username"],
-    email: json["email"],
-    firstName: json["first_name"],
-    lastName: json["last_name"],
-    isStaff: json["is_staff"],
-  );
-}
+// class User extends UserEntity{
+//   const User({
+//     required super.id,
+//     required super.phoneNumber,
+//     required super.userAccount,
+//     required super.chatId,
+// });
+//   factory User.fromMap(Map<String, dynamic> json) => User(
+//     id: json["id"],
+//     userAccount: UserUserAccount.fromMap(json["userAccount"]),
+//     phoneNumber: json["phoneNumber"],
+//     chatId: json["chatId"],
+//   );
+// }
+
+// class UserUserAccount extends UserUserAccountEntity{
+//   const UserUserAccount({
+//     required super.id,
+//     required super.firstName,
+//     required super.lastName,
+//     required super.email,
+//     required super.isStaff,
+//     required super.username,
+// });
+//   factory UserUserAccount.fromMap(Map<String, dynamic> json) => UserUserAccount(
+//     id: json["id"],
+//     username: json["username"],
+//     email: json["email"],
+//     firstName: json["first_name"],
+//     lastName: json["last_name"],
+//     isStaff: json["is_staff"],
+//   );
+// }

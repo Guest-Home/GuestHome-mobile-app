@@ -16,6 +16,8 @@ part of 'booked_bloc.dart';
   List<Object> get props => [booking];
 }
 class BookedInitial extends BookedState {}
+class NoInternetSate extends BookedState {}
+
 class MyBookingLoadingState extends BookedState{
    MyBookingLoadingState(BookedState currentState):super(
      booking: currentState.booking

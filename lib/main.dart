@@ -24,6 +24,7 @@ import 'features/guest/features/booked/presentation/bloc/booked_bloc.dart';
 import 'features/host/features/profile/presentation/bloc/profile_bloc.dart';
 import 'features/host/features/properties/presentation/bloc/add_property/add_property_bloc.dart';
 import 'features/host/features/properties/presentation/bloc/properties_bloc.dart';
+import 'features/host/features/request/presentation/bloc/request_bloc.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -90,6 +91,10 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => sl<DepositTransactionBloc>(),
+        ),
+        BlocProvider(
+          create: (context) =>
+          sl<RequestBloc>()..add(GetReservationEvent()),
         ),
         BlocProvider(
           create: (context) => sl<UpdateProfileBloc>(),

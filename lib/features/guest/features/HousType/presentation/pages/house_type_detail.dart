@@ -8,7 +8,7 @@ import 'package:minapp/core/common/constants/house_type_icons.dart';
 import 'package:minapp/core/common/custom_text_field.dart';
 import 'package:minapp/core/common/loading_indicator_widget.dart';
 import 'package:minapp/core/utils/show_snack_bar.dart';
-import 'package:minapp/features/guest/features/HousType/domain/entities/g_property_entity.dart';
+import 'package:minapp/features/guest/features/HousType/domain/entities/guest_property_entity.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/filter_bloc/filter_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/houstype_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/popular_property/popular_property_bloc.dart';
@@ -34,7 +34,28 @@ class HouseTypeDetail extends StatefulWidget {
 }
 
 class _HouseTypeDetailState extends State<HouseTypeDetail> {
+  final ScrollController _verticalController = ScrollController();
 
+  void _onVerticalScroll() {
+    if (_verticalController.position.pixels >= _verticalController.position.maxScrollExtent) {
+      // Load more vertical items
+      context.read<HoustypeBloc>().add(LoadMorePropertiesEvent());
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _verticalController.addListener(_onVerticalScroll);
+  }
+
+
+  @override
+  void dispose() {
+    super.dispose();
+    _verticalController.dispose();
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -142,7 +163,6 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                           if (scrollInfo.metrics.pixels ==
                                               scrollInfo.metrics.maxScrollExtent) {
                                              context.read<FilterBloc>().add(LoadMoreFilterPropertiesEvent());
-
                                           }
                                           return false;
                                         },
@@ -156,22 +176,9 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                                   filterState.properties.results!.length) {
                                                 return Center(child: loadingWithPrimary);
                                               }
-                                              return GestureDetector(
-                                                  onTap: () async {
-                                                    final token =
-                                                        await GetToken().getUserToken();
-                                                    context.push('/houseDetail/$token',
-                                                        extra: filterState
-                                                            .properties.results![index]);
-                                                  },
-                                                  child: NearHouseCard(
-                                                      width:
-                                                          MediaQuery.of(context).size.width,
-                                                      height:
-                                                          MediaQuery.of(context).size.height /
-                                                              2,
-                                                      property: filterState
-                                                          .properties.results![index]));
+                                              return  _buildPropertyItem( filterState
+                                                  .properties.results![index]);
+
                                             },
                                           ),
                                       ),
@@ -180,15 +187,14 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                 ],
                             );
                         }
-                        return NotificationListener<ScrollNotification>(
+                        return   NotificationListener<ScrollNotification>(
                             onNotification: (scrollInfo) {
-                          if (scrollInfo.metrics.pixels ==
-                              scrollInfo.metrics.maxScrollExtent) {
-                            context.read<HoustypeBloc>().add(LoadMorePropertiesEvent());
+                          if (scrollInfo is ScrollEndNotification) {
+                            _onVerticalScroll();
                           }
                           return false;
-                        },
-                            child: SingleChildScrollView(
+                        },child:  SingleChildScrollView(
+                            controller: _verticalController,
                         child:Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           spacing:10,
@@ -290,20 +296,15 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                                   : 0),
                                           scrollDirection: Axis.horizontal,
                                           itemBuilder: (context, index) {
-                                            if (index >=
-                                                state
-                                                    .properties.results!.length) {
-                                              return Center(
-                                                  child: loadingWithPrimary);
+                                            if (index >= state.properties.results!.length) {
+                                              return Center(child: loadingWithPrimary);
                                             }
                                             return GestureDetector(
                                               onTap: () async {
                                                 final token = await GetToken()
                                                     .getUserToken();
-                                                context.push(
-                                                  '/houseDetail/$token',
-                                                  extra: state
-                                                      .properties.results![index],
+                                                context.push('/popularHouseDetail/$token',
+                                                  extra: state.properties.results![index],
                                                 );
                                               },
                                               child: Padding(
@@ -318,10 +319,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                                   borderRadius:
                                                       BorderRadius.circular(10),
                                                   child: PopularHouseCard(
-                                                      width:MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.7,
+                                                      width:MediaQuery.of(context).size.width * 0.7,
                                                       height: 300,
                                                       showBorder: true,
                                                       showIndicator: false,
@@ -338,7 +336,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                               },
                             ),
                             Padding(
-                              padding: EdgeInsets.all(15),
+                              padding: EdgeInsets.symmetric(horizontal: 15),
                               child: SecctionHeader(
                                 title: 'Nearby your location',
                                 isSeeMore: false,
@@ -353,25 +351,46 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                 } else if (state.properties.count == 0 ||
                                     state.properties.results == null) {
                                   return _buildNoProperties();
-                                } else if (state.properties.results!.isNotEmpty) {
-                                  return   ListView.builder(
-                                          shrinkWrap: true,
-                                          physics: NeverScrollableScrollPhysics(),
-                                          itemCount: state.properties.results!.length +
-                                              (state is HouseTypeLoadingMoreState
-                                                  ? 1
-                                                  : 0),
-                                          padding: EdgeInsets.symmetric(horizontal: 15),
-                                          itemBuilder: (context, index) {
-                                            if (index >=
-                                                state.properties.results!.length) {
-                                              return Center(child: loadingWithPrimary);
-                                            }
-                                            return _buildPropertyItem(
-                                                state.properties.results![index]);
-                                          },
+                                }
+                                else if(state is HouseTYpeErrorState){
+                                  return  Center(
+                                      child: Column(
+                                        spacing: 10,
+                                        children: [
+                                          Icon(Icons.error_outline,color: ColorConstant.red,),
+                                          Text(state.failure.message),
+                                          CustomButton(
+                                              onPressed: () {context.read<PropertyTypeBloc>().add(GetPropertyTypesEvent());
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                  backgroundColor: ColorConstant.primaryColor,
+                                                  padding: EdgeInsets.all(0),
+                                                  elevation: 0
+                                              ),
+                                              child:Text("retry",style: TextStyle(color: Colors.white),))
+                                        ],
+                                      )
+                                  );
+                                }
 
-                                      );
+                                else if (state.properties.results!.isNotEmpty) {
+                                  return ListView.builder(
+                                            shrinkWrap: true,
+                                            physics: NeverScrollableScrollPhysics(),
+                                            itemCount: state.properties.results!.length +
+                                                (state is HouseTypeLoadingMoreState
+                                                    ? 1
+                                                    : 0),
+                                            padding: EdgeInsets.symmetric(horizontal: 15),
+                                            itemBuilder: (context, index) {
+                                              if (index >=
+                                                  state.properties.results!.length) {
+                                                return Center(child: loadingWithPrimary);
+                                              }
+                                              return _buildPropertyItem(
+                                                  state.properties.results![index]);
+                                            },
+                                    );
                                 }
                                 return SizedBox.shrink();
                               },
@@ -403,8 +422,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
   Widget _buildPropertyItem(ResultEntity result) {
     return GestureDetector(
       onTap: () async {
-        final token = await GetToken().getUserToken();
-        context.push('/houseDetail/$token', extra: result);
+        context.pushNamed("houseGroupDetail",extra: result);
       },
       child: NearHouseCard(
         width: MediaQuery.of(context).size.width,

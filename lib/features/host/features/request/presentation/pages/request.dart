@@ -4,7 +4,12 @@ import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
 import 'package:minapp/core/common/loading_indicator_widget.dart';
 import 'package:minapp/features/host/features/request/presentation/bloc/request_bloc.dart';
+import '../../../../../../core/common/custom_button.dart';
+import '../../../../../../core/common/custom_text_field.dart';
+import '../../../../../../core/common/enum/reservation_status_enum.dart';
 import '../../../../../../core/common/spin_kit_loading.dart';
+import '../../../../../../core/utils/date_converter.dart';
+import '../../../../../../core/utils/show_snack_bar.dart';
 import '../../../properties/presentation/widgets/search_filed.dart';
 import '../widgets/request_card.dart';
 
@@ -16,6 +21,18 @@ class Request extends StatefulWidget {
 }
 
 class _RequestState extends State<Request> {
+  BookingStatus getStatus(String status) {
+    switch (status) {
+      case 'Waiting for Approval':
+        return BookingStatus.pending;
+      case 'Approved':
+        return BookingStatus.approved;
+      case 'Rejected':
+        return BookingStatus.rejected;
+      default:
+        return BookingStatus.pending;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -39,144 +56,489 @@ class _RequestState extends State<Request> {
         onRefresh: () async {
           context.read<RequestBloc>().add(GetReservationEvent());
         },
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            GestureDetector(
-              onTap: () {
-                context.goNamed("hostSearch");
-              },
-              child: Container(
-                padding: EdgeInsets.all(16),
-                child:
-                SearchField(
-                  isActive: false,
-                  prifixIcon: Icon(Icons.search),
-                  onTextChnage: (value) {},
-                ),
-
-              ),
-            ),
-            BlocBuilder<RequestBloc, RequestState>(
-              builder: (context, state) {
-                if (state is ReservationLoadingState) {
-                  return Center(
-                    child:loadingIndicator()
-                  );
-                }
-                else if (state is ReservationErrorState) {
-                  return  SizedBox(
-                      child: Center(
-                        child: Column(
-                          children: [
-                            Icon(Icons.error_outline,size: 25,color: ColorConstant.red,),
-                            Text(
-                              state.failure.message,
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                          ],
-                        ),
-                      ),
-                  );
-                }
-                else if (state.reservation.results==null || state.reservation.results!.isEmpty) {
-                    return  Expanded(
-                      child: ListView(
-                        children:[
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height/2,
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                spacing: 15,
-                                children: [
-                                  Image.asset("assets/icons/Inboxe.png",
-                                    width: 80,
-                                    height: 80,
-                                  ),
-                                  Text(
-                                    "no reservation found",
-                                    textAlign: TextAlign.center,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!.copyWith(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 16
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                        ),]
-                      ),
-                    );
-                  }
-                else if(state.reservation.results!=null || state.reservation.results!.isNotEmpty){
-                  return Expanded(
-                    child: NotificationListener<ScrollNotification>(
-                      onNotification: (scrollInfo) {
-                        if (scrollInfo.metrics.pixels ==
-                            scrollInfo.metrics.maxScrollExtent) {
-                          context.read<RequestBloc>().add(LoadMoreReservationEvent());
-                        }
-                        return false;
-                      },
-                      child: ListView.builder(
-                        itemCount: state.reservation.results!.length+
-                            (state is ReservationLoadingMoreState
-                                ? 1 : 0),
-                        itemBuilder: (context, index){
-                          if (index >=
-                              state.reservation.results!.length) {
-                            return Center(child: loadingWithPrimary);
-                          }
-                          return  GestureDetector(
-                            onTap: () {
-                              reservationBottomSheet(context, state, index);
-                            },
-                            child: Padding(
-                              padding:
-                              const EdgeInsets.symmetric(horizontal: 8),
-                              child: RequestCard(
-                                isEditing: false,
-                                reservationEntity:
-                                state.reservation.results![index],
-                              ),
-                            ),
-                          );
-                        }
-                        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              spacing: 10,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    context.goNamed("hostSearch");
+                  },
+                  child:
+                    SearchField(
+                      isActive: false,
+                      prifixIcon: Icon(Icons.search),
+                      onTextChnage: (value) {},
                     ),
-                  );
-                }
-                return SizedBox.shrink();
-              },
-            )
-          ],
+                ),
+                BlocBuilder<RequestBloc, RequestState>(
+                  builder: (context, state) {
+                    if (state is ReservationLoadingState) {
+                      return Center(
+                        child:loadingIndicator()
+                      );
+                    }
+                    else if (state.reservation.results==null || state.reservation.results!.isEmpty) {
+                        return  Expanded(
+                          child: ListView(
+                            children:[
+                              SizedBox(
+                                height: MediaQuery.of(context).size.height/2,
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    spacing: 15,
+                                    children: [
+                                      Image.asset("assets/icons/Inboxe.png",
+                                        width: 80,
+                                        height: 80,
+                                      ),
+                                      Text(
+                                        "no reservation found",
+                                        textAlign: TextAlign.center,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium!.copyWith(
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 16
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                            ),]
+                          ),
+                        );
+                      }
+                    else if(state.reservation.results!=null || state.reservation.results!.isNotEmpty){
+                      return Expanded(
+                        child: NotificationListener<ScrollNotification>(
+                          onNotification: (scrollInfo) {
+                            if (scrollInfo.metrics.pixels ==
+                                scrollInfo.metrics.maxScrollExtent) {
+                              context.read<RequestBloc>().add(LoadMoreReservationEvent());
+                            }
+                            return false;
+                          },
+                          child: ListView.builder(
+                            itemCount: state.reservation.results!.length+
+                                (state is ReservationLoadingMoreState
+                                    ? 1 : 0),
+                            itemBuilder: (context, index){
+                              if (index >=
+                                  state.reservation.results!.length) {
+                                return Center(child: loadingWithPrimary);
+                              }
+                              return  GestureDetector(
+                                onTap: () {
+                                  if(getStatus(state.reservation.results![index].status!)==BookingStatus.pending){
+                                    reservationBottomSheet(context, state, index);
+                                  }
+
+                                },
+                                child: RequestCard(
+                                    isEditing: false,
+                                    reservationEntity:
+                                    state.reservation.results![index],
+                                  )
+                              );
+                            }
+                            ),
+                        ),
+                      );
+                    }
+                    return SizedBox.shrink();
+                  },
+                )
+              ],
+            ),
         ),
       )),
     );
   }
 
-  PersistentBottomSheetController reservationBottomSheet(
+  Text valueText(BuildContext context, String value) {
+    return Text(value,
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+            fontWeight: FontWeight.w600,
+            fontSize: 12
+        ));
+  }
+  Text titleText(BuildContext context, String title) => Text(
+    title,
+    textAlign: TextAlign.start,
+    maxLines: 3,
+    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+      color: ColorConstant.secondBtnColor.withValues(alpha: 0.6),
+      fontSize: 12,
+      fontWeight: FontWeight.w400,
+    ),
+  );
+
+  Future reservationBottomSheet(
       BuildContext context, RequestState state, int index) {
-    return showBottomSheet(
-      context: context,
-      backgroundColor: Colors.white,
+    final TextEditingController roomNumberController=TextEditingController();
+    final formKey=GlobalKey<FormState>();
+
+    return showModalBottomSheet(context: context,
+      isScrollControlled: true,
       showDragHandle: true,
       builder: (context) => Container(
-        height: MediaQuery.of(context).size.height - 100,
-        margin: EdgeInsets.only(top: 50),
+      height: MediaQuery.of(context).size.height,
+      margin: EdgeInsets.only(top: 50),
+      padding: EdgeInsets.symmetric(horizontal: 15),
+      child:  SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            RequestCard(
-              isEditing: true,
-              reservationEntity: state.reservation.results![index],
-            ),
+          BlocConsumer<RequestBloc,RequestState>(
+        listener: (context, state) {
+          if (state is AcceptedReservationState) {
+            context.read<RequestBloc>().add(GetReservationEvent());
+            context.pop();
+            showSuccessSnackBar(context, "reservation accepted");
+          } else if (state is RejectedReservationState) {
+            context.read<RequestBloc>().add(GetReservationEvent());
+            context.pop();
+            showSuccessSnackBar(context, "reservation Rejected");
+          } else if(state is AcceptingReservationState){
+            context.pop();
+            lodingDialog(context);
+          }
+          else if (state is ReservationErrorState) {
+            showErrorSnackBar(context, state.failure.message);
+          }
+        },
+        builder: (context, state) =>  Card(
+          margin: EdgeInsets.symmetric(vertical: 5),
+          color: ColorConstant.cardGrey.withValues(alpha: 0.5),
+          elevation: 0,
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 10,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    spacing: 10,
+                    children: [
+                      CircleAvatar(
+                        radius: 30,
+                        backgroundColor:
+                        ColorConstant.primaryColor.withValues(alpha: 0.1),
+                        child: Text(
+                          state.reservation.results![index].user!.userAccount!.firstName!
+                              .substring(0, 1)
+                              .toUpperCase() ,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(
+                              color: ColorConstant.primaryColor,
+                              fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                      Expanded(child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "${ state.reservation.results![index].user!.userAccount!.firstName!} ${ state.reservation.results![index].user!.userAccount!.lastName??""}",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          Text( state.reservation.results![index].user!.phoneNumber??"",
+                            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                color: ColorConstant.secondBtnColor
+                                    .withValues(alpha: 0.7)),
+                          )
+
+                        ],))
+
+                    ],),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: 5,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          titleText(context, 'Reservation Id'),
+                          valueText(context, state.reservation.results![index].id.toString()),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Row(
+                            spacing: 3,
+                            children: [
+                              Icon(Icons.arrow_circle_down,
+                                  color: ColorConstant.primaryColor),
+                              titleText(context, 'Check In'),
+                            ],
+                          ),
+                          valueText(
+                              context,
+                              DateConverter().formatDate(
+                                  state.reservation.results![index].checkIn.toString())),
+                          valueText(
+                              context,
+                              DateConverter().formatDateMonth(
+                                  state.reservation.results![index].checkIn.toString())),
+                          valueText(
+                              context,
+                              DateConverter().formatDateTime(
+                                  state.reservation.results![index].checkIn.toString())),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Row(
+                            spacing: 3,
+                            children: [
+                              Icon(Icons.arrow_circle_up,
+                                  color: ColorConstant.primaryColor),
+                              titleText(context, 'Check Out'),
+                            ],
+                          ),
+                          valueText(
+                              context,
+                              DateConverter().formatDate(
+                                  state.reservation.results![index].checkOut.toString())),
+                          valueText(
+                              context,
+                              DateConverter().formatDateMonth(
+                                  state.reservation.results![index].checkOut.toString())),
+                          valueText(
+                              context,
+                              DateConverter().formatDateTime(
+                                  state.reservation.results![index].checkOut.toString())),
+                        ],
+                      )
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          titleText(context, 'Property Type'),
+                          valueText(
+                              context, state.reservation.results![index].house!.typeofHouse!)
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          titleText(context, 'Property Id'),
+                          valueText(
+                              context,state.reservation.results![index].house!.id.toString())
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          titleText(context, 'Unit Type'),
+                          valueText(context,
+                              "${state.reservation.results![index].house!.price.toString()}${state.reservation.results![index].house!.unit}")
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SizedBox(
+                        child: Row(
+                          spacing: 20,
+                          children: [
+                            Expanded(child: BlocBuilder<RequestBloc, RequestState>(
+                              builder: (context, state) {
+                                return CustomButton(
+                                  onPressed: () {
+                                    showDialog(context: context,
+                                        barrierDismissible: false,
+                                        builder: (context) =>AlertDialog(
+                                          title: Text("Room Number",style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600
+                                          ),),
+                                          content: SizedBox(
+                                            height: MediaQuery.of(context).size.height/3.7,
+                                            child: Form(
+                                              key: formKey,
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text("Please enter the room number. ",style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                                      fontSize: 13,
+                                                      fontWeight: FontWeight.w400
+                                                  ),),
+                                                  SizedBox(height: 17,),
+                                                  RichText(text: TextSpan(children: [
+                                                    TextSpan(text: "Room Number",style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.w500
+                                                    )),
+                                                    TextSpan(text: "*",style: TextStyle(color: ColorConstant.red)),
+                                                  ])),
+                                                  SizedBox(height: 3,),
+                                                  CustomTextField(hintText: "room number",
+                                                      textEditingController: roomNumberController,
+                                                      surfixIcon: null,
+                                                      onTextChnage:(value){},
+                                                      validator: (value) {
+                                                        if(value!.isEmpty){
+                                                          return "please add room number";
+                                                        }
+
+                                                        return null;
+                                                      },
+                                                      isMultiLine: false,
+                                                      textInputType: TextInputType.text),
+                                                  SizedBox(height:20,),
+                                                  SizedBox(
+                                                    child: Row(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                      spacing: 10,
+                                                      children: [
+                                                        Expanded(
+                                                          child: CustomButton(
+                                                            onPressed:
+                                                                () {
+                                                              formKey.currentState!.save();
+                                                              if(formKey.currentState!.validate()){
+                                                                context.read<RequestBloc>().add(
+                                                                    AcceptReservationEvent(id: state.reservation.results![index].id!,
+                                                                        roomNumber: roomNumberController.text));
+                                                              }
+                                                            },
+                                                            style: ElevatedButton.styleFrom(
+                                                              backgroundColor: ColorConstant.primaryColor,
+                                                              padding: EdgeInsets.all(13),
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius: BorderRadius.circular(10)),
+                                                            ),
+                                                            child: Text(
+                                                              "Submit",
+                                                              style: Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyLarge!
+                                                                  .copyWith(
+                                                                  color: Colors.white,
+                                                                  fontSize: 12,
+                                                                  fontWeight: FontWeight.w700),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Expanded(
+                                                          child: CustomButton(
+                                                            onPressed: () {
+                                                              context.pop();
+                                                            },
+                                                            style: ElevatedButton.styleFrom(
+                                                              backgroundColor: ColorConstant.red,
+                                                              padding: EdgeInsets.all(13),
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius: BorderRadius.circular(10)),
+                                                            ),
+                                                            child:Text(
+                                                              "Cancel",
+                                                              style: Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyLarge!
+                                                                  .copyWith(
+                                                                  color: Colors.white,
+                                                                  fontSize: 12,
+                                                                  fontWeight: FontWeight.w700),
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  )
+
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ));
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: ColorConstant.green,
+                                    padding: EdgeInsets.all(13),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15)),
+                                  ),
+                                  child:  Text(
+                                    "Accept",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                );
+                              },
+                            )),
+                            Expanded(child: BlocBuilder<RequestBloc, RequestState>(
+                              builder: (context, state) {
+                                return
+                                  CustomButton(
+                                    onPressed: () {
+                                      context.read<RequestBloc>().add(
+                                          RejectReservationEvent(
+                                              id:state.reservation.results![index].id!));
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: ColorConstant.red,
+                                      padding: EdgeInsets.all(13),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(15)),
+                                    ),
+                                    child: state is RejectingReservationState
+                                        ? loading
+                                        : Text(
+                                      "Reject",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .copyWith(
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                  );
+                              },
+                            )),
+                          ],
+                        )),
+                ]),
+          ),
+        )
+
+        )
           ],
         ),
       ),
-    );
+
+    ),);
   }
 }

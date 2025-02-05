@@ -10,7 +10,7 @@ class FilterState extends Equatable {
   final RangeValues priceRange;
   final bool isNearSearch;
 
-  final GpropertyEntity properties;
+  final GuestPropertyEntity properties;
 
   const FilterState({
      this.category='',
@@ -20,7 +20,7 @@ class FilterState extends Equatable {
     this.range=0,
     this.priceRange=const RangeValues(100, 5000),
     this.isNearSearch=false,
-    this.properties=const GpropertyEntity()
+    this.properties=const GuestPropertyEntity()
 });
 
   FilterState copyWith({
@@ -31,7 +31,7 @@ class FilterState extends Equatable {
     int? range,
     RangeValues? priceRange,
     bool? isNearSearch,
-    GpropertyEntity? properties
+    GuestPropertyEntity? properties
   }){
     return FilterState(
       category: category??this.category,

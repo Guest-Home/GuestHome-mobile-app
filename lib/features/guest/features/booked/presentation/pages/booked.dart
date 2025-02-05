@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
 import 'package:minapp/core/common/custom_button.dart';
 import 'package:minapp/core/common/loading_indicator_widget.dart';
+import 'package:minapp/core/utils/show_snack_bar.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/widgets/section_header_text.dart';
 import 'package:minapp/features/guest/features/booked/presentation/bloc/booked_bloc.dart';
 import 'package:minapp/features/guest/features/booked/presentation/widgets/booked_card.dart';
@@ -58,7 +59,12 @@ class Booked extends StatelessWidget {
                         ),
                       )),
                   Expanded(
-                    child: BlocBuilder<BookedBloc, BookedState>(
+                    child: BlocConsumer<BookedBloc, BookedState>(
+                        listener:(context, state) {
+                          if(state is NoInternetSate){
+                            noInternetDialog(context);
+                          }
+                        },
                       builder: (context, state) {
                         if (state is MyBookingLoadingState) {
                           return Center(
@@ -74,8 +80,7 @@ class Booked extends StatelessWidget {
                             return ListView(children:[ EmptyBooked()]);
                           }
                          else if(state.booking.results!.isNotEmpty){
-                          return
-                            NotificationListener<ScrollNotification>(
+                          return NotificationListener<ScrollNotification>(
                               onNotification: (scrollInfo) {
                                 if (scrollInfo.metrics.pixels ==
                                     scrollInfo.metrics.maxScrollExtent) {
@@ -97,7 +102,7 @@ class Booked extends StatelessWidget {
                                 return  GestureDetector(
                                   onTap: () async {
                                     final token = await GetToken().getUserToken();
-                                    if( getStatus(state.booking.results![index].status!)==BookingStatus.approved){
+                                    if(getStatus(state.booking.results![index].status!)==BookingStatus.approved){
                                       context.goNamed('bookedDetail',
                                           pathParameters: {'token': token},
                                           extra: state.booking.results![index].id);

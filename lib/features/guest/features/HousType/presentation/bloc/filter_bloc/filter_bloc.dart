@@ -9,6 +9,7 @@ import 'package:minapp/features/guest/features/HousType/domain/usecases/filter_p
 
 import '../../../../../../../core/utils/get_location.dart';
 import '../../../../../../../service_locator.dart';
+import '../../../domain/entities/guest_property_entity.dart';
 
 part 'filter_event.dart';
 part 'filter_state.dart';

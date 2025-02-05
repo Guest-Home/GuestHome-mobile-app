@@ -6,6 +6,7 @@ import 'package:minapp/features/guest/features/HousType/domain/entities/g_proper
 import 'package:minapp/features/guest/features/HousType/domain/repositories/house_repository.dart';
 
 import '../../../../../../service_locator.dart';
+import '../entities/guest_property_entity.dart';
 
 class GetPopularPropertyUseCase extends UseCase<Either<Failure,GpropertyEntity>,String>{
   @override

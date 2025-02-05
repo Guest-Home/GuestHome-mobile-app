@@ -6,6 +6,7 @@ import 'package:minapp/features/guest/features/HousType/domain/entities/g_proper
 import 'package:minapp/features/guest/features/HousType/domain/usecases/get_house_bytype_usecase.dart';
 
 import '../../../../../../service_locator.dart';
+import '../../domain/entities/guest_property_entity.dart';
 
 part 'houstype_event.dart';
 part 'houstype_state.dart';

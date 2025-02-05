@@ -5,11 +5,12 @@ import 'package:minapp/features/guest/features/HousType/domain/entities/g_proper
 import 'package:minapp/features/guest/features/HousType/domain/repositories/house_repository.dart';
 
 import '../../../../../../service_locator.dart';
+import '../entities/guest_property_entity.dart';
 
 class GetHouseBytypeUsecase
-    extends UseCase<Either<Failure, GpropertyEntity>, String> {
+    extends UseCase<Either<Failure, GuestPropertyEntity>, String> {
   @override
-  Future<Either<Failure, GpropertyEntity>> call(String param) async {
+  Future<Either<Failure, GuestPropertyEntity>> call(String param) async {
     return await sl<HouseRepository>().getPropertyByType(param);
   }
 }

@@ -7,10 +7,11 @@ import 'package:minapp/features/guest/features/HousType/domain/entities/g_proper
 import 'package:minapp/features/guest/features/HousType/domain/repositories/house_repository.dart';
 
 import '../../../../../../service_locator.dart';
+import '../entities/guest_property_entity.dart';
 
-class FilterPropertyUseCase extends UseCase<Either<Failure,GpropertyEntity>,Map<String,dynamic>>{
+class FilterPropertyUseCase extends UseCase<Either<Failure,GuestPropertyEntity>,Map<String,dynamic>>{
   @override
-  Future<Either<Failure, GpropertyEntity>> call(Map<String, dynamic> param)async{
+  Future<Either<Failure, GuestPropertyEntity>> call(Map<String, dynamic> param)async{
     return await sl<HouseRepository>().filterProperty(param);
   }
 

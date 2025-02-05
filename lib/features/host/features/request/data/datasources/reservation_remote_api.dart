@@ -11,7 +11,7 @@ import '../../../../../../service_locator.dart';
 
 abstract class ReservationApiDataSource {
   Future<Either<Failure, ReservationModel>> getReservation(String url);
-  Future<Either<Failure, bool>> acceptReservation(int id);
+  Future<Either<Failure, bool>> acceptReservation(Map<String,dynamic> data);
   Future<Either<Failure, bool>> rejectReservation(int id);
 }
 
@@ -31,23 +31,27 @@ class ReservationApiDataSourceImpl implements ReservationApiDataSource {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      print(e);
       return Left(ErrorResponse().mapDioExceptionToFailure(e));
     }
   }
 
   @override
-  Future<Either<Failure, bool>> acceptReservation(int id) async {
+  Future<Either<Failure, bool>> acceptReservation(Map<String,dynamic> data) async {
     try {
+      int id=data['id'];
+      Map<String,dynamic> roomNo={
+        "room_number":data['room_number']
+      };
       final response =
-          await sl<DioClient>().put("${ApiUrl.acceptReservations}$id/");
+          await sl<DioClient>().put("${ApiUrl.acceptReservations}$id/",data: roomNo);
       if (response.statusCode == 200) {
         return Right(true);
       } else {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.response!.data['msg']!));
+      return Left(ServerFailure(e.response!.data['error'].toString()));
+
     }
   }
 
@@ -62,7 +66,7 @@ class ReservationApiDataSourceImpl implements ReservationApiDataSource {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.response!.data['msg']!));
+      return Left(ServerFailure(e.response!.data['error'].toString()));
     }
   }
 }

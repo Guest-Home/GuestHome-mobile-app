@@ -9,14 +9,16 @@ import 'package:minapp/config/color/color.dart';
 import 'package:minapp/core/common/back_button.dart';
 import 'package:minapp/core/common/constants/house_type_icons.dart';
 import 'package:minapp/core/common/custom_button.dart';
-import 'package:minapp/features/guest/features/HousType/domain/entities/g_property_entity.dart';
+import 'package:minapp/features/guest/features/HousType/domain/entities/guest_property_entity.dart';
 
 import '../../../../../../core/apiConstants/api_url.dart';
 
 class HouseDetail extends StatefulWidget {
-  const HouseDetail({super.key, required this.property, required this.token});
-  final ResultEntity property;
+  const HouseDetail({super.key, required this.property, required this.token, required this.userAccountEntity, required this.profilePicture});
+  final HouseEntity property;
+  final UserAccountEntity userAccountEntity;
   final String token;
+  final String profilePicture;
 
   @override
   State<HouseDetail> createState() => _HouseDetailState();
@@ -53,7 +55,7 @@ class _HouseDetailState extends State<HouseDetail> {
                           viewportFraction: 0.96,
                           initialPage: 0,
                           enableInfiniteScroll: true,
-                          reverse: false,
+                          reverse: true,
                           autoPlay: false,
                           autoPlayInterval: Duration(seconds: 3),
                           autoPlayAnimationDuration:
@@ -78,8 +80,7 @@ class _HouseDetailState extends State<HouseDetail> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(20),
                             child: CachedNetworkImage(
-                              imageUrl:
-                                  widget.property.houseImage![itemIndex].image!,
+                              imageUrl: widget.property.houseImage![itemIndex].image!,
                               placeholder: (context, url) => RepaintBoundary(
                                   child: CupertinoActivityIndicator()),
                               errorWidget: (context, url, error) =>
@@ -94,7 +95,8 @@ class _HouseDetailState extends State<HouseDetail> {
                           bottom: 10,
                           left: 0,
                           right: 0,
-                          child: Row(
+                          child: widget.property.houseImage!.length>=2?
+                          Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Container(
@@ -125,7 +127,7 @@ class _HouseDetailState extends State<HouseDetail> {
                                                                 alpha: 0.4)),
                                               )),
                                     ))
-                              ]))
+                              ]):SizedBox())
                     ],
                   )),
               ListTile(
@@ -175,16 +177,16 @@ class _HouseDetailState extends State<HouseDetail> {
                       radius: 20,
                       backgroundColor: ColorConstant.cardGrey,
                       backgroundImage:
-                          widget.property.postedBy?.profilePicture != null
+                          widget.profilePicture.isNotEmpty
                               ? CachedNetworkImageProvider(
                                   ApiUrl.baseUrl +
-                                      widget.property.postedBy!.profilePicture!,
+                                      widget.profilePicture,
                                   headers: {
                                     'Authorization': 'Bearer ${widget.token}'
                                   },
                                 )
                               : null,
-                      child: widget.property.postedBy?.profilePicture == null
+                      child: widget.profilePicture.isEmpty
                           ? Icon(
                               Icons.person,
                               color: Colors.white,
@@ -193,7 +195,7 @@ class _HouseDetailState extends State<HouseDetail> {
                           : null,
                     ),
                     Text(
-                      "${tr("posted by")} ${widget.property.postedBy!.userAccount!.firstName!}",
+                      "${tr("posted by")} ${widget.userAccountEntity.firstName!}",
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!

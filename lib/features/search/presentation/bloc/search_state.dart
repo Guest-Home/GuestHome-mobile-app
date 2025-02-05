@@ -1,14 +1,14 @@
 part of 'search_bloc.dart';
 
 class SearchState extends Equatable {
-   const SearchState({this.property=const GpropertyEntity(),
+   const SearchState({this.property=const GuestPropertyEntity(),
      this.hostProperties=const[]});
 
-   final GpropertyEntity property;
+   final GuestPropertyEntity property;
    final List<PropertyEntity> hostProperties;
 
   SearchState copyWith({
-    GpropertyEntity? property,
+    GuestPropertyEntity? property,
     List<PropertyEntity>? hostProperties
   }){
     return SearchState(

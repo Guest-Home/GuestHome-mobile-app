@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
 import 'package:minapp/core/common/constants/house_type_icons.dart';
+import 'package:minapp/core/common/custom_button.dart';
 import 'package:minapp/core/common/loading_indicator_widget.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/widgets/section_header_text.dart';
 
@@ -122,15 +123,27 @@ class HouseType extends StatelessWidget {
                     );
                   }
                   else  if (state is PropertyTypeError) {
-                    return Center(
-                      child: Column(
-                        children: [
-                          Icon(Icons.error_outline,color: ColorConstant.red,),
-                          Text(state.failure.message),
-                        ],
-                      )
+                    return  Center(
+                        child: Column(
+                          spacing: 10,
+                          children: [
+                            Icon(Icons.error_outline,color: ColorConstant.red,),
+                             Text(state.failure.message),
+                            CustomButton(
+                                onPressed: () {
+                                  context.read<PropertyTypeBloc>().add(GetPropertyTypesEvent());
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: ColorConstant.primaryColor,
+                                    padding: EdgeInsets.all(0),
+                                    elevation: 0
+                                ),
+                                child:Text("retry",style: TextStyle(color: Colors.white),))
+                          ],
+                        )
                     );
                   }
+
                   return GridView.builder(
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,

@@ -39,6 +39,7 @@ class BookedCard extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.5,
       margin: EdgeInsets.only(bottom: 30),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Expanded(
             child: CarouselView(
@@ -66,9 +67,7 @@ class BookedCard extends StatelessWidget {
                   ),
                 )),
           ),
-          ListTile(
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
               spacing: 10,
               children: [
                 Text(
@@ -100,8 +99,9 @@ class BookedCard extends StatelessWidget {
                 ),
               ],
             ),
-            subtitle: Column(
+           Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               spacing: 7,
               children: [
                 Text(property.house!.subDescription!.toString(),
@@ -181,16 +181,19 @@ class BookedCard extends StatelessWidget {
                   ],
                 )
               ],
-            ),
+
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
+            padding: const EdgeInsets.symmetric(horizontal:3),
             child: Row(
               spacing: 10,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   tr("Booking Status"),
+                  textAlign: TextAlign.start,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium!
@@ -202,7 +205,27 @@ class BookedCard extends StatelessWidget {
                 ))
               ],
             ),
-          )
+          ),
+          if(property.assignedRoom!=null)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal:3,vertical: 10),
+            child: Row(
+              spacing: 10,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Room Number",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(fontWeight: FontWeight.w600, fontSize: 14),
+                ),
+                Text(property.assignedRoom,  style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(fontWeight: FontWeight.w600, fontSize: 14),)
+              ],
+            ),
+          ),
         ],
       ),
     );

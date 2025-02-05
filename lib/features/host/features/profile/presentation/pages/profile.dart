@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -24,7 +25,7 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     super.initState();
-    context.read<ProfileBloc>().add(GetUserProfileEvent());
+  //  context.read<ProfileBloc>().add(GetUserProfileEvent());
   }
 
   @override
@@ -73,7 +74,6 @@ class _ProfileState extends State<Profile> {
                                       //   state.failure.message,
                                       //   style: Theme.of(context).textTheme.bodySmall,
                                       // ),
-
                                     ],
                                   ),
                                 ),
@@ -92,8 +92,7 @@ class _ProfileState extends State<Profile> {
                                       backgroundImage:state.userProfileEntity.profilePicture!=null?
                                       NetworkImage(
                                         ApiUrl.baseUrl + state.userProfileEntity.profilePicture!,
-                                        headers: {
-                                          'Authorization': 'Bearer ${state.token}'
+                                        headers: {'Authorization': 'Bearer ${state.token}'
                                         },// Use custom manager
                                       )
                                           :null,
@@ -103,11 +102,7 @@ class _ProfileState extends State<Profile> {
                                         color: Colors.black12,
                                         size: 20,
                                       )
-                                          : Icon(
-                                        Icons.person,
-                                        color: Colors.black12,
-                                        size: 20,
-                                      ),
+                                          : RepaintBoundary(child: CupertinoActivityIndicator(radius: 10,),)
                                     ),
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -149,79 +144,77 @@ class _ProfileState extends State<Profile> {
                                   ],
                                 ),
                                 // based on the user display either card or container
-
-                                // if (GoRouter.of(context).state!.name == 'profile')
-                                //   Card(
-                                //     color: ColorConstant.cardGrey,
-                                //     elevation: 0,
-                                //     shadowColor: ColorConstant.cardGrey,
-                                //     shape: RoundedRectangleBorder(
-                                //       borderRadius: BorderRadius.circular(15),
-                                //       side: BorderSide(
-                                //         color: ColorConstant.cardGrey,
-                                //       ),
-                                //     ),
-                                //     child: Container(
-                                //       width: MediaQuery.of(context).size.width,
-                                //       padding: const EdgeInsets.all(15),
-                                //       child: Row(
-                                //         mainAxisAlignment:
-                                //             MainAxisAlignment.spaceBetween,
-                                //         children: [
-                                //           Column(
-                                //             crossAxisAlignment:
-                                //                 CrossAxisAlignment.start,
-                                //             spacing: 10,
-                                //             children: [
-                                //               Text(
-                                //                 tr("Amount"),
-                                //                 style: Theme.of(context)
-                                //                     .textTheme
-                                //                     .bodyLarge!
-                                //                     .copyWith(
-                                //                         fontWeight: FontWeight.w700,
-                                //                         fontSize: 14),
-                                //               ),
-                                //               Text(
-                                //                 tr("Lorem ipsum dolor sit amet\n consectetur."),
-                                //                 style: Theme.of(context)
-                                //                     .textTheme
-                                //                     .bodySmall,
-                                //               ),
-                                //             ],
-                                //           ),
-                                //           Row(
-                                //             mainAxisAlignment:
-                                //                 MainAxisAlignment.end,
-                                //             spacing: 10,
-                                //             children: [
-                                //               Text(
-                                //                 "2344",
-                                //                 style: Theme.of(context)
-                                //                     .textTheme
-                                //                     .bodyLarge!
-                                //                     .copyWith(
-                                //                         fontWeight: FontWeight.w700,
-                                //                         fontSize: 20,
-                                //                         color: ColorConstant
-                                //                             .primaryColor),
-                                //               ),
-                                //               Text(
-                                //                 "ETB",
-                                //                 style: Theme.of(context)
-                                //                     .textTheme
-                                //                     .bodySmall!
-                                //                     .copyWith(
-                                //                         color: ColorConstant
-                                //                             .primaryColor),
-                                //               )
-                                //             ],
-                                //           )
-                                //         ],
-                                //       ),
-                                //     ),
-                                //   ),
-
+                                if (GoRouterState.of(context).matchedLocation == '/profile')
+                                  Card(
+                                    color: ColorConstant.cardGrey,
+                                    elevation: 0,
+                                    shadowColor: ColorConstant.cardGrey,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                      side: BorderSide(
+                                        color: ColorConstant.cardGrey,
+                                      ),
+                                    ),
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      padding: const EdgeInsets.all(15),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            spacing: 5,
+                                            children: [
+                                              Text(
+                                                tr("Amount"),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge!
+                                                    .copyWith(
+                                                        fontWeight: FontWeight.w700,
+                                                        fontSize: 14),
+                                              ),
+                                              Text("your current deposited amount ",
+                                                textAlign: TextAlign.start,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall,
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            spacing: 10,
+                                            children: [
+                                              Text(
+                                                state.userProfileEntity.points!.toString(),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge!
+                                                    .copyWith(
+                                                        fontWeight: FontWeight.w700,
+                                                        fontSize: 20,
+                                                        color: ColorConstant
+                                                            .primaryColor),
+                                              ),
+                                              Text(
+                                                "ETB",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall!
+                                                    .copyWith(
+                                                        color: ColorConstant
+                                                            .primaryColor),
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
 
                                 //switch to guest button
                                 // if (GoRouter.of(context).state!.name == 'profile')
@@ -284,7 +277,7 @@ class _ProfileState extends State<Profile> {
                     Container(
                         width: MediaQuery.of(context).size.width,
                         margin: EdgeInsets.only(
-                            left:20, right: 20, bottom: 20, top: 20),
+                            left:20, right: 20, bottom: 20, top: 10),
                         child: CustomButton(
                             onPressed: () {
                               if (GoRouter.of(context).state!.name == 'profile'){

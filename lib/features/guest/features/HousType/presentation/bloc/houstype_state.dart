@@ -1,12 +1,12 @@
 part of 'houstype_bloc.dart';
 
 class HoustypeState extends Equatable {
-    const HoustypeState({this.properties=const GpropertyEntity()});
+    const HoustypeState({this.properties=const GuestPropertyEntity()});
 
-    final GpropertyEntity properties;
+    final GuestPropertyEntity properties;
 
    HoustypeState copyWith({
-     GpropertyEntity? properties
+     GuestPropertyEntity? properties
 }){
      return HoustypeState(
        properties: properties??this.properties

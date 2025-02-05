@@ -4,14 +4,15 @@ import 'package:go_router/go_router.dart';
 import 'package:minapp/config/route/navigator_observer.dart';
 import 'package:minapp/features/auth/presentation/pages/sign_in.dart';
 import 'package:minapp/features/auth/presentation/pages/sign_in_with_tg.dart';
-import 'package:minapp/features/guest/features/HousType/domain/entities/g_property_entity.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/booking/booking_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/houstype_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/popular_property/popular_property_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/pages/booking.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/pages/house_detail.dart';
+import 'package:minapp/features/guest/features/HousType/presentation/pages/house_group_detail.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/pages/house_type.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/pages/house_type_detail.dart';
+import 'package:minapp/features/guest/features/HousType/presentation/pages/popular_house_detail.dart';
 import 'package:minapp/features/guest/features/booked/domain/entities/my_booking_entity.dart';
 import 'package:minapp/features/guest/features/booked/presentation/bloc/booked_detail/booked_detail_bloc.dart';
 import 'package:minapp/features/guest/features/booked/presentation/pages/booked.dart';
@@ -47,11 +48,15 @@ import 'package:minapp/features/onbording/presentation/pages/onbording.dart';
 import 'package:minapp/features/onbording/presentation/pages/splash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../core/model/house_detail_argument.dart';
 import '../../features/auth/presentation/pages/tg_otp_verification.dart';
+import '../../features/guest/features/HousType/domain/entities/guest_property_entity.dart';
 import '../../features/host/features/properties/presentation/bloc/add_property/add_property_bloc.dart';
 import '../../features/onbording/presentation/bloc/on_bording_bloc.dart';
 import '../../main.dart';
 import '../../service_locator.dart';
+import 'package:minapp/features/guest/features/HousType/domain/entities/g_property_entity.dart' as popularProperty;
+
 
 Future<GoRouter> createRouter() async {
   final prefs = await SharedPreferences.getInstance();
@@ -175,11 +180,8 @@ Future<GoRouter> createRouter() async {
               GoRoute(
                   name: 'request',
                   path: '/request',
-                  builder: (context, state) => BlocProvider(
-                        create: (context) =>
-                            sl<RequestBloc>()..add(GetReservationEvent()),
-                        child: const Request(),
-                      )),
+                  builder: (context, state) =>  const Request(),
+                      ),
             ],
           ),
           StatefulShellBranch(
@@ -322,7 +324,16 @@ Future<GoRouter> createRouter() async {
                               return  Search();
                             },
                           ),
+                          GoRoute(
+                            name: 'houseGroupDetail',
+                            path: '/houseGroupDetail',
+                            builder: (context, state) {
+                              final house = state.extra as ResultEntity;
+                              return  HouseGroupDetail(house:house,);
+                            },
+                          ),
                         ]),
+
                   ]),
             ],
           ),
@@ -418,9 +429,23 @@ Future<GoRouter> createRouter() async {
         name: 'houseDetail',
         path: '/houseDetail/:token',
         builder: (context, state) {
-          final property = state.extra as ResultEntity;
+          final property = state.extra as HouseDetailArguments;
           final token = state.pathParameters['token'];
           return HouseDetail(
+            profilePicture: property.profilePicture!,
+            property: property.property,
+            userAccountEntity: property.userAccountEntity,
+            token: token!,
+          );
+        },
+      ),
+      GoRoute(
+        name: 'popularHouseDetail',
+        path: '/popularHouseDetail/:token',
+        builder: (context, state) {
+          final property = state.extra as popularProperty.ResultEntity;
+          final token = state.pathParameters['token'];
+          return PopularHouseDetail(
             property: property,
             token: token!,
           );

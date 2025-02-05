@@ -37,24 +37,26 @@ class MyBookingEntity extends Equatable{
 class ResultBookingEntity extends Equatable{
   final int? id;
   final HouseEntity? house;
-  final UserEntity? user;
+  //final UserEntity? user;
   final DateTime? checkIn;
   final DateTime? checkOut;
   final String ?status;
   final dynamic decisionTime;
+  final dynamic assignedRoom;
 
   const ResultBookingEntity({
     this.id,
     this.house,
-    this.user,
+   // this.user,
     this.checkIn,
     this.checkOut,
     this.status,
     this.decisionTime,
+    this.assignedRoom
   });
 
   @override
-  List<Object?> get props =>[id,house,user,checkOut,checkIn,status,decisionTime];
+  List<Object?> get props =>[id,house,checkOut,checkIn,status,decisionTime,assignedRoom];
 }
 class HouseEntity extends Equatable {
   final  int? id;
@@ -138,40 +140,40 @@ class PostedByUserAccountEntity extends Equatable {
   List<Object?> get props =>[id,firstName,lastName];
 }
 
-class UserEntity extends Equatable {
-  final int? id;
-  final UserUserAccountEntity? userAccount;
-  final String? phoneNumber;
-  final dynamic chatId;
+// class UserEntity extends Equatable {
+//   final int? id;
+//   final UserUserAccountEntity? userAccount;
+//   final String? phoneNumber;
+//   final dynamic chatId;
+//
+//   const UserEntity({
+//     this.id,
+//     this.userAccount,
+//     this.phoneNumber,
+//     this.chatId,
+//   });
+//
+//   @override
+//   List<Object?> get props =>[id,userAccount,phoneNumber,chatId];
+// }
 
-  const UserEntity({
-    this.id,
-    this.userAccount,
-    this.phoneNumber,
-    this.chatId,
-  });
-
-  @override
-  List<Object?> get props =>[id,userAccount,phoneNumber,chatId];
-}
-
-class UserUserAccountEntity extends Equatable {
-  final int? id;
-  final String? username;
-  final String? email;
-  final String? firstName;
-  final String? lastName;
-  final bool? isStaff;
-
-  const UserUserAccountEntity({
-    this.id,
-    this.username,
-    this.email,
-    this.firstName,
-    this.lastName,
-    this.isStaff,
-  });
-
-  @override
-  List<Object?> get props =>[id,username,email,firstName,lastName,isStaff];
-}
+// class UserUserAccountEntity extends Equatable {
+//   final int? id;
+//   final String? username;
+//   final String? email;
+//   final String? firstName;
+//   final String? lastName;
+//   final bool? isStaff;
+//
+//   const UserUserAccountEntity({
+//     this.id,
+//     this.username,
+//     this.email,
+//     this.firstName,
+//     this.lastName,
+//     this.isStaff,
+//   });
+//
+//   @override
+//   List<Object?> get props =>[id,username,email,firstName,lastName,isStaff];
+// }

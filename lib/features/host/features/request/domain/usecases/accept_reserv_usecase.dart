@@ -7,9 +7,9 @@ import 'package:minapp/core/useCases/use_case.dart';
 import '../../../../../../service_locator.dart';
 import '../repositories/reservation_repository.dart';
 
-class AcceptReservationUsecase extends UseCase<Either<Failure,bool>,int>{
+class AcceptReservationUsecase extends UseCase<Either<Failure,bool>,Map<String,dynamic>>{
   @override
-  Future<Either<Failure, bool>> call(int param)async{
+  Future<Either<Failure, bool>> call(Map<String,dynamic> param)async{
     return await sl<ReservationRepository>().acceptReservation(param);
     
   }

@@ -15,8 +15,7 @@ class GpropertyModel extends GpropertyEntity {
         count: json["count"],
         next: json["next"],
         previous: json["previous"],
-        results:
-            List<Result>.from(json["results"].map((x) => Result.fromMap(x))),
+        results: List<Result>.from(json["results"].map((x) => Result.fromMap(x))),
       );
 }
 

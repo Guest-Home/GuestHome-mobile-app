@@ -2,6 +2,7 @@ import 'dart:isolate';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:minapp/features/guest/features/HousType/data/models/g_property_model.dart';
+import 'package:minapp/features/guest/features/HousType/data/models/guest_property_model.dart';
 import 'package:minapp/features/host/features/properties/data/models/amenity_model.dart';
 import 'package:minapp/features/host/features/properties/data/models/city_model.dart';
 import 'package:minapp/features/host/features/properties/data/models/property_model.dart';
@@ -12,6 +13,7 @@ import '../../../../../../core/error/error_response.dart';
 import '../../../../../../core/error/failure.dart';
 import '../../../../../../core/network/dio_client.dart';
 import '../../../../../../service_locator.dart';
+import '../../../../../guest/features/HousType/domain/entities/guest_property_entity.dart';
 import '../models/agent_model.dart';
 import '../models/property_type_model.dart';
 
@@ -24,7 +26,7 @@ abstract class PropertyApiDataSource {
   Future<Either<Failure, bool>> deleteProperty(int id);
   Future<Either<Failure, bool>> updateProperty(UpdatePropertyParam param);
   Future<Either<Failure, AgentPModel>> getAgent(int id);
-  Future<Either<Failure, GpropertyModel>> searchProperty(String name);
+  Future<Either<Failure, GuestPropertyModel>> searchProperty(String name);
   Future<Either<Failure, List<PropertyModel>>> hostSearchProperty(String name);
 }
 
@@ -182,14 +184,14 @@ class PropertyApiDataSourceImpl implements PropertyApiDataSource {
   }
 
   @override
-  Future<Either<Failure, GpropertyModel>> searchProperty(String name) async {
+  Future<Either<Failure, GuestPropertyModel>> searchProperty(String name) async {
     try {
       final response =name.contains(ApiUrl.baseUrl)?await sl<DioClient>().get(name.substring(ApiUrl.baseUrl.length)):
       await sl<DioClient>().get("${ApiUrl.searchProperties}?typeofHouse=$name");
       if (response.statusCode == 200) {
         final properties = await Isolate.run(
           () {
-            return gpropertyModelFromMap(response.data);
+            return GuestPropertyModel.fromMap(response.data);
           },
         );
         return Right(properties);

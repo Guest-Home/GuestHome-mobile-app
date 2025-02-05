@@ -9,7 +9,7 @@ import '../repositories/reservation_repository.dart';
 class RejecctReservationUseCase extends UseCase<Either<Failure,bool>,int>{
   @override
   Future<Either<Failure, bool>> call(int param)async{
-    return await sl<ReservationRepository>().acceptReservation(param);
+    return await sl<ReservationRepository>().rejectReservation(param);
   }
   
 }

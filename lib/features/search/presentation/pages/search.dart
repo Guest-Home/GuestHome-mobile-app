@@ -25,12 +25,14 @@ class Search extends StatelessWidget {
           spacing: 10,
           children: [
             SearchField(onTextChnage: (value) {
-            if(GoRouter.of(context).routerDelegate.state!.name == 'search'){
-              context.read<SearchBloc>().add(SearchPropertyEvent(name: value));
-            }
-            else{
-              context.read<SearchBloc>().add(HostSearchPropertyEvent(name: value));
-            }
+              if(value.isNotEmpty){
+                if(GoRouter.of(context).routerDelegate.state!.name == 'search'){
+                  context.read<SearchBloc>().add(SearchPropertyEvent(name: value));
+                }
+                else{
+                  context.read<SearchBloc>().add(HostSearchPropertyEvent(name: value));
+                }
+              }
             },
              surfixIcon: Icon(Icons.cancel_outlined,size: 18,),
              prifixIcon: Icon(Icons.search), isActive: true),
@@ -82,13 +84,13 @@ class Search extends StatelessWidget {
                                   ClipRRect(
                                       borderRadius: BorderRadius.circular(13),
                                       child: CachedNetworkImage(
-                                        imageUrl:state.property.results![index].houseImage![0].image!,
+                                        imageUrl:state.property.results![index].tumbleImage??"",
                                         placeholder: (context, url) => Icon(
                                           Icons.photo,
                                           color: ColorConstant.inActiveColor,
                                         ),
                                         errorWidget: (context, url, error) =>
-                                            Icon(Icons.error),
+                                            Icon(Icons.image),
                                         fit: BoxFit.cover,
                                         width:MediaQuery.of(context).size.height*0.15,
                                         height:MediaQuery.of(context).size.height*0.13,
@@ -100,7 +102,7 @@ class Search extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       spacing:2,
                                       children: [
-                                        Text(state.property.results![index].title!,
+                                        Text(state.property.results![index].houses![0].title!,
                                           textAlign: TextAlign.start,
                                           overflow: TextOverflow.ellipsis,
                                           style: Theme.of(context).textTheme.bodyLarge!.copyWith(
@@ -108,27 +110,27 @@ class Search extends StatelessWidget {
                                             fontWeight: FontWeight.w600
                                         ),),
                                         SizedBox(height: 1,),
-                                        Row(
-                                          children: [
-                                            Text("${state.property.results![index].price} ${state.property.results![index].unit}",style:
-                                            Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 14
-                                            ),),
-                                            Text("/day",style:
-                                            Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                                fontWeight: FontWeight.w700,
-                                                color: ColorConstant.secondBtnColor.withValues(alpha: 0.6),
-                                                fontSize: 14
-                                            ),)
-                                          ],
-                                        ),
+                                        // Row(
+                                        //   children: [
+                                        //     Text("${state.property.results![index].price} ${state.property.results![index].unit}",style:
+                                        //     Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                        //         fontWeight: FontWeight.w700,
+                                        //         fontSize: 14
+                                        //     ),),
+                                        //     Text("/day",style:
+                                        //     Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                        //         fontWeight: FontWeight.w700,
+                                        //         color: ColorConstant.secondBtnColor.withValues(alpha: 0.6),
+                                        //         fontSize: 14
+                                        //     ),)
+                                        //   ],
+                                        // ),
                                         Row(
                                           spacing:4,
                                           children: [
                                             Icon(Icons.location_pin,size: 18,),
                                             Expanded(
-                                              child: Text(state.property.results![index].specificAddress!,
+                                              child: Text("${state.property.results![index].houses![0].city!},${state.property.results![index].houses![0].specificAddress!}",
                                                 textAlign: TextAlign.start,
                                                 maxLines: 2,
                                                 style:
@@ -144,7 +146,7 @@ class Search extends StatelessWidget {
                                           spacing:4,
                                           children: [
                                             Icon(Icons.star,color: ColorConstant.yellow,size: 18,),
-                                            Text("${state.property.results![index].postedBy!.rating}/5.0 ",style:
+                                            Text("${state.property.results![index].rating}/5.0 ",style:
                                             Theme.of(context).textTheme.bodyMedium!.copyWith(
                                                 fontWeight: FontWeight.w700,
                                                 fontSize: 12
@@ -334,6 +336,7 @@ class NoSearchFound extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      spacing: 5,
       children: [
         Image.asset("assets/icons/Inboxe.png",
           width: 80,

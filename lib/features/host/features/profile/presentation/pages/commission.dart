@@ -215,7 +215,7 @@ class Commission extends StatelessWidget {
                         itemBuilder: (context, index) =>
                             ListTile(
                               title: Text(
-                                "${state.platformCommissionEntity.recentCommissionHistory![index].bookingId}",
+                                "Booking ID #${state.platformCommissionEntity.recentCommissionHistory![index].bookingId}",
                                 style: Theme
                                     .of(context)
                                     .textTheme
@@ -225,7 +225,7 @@ class Commission extends StatelessWidget {
                                   fontSize: 14,
                                 ),
                               ),
-                              subtitle: Text(DateConverter().formatWithTime(state.platformCommissionEntity.recentCommissionHistory![index].transactionDate.toString()), style: Theme
+                              subtitle: Text(state.platformCommissionEntity.recentCommissionHistory![index].transactionDate.toString(), style: Theme
                                   .of(context)
                                   .textTheme
                                   .bodyMedium!
@@ -236,7 +236,7 @@ class Commission extends StatelessWidget {
                                       alpha: 0.8)
                               ),),
                               trailing: Text(
-                                "${state.platformCommissionEntity.recentCommissionHistory![index].amount}",
+                                "${state.platformCommissionEntity.recentCommissionHistory![index].amount} ETB",
                                 style: Theme
                                     .of(context)
                                     .textTheme

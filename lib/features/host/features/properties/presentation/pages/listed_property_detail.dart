@@ -462,14 +462,9 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                       subSectionText('House Location'),
                                       Stack(
                                         children: [
-                                          Container(
+                                          SizedBox(
                                               height: MediaQuery.of(context).size.height * 0.4,
-                                              width:
-                                              MediaQuery.of(context).size.width,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                BorderRadius.circular(10),
-                                              ),
+                                              width: MediaQuery.of(context).size.width,
                                               child: ClipRRect(
                                                 borderRadius:
                                                 BorderRadius.circular(10),
@@ -477,8 +472,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                                     mapController: mapController,
                                                     options: MapOptions(
                                                         initialZoom: 14,
-                                                        onTap:
-                                                            (tapPosition, point) {
+                                                        onTap: (tapPosition, point) {
                                                           setState(() {
                                                             lat = point.latitude;
                                                             long = point.longitude;
@@ -491,10 +485,8 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                                         LatLng(lat, long)),
                                                     children: [
                                                       TileLayer(
-                                                        urlTemplate:
-                                                        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                                                        userAgentPackageName:
-                                                        'dev.fleaflet.flutter_map.example',
+                                                        urlTemplate:'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                                        userAgentPackageName:'dev.fleaflet.flutter_map.example',
                                                         // Plenty of other options available!
                                                       ),
                                                       MarkerLayer(

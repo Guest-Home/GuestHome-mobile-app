@@ -13,8 +13,8 @@ class ReservationRepositoryImpl implements ReservationRepository{
   }
 
   @override
-  Future<Either<Failure, bool>> acceptReservation(int id)async{
-    return  sl<ReservationApiDataSource>().acceptReservation(id);
+  Future<Either<Failure, bool>> acceptReservation(Map<String,dynamic> data)async{
+    return  sl<ReservationApiDataSource>().acceptReservation(data);
   }
 
   @override

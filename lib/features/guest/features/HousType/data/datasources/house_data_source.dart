@@ -3,32 +3,34 @@ import 'dart:isolate';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:minapp/core/error/error_response.dart';
-import 'package:minapp/features/guest/features/HousType/data/models/g_property_model.dart';
 import 'package:minapp/service_locator.dart';
 
 import '../../../../../../core/apiConstants/api_url.dart';
 import '../../../../../../core/error/failure.dart';
 import '../../../../../../core/network/dio_client.dart';
+import '../../domain/entities/g_property_entity.dart';
+import '../models/g_property_model.dart';
+import '../models/guest_property_model.dart';
 
 abstract class HouseDataSource {
-  Future<Either<Failure, GpropertyModel>> getPropertyByType(String name);
-  Future<Either<Failure, GpropertyModel>> getPopularProperty(String? url);
+  Future<Either<Failure, GuestPropertyModel>> getPropertyByType(String name);
+  Future<Either<Failure, GpropertyEntity>> getPopularProperty(String? url);
   Future<Either<Failure, bool>> bookingProperty(Map<String, dynamic> bookData);
-  Future<Either<Failure, GpropertyModel>> filterProperty(
+  Future<Either<Failure, GuestPropertyModel>> filterProperty(
       Map<String, dynamic> filterData);
-  Future<Either<Failure, GpropertyModel>> filterNextProperty(Map<String,dynamic> filterData);
+  Future<Either<Failure, GuestPropertyModel>> filterNextProperty(Map<String,dynamic> filterData);
 }
 
 class HouseDataSourceImpl implements HouseDataSource {
   @override
-  Future<Either<Failure, GpropertyModel>> getPropertyByType(String name) async {
+  Future<Either<Failure, GuestPropertyModel>> getPropertyByType(String name) async {
     try {
       final response =name.contains(ApiUrl.baseUrl)?await sl<DioClient>().get(name.substring(ApiUrl.baseUrl.length)):
           await sl<DioClient>().get("${ApiUrl.propertyByType}?category=$name");
       if (response.statusCode == 200) {
         final properties = await Isolate.run(
           () {
-            return gpropertyModelFromMap(response.data);
+            return GuestPropertyModel.fromMap(response.data);
             // GpropertyModel.fromMap(response.data);
           },
         );
@@ -42,7 +44,7 @@ class HouseDataSourceImpl implements HouseDataSource {
   }
 
   @override
-  Future<Either<Failure, GpropertyModel>> getPopularProperty(String? url) async {
+  Future<Either<Failure, GpropertyEntity>> getPopularProperty(String? url) async {
     try {
       final response =url!.isNotEmpty?await sl<DioClient>().get(url.substring(ApiUrl.baseUrl.length)): await sl<DioClient>().get(ApiUrl.tradingProperty);
       if (response.statusCode == 200) {
@@ -77,7 +79,7 @@ class HouseDataSourceImpl implements HouseDataSource {
   }
 
   @override
-  Future<Either<Failure, GpropertyModel>> filterProperty(
+  Future<Either<Failure, GuestPropertyModel>> filterProperty(
       Map<String, dynamic> filterData) async {
     try {
       final response =
@@ -85,7 +87,7 @@ class HouseDataSourceImpl implements HouseDataSource {
       if (response.statusCode == 200) {
         final properties = await Isolate.run(
           () {
-            return gpropertyModelFromMap(response.data);
+            return GuestPropertyModel.fromMap(response.data);
           },
         );
         return Right(properties);
@@ -98,7 +100,7 @@ class HouseDataSourceImpl implements HouseDataSource {
   }
 
   @override
-  Future<Either<Failure, GpropertyModel>> filterNextProperty(Map<String,dynamic> filterData)async{
+  Future<Either<Failure, GuestPropertyModel>> filterNextProperty(Map<String,dynamic> filterData)async{
     try {
       final url=filterData['url'];
       Map<String, dynamic> dataItem = Map.from(filterData)..remove("url");
@@ -107,7 +109,7 @@ class HouseDataSourceImpl implements HouseDataSource {
       if (response.statusCode == 200) {
         final properties = await Isolate.run(
               () {
-            return gpropertyModelFromMap(response.data);
+            return GuestPropertyModel.fromMap(response.data);
           },
         );
         return Right(properties);
