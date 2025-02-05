@@ -1,7 +1,6 @@
 
 import 'package:dartz/dartz.dart';
 import 'package:minapp/core/error/failure.dart';
-import 'package:minapp/features/guest/features/HousType/data/models/g_property_model.dart';
 import 'package:minapp/features/host/features/properties/domain/entities/property_entity.dart';
 import 'package:minapp/features/search/domain/repositories/search_repository.dart';
 

@@ -42,7 +42,6 @@ import 'package:minapp/features/host/features/properties/presentation/pages/add_
 import 'package:minapp/features/host/features/properties/presentation/pages/listed_property_detail.dart';
 import 'package:minapp/features/host/features/properties/presentation/pages/properties.dart';
 import 'package:minapp/features/search/presentation/pages/search.dart';
-import 'package:minapp/features/host/features/request/presentation/bloc/request_bloc.dart';
 import 'package:minapp/features/host/features/request/presentation/pages/request.dart';
 import 'package:minapp/features/onbording/presentation/pages/onbording.dart';
 import 'package:minapp/features/onbording/presentation/pages/splash.dart';

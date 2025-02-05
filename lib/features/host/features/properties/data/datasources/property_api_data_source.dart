@@ -1,7 +1,6 @@
 import 'dart:isolate';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:minapp/features/guest/features/HousType/data/models/g_property_model.dart';
 import 'package:minapp/features/guest/features/HousType/data/models/guest_property_model.dart';
 import 'package:minapp/features/host/features/properties/data/models/amenity_model.dart';
 import 'package:minapp/features/host/features/properties/data/models/city_model.dart';
@@ -13,7 +12,6 @@ import '../../../../../../core/error/error_response.dart';
 import '../../../../../../core/error/failure.dart';
 import '../../../../../../core/network/dio_client.dart';
 import '../../../../../../service_locator.dart';
-import '../../../../../guest/features/HousType/domain/entities/guest_property_entity.dart';
 import '../models/agent_model.dart';
 import '../models/property_type_model.dart';
 

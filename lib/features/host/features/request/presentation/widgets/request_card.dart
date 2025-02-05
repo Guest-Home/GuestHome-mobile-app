@@ -11,14 +11,10 @@ import '../../../../../../config/color/color.dart';
 import '../../../../../../core/common/loading_indicator_widget.dart';
 
 class RequestCard extends StatelessWidget {
-   RequestCard(
+   const RequestCard(
       {super.key, required this.reservationEntity, required this.isEditing});
   final Result reservationEntity;
   final bool isEditing;
-
-  final TextEditingController roomNumberController=TextEditingController();
-  final _formKey=GlobalKey<FormState>();
-
 
   BookingStatus getStatus(String status) {
     switch (status) {

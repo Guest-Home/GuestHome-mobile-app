@@ -3,7 +3,6 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:minapp/core/error/failure.dart';
-import 'package:minapp/features/guest/features/HousType/domain/entities/g_property_entity.dart';
 import 'package:minapp/features/guest/features/HousType/domain/usecases/filter_next_usecase.dart';
 import 'package:minapp/features/guest/features/HousType/domain/usecases/filter_property_usecase.dart';
 
