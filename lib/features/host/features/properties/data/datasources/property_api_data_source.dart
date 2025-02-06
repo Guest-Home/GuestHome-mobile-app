@@ -158,7 +158,10 @@ class PropertyApiDataSourceImpl implements PropertyApiDataSource {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.response!.statusMessage.toString()));
+      print(e.response!.data);
+      return Left(ServerFailure(e.response!.statusMessage!));
+
+      // return Left(ServerFailure(e.response!.statusMessage.toString()));
     }
   }
 

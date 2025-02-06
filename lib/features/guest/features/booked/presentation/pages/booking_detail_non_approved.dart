@@ -59,8 +59,10 @@ class _BookingDetailNonApprovedState extends State<BookingDetailNonApproved> {
                   borderRadius: BorderRadius.circular(15),
                   child: CachedNetworkImage(
                     imageUrl: widget.property.house!.houseImage![itemIndex].image!,
-                    placeholder: (context, url) =>
-                        CupertinoActivityIndicator(),
+                    placeholder: (context, url) => Icon(
+                      Icons.photo,
+                      color: Colors.black12,
+                    ),
                     errorWidget: (context, url, error) => Icon(Icons.error),
                     width: MediaQuery.of(context).size.width,
                   ),

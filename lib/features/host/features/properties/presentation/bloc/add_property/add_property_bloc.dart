@@ -172,7 +172,10 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
             .call(UpdatePropertyParam(formData: formData, id: event.id));
         response.fold(
           (l) => emit(UpdatePropertyErrorState(state, l)),
-          (r) => emit(UpdatePropertySuccess(isUpdate: r)),
+          (r) {
+            emit(AddPropertyState());
+            emit(UpdatePropertySuccess(isUpdate: r));
+          },
         );
       },
     );

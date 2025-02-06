@@ -79,14 +79,23 @@ class Search extends StatelessWidget {
                                 children: [
                                   ClipRRect(
                                       borderRadius: BorderRadius.circular(13),
-                                      child: CachedNetworkImage(
-                                        imageUrl:state.property.results![index].tumbleImage??"",
+                                      child: state.property.results![index].tumbleImage==null?
+                                      Container(
+                                        width:MediaQuery.of(context).size.height*0.15,
+                                        height:MediaQuery.of(context).size.height*0.13,
+                                        decoration: BoxDecoration(
+                                            color: ColorConstant.cardGrey.withValues(alpha: 0.8)
+                                        ),
+                                        child:  Center(child: Icon(Icons.roofing,color:Colors.black12,size:50,),),
+                                      ):
+                                      CachedNetworkImage(
+                                        imageUrl:state.property.results![index].tumbleImage,
                                         placeholder: (context, url) => Icon(
                                           Icons.photo,
-                                          color: ColorConstant.inActiveColor,
+                                          color: Colors.black12,
                                         ),
                                         errorWidget: (context, url, error) =>
-                                            Icon(Icons.image),
+                                            Icon(Icons.image,color: Colors.black12,),
                                         fit: BoxFit.cover,
                                         width:MediaQuery.of(context).size.height*0.15,
                                         height:MediaQuery.of(context).size.height*0.13,

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -90,19 +91,28 @@ class _ProfileState extends State<Profile> {
                                       radius: 38,
                                       backgroundColor: ColorConstant.cardGrey,
                                       backgroundImage:state.userProfileEntity.profilePicture!=null?
-                                      NetworkImage(
+                                      CachedNetworkImageProvider(
                                         ApiUrl.baseUrl + state.userProfileEntity.profilePicture!,
-                                        headers: {'Authorization': 'Bearer ${state.token}'
-                                        },// Use custom manager
+                                          headers: {'Authorization': 'Bearer ${state.token}'
+                                          },
+                                        cacheManager: NoCacheManager()
                                       )
-                                          :null,
+                                      // NetworkImage(
+                                      //   ApiUrl.baseUrl + state.userProfileEntity.profilePicture!,
+                                      //   headers: {'Authorization': 'Bearer ${state.token}'
+                                      //   },// Use custom manager
+                                      // )
+                                            :null,
                                       child: state.userProfileEntity.profilePicture == null
                                           ? Icon(
                                         Icons.person,
                                         color: Colors.black12,
                                         size: 20,
                                       )
-                                          : RepaintBoundary(child: CupertinoActivityIndicator(radius: 10,),)
+                                          :   Icon(
+                                              Icons.photo,
+                                           color: Colors.black12,
+                                             ),
                                     ),
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,

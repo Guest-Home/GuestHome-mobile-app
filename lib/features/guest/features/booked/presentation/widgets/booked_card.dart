@@ -57,7 +57,7 @@ class BookedCard extends StatelessWidget {
                       imageUrl: property.house!.houseImage![index].image!,
                       placeholder: (context, url) => Icon(
                         Icons.photo,
-                        color: ColorConstant.inActiveColor,
+                        color: Colors.black12,
                       ),
                       errorWidget: (context, url, error) => Icon(Icons.error),
                       fit: BoxFit.cover,

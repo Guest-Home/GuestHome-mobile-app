@@ -59,8 +59,10 @@ class _PropertyCardState extends State<PropertyCard> {
                           borderRadius: BorderRadius.circular(20),
                           child: CachedNetworkImage(
                             imageUrl: widget.propertyEntity.houseImage[itemIndex].image,
-                            placeholder: (context, url) =>
-                                RepaintBoundary(child: CupertinoActivityIndicator()),
+                            placeholder: (context, url) => Icon(
+                              Icons.photo,
+                              color: Colors.black12,
+                            ),
                             errorWidget: (context, url, error) =>
                                 Icon(Icons.error),
                             fit: BoxFit.cover,

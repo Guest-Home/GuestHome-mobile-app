@@ -152,7 +152,7 @@ class _BookedDetailState extends State<BookedDetail> {
                                 state.booked.house!.houseImage![itemIndex].image!,
                                 placeholder: (context, url) => Icon(
                                   Icons.photo,
-                                  color: ColorConstant.inActiveColor,
+                                  color: Colors.black12,
                                 ),
                                 errorWidget: (context, url, error) =>
                                     Icon(Icons.error),
@@ -167,7 +167,8 @@ class _BookedDetailState extends State<BookedDetail> {
                         bottom: 10,
                         left: 0,
                         right: 0,
-                        child: Row(
+                        child:state.booked.house!.houseImage!.length>=2?
+                        Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
@@ -197,7 +198,7 @@ class _BookedDetailState extends State<BookedDetail> {
                                                   alpha: 0.4)),
                                         )),
                                   ))
-                            ]))
+                            ]):SizedBox())
                     
                   ],
                 ),

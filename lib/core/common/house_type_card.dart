@@ -24,26 +24,27 @@ class HouseTypeCard extends StatelessWidget {
       color: ColorConstant.cardGrey.withValues(alpha: 0.7),
       child: Container(
         width: 150,
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(5),
         child: Column(
           spacing: 5,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset(
-              image,
-              semanticsLabel: title,
-              fit: BoxFit.cover,
-            ),
+         SvgPicture.asset(
+                image,
+                semanticsLabel: title,
+                fit: BoxFit.cover,
+              ),
             Text(
-              tr(title),
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  color: ColorConstant.secondBtnColor,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500),
-            ),
+                tr(title),
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: ColorConstant.secondBtnColor,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500),
+              ),
+
           ],
         ),
       ),

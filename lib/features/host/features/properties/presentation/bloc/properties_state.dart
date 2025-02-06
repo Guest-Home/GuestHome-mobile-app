@@ -1,28 +1,43 @@
 part of 'properties_bloc.dart';
 
-abstract class PropertiesState extends Equatable {
-  const PropertiesState();
+class PropertiesState extends Equatable {
+   const PropertiesState({this.properties=const []});
+  final List<PropertyEntity> properties;
 
-  @override
-  List<Object> get props => [];
+   PropertiesState copyWith({
+     List<PropertyEntity>? properties
+}){
+     return PropertiesState(
+       properties: properties??this.properties
+     );
 }
 
-class PropertiesInitial extends PropertiesState {}
-
-class PropertiesLoading extends PropertiesState {}
-
-class NoInternetSate extends PropertiesState {}
-
-class PropertyLoaded extends PropertiesState {
-  final List<PropertyEntity> properties;
-  const PropertyLoaded({required this.properties});
   @override
   List<Object> get props => [properties];
 }
 
+class PropertiesInitial extends PropertiesState {}
+
+class PropertiesLoading extends PropertiesState {
+  PropertiesLoading(PropertiesState currentState):super(
+    properties: currentState.properties
+  );
+}
+
+class NoInternetSate extends PropertiesState {}
+
+class PropertyLoaded extends PropertiesState {
+  PropertyLoaded(PropertiesState currentState):super(
+      properties: currentState.properties
+  );
+
+}
+
 class PropertiesError extends PropertiesState {
   final Failure failure;
-  const PropertiesError({required this.failure});
+   PropertiesError(PropertiesState currentState,{required this.failure}):super(
+    properties: currentState.properties
+  );
   @override
-  List<Object> get props => [failure];
+  List<Object> get props =>super.props+ [failure];
 }

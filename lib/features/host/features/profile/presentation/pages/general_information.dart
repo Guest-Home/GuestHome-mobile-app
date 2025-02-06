@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -9,6 +10,7 @@ import 'package:minapp/core/utils/show_snack_bar.dart';
 import 'package:minapp/core/utils/validator.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/change_phone_number/change_phone_bloc.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/update_profile_bloc/update_profile_bloc.dart';
+import 'package:minapp/features/host/features/profile/presentation/pages/profile.dart';
 import '../../../../../../config/color/color.dart';
 import '../../../../../../core/apiConstants/api_url.dart';
 import '../../../../../../core/common/country_code_selector.dart';
@@ -67,11 +69,12 @@ class GeneralInformation extends StatelessWidget {
                 context.read<ProfileBloc>().add(ResetProfileEvent());
                 context.read<UpdateProfileBloc>().add(ResetUpdateEvent());
                 context.read<ProfileBloc>().add(GetUserProfileEvent());
-                if (GoRouterState.of(context).matchedLocation == '/profile'){
-                  context.goNamed("profile");
-                }else{
-                  context.goNamed("guestProfile");
-                }
+                context.pop();
+                // if (GoRouterState.of(context).matchedLocation == '/profile'){
+                //   context.goNamed("profile");
+                // }else{
+                //   context.goNamed("guestProfile");
+                // }
               }
               if (state is UpdateProfileError) {
                 showErrorSnackBar(context, state.failure.message);
@@ -174,12 +177,19 @@ class GeneralInformation extends StatelessWidget {
                                                       .userProfileEntity
                                                       .profilePicture !=
                                                   null
-                                              ?  NetworkImage(
-                                            ApiUrl.baseUrl + state.userProfileEntity.profilePicture!,
-                                            headers: {
-                                              'Authorization': 'Bearer ${state.token}'
-                                            },// Use custom manager
+                                              ?
+                                          CachedNetworkImageProvider(
+                                              ApiUrl.baseUrl + state.userProfileEntity.profilePicture!,
+                                              headers: {'Authorization': 'Bearer ${state.token}'
+                                              },
+                                              cacheManager: NoCacheManager()
                                           )
+                                          // NetworkImage(
+                                          //   ApiUrl.baseUrl + state.userProfileEntity.profilePicture!,
+                                          //   headers: {
+                                          //     'Authorization': 'Bearer ${state.token}'
+                                          //   },// Use custom manager
+                                          // )
                                               : null,
                                           child: state.userProfileEntity
                                                       .profilePicture ==

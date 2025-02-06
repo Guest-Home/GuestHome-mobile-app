@@ -124,14 +124,12 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                 // _deletingDialog(context, "updating property");
               } else if (state is UpdatePropertySuccess) {
                 context.pop();
-                context.read<AddPropertyBloc>().add(ResetEvent());
                 context.read<PropertiesBloc>().add(GetPropertiesEvent());
                 context.goNamed('properties');
-                showSuccessSnackBar(context, "updated deleted");
+                showSuccessSnackBar(context, "property updated");
               } else if (state is UpdatePropertyErrorState){
                 context.pop();
                 showErrorSnackBar(context, state.failure.message);
-
               }
             },
             buildWhen: (previous, current) => previous != current,
@@ -466,8 +464,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                               height: MediaQuery.of(context).size.height * 0.4,
                                               width: MediaQuery.of(context).size.width,
                                               child: ClipRRect(
-                                                borderRadius:
-                                                BorderRadius.circular(10),
+                                                borderRadius: BorderRadius.circular(10),
                                                 child: FlutterMap(
                                                     mapController: mapController,
                                                     options: MapOptions(
@@ -538,7 +535,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                         ],
                                       ),
 
-                                       Align(
+                                      Align(
                                           alignment: Alignment.bottomRight,
                                           child: Row(
                                             mainAxisAlignment:
@@ -563,8 +560,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                           ),
                                       ),
                                       SizedBox(height: 5),
-                                      subSectionText(
-                                          "Know or address  name of the place"),
+                                      subSectionText("Know or address  name of the place"),
                                       CustomTextField(
                                         hintText: 'known address name',
                                         textEditingController:

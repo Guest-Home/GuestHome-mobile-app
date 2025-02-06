@@ -37,12 +37,22 @@ class _NearHouseCardState extends State<NearHouseCard> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-              child:  ClipRRect(
+              child:widget.property.tumbleImage==null?
+                 Container(
+          decoration: BoxDecoration(
+         borderRadius: BorderRadius.circular(20),
+            color: ColorConstant.cardGrey.withValues(alpha: 0.8)
+      ),
+     child:  Center(child: Icon(Icons.roofing,color:Colors.black12,size:100,),),
+      ):
+              ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: CachedNetworkImage(
                   imageUrl: widget.property.tumbleImage??"",
-                  placeholder: (context, url) =>
-                      RepaintBoundary(child: CupertinoActivityIndicator()),
+                  placeholder: (context, url) => Icon(
+                    Icons.photo,
+                    color: Colors.black12,
+                  ),
                   errorWidget: (context, url, error) =>
                       Icon(Icons.image),
                   fit: BoxFit.cover,

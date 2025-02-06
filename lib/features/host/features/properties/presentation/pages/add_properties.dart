@@ -131,14 +131,11 @@ class _AddPropertiesState extends State<AddProperties> {
                                         GestureDetector(
                                       onTap: () {
                                         context.read<PropertyTypeBloc>().add(
-                                            SelectPropertyType(
-                                                propertyType: pState
-                                                    .propertyTypes[index]));
+                                            SelectPropertyType(propertyType: pState.propertyTypes[index]));
                                         context.read<AddPropertyBloc>().add(
                                             AddHouseTypeEvent(
-                                                houseTYpe: pState
-                                                    .propertyTypes[index]
-                                                    .propertyType));
+                                                houseTYpe:
+                                                pState.propertyTypes[index].propertyType));
                                       },
                                       child: AnimatedContainer(
                                         duration: Duration(milliseconds: 100),
@@ -454,7 +451,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                   },
                                   textInputType: TextInputType.text,
                                   surfixIcon: CityDropDown(onSelected: (value) {
-                                      cityController.text = value;
+                                      cityController.text =tr(value);
                                       context
                                           .read<AddPropertyBloc>()
                                           .add(AddCityEvent(city: value));

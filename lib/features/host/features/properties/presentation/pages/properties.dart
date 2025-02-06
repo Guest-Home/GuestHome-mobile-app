@@ -17,6 +17,8 @@ class Properties extends StatefulWidget {
 }
 
 class _PropertiesState extends State<Properties> {
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,17 +70,7 @@ class _PropertiesState extends State<Properties> {
               if (state is NoInternetSate) {
                 noInternetDialog(context);
               }
-              // else if(state is PropertiesError){
-              //   showDialog(context: context, builder: (context) =>AlertDialog(
-              //     icon:  Icon(Icons.error_outline,size:35,color: ColorConstant.red,),
-              //     content: SizedBox(
-              //     child: Text(
-              //             state.failure.message,
-              //             textAlign: TextAlign.center,
-              //             style: Theme.of(context).textTheme.bodySmall,
-              //           ),
-              //   ),));
-              // }
+
             },
             builder: (context, state) {
               if (state is PropertiesLoading) {
@@ -87,25 +79,6 @@ class _PropertiesState extends State<Properties> {
                       height: MediaQuery.of(context).size.height / 2,
                       child: loadingIndicator()),
                 );
-              } else if (state is PropertyLoaded) {
-                if (state.properties.isEmpty) {
-                  return SliverToBoxAdapter(
-                      child: SizedBox(
-                          height: MediaQuery.of(context).size.height / 2,
-                          child: NoPropertyFound()));
-                } else {
-                  return SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) => GestureDetector(
-                          onTap: () => context.pushNamed('propertyDetail',
-                              extra: state.properties[index]),
-                          child: PropertyCard(
-                            propertyEntity: state.properties[index],
-                          )),
-                      childCount: state.properties.length,
-                    ),
-                  );
-                }
               }
               else if(state is PropertiesError){
                 return SliverToBoxAdapter(
@@ -124,8 +97,30 @@ class _PropertiesState extends State<Properties> {
                   ),
                 );
               }
-              return SliverToBoxAdapter(child: SizedBox.shrink());
-            },
+
+
+               else if (state.properties.isEmpty) {
+                  return SliverToBoxAdapter(
+                      child: SizedBox(
+                          height: MediaQuery.of(context).size.height / 2,
+                          child: NoPropertyFound()));
+                }
+
+               return SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) => GestureDetector(
+                          onTap: () => context.pushNamed('propertyDetail',
+                              extra: state.properties[index]),
+                          child: PropertyCard(
+                            propertyEntity: state.properties[index],
+                          )),
+                      childCount: state.properties.length,
+                    ),
+                  );
+                }
+
+
+
           ),
         ],
       ),

@@ -14,14 +14,13 @@ part 'properties_state.dart';
 class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState> {
   PropertiesBloc() : super(PropertiesInitial()) {
     on<GetPropertiesEvent>((event, emit) async {
-      emit(PropertiesLoading());
-
+      emit(PropertiesLoading(state));
       final hasConnection = await ConnectivityService.isConnected();
       if (!hasConnection) {
         Either response = await sl<GetPropertiesUsecase>().call();
         response.fold(
-          (l) => emit(PropertiesError(failure: l)),
-          (r) => emit(PropertyLoaded(properties: r)),
+          (l) => emit(PropertiesError(state, failure: l)),
+          (r) => emit(state.copyWith(properties: r)),
         );
       } else {
         emit(NoInternetSate());

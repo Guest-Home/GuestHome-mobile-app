@@ -12,9 +12,15 @@ import '../../../../../../core/common/house_type_card.dart';
 import '../../../../../../core/utils/show_snack_bar.dart';
 import '../../../../../host/features/properties/presentation/bloc/property_type/property_type_bloc.dart';
 
-class HouseType extends StatelessWidget {
+class HouseType extends StatefulWidget {
   const HouseType({super.key});
 
+  @override
+  State<HouseType> createState() => _HouseTypeState();
+}
+
+class _HouseTypeState extends State<HouseType> {
+  int photoIndex=0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,13 +58,18 @@ class HouseType extends StatelessWidget {
                           aspectRatio: 16/9,
                           viewportFraction:1,
                           initialPage: 0,
-                          enableInfiniteScroll: true,
+                          enableInfiniteScroll: false,
                           reverse: false,
                           autoPlay: true,
                           autoPlayInterval: Duration(seconds: 3),
                           autoPlayAnimationDuration: Duration(milliseconds: 800),
                           autoPlayCurve: Curves.fastOutSlowIn,
                           enlargeCenterPage: true,
+                          onPageChanged: (index, reason) {
+                            setState(() {
+                              photoIndex=index;
+                            });
+                          },
                           enlargeFactor: 0.3,
                           scrollDirection: Axis.horizontal,
                         ),
@@ -74,27 +85,59 @@ class HouseType extends StatelessWidget {
                                 ),
                             ),
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.black12,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
                       Positioned(
-                        bottom:10,
-                          left: 10,right: 10,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text("Discover the ultimate solution for all your property needs with our app.",
-                            textAlign: TextAlign.start,
-                            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16
+                          bottom: 10,
+                          left: 0,
+                          right: 0,
+                          child:
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                    height: 18,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 5),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(100),
+                                      color:
+                                      Colors.black.withValues(alpha: 0.2),
+                                    ),
+                                    child: Row(
+                                      children: List.generate(
+                                          3,
+                                              (index) => AnimatedContainer(
+                                            duration:
+                                            Duration(milliseconds: 800),
+                                            width: 7,
+                                            height: 7,
+                                            margin:
+                                            EdgeInsets.only(right: 5),
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: index == photoIndex
+                                                    ? Colors.white
+                                                    : ColorConstant.cardGrey
+                                                    .withValues(
+                                                    alpha: 0.4)),
+                                          )),
+                                    ))
+                              ]))
 
-                            ),
-                            ),
-                          ))
+                      // Positioned(
+                      //   bottom:10,
+                      //     left: 10,right: 10,
+                      //     child: Padding(
+                      //       padding: const EdgeInsets.all(8.0),
+                      //       child: Text("Discover the ultimate solution for all your property needs with our app.",
+                      //       textAlign: TextAlign.start,
+                      //       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      //         color: Colors.white,
+                      //         fontWeight: FontWeight.w600,
+                      //         fontSize: 16
+                      //
+                      //       ),
+                      //       ),
+                      //     ))
         ]
                   ),
                 )),
