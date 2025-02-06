@@ -87,7 +87,7 @@ class PostedByDetailModel extends PostedByDetailEntity {
     required super.isApproved,
     required super.points,
     required super.gender,
-    required super.agent,
+   // required super.agent,
     required super.language,
   });
 
@@ -102,7 +102,7 @@ class PostedByDetailModel extends PostedByDetailEntity {
     isApproved: json["is_approved"],
     points: json["points"],
     gender: json["gender"],
-    agent: AgentDetailModel.fromMap(json["agent"]),
+   // agent: AgentDetailModel.fromMap(json["agent"]),
     language: json["language"],
   );
 }

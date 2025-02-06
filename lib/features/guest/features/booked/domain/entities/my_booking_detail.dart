@@ -87,7 +87,7 @@ class PostedByDetailEntity extends Equatable {
   final  bool? isApproved;
   final  String? points;
   final String? gender;
-  final  AgentDetailEntity? agent;
+ // final  AgentDetailEntity? agent;
   final String? language;
 
   const PostedByDetailEntity({
@@ -101,11 +101,11 @@ class PostedByDetailEntity extends Equatable {
     this.isApproved,
     this.points,
     this.gender,
-    this.agent,
+   // this.agent,
     this.language,
   });
   @override
-  List<Object?> get props =>[id,userAccount,phoneNumber,profilePicture,typeOfCustomer,rating,chatId,isApproved,points,gender,agent,language];
+  List<Object?> get props =>[id,userAccount,phoneNumber,profilePicture,typeOfCustomer,rating,chatId,isApproved,points,gender,language];
 }
 
 class UserAccountDetailEntity extends Equatable {
