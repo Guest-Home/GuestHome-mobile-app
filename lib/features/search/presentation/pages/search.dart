@@ -8,7 +8,6 @@ import '../../../../config/color/color.dart';
 import '../../../../core/common/back_button.dart';
 import '../../../../core/common/loading_indicator_widget.dart';
 import '../../../../core/common/spin_kit_loading.dart';
-import '../../../../core/utils/get_token.dart';
 
 class Search extends StatelessWidget {
   const Search({super.key});
