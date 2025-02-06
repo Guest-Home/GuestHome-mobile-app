@@ -64,14 +64,11 @@ class Search extends StatelessWidget {
                           return Center(child: loadingWithPrimary);
                         }
                         return GestureDetector(
-                          onTap: ()async{
-                            final token =
-                            await GetToken().getUserToken();
-                            context.push(
-                              '/houseDetail/$token',
-                              extra: state
-                                  .property.results![index],
-                            );
+                          onTap: (){
+
+                            context.pushNamed("houseGroupDetail",extra: state
+                                .property.results![index]);
+
                           },
                           child: Container(
                               padding:EdgeInsets.all(5),
