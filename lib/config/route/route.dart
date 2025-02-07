@@ -77,9 +77,15 @@ Future<GoRouter> createRouter() async {
 
       bool isSinInRoute = state.uri.toString().startsWith('/signIn');
       bool isOnbordingRoute = state.uri.toString().startsWith('/onboarding');
+      bool isSearchRoute = state.uri.toString().startsWith('/search');
+      bool isHouseTypeRoute = state.uri.toString().startsWith('/houseType');
+      bool isHouseTypeDetailRoute = state.uri.toString().startsWith('/houseTypeDetail');
+      bool isHouseGroupDetailRoute = state.uri.toString().startsWith('/houseGroupDetail');
 
       // If the user is not logged in and trying to access a protected route
-      if (!isLoggedIn && !isSinInRoute && !isOnbordingRoute) {
+      if (!isLoggedIn && !isSinInRoute && !isOnbordingRoute && !isSearchRoute
+        && !isHouseTypeRoute && !isHouseTypeDetailRoute && !isHouseGroupDetailRoute
+      ) {
         return '/signIn'; // Redirect to the login page
       }
       return null; // No redirect

@@ -98,7 +98,6 @@ class _PropertiesState extends State<Properties> {
                 );
               }
 
-
                else if (state.properties.isEmpty) {
                   return SliverToBoxAdapter(
                       child: SizedBox(

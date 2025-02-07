@@ -26,7 +26,7 @@ class _HouseTypeState extends State<HouseType> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Guest Home",
+          "GuestHome",
           style: Theme.of(context)
               .textTheme
               .bodyLarge!

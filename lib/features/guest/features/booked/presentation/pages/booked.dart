@@ -12,7 +12,6 @@ import 'package:minapp/features/guest/features/booked/presentation/widgets/booke
 
 import '../../../../../../core/common/enum/reservation_status_enum.dart';
 import '../../../../../../core/common/spin_kit_loading.dart';
-import '../../../../../../core/utils/get_token.dart';
 
 class Booked extends StatelessWidget {
   const Booked({super.key});
@@ -99,24 +98,11 @@ class Booked extends StatelessWidget {
                                   return Center(
                                       child: loadingWithPrimary);
                                 }
-                                return  GestureDetector(
-                                  onTap: () async {
-                                    final token = await GetToken().getUserToken();
-                                    if(getStatus(state.booking.results![index].status!)==BookingStatus.approved){
-                                      context.goNamed('bookedDetail',
-                                          pathParameters: {'token': token},
-                                          extra: state.booking.results![index].id);
-                                    }else{
-                                      context.goNamed('bookedDetailNonApproved',
-                                          pathParameters: {'token': token},
-                                          extra: state.booking.results![index]);
-                                    }
-                                  },
-                                  child: BookedCard(
+                                return   BookedCard(
                                     width: MediaQuery.of(context).size.width,
                                     height: 400,
                                     property: state.booking.results![index],
-                                  ),
+
                                 );
                               }
                               ),

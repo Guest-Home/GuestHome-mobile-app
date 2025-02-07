@@ -130,53 +130,45 @@ class _NearHouseCardState extends State<NearHouseCard> {
                          )
                     ])),
 
-                // RichText(
-                //     text: TextSpan(children: [
-                //       TextSpan(
-                //           text: "${widget.property.price} ${widget.property.unit} ",
-                //           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                //               fontSize: 14,
-                //               fontWeight: FontWeight.w700,
-                //               color: ColorConstant.secondBtnColor)),
-                //       TextSpan(
-                //           text: tr("/ day"),
-                //           style: TextStyle(
-                //               color: ColorConstant.secondBtnColor
-                //                   .withValues(alpha: 0.7))),
-                //     ])),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  spacing: 5,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  spacing: 20,
                   children: [
-                    Icon(
-                      Icons.location_pin,
-                      size: 20,
-                      color: ColorConstant.secondBtnColor,
-                    ),
                     Expanded(
-                      child: Text(
-                        "${widget.property.houses![0].city!}, ${widget.property.houses![0].specificAddress!}",
-                        textAlign: TextAlign.start,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14,
-                            color: ColorConstant.secondBtnColor),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        spacing: 5,
+                        children: [
+                          Icon(
+                            Icons.location_pin,
+                            size: 20,
+                            color: ColorConstant.secondBtnColor,
+                          ),
+                          Expanded(
+                            child: Text(
+                              "${widget.property.houses![0].city!}, ${widget.property.houses![0].specificAddress!}",
+                              textAlign: TextAlign.start,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  color: ColorConstant.secondBtnColor),
+                            ),
+                          )
+                        ],
                       ),
-                    )
+                    ),
+                    Text("See details",style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: ColorConstant.primaryColor,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14
+                    ),),
                   ],
                 )
               ],
             ),
           ),
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal:20),
-              child: Text("See details",style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                 color: ColorConstant.primaryColor,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14
-              ),),
-            ),
+
 
         ],
       ),
