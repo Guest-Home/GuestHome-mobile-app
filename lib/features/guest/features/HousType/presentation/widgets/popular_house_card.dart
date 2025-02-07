@@ -28,6 +28,7 @@ class PopularHouseCard extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 5),
       child:
         Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
                 child:
@@ -59,6 +60,7 @@ class PopularHouseCard extends StatelessWidget {
                     )),
               ),
             ListTile(
+              contentPadding: EdgeInsets.symmetric(horizontal: 8,), // Adjust padding
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 spacing: 10,

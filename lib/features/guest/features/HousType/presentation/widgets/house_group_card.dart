@@ -108,6 +108,7 @@ class _HouseGroupCardState extends State<HouseGroupCard> {
             )
           ),
           ListTile(
+            contentPadding: EdgeInsets.symmetric(horizontal:8), // Adjust padding
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               spacing: 10,

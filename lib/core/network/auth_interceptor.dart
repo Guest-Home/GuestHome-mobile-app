@@ -17,7 +17,6 @@ class AuthInterceptor extends Interceptor {
     if (authToken != null) {
       options.headers['Authorization'] = 'Bearer $authToken';
     }
-    print(authToken);
     // Proceed with the request
     return super.onRequest(options, handler);
   }
@@ -88,8 +87,7 @@ class AuthInterceptor extends Interceptor {
     if (context != null) {
       GoRouter.of(context).goNamed('signIn');
     } else {
-      debugPrint(
-          'Navigator context is null. Ensure the app is fully initialized.');
+      debugPrint('Navigator context is null. Ensure the app is fully initialized.');
     }
   }
 }

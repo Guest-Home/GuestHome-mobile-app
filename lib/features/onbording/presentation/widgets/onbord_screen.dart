@@ -30,12 +30,6 @@ class OnbordScreen extends StatelessWidget {
                   subtitle: Column(
                     spacing: 10,
                     children: [
-                       Text(
-                        subtitle,
-                        style:Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            fontSize: 18,fontWeight: FontWeight.w400,
-                            color: ColorConstant.primaryColor.withValues(alpha: 0.6)),
-                      ),
                        Padding(
                           padding: const EdgeInsets.only(top: 30),
                           child:Image.asset(image,fit: BoxFit.cover,),),

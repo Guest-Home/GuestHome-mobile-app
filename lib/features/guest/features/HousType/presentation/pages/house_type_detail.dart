@@ -278,7 +278,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                  return SizedBox.shrink();
                                 } else if (state.properties.results!.isNotEmpty) {
                                   return SizedBox(
-                                    height: MediaQuery.of(context).size.height * 0.42,
+                                    height: MediaQuery.of(context).size.height * 0.46,
                                     width: MediaQuery.of(context).size.width,
                                     child: NotificationListener<ScrollNotification>(
                                       onNotification: (scrollInfo) {
@@ -310,7 +310,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                               child: Padding(
                                                 padding: const EdgeInsets.symmetric(
                                                         horizontal: 10,
-                                                        vertical: 15),
+                                                        vertical: 1),
                                                 child: Material(
                                                   elevation: 2,
                                                   shadowColor: ColorConstant

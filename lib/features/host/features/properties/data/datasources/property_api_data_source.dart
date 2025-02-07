@@ -188,7 +188,7 @@ class PropertyApiDataSourceImpl implements PropertyApiDataSource {
   Future<Either<Failure, GuestPropertyModel>> searchProperty(String name) async {
     try {
       final response =name.contains(ApiUrl.baseUrl)?await sl<DioClient>().get(name.substring(ApiUrl.baseUrl.length)):
-      await sl<DioClient>().get("${ApiUrl.searchProperties}?typeofHouse=$name");
+      await sl<DioClient>().get("${ApiUrl.searchProperties}?query=$name");
       if (response.statusCode == 200) {
         final properties = await Isolate.run(
           () {

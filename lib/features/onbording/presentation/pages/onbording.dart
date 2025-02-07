@@ -32,13 +32,7 @@ class _OnBordingState extends State<OnBording>
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<OnBordingBloc, OnBordingState>(
-      listener: (context, state) {
-        if (state is GetStartedState) {
-          context.goNamed('properties');
-        }
-      },
-      child: Scaffold(
+    return  Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
             child: Padding(
@@ -100,22 +94,28 @@ class _OnBordingState extends State<OnBording>
                                           decoration: BoxDecoration(
                                               color: index == state.index
                                                   ? ColorConstant.primaryColor
-                                                  : ColorConstant.cardGrey
-                                                      .withValues(alpha: 0.5),
+                                                  : ColorConstant.inActiveColor.withValues(
+                                                alpha: 0.2
+                                              ),
                                               borderRadius: BorderRadius.circular(10)),
                                         ),
                                       ),
                                     ),
                               subtitle: state.index == 0
                                   ? Text("")
-                                  : Padding(
-                                      padding: const EdgeInsets.only(
-                                          right: 20, top: 15),
-                                      child: Text("Skip",
-                                          style: TextStyle(
-                                              color: ColorConstant.secondBtnColor,
-                                              fontSize: 16)),
-                                    ),
+                                  : GestureDetector(
+                                onTap: () =>  context
+                                    .read<OnBordingBloc>()
+                                    .add(OnBordingGetStartedEvent()),
+                                    child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            right: 20, top: 15),
+                                        child: Text("Skip",
+                                            style: TextStyle(
+                                                color: ColorConstant.secondBtnColor,
+                                                fontSize: 16)),
+                                      ),
+                                  ),
                               trailing: GestureDetector(
                                 onTap: () {
                                   if (state.index == 3) {
@@ -154,13 +154,12 @@ class _OnBordingState extends State<OnBording>
                   },
                   listener: (context, state) async {
                     if (state is GetStartedState) {
-                      context.goNamed("signIn");
+                      context.goNamed("houseType");
                     } else {
                       pageController.jumpToPage(state.index);
                     }
                   },
                 ))),
-      ),
     );
   }
 }

@@ -27,8 +27,7 @@ class _NearHouseCardState extends State<NearHouseCard> {
   int indexItem=0;
   @override
   Widget build(BuildContext context) {
-    return
-      Container(
+    return Container(
       width: widget.width,
       height: MediaQuery.of(context).size.height*0.6,
       margin: EdgeInsets.only(bottom:10),
@@ -64,6 +63,8 @@ class _NearHouseCardState extends State<NearHouseCard> {
 
           ),
           ListTile(
+            contentPadding: EdgeInsets.symmetric(horizontal:8), // Adjust padding
+
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               spacing: 10,
@@ -168,8 +169,6 @@ class _NearHouseCardState extends State<NearHouseCard> {
               ],
             ),
           ),
-
-
         ],
       ),
 
