@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -135,7 +136,7 @@ class Search extends StatelessWidget {
                                           children: [
                                             Icon(Icons.location_pin,size: 18,),
                                             Expanded(
-                                              child: Text("${state.property.results![index].houses![0].city!},${state.property.results![index].houses![0].specificAddress!}",
+                                              child: Text("${tr(state.property.results![index].houses![0].city!)},${state.property.results![index].houses![0].specificAddress!}",
                                                 textAlign: TextAlign.start,
                                                 maxLines: 2,
                                                 style:

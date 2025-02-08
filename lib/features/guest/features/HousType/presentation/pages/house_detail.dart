@@ -249,8 +249,7 @@ class _HouseDetailState extends State<HouseDetail> {
                                       width: 33,
                                       height: 33,
                                     )),
-                                Text(
-                                 tr(filteredAmenities[index]),
+                                Text(tr(filteredAmenities[index]),
                                   textAlign:TextAlign.start,
                                   overflow:TextOverflow.ellipsis,
                                   style: Theme.of(context)

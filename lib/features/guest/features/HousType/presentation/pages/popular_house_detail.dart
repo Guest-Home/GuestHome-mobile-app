@@ -246,8 +246,8 @@ class _PopularHouseDetailState extends State<PopularHouseDetail> {
                                           width: 33,
                                           height: 33,
                                         )),
-                                    Text(
-                                      filteredAmenities[index],
+                                    Text(tr(
+                                      filteredAmenities[index]),
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodySmall!

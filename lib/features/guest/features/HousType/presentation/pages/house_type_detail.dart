@@ -510,8 +510,8 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      "Selected  house type: ",
+                                    Text(tr(
+                                      "Selected  house type: "),
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium!
@@ -521,7 +521,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                     ),
                                     Text(
                                       filterState.category.isNotEmpty
-                                          ? filterState.category
+                                          ? tr(filterState.category)
                                           :"",
                                       style: Theme.of(context)
                                           .textTheme
@@ -580,8 +580,8 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                                   fit: BoxFit.cover,
                                                 )),
                                             Text(
-                                              state.propertyTypes[index]
-                                                  .propertyType,
+                                             tr(state.propertyTypes[index]
+                                                  .propertyType),
                                               textAlign: TextAlign.center,
                                               softWrap: true,
                                               style: Theme.of(context)
@@ -642,7 +642,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                           color: ColorConstant.secondBtnColor,
                                         )),
                                     child: Text(
-                                      "${filterState.priceRange.start.ceil()} ETB",
+                                      "${filterState.priceRange.start.ceil()} ${tr("ETB")}",
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodySmall!
@@ -667,7 +667,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                           color: ColorConstant.secondBtnColor,
                                         )),
                                     child: Text(
-                                        "${filterState.priceRange.end.ceil()} ETB",
+                                        "${filterState.priceRange.end.ceil()} ${tr("ETB")}",
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodySmall!
