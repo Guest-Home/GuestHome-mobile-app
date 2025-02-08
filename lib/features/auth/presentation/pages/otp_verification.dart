@@ -109,7 +109,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                             textAlign: TextAlign.start,
                             text: TextSpan(children: [
                               TextSpan(
-                                text:tr('please enter the one time')+tr("password sent to your mobile number"),
+                                text:"${tr('please enter the one time')} ${tr("password sent to your mobile number")} ",
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium!
