@@ -338,7 +338,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 15),
                               child: SecctionHeader(
-                                title: 'Nearby your location',
+                                title: tr('Nearby Your Location'),
                                 isSeeMore: false,
                               ),
                             ),

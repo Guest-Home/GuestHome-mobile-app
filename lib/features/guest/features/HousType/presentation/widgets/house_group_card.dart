@@ -184,7 +184,7 @@ class _HouseGroupCardState extends State<HouseGroupCard> {
                               fontWeight: FontWeight.w700,
                               color: ColorConstant.secondBtnColor)),
                       TextSpan(
-                          text: tr("/ day"),
+                          text: tr("/ ${tr("day")}"),
                           style: TextStyle(
                               color: ColorConstant.secondBtnColor
                                   .withValues(alpha: 0.7))),
@@ -200,7 +200,7 @@ class _HouseGroupCardState extends State<HouseGroupCard> {
                     ),
                     Expanded(
                       child: Text(
-                        "${widget.houseEntity.city!}, ${widget.houseEntity.specificAddress!}",
+                        "${tr(widget.houseEntity.city!)}, ${widget.houseEntity.specificAddress!}",
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(

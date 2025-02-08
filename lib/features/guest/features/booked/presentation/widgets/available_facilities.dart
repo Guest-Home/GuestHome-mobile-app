@@ -55,7 +55,7 @@ class AvailableFacilities extends StatelessWidget {
                                   height:33,
                                 )
                             ),
-                            Text(filteredAmenities[index],style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            Text(tr(filteredAmenities[index]),style: Theme.of(context).textTheme.bodySmall!.copyWith(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 10
                             ),)

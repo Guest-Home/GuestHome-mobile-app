@@ -153,7 +153,7 @@ class _PopularHouseDetailState extends State<PopularHouseDetail> {
                         ),
                         Expanded(
                           child: Text(
-                            "${widget.property.city!}, ${widget.property.specificAddress!}",
+                            "${tr(widget.property.city!)}, ${widget.property.specificAddress!}",
                             textAlign: TextAlign.start,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -280,10 +280,11 @@ class _PopularHouseDetailState extends State<PopularHouseDetail> {
               spacing: 30,
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   spacing: 3,
                   children: [
                     Text(
-                      "${widget.property.price} ${widget.property.unit}",
+                      "${widget.property.price} ${tr(widget.property.unit!)}",
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge!

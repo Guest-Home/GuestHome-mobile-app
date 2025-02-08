@@ -183,8 +183,7 @@ class EmptyBooked extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                             side: BorderSide(color: ColorConstant.secondBtnColor))),
-                    child: Text(
-                      "Search properties ",
+                    child: Text(tr("Search properties"),
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!

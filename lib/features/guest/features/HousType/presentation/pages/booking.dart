@@ -220,6 +220,7 @@ final int id;
                           child: Text(
                             tr("Confirm Booking"),
                             textAlign: TextAlign.center,
+                            maxLines: 2,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!

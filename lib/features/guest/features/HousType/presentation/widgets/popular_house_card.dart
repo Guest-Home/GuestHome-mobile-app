@@ -129,13 +129,13 @@ class PopularHouseCard extends StatelessWidget {
                   RichText(
                       text: TextSpan(children: [
                     TextSpan(
-                        text: "${property.price} ${property.unit} ",
+                        text: "${property.price} ${tr(property.unit!)} ",
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontSize: 14,
                             fontWeight: FontWeight.w700,
                             color: ColorConstant.secondBtnColor)),
                     TextSpan(
-                        text: tr("/ day"),
+                        text: "/ ${tr("day")}",
                         style: TextStyle(
                             color: ColorConstant.secondBtnColor
                                 .withValues(alpha: 0.7))),
@@ -151,7 +151,7 @@ class PopularHouseCard extends StatelessWidget {
                       ),
                       Expanded(
                         child: Text(
-                          "${property.city!}, ${property.specificAddress!}",
+                          "${tr(property.city!)}, ${property.specificAddress!}",
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.ellipsis,
                           style: Theme.of(context).textTheme.bodySmall!.copyWith(

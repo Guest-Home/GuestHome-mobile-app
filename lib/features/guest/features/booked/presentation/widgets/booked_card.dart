@@ -117,7 +117,7 @@ class BookedCard extends StatelessWidget {
                   ),
                 ],
               ),
-             Column(
+            Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 spacing: 7,
@@ -153,7 +153,7 @@ class BookedCard extends StatelessWidget {
                           text: TextSpan(children: [
                         TextSpan(
                             text:
-                                "${property.house!.price} ${property.house!.unit} ",
+                                "${property.house!.price} ${tr(property.house!.unit!)} ",
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!
@@ -162,7 +162,7 @@ class BookedCard extends StatelessWidget {
                                     fontWeight: FontWeight.w700,
                                     color: ColorConstant.secondBtnColor)),
                         TextSpan(
-                            text: tr("/ day"),
+                            text: tr("/ ${tr("day")}"),
                             style: TextStyle(
                                 color: ColorConstant.secondBtnColor
                                     .withValues(alpha: 0.7))),
@@ -231,7 +231,7 @@ class BookedCard extends StatelessWidget {
                 spacing: 10,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Room Number",
+                  Text(tr("room number"),
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium!
@@ -268,8 +268,9 @@ class StatusButton extends StatelessWidget {
           padding: EdgeInsets.all(1),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
         ),
-        child: Text(
-          status.name,
+        child: Text(tr(
+          status.name),
+          textAlign: TextAlign.start,
           style: Theme.of(context).textTheme.bodyLarge!.copyWith(
               color: Colors.white, fontWeight: FontWeight.w600, fontSize: 12),
         ),

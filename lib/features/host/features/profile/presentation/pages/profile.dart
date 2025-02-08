@@ -322,7 +322,7 @@ class _ProfileState extends State<Profile> {
                                         color: Colors.white,
                                       )),
                                 if (GoRouterState.of(context).matchedLocation=='/guestProfile')
-                                  Text("Switch to Host",
+                                  Text(tr("Switch to host"),
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodySmall!
@@ -346,8 +346,7 @@ class _ProfileState extends State<Profile> {
                         }
                       },
                       leading: Image.asset("assets/icons/user.png"),
-                      title: Text(
-                        "General Information",
+                      title: Text(tr("General information"),
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium!
@@ -391,7 +390,7 @@ class _ProfileState extends State<Profile> {
                       },
                       leading: Image.asset("assets/icons/account.png"),
                       title: Text(
-                        "Account",
+                       tr("Account"),
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium!
@@ -403,7 +402,7 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
                     if (GoRouterState.of(context).matchedLocation == '/profile')
-                    Text(tr('Payment Setting'),
+                    Text(tr('Payment setting'),
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             color: ColorConstant.secondBtnColor,
                             fontSize: 16,
@@ -414,8 +413,7 @@ class _ProfileState extends State<Profile> {
                           context.pushNamed("paymentSetting");
                       },
                       leading: Icon(Icons.currency_exchange,color: ColorConstant.secondBtnColor.withValues(alpha: 0.6),size: 22,),
-                      title: Text(
-                        "Payment Setting",
+                      title: Text(tr("Payment setting"),
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium!
@@ -447,7 +445,7 @@ class _ProfileState extends State<Profile> {
                             color: ColorConstant.red,
                           ),
                           title: Text(
-                            "LogOut",
+                            tr("Log out"),
                             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                                 fontWeight: FontWeight.w400,
                                 color: ColorConstant.red,

@@ -222,7 +222,7 @@ class _BookedDetailState extends State<BookedDetail> {
                       color: ColorConstant.secondBtnColor,
                     ),
                     Expanded(
-                      child: Text("${state.booked.house!.city!}, ${state.booked.house!.specificAddress!}",
+                      child: Text("${tr(state.booked.house!.city!)}, ${state.booked.house!.specificAddress!}",
                         textAlign: TextAlign.start,
                         maxLines: 2,
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(
@@ -405,8 +405,8 @@ class _BookedDetailState extends State<BookedDetail> {
         height: MediaQuery.of(context).size.height * 0.30,
         color: Colors.white,
         child: ListTile(
-            title: Text(
-              "Booking Cancellation",
+            title: Text(tr(
+              "Booking Cancellation"),
               style: Theme.of(context)
                   .textTheme
                   .bodyLarge!

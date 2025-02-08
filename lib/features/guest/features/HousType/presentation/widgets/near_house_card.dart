@@ -147,7 +147,7 @@ class _NearHouseCardState extends State<NearHouseCard> {
                           ),
                           Expanded(
                             child: Text(
-                              "${widget.property.houses![0].city!}, ${widget.property.houses![0].specificAddress!}",
+                              "${tr(widget.property.houses![0].city!)}, ${widget.property.houses![0].specificAddress!}",
                               textAlign: TextAlign.start,
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(context).textTheme.bodySmall!.copyWith(

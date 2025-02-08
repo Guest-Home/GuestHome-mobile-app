@@ -1,4 +1,5 @@
 import 'package:bottom_navbar_with_indicator/bottom_navbar_with_indicator.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
@@ -100,25 +101,25 @@ class Home extends StatelessWidget {
             customBottomBarItems: [
               CustomBottomBarItems(
                 isAssetsImage: true,
-                label: 'Properties',
+                label:tr('Properties'),
                 assetsImagePath: 'assets/icons/home.png',
                 icon: Icons.home_filled,
               ),
               CustomBottomBarItems(
                   isAssetsImage: true,
-                  label: 'Request',
+                  label:tr('Request'),
                   assetsImagePath: 'assets/icons/notification.png',
                   icon: Icons.notifications_active),
               CustomBottomBarItems(
                   isAssetsImage: false, label: '', icon: Icons.add_box),
               CustomBottomBarItems(
                   isAssetsImage: true,
-                  label: 'Analytics',
+                  label: tr('Analytics'),
                   assetsImagePath: 'assets/icons/anaalytics.png',
                   icon: Icons.analytics),
               CustomBottomBarItems(
                   isAssetsImage: true,
-                  label: 'Profile',
+                  label: tr('Profile'),
                   assetsImagePath: 'assets/icons/user.png',
                   icon: Icons.account_circle),
             ],

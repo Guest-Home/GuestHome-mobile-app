@@ -156,7 +156,7 @@ class _HouseDetailState extends State<HouseDetail> {
                     ),
                     Expanded(
                       child: Text(
-                        "${widget.property.city!}, ${widget.property.specificAddress!}",
+                        "${tr(widget.property.city!)}, ${widget.property.specificAddress!}",
                         textAlign: TextAlign.start,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -250,7 +250,9 @@ class _HouseDetailState extends State<HouseDetail> {
                                       height: 33,
                                     )),
                                 Text(
-                                  filteredAmenities[index],
+                                 tr(filteredAmenities[index]),
+                                  textAlign:TextAlign.start,
+                                  overflow:TextOverflow.ellipsis,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodySmall!
@@ -283,10 +285,11 @@ class _HouseDetailState extends State<HouseDetail> {
               spacing: 30,
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   spacing: 3,
                   children: [
                     Text(
-                      "${widget.property.price} ${widget.property.unit}",
+                      "${widget.property.price} ${tr(widget.property.unit!)}",
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge!
@@ -311,6 +314,8 @@ class _HouseDetailState extends State<HouseDetail> {
                         ),
                         child: Text(
                           tr("Book"),
+                          textAlign: TextAlign.start,
+                          maxLines: 2,
                           style: Theme.of(context)
                               .textTheme
                               .bodyLarge!

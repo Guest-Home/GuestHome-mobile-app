@@ -85,8 +85,7 @@ class _BookingDetailNonApprovedState extends State<BookingDetailNonApproved> {
               children: [
                 ListTile(
                   title:widget.property.status=="Rejected"? SecctionHeader(title: "Rejected Book", isSeeMore: false): SecctionHeader(title: "Pending Book", isSeeMore: false),
-                  subtitle: Text(
-                    "Detail of your reservation",
+                  subtitle: Text(tr("Detail of your reservation"),
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium!
@@ -200,7 +199,7 @@ class _BookingDetailNonApprovedState extends State<BookingDetailNonApproved> {
                                   color: ColorConstant.secondBtnColor,
                                 ),
                                 Expanded(
-                                  child: Text("${ widget.property.house!.city!}, ${ widget.property.house!.specificAddress!}",
+                                  child: Text("${tr(widget.property.house!.city!)}, ${ widget.property.house!.specificAddress!}",
                                     textAlign: TextAlign.start,
                                     maxLines: 2,
                                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
@@ -338,8 +337,8 @@ class _BookingDetailNonApprovedState extends State<BookingDetailNonApproved> {
         height: MediaQuery.of(context).size.height * 0.30,
         color: Colors.white,
         child: ListTile(
-            title: Text(
-              "Booking Cancellation",
+            title: Text(tr(
+              "Booking Cancellation"),
               style: Theme.of(context)
                   .textTheme
                   .bodyLarge!
