@@ -29,7 +29,7 @@ class UploadPhoto extends StatelessWidget {
             RichText(
                 text: TextSpan(children: [
               TextSpan(
-                  text: "Click to upload ",
+                  text: "Click to upload",
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       color: ColorConstant.primaryColor,
                       fontWeight: FontWeight.w500,

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -261,7 +262,7 @@ class ProfileSetup extends StatelessWidget {
     return RichText(
         text: TextSpan(children: [
       TextSpan(
-          text: title,
+          text:tr(title),
           style: Theme.of(context)
               .textTheme
               .bodyMedium!

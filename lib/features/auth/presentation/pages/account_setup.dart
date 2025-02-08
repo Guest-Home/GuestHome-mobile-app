@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -49,8 +50,8 @@ class AccountSetup extends StatelessWidget {
                   spacing: 25,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Enter your phone number",
+                    Text(tr("Enter your phone number"),
+                      textAlign: TextAlign.start,
                       style: Theme.of(context)
                           .textTheme
                           .headlineSmall!
@@ -105,8 +106,9 @@ class AccountSetup extends StatelessWidget {
                                   horizontal: 24, vertical: 18)),
                           child: state is CreatingOtpLoadingState
                               ? loading
-                              : Text(
-                                  "Verify Phone Number",
+                              : Text(tr("Verify phone number"),
+                                  textAlign: TextAlign.start,
+                                  overflow: TextOverflow.ellipsis,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyMedium!

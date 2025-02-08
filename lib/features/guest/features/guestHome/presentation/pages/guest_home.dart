@@ -38,7 +38,7 @@ class GuestHome extends StatelessWidget {
               icon: Icons.bookmark),
           CustomBottomBarItems(
               isAssetsImage: true,
-              label: 'Profile',
+              label:tr('Profile'),
               assetsImagePath: 'assets/icons/user.png',
               icon: Icons.account_circle),
         ],

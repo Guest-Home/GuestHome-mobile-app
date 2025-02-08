@@ -1,5 +1,6 @@
 
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -23,8 +24,7 @@ class SignIn extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           spacing:27,
           children: [
-            Text(
-              "Sign in With",
+            Text(tr("Sign in with"),
               style: Theme.of(context)
                   .textTheme
                   .headlineSmall!
@@ -42,8 +42,7 @@ class SignIn extends StatelessWidget {
                       elevation: 0,
                       padding: EdgeInsets.symmetric(
                           horizontal: 24, vertical: 18)),
-                  child:Text(
-                    "Phone Number",
+                  child:Text(tr("Phone number"),
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium!
@@ -77,7 +76,7 @@ class OrSignInWithDiv extends StatelessWidget {
         child: Divider(
           color: ColorConstant.cardGrey,
         ),
-      ),Text("Or sign in with",style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+      ),Text(tr("Or sign with"),style: Theme.of(context).textTheme.bodyMedium!.copyWith(
         fontSize: 14,fontWeight: FontWeight.w500,color: ColorConstant.secondBtnColor.withValues(alpha: 0.6)
       ),),
       

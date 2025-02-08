@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -97,8 +98,7 @@ class _TgOtpVerificationState extends State<TgOtpVerification> {
                     spacing: 16,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Otp Verification",
+                      Text(tr("opt verification"),
                         style: Theme.of(context)
                             .textTheme
                             .headlineMedium!
@@ -111,8 +111,7 @@ class _TgOtpVerificationState extends State<TgOtpVerification> {
                             textAlign: TextAlign.start,
                             text: TextSpan(children: [
                               TextSpan(
-                                text:
-                                    'Please enter the one time password sent to your telegram username ',
+                                text: '${tr("please enter the one time")} password sent to your telegram username ',
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium!
@@ -164,23 +163,24 @@ class _TgOtpVerificationState extends State<TgOtpVerification> {
                         padding: const EdgeInsets.symmetric(horizontal: 3),
                         child: RichText(
                             textAlign: TextAlign.start,
-                            text: TextSpan(children: [
-                              TextSpan(
-                                text: 'Did’t receive the code?\n Resend in ',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(
+                            text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text:tr("Didn't receive the code"),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w400),
-                              ),
-                              TextSpan(
-                                  text: "${_formatTime(_remainingTime)} second",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!
-                                      .copyWith(fontWeight: FontWeight.w700,fontSize: 14))
-                            ])),
+                                  ),
+                                  TextSpan(
+                                      text:"${tr("resend in _ second")} ${_formatTime(_remainingTime)} ${tr("second")}",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(fontWeight: FontWeight.w700,fontSize: 14))
+                                ])),
                       ),
                       Container(
                         margin: EdgeInsets.only(top: 30),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -43,7 +44,7 @@ class SignInWithTg extends StatelessWidget {
                 spacing: 27,
                 children: [
                   Text(
-                    "Sign with telegram",
+                    tr("Sign with telegram"),
                     style: Theme.of(context)
                         .textTheme
                         .headlineSmall!
@@ -59,7 +60,7 @@ class SignInWithTg extends StatelessWidget {
                         RichText(
                             text: TextSpan(children: [
                           TextSpan(
-                              text: "Telegram username",
+                              text:tr("telegram username"),
                               style: Theme.of(context)
                                   .textTheme
                                   .bodySmall!
@@ -110,7 +111,7 @@ class SignInWithTg extends StatelessWidget {
                         child: state is CreatingOtpLoadingState
                             ? loading
                             : Text(
-                                "Verify username",
+                                tr("verify username"),
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium!

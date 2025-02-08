@@ -52,22 +52,21 @@ class _OnBordingState extends State<OnBording>
                             children: [
                               LanguageSelection(),
                               OnbordScreen(
-                                title:
-                                    "Book a Room, Anytime, Anywhere",
+                                title: "Book a room anytime anywhere",
                                 subtitle:
                                     "",
                                 image: "assets/icons/on1.png",
                               ),
                               OnbordScreen(
                                 title:
-                                    "Manage your Property easily",
+                                    "Manage your property easily",
                                 subtitle:
                                     "",
                                 image: "assets/icons/on2.png",
                               ),
                               OnbordScreen(
                                 title:
-                                    "Post your homes and go viral.",
+                                    "Post your home and go viral",
                                 subtitle:
                                     "",
                                 image: "assets/icons/on3.png",

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:minapp/config/color/color.dart';
 
@@ -21,7 +22,7 @@ class OnbordScreen extends StatelessWidget {
           SizedBox(
               width: MediaQuery.of(context).size.width,
               child: ListTile(
-                  title: Text(title,
+                  title: Text(tr(title),
                       style: TextTheme.of(context)
                           .headlineMedium
                           ?.copyWith(color: ColorConstant.primaryColor,fontSize: 24,fontWeight: FontWeight.w700)
