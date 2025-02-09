@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -23,7 +24,7 @@ class _AnalyticsState extends State<Analytics> {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           title: Text(
-            'Analytics',
+            tr('Analytics'),
             style: Theme.of(context)
                 .textTheme
                 .bodyLarge!
@@ -41,7 +42,7 @@ class _AnalyticsState extends State<Analytics> {
               crossAxisAlignment: CrossAxisAlignment.start,
               spacing: 15,
               children: [
-                sectionTitle(context, 'General Metrics'),
+                sectionTitle(context, tr('General metrics')),
                 BlocBuilder<TotalPropertyBloc, TotalPropertyState>(
                   buildWhen: (previous, current) =>
                       previous.totalProperty != current.totalProperty,
@@ -56,7 +57,7 @@ class _AnalyticsState extends State<Analytics> {
                       ),
                       child: ListTile(
                         title: Text(
-                          'Total Properties',
+                         tr('Total properties'),
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium!
@@ -164,8 +165,9 @@ class _AnalyticsState extends State<Analytics> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
+                                SizedBox(width: 5,),
                                 Expanded(
-                                  child: Text("Custom",
+                                  child: Text(tr("Custom"),
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodySmall!
@@ -341,21 +343,21 @@ class _AnalyticsState extends State<Analytics> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             spacing: 10,
                             children: [
-                              sectionTitle(context, 'Key Metrics'),
+                              sectionTitle(context, tr('Key metrics')),
                               Wrap(
                                 children: [
                                   MetricsCard(
-                                    title: 'Revenue',
+                                    title: tr('Revenue'),
                                     value:
                                         "${state.customOccupancyEntity.custom!.totalRevenue} ETB",
                                   ),
                                   MetricsCard(
-                                    title: "Active Bookings",
+                                    title: tr("Active Bookings"),
                                     value:
                                         "${state.customOccupancyEntity.custom!.totalReservations}",
                                   ),
                                   MetricsCard(
-                                    title: 'Occupancy Rate',
+                                    title: tr('Occupancy Rate'),
                                     value:
                                         "${state.customOccupancyEntity.custom!.averageOccupancy}%",
                                   ),
@@ -480,13 +482,13 @@ class ReportDownload extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         return ListTile(
-          title: sectionTitle(context, "Report"),
+          title: sectionTitle(context, tr("Report")),
           subtitle: Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: Column(
               children: [
                 Text(
-                  "This is report of your property performance over time. you can download and review.",
+                  tr("This is report of your property performance")+tr('Overtime you can download and review'),
                   style: Theme.of(context)
                       .textTheme
                       .bodySmall!
@@ -502,13 +504,14 @@ class ReportDownload extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10))),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    spacing: 10,
                     children: [
                       Icon(
                         Icons.download,
                         color: Colors.white,
                       ),
                       Text(
-                        "Download",
+                        tr("Download"),
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium!

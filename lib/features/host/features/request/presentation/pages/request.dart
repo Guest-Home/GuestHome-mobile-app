@@ -375,7 +375,7 @@ class _RequestState extends State<Request> {
                                     showDialog(context: context,
                                         barrierDismissible: false,
                                         builder: (context) =>AlertDialog(
-                                          title: Text("Room Number",style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                          title: Text(tr("Room number"),style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w600
                                           ),),
@@ -436,7 +436,7 @@ class _RequestState extends State<Request> {
                                                                   borderRadius: BorderRadius.circular(10)),
                                                             ),
                                                             child: Text(
-                                                              "Submit",
+                                                             tr("Submit"),
                                                               style: Theme.of(context)
                                                                   .textTheme
                                                                   .bodyLarge!
@@ -459,7 +459,7 @@ class _RequestState extends State<Request> {
                                                                   borderRadius: BorderRadius.circular(10)),
                                                             ),
                                                             child:Text(
-                                                              "Cancel",
+                                                              tr("Cancel"),
                                                               style: Theme.of(context)
                                                                   .textTheme
                                                                   .bodyLarge!
