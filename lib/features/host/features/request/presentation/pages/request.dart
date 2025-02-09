@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -39,7 +40,7 @@ class _RequestState extends State<Request> {
       child: Scaffold(
          appBar: AppBar(
           title: Text(
-            'Request',
+            tr('Request'),
             style: Theme.of(context)
                 .textTheme
                 .bodyLarge!
@@ -273,7 +274,7 @@ class _RequestState extends State<Request> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          titleText(context, 'Reservation Id'),
+                          titleText(context, tr('Reservation id')),
                           valueText(context, state.reservation.results![index].id.toString()),
                         ],
                       ),
@@ -286,7 +287,7 @@ class _RequestState extends State<Request> {
                             children: [
                               Icon(Icons.arrow_circle_down,
                                   color: ColorConstant.primaryColor),
-                              titleText(context, 'Check In'),
+                              titleText(context, tr('Check in')),
                             ],
                           ),
                           valueText(
@@ -312,7 +313,7 @@ class _RequestState extends State<Request> {
                             children: [
                               Icon(Icons.arrow_circle_up,
                                   color: ColorConstant.primaryColor),
-                              titleText(context, 'Check Out'),
+                              titleText(context, tr('Check out')),
                             ],
                           ),
                           valueText(
@@ -337,7 +338,7 @@ class _RequestState extends State<Request> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          titleText(context, 'Property Type'),
+                          titleText(context, tr('Property type')),
                           valueText(
                               context, state.reservation.results![index].house!.typeofHouse!)
                         ],
@@ -345,7 +346,7 @@ class _RequestState extends State<Request> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          titleText(context, 'Property Id'),
+                          titleText(context, tr('Property id')),
                           valueText(
                               context,state.reservation.results![index].house!.id.toString())
                         ],
@@ -353,7 +354,7 @@ class _RequestState extends State<Request> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          titleText(context, 'Unit Type'),
+                          titleText(context, tr('Unit type')),
                           valueText(context,
                               "${state.reservation.results![index].house!.price.toString()}${state.reservation.results![index].house!.unit}")
                         ],
@@ -486,7 +487,7 @@ class _RequestState extends State<Request> {
                                         borderRadius: BorderRadius.circular(15)),
                                   ),
                                   child:  Text(
-                                    "Accept",
+                                    tr("Accept"),
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
@@ -516,7 +517,7 @@ class _RequestState extends State<Request> {
                                     child: state is RejectingReservationState
                                         ? loading
                                         : Text(
-                                      "Reject",
+                                      tr("Reject"),
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyLarge!

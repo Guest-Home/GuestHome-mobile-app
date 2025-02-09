@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -114,7 +115,7 @@ class RequestCard extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        titleText(context, 'Reservation Id'),
+                        titleText(context, tr('Reservation id'),),
                         valueText(context, reservationEntity.id.toString()),
                       ],
                     ),
@@ -127,7 +128,7 @@ class RequestCard extends StatelessWidget {
                           children: [
                             Icon(Icons.arrow_circle_down,
                                 color: ColorConstant.primaryColor),
-                            titleText(context, 'Check In'),
+                            titleText(context, tr('Check in')),
                           ],
                         ),
                         valueText(
@@ -153,7 +154,7 @@ class RequestCard extends StatelessWidget {
                           children: [
                             Icon(Icons.arrow_circle_up,
                                 color: ColorConstant.primaryColor),
-                            titleText(context, 'Check Out'),
+                            titleText(context, tr('Check Out')),
                           ],
                         ),
                         valueText(
@@ -178,15 +179,15 @@ class RequestCard extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        titleText(context, 'Property Type'),
+                        titleText(context, tr('Property type')),
                         valueText(
-                            context, reservationEntity.house!.typeofHouse!)
+                            context, tr(reservationEntity.house!.typeofHouse!))
                       ],
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        titleText(context, 'Property Id'),
+                        titleText(context, tr('Property id')),
                         valueText(
                             context, reservationEntity.house!.id.toString())
                       ],
@@ -194,7 +195,7 @@ class RequestCard extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        titleText(context, 'Unit Type'),
+                        titleText(context, tr('Unit type')),
                         valueText(context,
                             "${reservationEntity.house!.price.toString()}${reservationEntity.house!.unit}")
                       ],
@@ -208,7 +209,9 @@ class RequestCard extends StatelessWidget {
                       child: Row(
                         spacing: 20,
                         children: [
-                          Text('Booking Status-',
+                          Text(tr('Booking Status'),
+                              textAlign: TextAlign.start,
+                              overflow: TextOverflow.ellipsis,
                               style:
                               Theme.of(context).textTheme.bodyLarge!.copyWith(
                                 fontSize: 12,
@@ -263,7 +266,7 @@ class StatusButton extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       ),
       child: Text(
-        status.name,
+        tr(status.name),
         style: Theme.of(context)
             .textTheme
             .bodyLarge!
