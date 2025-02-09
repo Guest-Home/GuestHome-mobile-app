@@ -104,7 +104,7 @@ class _AddPropertiesState extends State<AddProperties> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           stepTitleText(
-                              context, 'What type of house do you host?'),
+                              context, "${tr('What type of house do you host')}?"),
                           SizedBox(
                             height: 5,
                           ),
@@ -180,12 +180,12 @@ class _AddPropertiesState extends State<AddProperties> {
                             spacing: 15,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              stepTitleText(context, 'About the house'),
+                              stepTitleText(context, tr('About the house')),
                               SizedBox(
                                 height: 5,
                               ),
                               stepSutTitle(
-                                  context, "Registered House name?", true),
+                                  context, tr("Registered house name"), true),
                               CustomTextField(
                                 textEditingController: nameController,
                                 hintText: "eg Diamond Guest House",
@@ -208,7 +208,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                 height: 5,
                               ),
                               stepSutTitle(
-                                  context, "Description of the house", true),
+                                  context, tr("Description of the house"), true),
                               CustomTextField(
                                 textEditingController: descriptionController,
                                 hintText: "eg Diamond Guest House",
@@ -238,7 +238,7 @@ class _AddPropertiesState extends State<AddProperties> {
                         spacing: 15,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          stepTitleText(context, 'Add Amenities '),
+                          stepTitleText(context, tr('Add amenities')),
                           Expanded(
                               child: BlocBuilder<AmenitiesBloc, AmenitiesState>(
                             builder: (context, state) {
@@ -288,8 +288,8 @@ class _AddPropertiesState extends State<AddProperties> {
                                             child: AmenitieTypeCard(
                                               icon: amenitiesIcon[state
                                                   .amenities[index].amenity]!,
-                                              title: state
-                                                  .amenities[index].amenity,
+                                              title:tr(state
+                                                  .amenities[index].amenity),
                                             ),
                                           ),
                                         ));
@@ -314,7 +314,7 @@ class _AddPropertiesState extends State<AddProperties> {
                               spacing: 15,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                stepTitleText(context, "Location"),
+                                stepTitleText(context,tr("Location")),
                                 Stack(children: [
                                   SizedBox(
                                     height:
@@ -402,7 +402,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                               ColorConstant.primaryColor,
                                           padding: EdgeInsets.all(0),
                                         ),
-                                        child: Text("use current location",
+                                        child: Text(tr("Use current location"),
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodySmall!
@@ -416,7 +416,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                   height: 5,
                                 ),
                                 stepSutTitle(context,
-                                    "Know or address  name of the place", true),
+                                    tr("Known or address name of the place"), true),
                                 CustomTextField(
                                   textEditingController: addressNmaeController,
                                   hintText: "e.g Gurd Shola beside tele",
@@ -438,7 +438,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                   height: 5,
                                 ),
                                 stepSutTitle(context,
-                                    "Please select the name of the city", true),
+                                    tr("Please select the city"), true),
                                 CustomTextField(
                                   readOnly: true,
                                   textEditingController: cityController,
@@ -452,9 +452,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                   textInputType: TextInputType.text,
                                   surfixIcon: CityDropDown(onSelected: (value) {
                                       cityController.text =tr(value);
-                                      context
-                                          .read<AddPropertyBloc>()
-                                          .add(AddCityEvent(city: value));
+                                      context.read<AddPropertyBloc>().add(AddCityEvent(city: value));
                                     }),
 
                                   isMultiLine: false,
@@ -478,13 +476,13 @@ class _AddPropertiesState extends State<AddProperties> {
                               spacing: 15,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                stepTitleText(context, "Price"),
+                                stepTitleText(context, tr("Price")),
                                 SizedBox(
                                   height: 5,
                                 ),
                                 stepSutTitle(
                                     context,
-                                    "How many rooms do you have with the same price?",
+                                    tr("How many rooms do you have with the same price"),
                                     true),
                                 CustomTextField(
                                   textEditingController: roomController,
@@ -507,7 +505,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                 SizedBox(
                                   height: 5,
                                 ),
-                                stepSutTitle(context, 'Enter the price', true),
+                                stepSutTitle(context, tr('Enter the price'), true),
                                 CustomTextField(
                                   textEditingController: priceController,
                                   hintText: "500",
@@ -551,7 +549,7 @@ class _AddPropertiesState extends State<AddProperties> {
                         spacing: 15,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          stepTitleText(context, "Add Photos of the house"),
+                          stepTitleText(context, tr("Add Photos of the house")),
                           SizedBox(
                             height: 5,
                           ),
@@ -599,13 +597,13 @@ class _AddPropertiesState extends State<AddProperties> {
                               spacing: 15,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                stepTitleText(context, "Agent Info"),
+                                stepTitleText(context, tr("Agent info")),
                                 SizedBox(
                                   height: 5,
                                 ),
                                 stepSutTitle(
                                     context,
-                                    "Enter agent id if you don’t have click finish(optional)",
+                                    "${tr("Enter agent id if you don't have click finish")}(optional)",
                                     false),
                                 if (!state.agentSelected)
                                   CustomTextField(
@@ -811,7 +809,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                     side: BorderSide(
                                         color: ColorConstant.secondBtnColor),
                                     backgroundColor: Colors.white),
-                                child: Text("Back",
+                                child: Text(tr("Back"),
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
@@ -888,7 +886,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                         ColorConstant.primaryColor),
                                 child: state is AddNewPropertyLoading
                                     ? loading
-                                    : Text(state.step != 6 ? "Next" : "Finish",
+                                    : Text(state.step != 6 ? tr("Next") : tr("Finish"),
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyLarge!

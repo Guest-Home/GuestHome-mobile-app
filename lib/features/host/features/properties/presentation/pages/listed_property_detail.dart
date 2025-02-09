@@ -1,6 +1,7 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:currency_picker/currency_picker.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -157,7 +158,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                   child: Row(
                                     children: [
                                       Text(
-                                        "Menu",
+                                        tr("Menu"),
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodySmall!
@@ -210,7 +211,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                     BorderSide(color: ColorConstant.cardGrey)),
                             child: ListTile(
                               title: sectionTitle(
-                                  context, 'What type of house do you host?'),
+                                  context, "${tr('What type of house do you host')}?"),
                               subtitle: Padding(
                                 padding: const EdgeInsets.only(top: 14),
                                 child: Row(
@@ -224,8 +225,8 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                                 iconData: houseTypeIcons[widget
                                                     .propertyEntity
                                                     .typeofHouse]!,
-                                                title: widget
-                                                    .propertyEntity.typeofHouse,
+                                                title:tr(widget
+                                                    .propertyEntity.typeofHouse),
                                                 isSelected: true,
                                               )
                                             : HouseTypeCard(
@@ -283,9 +284,9 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    sectionTitle(context, 'About the house'),
+                                    sectionTitle(context, tr('About the house')),
                                     Text(
-                                      "Edit",
+                                     "Edit",
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodySmall!
@@ -304,7 +305,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                         CrossAxisAlignment.start,
                                     spacing: 10,
                                     children: [
-                                      subSectionText('Registered House name?'),
+                                      subSectionText(tr('Registered house name')),
                                       CustomTextField(
                                         hintText: 'title',
                                         textEditingController: nameController,
@@ -324,7 +325,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                         height: 5,
                                       ),
                                       subSectionText(
-                                          "Description of the house"),
+                                          tr("Description of the house")),
                                       CustomTextField(
                                           surfixIcon: null,
                                           isMultiLine: true,
@@ -364,7 +365,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      sectionTitle(context, "House Amenities"),
+                                      sectionTitle(context,"House amenities"),
                                       Text(
                                           "Edit",
                                           style: Theme.of(context)
@@ -405,7 +406,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                                 child: HouseTypeCard(
                                                   iconData: amenitiesIcon[
                                                   amState.amenities[index].amenity]!,
-                                                  title: amState.amenities[index].amenity,
+                                                  title: tr(amState.amenities[index].amenity),
                                                   isSelected:state.amenities.contains(amState.amenities[index].amenity)
 
                                               ),
@@ -436,7 +437,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    sectionTitle(context, 'Location'),
+                                    sectionTitle(context, tr('Location')),
                                     Text(
                                       "Edit",
                                       style: Theme.of(context)
@@ -457,7 +458,6 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                         CrossAxisAlignment.start,
                                     spacing: 10,
                                     children: [
-                                      subSectionText('House Location'),
                                       Stack(
                                         children: [
                                           SizedBox(
@@ -523,7 +523,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                                   ColorConstant.primaryColor,
                                                   padding: EdgeInsets.symmetric(horizontal: 5),
                                                 ),
-                                                child: Text("use current location",
+                                                child: Text(tr("Use current location"),
                                                     style: Theme.of(context)
                                                         .textTheme
                                                         .bodySmall!
@@ -560,7 +560,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                           ),
                                       ),
                                       SizedBox(height: 5),
-                                      subSectionText("Know or address  name of the place"),
+                                      subSectionText(tr("Known or address name of the place")),
                                       CustomTextField(
                                         hintText: 'known address name',
                                         textEditingController:
@@ -578,7 +578,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                         prifixIcon: null,
                                       ),
                                       SizedBox(height: 5),
-                                      subSectionText("Name of the city"),
+                                      subSectionText(tr("Name of the city")),
                                       CustomTextField(
                                         readOnly: true,
                                         hintText: widget.propertyEntity.city,
@@ -586,7 +586,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                         textEditingController: cityController,
                                         surfixIcon: SizedBox(
                                           child:CityDropDown(onSelected: (value) {
-                                            cityController.text = value;
+                                            cityController.text =tr(value);
                                             context
                                                 .read<AddPropertyBloc>()
                                                 .add(AddCityEvent(city: value));
@@ -618,7 +618,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    sectionTitle(context, 'Price'),
+                                    sectionTitle(context, tr('Price')),
                                     Text(
                                       "edit",
                                       style: TextStyle(
@@ -634,7 +634,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                     spacing: 10,
                                     children: [
                                       subSectionText(
-                                          'How many rooms do you have with the same price?'),
+                                          "${tr('How many rooms do you have with the same price')}?"),
                                       CustomTextField(
                                         hintText: 'no room',
                                         textEditingController: roomController,
@@ -787,7 +787,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                             color:
                                                 ColorConstant.secondBtnColor),
                                         backgroundColor: Colors.white),
-                                    child: Text("Cancel",
+                                    child: Text(tr("Cancel"),
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium!
@@ -853,7 +853,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                             color: ColorConstant.primaryColor),
                                         backgroundColor:
                                             ColorConstant.primaryColor),
-                                    child: Text("Save Changes",
+                                    child: Text(tr("Save Changes"),
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium!
@@ -1059,7 +1059,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                               child: HouseTypeCard(
                                 iconData: houseTypeIcons[
                                     state.propertyTypes[index].propertyType]!,
-                                title: state.propertyTypes[index].propertyType,
+                                title:tr(state.propertyTypes[index].propertyType),
                                 isSelected: state.selectedPropertyType ==
                                         state.propertyTypes[index]
                                     ? true
@@ -1082,7 +1082,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                           color: ColorConstant.secondBtnColor),
                                       backgroundColor: Colors.white),
                                   child: Text(
-                                    "Cancel",
+                                    tr("Cancel"),
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium!
@@ -1107,7 +1107,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                       backgroundColor:
                                           ColorConstant.primaryColor),
                                   child: Text(
-                                    "Select",
+                                    tr("Select"),
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium!

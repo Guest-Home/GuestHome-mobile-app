@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:minapp/features/host/features/properties/domain/entities/property_entity.dart';
@@ -139,12 +140,14 @@ class _PropertyCardState extends State<PropertyCard> {
                     Icons.location_on_outlined,
                     color: ColorConstant.primaryColor.withValues(alpha: 0.8),
                   ),
-                  Text(
-                    widget.propertyEntity.specificAddress,
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: ColorConstant.secondBtnColor,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500),
+                  Expanded(
+                    child: Text(
+                      widget.propertyEntity.specificAddress,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: ColorConstant.secondBtnColor,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500),
+                    ),
                   ),
                 ],
               ),
@@ -190,7 +193,7 @@ class _PropertyCardState extends State<PropertyCard> {
                             fontWeight: FontWeight.w700),
                       ),
                       TextSpan(
-                        text: ' /night',
+                        text: ' /${tr("day")}',
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,

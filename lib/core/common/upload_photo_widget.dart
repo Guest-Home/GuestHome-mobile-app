@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../config/color/color.dart';
@@ -29,18 +30,13 @@ class UploadPhoto extends StatelessWidget {
             RichText(
                 text: TextSpan(children: [
               TextSpan(
-                  text: "Click to upload",
+                  text: tr("Click to upload or drag and drop"),
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       color: ColorConstant.primaryColor,
                       fontWeight: FontWeight.w500,
                       fontSize: 14,
                       decoration: TextDecoration.underline)),
-              TextSpan(
-                  text: "or drag and drop",
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium!
-                      .copyWith(color: ColorConstant.secondBtnColor,fontSize: 14,fontWeight: FontWeight.w400))
+
             ])),
             Text(
               "PNG,JPG or PDF (max 3MB)",
