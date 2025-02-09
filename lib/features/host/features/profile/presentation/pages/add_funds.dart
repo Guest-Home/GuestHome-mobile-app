@@ -73,7 +73,7 @@ class AddFunds extends StatelessWidget {
         automaticallyImplyLeading: true,
         // leading: AppBarBackButton(),
         title: Text(
-          'Add Funds',
+         tr('Add fund'),
           style: Theme.of(context)
               .textTheme
               .bodyLarge!
@@ -102,7 +102,7 @@ class AddFunds extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Enter Amount'",
+                tr("Enter amount"),
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
@@ -127,7 +127,7 @@ class AddFunds extends StatelessWidget {
               ),
               SizedBox(height: 15,),
               Text(
-                "Select Payment Method'",
+                tr("Select payment method"),
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
@@ -178,7 +178,7 @@ class AddFunds extends StatelessWidget {
                      }
                     },
                     child:state is DepositPaymentLoading?loading:Text(
-                      "Continue",
+                      tr("Continue"),
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!

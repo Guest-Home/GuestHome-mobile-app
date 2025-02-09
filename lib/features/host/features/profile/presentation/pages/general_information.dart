@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -46,7 +47,7 @@ class GeneralInformation extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: true,
         title: Text(
-          'General Information',
+          tr('General information'),
           style: Theme.of(context)
               .textTheme
               .bodyLarge!
@@ -154,7 +155,7 @@ class GeneralInformation extends StatelessWidget {
                             spacing: 15,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              sectionTitle(context, "Profile Image"),
+                              sectionTitle(context, tr("Profile image")),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -229,7 +230,7 @@ class GeneralInformation extends StatelessWidget {
                                                           .primaryColor),
                                                   backgroundColor: ColorConstant
                                                       .primaryColor),
-                                              child: Text("Upload",
+                                              child: Text(tr("Upload"),
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .bodySmall!
@@ -258,7 +259,7 @@ class GeneralInformation extends StatelessWidget {
                                                               alpha: 0.2)),
                                                   backgroundColor:
                                                       ColorConstant.cardGrey),
-                                              child: Text("Remove",
+                                              child: Text(tr("Remove"),
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .bodySmall!
@@ -282,7 +283,7 @@ class GeneralInformation extends StatelessWidget {
                               SizedBox(
                                 height: 5,
                               ),
-                              subSectionText("Full Name", context),
+                              subSectionText(tr("Full name"), context),
                               CustomTextField(
                                   hintText:
                                       "${state.userProfileEntity.userAccount!.firstName}"
@@ -306,7 +307,7 @@ class GeneralInformation extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  subSectionText("Phone number", context),
+                                  subSectionText(tr("Phone number"), context),
                                   GestureDetector(
                                     onTap: () {
                                       context.read<ChangePhoneBloc>().add(
@@ -315,7 +316,7 @@ class GeneralInformation extends StatelessWidget {
                                                   .phoneNumber!));
                                     },
                                     child: Text(
-                                      "change phone number",
+                                      tr("Change phone number"),
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium!
@@ -386,7 +387,7 @@ class GeneralInformation extends StatelessWidget {
                                       child: updateProfileState
                                               is UpdateUserProfileLoadingState
                                           ? loading
-                                          : Text("Save Setting",
+                                          : Text(tr("Save setting"),
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodyMedium!

@@ -1,6 +1,7 @@
 
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -106,7 +107,7 @@ class _VerifyNewPhoneState extends State<VerifyNewPhone> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "OTP Verification",
+           tr("opt verification"),
             style: Theme.of(context)
                 .textTheme
                 .headlineMedium!
@@ -118,7 +119,7 @@ class _VerifyNewPhoneState extends State<VerifyNewPhone> {
                 textAlign: TextAlign.start,
                 text: TextSpan(children: [
                   TextSpan(
-                    text:'Please enter the one time password sent to your mobile number ',
+                    text:"${tr('please enter the one time')} ${tr("password sent to your mobile number")}",
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium!
@@ -172,7 +173,7 @@ class _VerifyNewPhoneState extends State<VerifyNewPhone> {
                 textAlign: TextAlign.start,
                 text: TextSpan(children: [
                   TextSpan(
-                    text: 'Did’t receive the code?\n Resend in ',
+                    text:tr("Didn't receive the code"),
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium!
@@ -181,7 +182,7 @@ class _VerifyNewPhoneState extends State<VerifyNewPhone> {
                         fontWeight: FontWeight.w400),
                   ),
                   TextSpan(
-                      text: "${_formatTime(_remainingTime)} second",
+                      text:"${tr("resend in _ second")} ${_formatTime(_remainingTime)} ${tr("second")}",
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!

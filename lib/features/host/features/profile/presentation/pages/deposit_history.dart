@@ -1,4 +1,5 @@
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,7 +33,7 @@ class _DepositHistoryState extends State<DepositHistory> {
         automaticallyImplyLeading: true,
         // leading: AppBarBackButton(),
         title: Text(
-          'Deposit History',
+          tr('Deposit history'),
           style: Theme.of(context)
               .textTheme
               .bodyLarge!
@@ -63,7 +64,7 @@ class _DepositHistoryState extends State<DepositHistory> {
                   padding: const EdgeInsets.all(4),
                   child: ListTile(
                     title: Text(
-                      "Current Deposit",
+                      tr("Current deposit"),
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontWeight: FontWeight.w600,
                         fontSize: 14,
@@ -92,7 +93,7 @@ class _DepositHistoryState extends State<DepositHistory> {
                                           ),
                                         ),
                                         TextSpan(
-                                          text: " ETB",
+                                          text: " ${tr("ETB")}",
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyMedium!
@@ -112,7 +113,7 @@ class _DepositHistoryState extends State<DepositHistory> {
                               ),
                               onPressed: () => context.goNamed('addFunds'),
                               child: Text(
-                                "Add Funds",
+                                tr("Add fund"),
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium!
@@ -127,7 +128,7 @@ class _DepositHistoryState extends State<DepositHistory> {
                 ),
               ),
               Text(
-                "Deposit History ",
+                tr("Deposit history"),
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontWeight: FontWeight.w500,
                     fontSize: 14,
@@ -191,7 +192,7 @@ class _DepositHistoryState extends State<DepositHistory> {
                                     color:
                                     ColorConstant.inActiveColor.withValues(alpha: 0.5)),
                               ),
-                              trailing:Text("${state.depositTransactionEntity.results![index].amount} ETB",style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              trailing:Text("${state.depositTransactionEntity.results![index].amount} ${tr("ETB")}",style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                   color: ColorConstant.primaryColor,
                                   fontWeight: FontWeight.w600,
                                   fontSize: 14

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -17,7 +18,7 @@ class PaymentSetting extends StatelessWidget {
         automaticallyImplyLeading: true,
         // leading: AppBarBackButton(),
         title: Text(
-          'Payment Setting',
+          tr('Payment setting'),
           style: Theme.of(context)
               .textTheme
               .bodyLarge!
@@ -48,14 +49,14 @@ class PaymentSetting extends StatelessWidget {
                   padding: const EdgeInsets.all(4),
                   child: ListTile(
                     title: Text(
-                      "Platform payment system",
+                     tr("Platform payment system"),
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontWeight: FontWeight.w600,
                             fontSize: 14,
                           ),
                     ),
                     subtitle: Text(
-                      "Accept payments though platform",
+                      tr("Accept payment through platform"),
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontWeight: FontWeight.w500,
                           fontSize: 14,
@@ -96,7 +97,7 @@ class PaymentSetting extends StatelessWidget {
                   padding: const EdgeInsets.all(4),
                   child: ListTile(
                     title: Text(
-                      "Current Deposit",
+                      tr("Current deposit"),
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontWeight: FontWeight.w600,
                             fontSize: 14,
@@ -127,7 +128,7 @@ class PaymentSetting extends StatelessWidget {
                                       ),
                                     ),
                                     TextSpan(
-                                      text: " ETB",
+                                      text: " ${tr("ETB")}",
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium!
@@ -147,7 +148,7 @@ class PaymentSetting extends StatelessWidget {
                               ),
                               onPressed: () => context.goNamed('addFunds'),
                               child: Text(
-                                "Add Funds",
+                               tr("Add fund"),
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium!
@@ -158,7 +159,7 @@ class PaymentSetting extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: () => context.goNamed('depositHistory'),
-                          child: Text("Deposit  history ",style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          child: Text(tr("Deposit history"),style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             color: ColorConstant.primaryColor,
                             fontWeight: FontWeight.w600
                           ),),
@@ -184,7 +185,7 @@ class PaymentSetting extends StatelessWidget {
                         Expanded(
                           child: ListTile(
                             title: Text(
-                              "Platform Commission",
+                              tr("Platform commission"),
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium!
@@ -199,8 +200,7 @@ class PaymentSetting extends StatelessWidget {
                               child: BlocBuilder<PaymentSettingBloc,
                                   PaymentSettingState>(
                                 builder: (context, state) {
-                                return Text(
-                                      "Current rate: ${state.platformCommissionEntity.currentCommissionRate??0}",
+                                return Text("${tr("Current rate")}: ${state.platformCommissionEntity.currentCommissionRate??0}",
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium!
@@ -224,7 +224,7 @@ class PaymentSetting extends StatelessWidget {
                               spacing: 4,
                               children: [
                                 Text(
-                                  "View details",
+                                  tr("View detail"),
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodySmall!

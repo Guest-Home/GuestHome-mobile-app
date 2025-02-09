@@ -1,4 +1,5 @@
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:minapp/core/common/loading_indicator_widget.dart';
@@ -23,7 +24,7 @@ class Commission extends StatelessWidget {
           automaticallyImplyLeading: true,
           // leading: AppBarBackButton(),
           title: Text(
-            'Platform Commission',
+            tr('Platform commission'),
             style: Theme.of(context)
                 .textTheme
                 .bodyLarge!
@@ -61,7 +62,7 @@ class Commission extends StatelessWidget {
                   padding: const EdgeInsets.all(4),
                   child: ListTile(
                     title: Text(
-                      "Current Commission rate",
+                      tr("Current commission rate"),
                       style: Theme
                           .of(context)
                           .textTheme
@@ -88,7 +89,7 @@ class Commission extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 6),
-                child: Text("Commission breakdown", style: Theme
+                child: Text(tr("Commission breakdown"), style: Theme
                     .of(context)
                     .textTheme
                     .bodyMedium!
@@ -111,7 +112,7 @@ class Commission extends StatelessWidget {
                   padding: const EdgeInsets.all(4),
                   child: ListTile(
                     title: Text(
-                      "Last month summary",
+                      tr("Last month summary"),
                       style: Theme
                           .of(context)
                           .textTheme
@@ -129,7 +130,7 @@ class Commission extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Total booking", style: Theme
+                              Text(tr("Total booking"), style: Theme
                                   .of(context)
                                   .textTheme
                                   .bodyMedium!
@@ -155,7 +156,7 @@ class Commission extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Commission paid", style: Theme
+                              Text(tr("Commission paid"), style: Theme
                                   .of(context)
                                   .textTheme
                                   .bodyMedium!
@@ -187,7 +188,7 @@ class Commission extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 6),
-                child: Text("Recent Commission history", style: Theme
+                child: Text(tr("Recent commission history"), style: Theme
                     .of(context)
                     .textTheme
                     .bodyMedium!
@@ -235,7 +236,7 @@ class Commission extends StatelessWidget {
                                       alpha: 0.8)
                               ),),
                               trailing: Text(
-                                "${state.platformCommissionEntity.recentCommissionHistory![index].amount} ETB",
+                                "${state.platformCommissionEntity.recentCommissionHistory![index].amount} ${tr("ETB")}",
                                 style: Theme
                                     .of(context)
                                     .textTheme

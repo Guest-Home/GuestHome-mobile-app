@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/core/common/back_button.dart';
@@ -11,7 +12,7 @@ class Account extends StatelessWidget {
           automaticallyImplyLeading: false,
           leading: AppBarBackButton(),
           title: Text(
-            'Account',
+            tr('Account'),
             style: Theme.of(context)
                 .textTheme
                 .bodyLarge!
@@ -30,7 +31,7 @@ class Account extends StatelessWidget {
               },
             leading:Icon(Icons.delete_outline_outlined,size: 19,),
             title:Text(
-              "Deactivate Account",
+              tr("Deactivate account"),
               style: Theme.of(context)
                   .textTheme
                   .bodyLarge!

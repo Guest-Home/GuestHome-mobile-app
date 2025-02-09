@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -77,7 +78,7 @@ class _VerifyOldPhoneState extends State<VerifyOldPhone> {
           automaticallyImplyLeading: false,
           leading: AppBarBackButton(),
           title: Text(
-            'Phone number change',
+            tr('Phone number change'),
             style: Theme.of(context)
                 .textTheme
                 .bodyLarge!
@@ -192,8 +193,7 @@ class _VerifyOldPhoneState extends State<VerifyOldPhone> {
                                 textAlign: TextAlign.start,
                                 text: TextSpan(children: [
                                   TextSpan(
-                                    text:
-                                        'Did’t receive the code?\n Resend in ',
+                                    text:tr("Didn't receive the code"),
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium!
@@ -202,7 +202,7 @@ class _VerifyOldPhoneState extends State<VerifyOldPhone> {
                                             fontWeight: FontWeight.w400),
                                   ),
                                   TextSpan(
-                                      text: "${_formatTime(_remainingTime)} second",
+                                      text:"${tr("resend in _ second")} ${_formatTime(_remainingTime)} ${tr("second")}",
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium!
@@ -290,7 +290,7 @@ class _VerifyOldPhoneState extends State<VerifyOldPhone> {
                                   textAlign: TextAlign.start,
                                   text: TextSpan(children: [
                                     TextSpan(
-                                      text: 'Phone Number',
+                                      text: tr('Phone number'),
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium!
