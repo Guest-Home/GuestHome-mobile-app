@@ -260,7 +260,7 @@ class Search extends StatelessWidget {
                                                 fontWeight: FontWeight.w700,
                                                 fontSize: 14
                                             ),),
-                                            Text("/day", style:
+                                            Text("/${tr('day')}", style:
                                             Theme
                                                 .of(context)
                                                 .textTheme

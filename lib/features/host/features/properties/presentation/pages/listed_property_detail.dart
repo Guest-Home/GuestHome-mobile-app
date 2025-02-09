@@ -853,7 +853,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                             color: ColorConstant.primaryColor),
                                         backgroundColor:
                                             ColorConstant.primaryColor),
-                                    child: Text(tr("Save Changes"),
+                                    child: Text(tr("Save changes"),
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium!
