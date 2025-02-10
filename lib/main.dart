@@ -122,7 +122,7 @@ class MyApp extends StatelessWidget {
               supportedLocales: context.supportedLocales,
               debugShowCheckedModeBanner: false,
               routerConfig: router,
-              title: 'Min App',
+              title: 'GuestHome',
               //builder: DevicePreview.appBuilder,
               theme: appLightTheme);
         },
