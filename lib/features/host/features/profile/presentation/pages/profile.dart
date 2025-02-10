@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -518,7 +517,7 @@ class _ProfileState extends State<Profile> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "LogOut",
+                      tr("Log out"),
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!
@@ -550,7 +549,7 @@ class _ProfileState extends State<Profile> {
                       color:
                           ColorConstant.secondBtnColor.withValues(alpha: 0.5)),
                   backgroundColor: Colors.white),
-              child: Text("Cancel",
+              child: Text(tr("Cancel"),
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         color: ColorConstant.secondBtnColor,
                       ))),
@@ -574,7 +573,7 @@ class _ProfileState extends State<Profile> {
                   style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.only(left: 4, right: 4),
                       backgroundColor: ColorConstant.red),
-                  child: Text("LogOut",
+                  child: Text(tr("Log out"),
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
                             color: Colors.white,
                           )));
