@@ -39,9 +39,7 @@ class Language extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: BlocProvider.value(
-                    value: context.read<LanguageBloc>(),
-                    child: BlocConsumer<LanguageBloc, LanguageState>(
+                  child: BlocConsumer<LanguageBloc, LanguageState>(
                       listener: (context, state) {
                         context.setLocale(state.locale);
                       },
@@ -82,7 +80,7 @@ class Language extends StatelessWidget {
                       },
                     ),
                   ),
-                ),
+
               ],
             ),
           ],

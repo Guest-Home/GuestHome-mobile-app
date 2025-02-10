@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:minapp/config/route/route.dart';
 import 'package:minapp/config/theme/app_theme.dart';
 import 'package:minapp/core/common/bloc/language_bloc.dart';
@@ -18,6 +19,7 @@ import 'package:minapp/features/host/features/properties/presentation/bloc/city/
 import 'package:minapp/features/host/features/properties/presentation/bloc/property_type/property_type_bloc.dart';
 import 'package:minapp/features/search/presentation/bloc/search_bloc.dart';
 import 'package:minapp/service_locator.dart';
+import 'package:path_provider/path_provider.dart';
 import 'core/utils/custom_local_delegate.dart';
 import 'features/guest/features/HousType/presentation/bloc/filter_bloc/filter_bloc.dart';
 import 'features/guest/features/booked/presentation/bloc/booked_bloc.dart';
@@ -32,6 +34,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setup();
   //Bloc.observer=MyBlocObserver();
+  HydratedBloc.storage = await HydratedStorage.build(
+    storageDirectory: await getApplicationDocumentsDirectory(),
+  );
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   final GoRouter router = await createRouter(); // Initialize the router
 
@@ -44,7 +49,7 @@ void main() async {
     ],
     path: 'assets/translations',
     fallbackLocale: Locale('en', 'US'),
-    saveLocale: false,
+    saveLocale: true,
     child: MyApp(router: router),
   ));
 }
@@ -104,8 +109,8 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: BlocBuilder<LanguageBloc, LanguageState>(
-        buildWhen: (previous, current) => previous.locale != current.locale,
         builder: (context, state) {
+          context.setLocale(state.locale);
           return MaterialApp.router(
               localizationsDelegates: [
                 ...context.localizationDelegates,

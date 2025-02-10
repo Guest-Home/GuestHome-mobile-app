@@ -1,19 +1,21 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 part 'language_event.dart';
 part 'language_state.dart';
 
-class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
+class LanguageBloc extends HydratedBloc<LanguageEvent, LanguageState> {
   LanguageBloc()
       : super(LanguageState(
             selectedLanguage: AppLocal.english, locale: Locale('en', 'US'))) {
     on<ChangeAppLocalEvent>((event, emit) async {
       if (event.appLocal != state.selectedLanguage) {
-        emit(LanguageState(
-            selectedLanguage: event.appLocal,
-            locale: getLocale(event.appLocal)));
+        final newState = LanguageState(
+          selectedLanguage: event.appLocal,
+          locale: getLocale(event.appLocal),
+        );
+        emit(newState);
       }
     });
     on<ChangeAppLocalSetting>((event, emit) async {
@@ -47,5 +49,22 @@ class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
       default:
         return AppLocal.english;
     }
+  }
+
+  @override
+  LanguageState? fromJson(Map<String, dynamic> json) {
+    if (json.containsKey('selectedLanguage')) {
+      final language = getLocaleFromString(json['selectedLanguage']);
+      if (language != null) {
+       return LanguageState(selectedLanguage: language, locale:getLocale(language));
+      }
+    }
+    return null;
+  }
+
+  @override
+  Map<String, dynamic>? toJson(LanguageState state) {
+    return {"selectedLanguage":state.selectedLanguage.name};
+
   }
 }
