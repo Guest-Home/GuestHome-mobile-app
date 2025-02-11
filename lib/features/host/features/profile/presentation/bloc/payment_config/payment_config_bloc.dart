@@ -14,8 +14,9 @@ class PaymentConfigBloc extends HydratedBloc<PaymentConfigEvent, PaymentConfigSt
       Map<String,dynamic> data={
         "is_required":event.isAccepting
       };
-      Either response= await sl<PaymentConfigUseCase>().call(data);
-      response.fold((l) => emit(state), (r) =>emit(state.copyWith(isAcceptingPayment: event.isAccepting)));
+      emit(state.copyWith(isAcceptingPayment: event.isAccepting));
+      // Either response= await sl<PaymentConfigUseCase>().call(data);
+      // response.fold((l) => emit(state), (r) =>emit(state.copyWith(isAcceptingPayment: event.isAccepting)));
 
     });
   }
