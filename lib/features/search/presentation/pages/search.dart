@@ -348,11 +348,11 @@ class NoSearchFound extends StatelessWidget {
           width: 80,
           height: 80,
         ),
-        Text("Not Found!",style:  Theme.of(context).textTheme.bodyMedium!.copyWith(
+        Text(tr("Not Found"),style:  Theme.of(context).textTheme.bodyMedium!.copyWith(
             fontWeight: FontWeight.w700,
             fontSize: 18
         ),),
-        Text("The property you’re searching\n is not found please search again.",
+        Text(tr("The property you’re searching is not found please search again"),
           textAlign: TextAlign.center,
           style:
           Theme.of(context).textTheme.bodyMedium!.copyWith(

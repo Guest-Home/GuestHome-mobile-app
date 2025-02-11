@@ -25,7 +25,7 @@ class SecctionHeader extends StatelessWidget {
         ),
         if (isSeeMore)
           Text(
-            tr("see all"),
+            tr("See All"),
             style: TextStyle(
                 color: ColorConstant.secondBtnColor.withValues(alpha: 0.4)),
           )

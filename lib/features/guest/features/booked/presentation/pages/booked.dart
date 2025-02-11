@@ -50,8 +50,8 @@ class Booked extends StatelessWidget {
                       child: ListTile(
                         title:
                             SecctionHeader(title: tr("Booked"), isSeeMore: false),
-                        subtitle: Text(
-                          "Here is the list of your requested booking",
+                        subtitle: Text(tr(
+                          "Here is the list of your requested booking"),
                           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontSize: 14,fontWeight: FontWeight.w400
                           ),
@@ -162,7 +162,7 @@ class EmptyBooked extends StatelessWidget {
                 height: 100,
               ),
               Text(
-                "You did’t booked any Properties.\n  search and book properties. ",
+                tr("You did’t booked any Properties.search and book properties"),
                 textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme

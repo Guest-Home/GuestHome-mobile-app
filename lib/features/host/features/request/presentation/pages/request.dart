@@ -97,7 +97,7 @@ class _RequestState extends State<Request> {
                                         height: 80,
                                       ),
                                       Text(
-                                        "no reservation found",
+                                       tr("no reservation found"),
                                         textAlign: TextAlign.center,
                                         style: Theme.of(context)
                                             .textTheme

@@ -158,7 +158,8 @@ class _NearHouseCardState extends State<NearHouseCard> {
                         ],
                       ),
                     ),
-                    Text("See details",style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+
+                    Text(tr("See Detail"),style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                         color: ColorConstant.primaryColor,
                         fontWeight: FontWeight.w600,
                         fontSize: 14

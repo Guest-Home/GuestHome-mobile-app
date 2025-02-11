@@ -59,352 +59,408 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        leading:IconButton(onPressed: () {
-          context.read<FilterBloc>().add(ResetEvent());
-          context.pop();
-        }, icon: Icon(Icons.arrow_back,size: 27,)),
-        shadowColor: Colors.transparent,
-        scrolledUnderElevation: 0,
-      ),
-      body: RefreshIndicator(
-        backgroundColor: ColorConstant.primaryColor,
-        color: Colors.white,
-        onRefresh: () async {
-          context.read<HoustypeBloc>().add(GetPropertyByHouseTypeEvent(name: widget.name));
-          context.read<PopularPropertyBloc>().add(GetPopularPropertyEvent());
-        },
-        child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: 10,
-                children: [
-                  Expanded(
-                    child: BlocBuilder<FilterBloc, FilterState>(
-                      builder: (context, filterState) {
-                        if (filterState is FilterErrorState) {
-                          return Center(
-                            child: Text(filterState.failure.message),
+      // appBar: AppBar(
+      //   elevation: 0,
+      //   automaticallyImplyLeading: false,
+      //   leading:IconButton(onPressed: () {
+      //     context.read<FilterBloc>().add(ResetEvent());
+      //     context.pop();
+      //   }, icon: Icon(Icons.arrow_back,size: 27,)),
+      //   shadowColor: Colors.transparent,
+      //   scrolledUnderElevation: 0,
+      // ),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            pinned: true,
+            snap: false,
+            floating: true,
+            centerTitle: false,
+            elevation: 0,
+            automaticallyImplyLeading: false,
+            leading:IconButton(onPressed: () {
+                 context.read<FilterBloc>().add(ResetEvent());
+                 context.pop();
+         }, icon: Icon(Icons.arrow_back,size: 27,)),
+            bottom: AppBar(
+              automaticallyImplyLeading: false,
+              elevation: 0,
+              flexibleSpace:Container(
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                  margin: EdgeInsets.only(bottom:10),
+                  width: MediaQuery.of(context).size.width,
+                  height: 60,
+                  child: Row(
+                    spacing: 10,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () => context.pushNamed("search"),
+                          child: SearchField(
+                            isActive: false,
+                            prifixIcon: Icon(
+                              Icons.search,
+                              color: ColorConstant.secondBtnColor,
+                            ),
+                            onTextChnage: (value) {},
+                          ),
+                        ),
+                      ),
+                      BlocBuilder<FilterBloc, FilterState>(
+                        buildWhen: (previous, current) =>
+                        previous != current,
+                        builder: (context, state) {
+                          if (state is FilterDataLoadedState) {
+                            return Badge(
+                              label: Text(state.properties.count.toString()),
+                              alignment: Alignment.topRight,
+                              offset: Offset(0.0, 10.0),
+                              isLabelVisible: state.category.isNotEmpty ? true : false,
+                              child: IconButton(
+                                iconSize: 33,
+                                icon: Icon(Icons.filter_list),
+                                onPressed: () =>
+                                    filterModalBottomSheet(context),
+                              ),
+                            );
+                          }
+                          return Badge(
+                            label: Text(""),
+                            alignment: Alignment.topRight,
+                            offset: Offset(0.0, 10.0),
+                            isLabelVisible:false,
+                            child: IconButton(
+                                iconSize: 33,
+                                icon: Icon(Icons.filter_list),
+                                onPressed: (){
+                                  context.read<FilterBloc>().add(AddHouseTypeEvent(houseType: widget.name));
+                                  filterModalBottomSheet(context);
+                                }
+
+                            ),
                           );
-                        }
-                        if (filterState.properties.results != null &&
-                            filterState.properties.results!.isNotEmpty) {
+                        },
+                      )
+                    ],
+                  )) ,
+            ),
+            // flexibleSpace: FlexibleSpaceBar(
+            //   background:Container(
+            //       padding: EdgeInsets.symmetric(horizontal: 15),
+            //       margin: EdgeInsets.only(top:70),
+            //       width: MediaQuery.of(context).size.width,
+            //       child: Row(
+            //         spacing: 10,
+            //         mainAxisAlignment: MainAxisAlignment.start,
+            //         children: [
+            //           Expanded(
+            //             child: GestureDetector(
+            //               onTap: () => context.pushNamed("search"),
+            //               child: SearchField(
+            //                 isActive: false,
+            //                 prifixIcon: Icon(
+            //                   Icons.search,
+            //                   color: ColorConstant.secondBtnColor,
+            //                 ),
+            //                 onTextChnage: (value) {},
+            //               ),
+            //             ),
+            //           ),
+            //           BlocBuilder<FilterBloc, FilterState>(
+            //             buildWhen: (previous, current) =>
+            //             previous != current,
+            //             builder: (context, state) {
+            //               if (state is FilterDataLoadedState) {
+            //                 return Badge(
+            //                   label:
+            //                   Text(state.properties.count.toString()),
+            //                   alignment: Alignment.topRight,
+            //                   offset: Offset(0.0, 10.0),
+            //                   isLabelVisible:
+            //                   state.category.isNotEmpty ? true : false,
+            //                   child: IconButton(
+            //                     iconSize: 33,
+            //                     icon: Icon(Icons.filter_list),
+            //                     onPressed: () =>
+            //                         filterModalBottomSheet(context),
+            //                   ),
+            //                 );
+            //               }
+            //               return Badge(
+            //                 label: Text(""),
+            //                 alignment: Alignment.topRight,
+            //                 offset: Offset(0.0, 10.0),
+            //                 isLabelVisible:
+            //                 state.category.isNotEmpty ? true : false,
+            //                 child: IconButton(
+            //                     iconSize: 33,
+            //                     icon: Icon(Icons.filter_list),
+            //                     onPressed: (){
+            //                       context.read<FilterBloc>().add(AddHouseTypeEvent(houseType: widget.name));
+            //                       filterModalBottomSheet(context);
+            //                     }
+            //
+            //                 ),
+            //               );
+            //             },
+            //           )
+            //         ],
+            //       )),
+            //   centerTitle: false,
+            //
+            // ),
+          ),
+          SliverFillRemaining(
+            child: RefreshIndicator(
+              backgroundColor: ColorConstant.primaryColor,
+              color: Colors.white,
+              onRefresh: () async {
+                context.read<HoustypeBloc>().add(GetPropertyByHouseTypeEvent(name: widget.name));
+                context.read<PopularPropertyBloc>().add(GetPopularPropertyEvent());
+              },
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: 10,
+                  children: [
+                    Expanded(
+                      child: BlocBuilder<FilterBloc, FilterState>(
+                        builder: (context, filterState) {
+                          if (filterState is FilterErrorState) {
+                            return Center(
+                              child: Text(filterState.failure.message),
+                            );
+                          }
+                          if (filterState.properties.results != null &&
+                              filterState.properties.results!.isNotEmpty) {
                             return Column(
                               mainAxisAlignment: MainAxisAlignment.start,
-                                spacing: 5,
-                                children: [
-                                  //search
-                                  Container(
+                              spacing: 5,
+                              children: [
+                                //search
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 15),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Selected  house type: ",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium!
+                                            .copyWith(fontWeight: FontWeight.w500),
+                                      ),
+                                      Text(
+                                        filterState.category.isNotEmpty
+                                            ? filterState.category
+                                            : widget.name,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium!
+                                            .copyWith(
+                                            color: ColorConstant.primaryColor),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Expanded(
+                                  child: NotificationListener<ScrollNotification>(
+                                    onNotification: (scrollInfo) {
+                                      if (scrollInfo.metrics.pixels ==
+                                          scrollInfo.metrics.maxScrollExtent) {
+                                        context.read<FilterBloc>().add(LoadMoreFilterPropertiesEvent());
+                                      }
+                                      return false;
+                                    },
+                                    child: ListView.builder(
+                                      itemCount: filterState.properties.results!.length+
+                                          (filterState is FilterDataLoadingMoreState
+                                              ? 1 : 0),
                                       padding: EdgeInsets.symmetric(horizontal: 15),
-                                      child: Row(
-                                        spacing: 10,
-                                        children: [
-                                          Expanded(
-                                            child: GestureDetector(
-                                              onTap: () => context.pushNamed("search"),
-                                              child: SearchField(
-                                                isActive: false,
-                                                prifixIcon: Icon(
-                                                  Icons.search,
-                                                  color: ColorConstant.secondBtnColor,
-                                                ),
-                                                onTextChnage: (value) {},
-                                              ),
-                                            ),
-                                          ),
-                                          Badge(
-                                                label:Text(filterState.properties.count!.toString()),
-                                                alignment: Alignment.topRight,
-                                                offset: Offset(0.0, 10.0),
-                                                isLabelVisible:
-                                                filterState.category.isNotEmpty ? true : false,
-                                                child: IconButton(
-                                                  iconSize: 33,
-                                                  icon: Icon(Icons.filter_list),
-                                                  onPressed: () =>
-                                                      filterModalBottomSheet(context),
-                                                ),
-                                              )
-                                        ],
-                                      )),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 15),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Selected  house type: ",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium!
-                                              .copyWith(fontWeight: FontWeight.w500),
-                                        ),
-                                        Text(
-                                          filterState.category.isNotEmpty
-                                              ? filterState.category
-                                              : widget.name,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium!
-                                              .copyWith(
-                                                  color: ColorConstant.primaryColor),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 15,
-                                  ),
-                                  Expanded(
-                                      child: NotificationListener<ScrollNotification>(
-                                        onNotification: (scrollInfo) {
-                                          if (scrollInfo.metrics.pixels ==
-                                              scrollInfo.metrics.maxScrollExtent) {
-                                             context.read<FilterBloc>().add(LoadMoreFilterPropertiesEvent());
-                                          }
-                                          return false;
-                                        },
-                                        child: ListView.builder(
-                                            itemCount: filterState.properties.results!.length+
-                                                              (filterState is FilterDataLoadingMoreState
-                                                              ? 1 : 0),
-                                            padding: EdgeInsets.symmetric(horizontal: 15),
-                                            itemBuilder: (context, index) {
-                                              if (index >=
-                                                  filterState.properties.results!.length) {
-                                                return Center(child: loadingWithPrimary);
-                                              }
-                                              return  _buildPropertyItem( filterState
-                                                  .properties.results![index]);
-
-                                            },
-                                          ),
-                                      ),
-                                    ),
-
-                                ],
-                            );
-                        }
-                        return   NotificationListener<ScrollNotification>(
-                            onNotification: (scrollInfo) {
-                          if (scrollInfo is ScrollEndNotification) {
-                            _onVerticalScroll();
-                          }
-                          return false;
-                        },child:  SingleChildScrollView(
-                            controller: _verticalController,
-                        child:Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          spacing:10,
-                          children: [
-                            // search
-                            Container(
-                                padding: EdgeInsets.symmetric(horizontal: 15),
-                                child: Row(
-                                  spacing: 10,
-                                  children: [
-                                    Expanded(
-                                      child: GestureDetector(
-                                        onTap: () => context.pushNamed("search"),
-                                        child: SearchField(
-                                          isActive: false,
-                                          prifixIcon: Icon(
-                                            Icons.search,
-                                            color: ColorConstant.secondBtnColor,
-                                          ),
-                                          onTextChnage: (value) {},
-                                        ),
-                                      ),
-                                    ),
-                                    BlocBuilder<FilterBloc, FilterState>(
-                                      buildWhen: (previous, current) =>
-                                      previous != current,
-                                      builder: (context, state) {
-                                        if (state is FilterDataLoadedState) {
-                                          return Badge(
-                                            label:
-                                            Text(state.properties.count.toString()),
-                                            alignment: Alignment.topRight,
-                                            offset: Offset(0.0, 10.0),
-                                            isLabelVisible:
-                                            state.category.isNotEmpty ? true : false,
-                                            child: IconButton(
-                                              iconSize: 33,
-                                              icon: Icon(Icons.filter_list),
-                                              onPressed: () =>
-                                                  filterModalBottomSheet(context),
-                                            ),
-                                          );
+                                      itemBuilder: (context, index) {
+                                        if (index >=
+                                            filterState.properties.results!.length) {
+                                          return Center(child: loadingWithPrimary);
                                         }
-                                        return Badge(
-                                          label: Text(""),
-                                          alignment: Alignment.topRight,
-                                          offset: Offset(0.0, 10.0),
-                                          isLabelVisible:
-                                          state.category.isNotEmpty ? true : false,
-                                          child: IconButton(
-                                            iconSize: 33,
-                                            icon: Icon(Icons.filter_list),
-                                            onPressed: (){
-                                              context.read<FilterBloc>().add(AddHouseTypeEvent(houseType: widget.name));
-                                              filterModalBottomSheet(context);
-                                            }
+                                        return  _buildPropertyItem( filterState
+                                            .properties.results![index]);
 
+                                      },
+                                    ),
+                                  ),
+                                ),
+
+                              ],
+                            );
+                          }
+                          return   NotificationListener<ScrollNotification>(
+                              onNotification: (scrollInfo) {
+                                if (scrollInfo is ScrollEndNotification) {
+                                  _onVerticalScroll();
+                                }
+                                return false;
+                              },child:  SingleChildScrollView(
+                              controller: _verticalController,
+                              child:Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                spacing:10,
+                                children: [
+                                  // search
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 15, right: 15),
+                                    child: SecctionHeader(
+                                      title: tr("Most Popular"),
+                                      isSeeMore: true,
+                                    ),
+                                  ),
+                                  BlocBuilder<PopularPropertyBloc,PopularPropertyState>(
+                                    buildWhen: (previous, current) =>
+                                    previous != current,
+                                    builder: (context, state) {
+                                      if (state is PopularPropertyLoadingState) {
+                                        return SizedBox(
+                                          height: MediaQuery.of(context).size.height * 0.40,
+                                          child: Center(
+                                            child: loadingIndicator(),
                                           ),
                                         );
-                                      },
-                                    )
-                                  ],
-                                )),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 15, right: 15),
-                              child: SecctionHeader(
-                                title: tr("Most Popular"),
-                                isSeeMore: true,
-                              ),
-                            ),
-                            BlocBuilder<PopularPropertyBloc,PopularPropertyState>(
-                              buildWhen: (previous, current) =>
-                                  previous != current,
-                              builder: (context, state) {
-                                if (state is PopularPropertyLoadingState) {
-                                  return SizedBox(
-                                    height: MediaQuery.of(context).size.height * 0.40,
-                                    child: Center(
-                                      child: loadingIndicator(),
+                                      } else if (state.properties.count == 0 ||
+                                          state.properties.results == null) {
+                                        return SizedBox.shrink();
+                                      } else if (state.properties.results!.isNotEmpty) {
+                                        return SizedBox(
+                                          height: MediaQuery.of(context).size.height * 0.43,
+                                          width: MediaQuery.of(context).size.width,
+                                          child: NotificationListener<ScrollNotification>(
+                                            onNotification: (scrollInfo) {
+                                              if (scrollInfo.metrics.pixels ==
+                                                  scrollInfo.metrics.maxScrollExtent) {
+                                                context.read<PopularPropertyBloc>().add(
+                                                    LoadMorePopularPropertiesEvent());
+                                              }
+                                              return false;
+                                            },
+                                            child: ListView.builder(
+                                                itemCount: state.properties.results!.length +
+                                                    (state is PopularPropertyLoadingMoreState
+                                                        ? 1
+                                                        : 0),
+                                                scrollDirection: Axis.horizontal,
+                                                itemBuilder: (context, index) {
+                                                  if (index >= state.properties.results!.length) {
+                                                    return Center(child: loadingWithPrimary);
+                                                  }
+                                                  return GestureDetector(
+                                                    onTap: () async {
+                                                      final token = await GetToken()
+                                                          .getUserToken();
+                                                      context.push('/popularHouseDetail/$token',
+                                                        extra: state.properties.results![index],
+                                                      );
+                                                    },
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.symmetric(
+                                                          horizontal: 10,
+                                                          vertical: 1),
+                                                      child: Material(
+                                                        elevation: 2,
+                                                        shadowColor: ColorConstant
+                                                            .cardGrey
+                                                            .withValues(alpha: 0.3),
+                                                        borderRadius:
+                                                        BorderRadius.circular(10),
+                                                        child: PopularHouseCard(
+                                                            width:MediaQuery.of(context).size.width * 0.7,
+                                                            height: 300,
+                                                            showBorder: true,
+                                                            showIndicator: false,
+                                                            property: state.properties
+                                                                .results![index]),
+                                                      ),
+                                                    ),
+                                                  );
+                                                }),
+                                          ),
+                                        );
+                                      }
+                                      return SizedBox.shrink();
+                                    },
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 15),
+                                    child: SecctionHeader(
+                                      title: tr('Nearby Your Location'),
+                                      isSeeMore: false,
                                     ),
-                                  );
-                                } else if (state.properties.count == 0 ||
-                                    state.properties.results == null) {
-                                 return SizedBox.shrink();
-                                } else if (state.properties.results!.isNotEmpty) {
-                                  return SizedBox(
-                                    height: MediaQuery.of(context).size.height * 0.43,
-                                    width: MediaQuery.of(context).size.width,
-                                    child: NotificationListener<ScrollNotification>(
-                                      onNotification: (scrollInfo) {
-                                        if (scrollInfo.metrics.pixels ==
-                                            scrollInfo.metrics.maxScrollExtent) {
-                                          context.read<PopularPropertyBloc>().add(
-                                              LoadMorePopularPropertiesEvent());
-                                        }
-                                        return false;
-                                      },
-                                      child: ListView.builder(
+                                  ),
+                                  BlocBuilder<HoustypeBloc, HoustypeState>(
+                                    builder: (context, state) {
+                                      if (state is HouseTypeLoadingState) {
+                                        return Center(
+                                          child: loadingIndicator(),
+                                        );
+                                      } else if (state.properties.count == 0 ||
+                                          state.properties.results == null) {
+                                        return _buildNoProperties();
+                                      }
+                                      else if(state is HouseTYpeErrorState){
+                                        return  Center(
+                                            child: Column(
+                                              spacing: 10,
+                                              children: [
+                                                Icon(Icons.error_outline,color: ColorConstant.red,),
+                                                Text(state.failure.message),
+                                                CustomButton(
+                                                    onPressed: () {context.read<PropertyTypeBloc>().add(GetPropertyTypesEvent());
+                                                    },
+                                                    style: ElevatedButton.styleFrom(
+                                                        backgroundColor: ColorConstant.primaryColor,
+                                                        padding: EdgeInsets.all(0),
+                                                        elevation: 0
+                                                    ),
+                                                    child:Text("retry",style: TextStyle(color: Colors.white),))
+                                              ],
+                                            )
+                                        );
+                                      }
+
+                                      else if (state.properties.results!.isNotEmpty) {
+                                        return ListView.builder(
+                                          shrinkWrap: true,
+                                          physics: NeverScrollableScrollPhysics(),
                                           itemCount: state.properties.results!.length +
-                                              (state is PopularPropertyLoadingMoreState
+                                              (state is HouseTypeLoadingMoreState
                                                   ? 1
                                                   : 0),
-                                          scrollDirection: Axis.horizontal,
+                                          padding: EdgeInsets.symmetric(horizontal: 15),
                                           itemBuilder: (context, index) {
-                                            if (index >= state.properties.results!.length) {
+                                            if (index >=
+                                                state.properties.results!.length) {
                                               return Center(child: loadingWithPrimary);
                                             }
-                                            return GestureDetector(
-                                              onTap: () async {
-                                                final token = await GetToken()
-                                                    .getUserToken();
-                                                context.push('/popularHouseDetail/$token',
-                                                  extra: state.properties.results![index],
-                                                );
-                                              },
-                                              child: Padding(
-                                                padding: const EdgeInsets.symmetric(
-                                                        horizontal: 10,
-                                                        vertical: 1),
-                                                child: Material(
-                                                  elevation: 2,
-                                                  shadowColor: ColorConstant
-                                                      .cardGrey
-                                                      .withValues(alpha: 0.3),
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  child: PopularHouseCard(
-                                                      width:MediaQuery.of(context).size.width * 0.7,
-                                                      height: 300,
-                                                      showBorder: true,
-                                                      showIndicator: false,
-                                                      property: state.properties
-                                                          .results![index]),
-                                                ),
-                                              ),
-                                            );
-                                          }),
-                                    ),
-                                  );
-                                }
-                                return SizedBox.shrink();
-                              },
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 15),
-                              child: SecctionHeader(
-                                title: tr('Nearby Your Location'),
-                                isSeeMore: false,
-                              ),
-                            ),
-                            BlocBuilder<HoustypeBloc, HoustypeState>(
-                              builder: (context, state) {
-                                if (state is HouseTypeLoadingState) {
-                                  return Center(
-                                    child: loadingIndicator(),
-                                  );
-                                } else if (state.properties.count == 0 ||
-                                    state.properties.results == null) {
-                                  return _buildNoProperties();
-                                }
-                                else if(state is HouseTYpeErrorState){
-                                  return  Center(
-                                      child: Column(
-                                        spacing: 10,
-                                        children: [
-                                          Icon(Icons.error_outline,color: ColorConstant.red,),
-                                          Text(state.failure.message),
-                                          CustomButton(
-                                              onPressed: () {context.read<PropertyTypeBloc>().add(GetPropertyTypesEvent());
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                  backgroundColor: ColorConstant.primaryColor,
-                                                  padding: EdgeInsets.all(0),
-                                                  elevation: 0
-                                              ),
-                                              child:Text("retry",style: TextStyle(color: Colors.white),))
-                                        ],
-                                      )
-                                  );
-                                }
+                                            return _buildPropertyItem(
+                                                state.properties.results![index]);
+                                          },
+                                        );
+                                      }
+                                      return SizedBox.shrink();
+                                    },
+                                  ),
+                                ],
+                              )));
+                        },
+                      ),
+                    )
+                  ]),
+            ),
+          )
+        ],
+      )
 
-                                else if (state.properties.results!.isNotEmpty) {
-                                  return ListView.builder(
-                                            shrinkWrap: true,
-                                            physics: NeverScrollableScrollPhysics(),
-                                            itemCount: state.properties.results!.length +
-                                                (state is HouseTypeLoadingMoreState
-                                                    ? 1
-                                                    : 0),
-                                            padding: EdgeInsets.symmetric(horizontal: 15),
-                                            itemBuilder: (context, index) {
-                                              if (index >=
-                                                  state.properties.results!.length) {
-                                                return Center(child: loadingWithPrimary);
-                                              }
-                                              return _buildPropertyItem(
-                                                  state.properties.results![index]);
-                                            },
-                                    );
-                                }
-                                return SizedBox.shrink();
-                              },
-                            ),
-                          ],
-                        )));
-                      },
-                    ),
-                  )
-                ]),
-          ),
     );
   }
 

@@ -854,7 +854,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                         backgroundColor:
                                             ColorConstant.primaryColor),
                                     child: Text(tr("Save Changes"),
-                                        textAlign: TextAlign.start,
+                                        textAlign: TextAlign.center,
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium!
