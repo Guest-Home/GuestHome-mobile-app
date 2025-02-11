@@ -53,6 +53,7 @@ import 'package:minapp/features/host/features/profile/domain/usecases/verify_new
 import 'package:minapp/features/host/features/profile/domain/usecases/verify_old_otp_usecase.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/change_phone_number/change_phone_bloc.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/deposit_transaction_bloc/deposit_transaction_bloc.dart';
+import 'package:minapp/features/host/features/profile/presentation/bloc/payment_config/payment_config_bloc.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/payment_setting_bloc/payment_setting_bloc.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/update_profile_bloc/update_profile_bloc.dart';
@@ -97,6 +98,7 @@ import 'features/auth/domain/usecases/create_tg_otp_usecase.dart';
 import 'features/guest/features/HousType/domain/usecases/filter_next_usecase.dart';
 import 'features/guest/features/booked/domain/usecases/get_booking_detail_usecase.dart';
 import 'features/host/features/profile/domain/usecases/get_commision_usecase.dart';
+import 'features/host/features/profile/domain/usecases/payment_config_usecase.dart';
 import 'features/search/domain/usecases/host_search_property_usecase.dart';
 
 final sl = GetIt.instance;
@@ -168,6 +170,9 @@ void setup() async {
   sl.registerFactory<UpdateProfileBloc>(
         () => UpdateProfileBloc(),
   );
+  sl.registerFactory<PaymentConfigBloc>(
+        () => PaymentConfigBloc(),
+  );
   // usecase
 
   sl.registerSingleton<CreateOtpUsecase>(CreateOtpUsecase());
@@ -215,6 +220,7 @@ void setup() async {
   sl.registerSingleton<GetCommissionUseCase>(GetCommissionUseCase());
   sl.registerSingleton<FilterNextUseCase>(FilterNextUseCase());
   sl.registerSingleton<GetDepositTransactionUsecase>(GetDepositTransactionUsecase());
+  sl.registerSingleton<PaymentConfigUseCase>(PaymentConfigUseCase());
 
   // repository
 

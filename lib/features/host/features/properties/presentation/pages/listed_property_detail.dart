@@ -183,7 +183,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                           size: 18,
                                         ),
                                         Text(
-                                          "Delete house",
+                                         tr("Delete House"),
                                           style: TextStyle(
                                               color: ColorConstant.red),
                                         ),
@@ -249,7 +249,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                               Icons.change_circle_outlined,
                                               color: ColorConstant.primaryColor,
                                             ),
-                                            Text("Change Type",
+                                            Text(tr("Change Type"),
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .bodySmall!
@@ -286,7 +286,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                   children: [
                                     sectionTitle(context, tr('About the house')),
                                     Text(
-                                     "Edit",
+                                     tr("Edit"),
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodySmall!
@@ -365,9 +365,9 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      sectionTitle(context,"House amenities"),
+                                      sectionTitle(context,tr("House amenities")),
                                       Text(
-                                          "Edit",
+                                         tr("Edit"),
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodySmall!
@@ -439,7 +439,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                   children: [
                                     sectionTitle(context, tr('Location')),
                                     Text(
-                                      "Edit",
+                                      tr("Edit"),
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodySmall!
@@ -581,7 +581,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                       subSectionText(tr("Name of the city")),
                                       CustomTextField(
                                         readOnly: true,
-                                        hintText: widget.propertyEntity.city,
+                                        hintText: tr(widget.propertyEntity.city),
                                         textInputType: TextInputType.text,
                                         textEditingController: cityController,
                                         surfixIcon: SizedBox(
@@ -620,7 +620,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                   children: [
                                     sectionTitle(context, tr('Price')),
                                     Text(
-                                      "edit",
+                                      tr("Edit"),
                                       style: TextStyle(
                                           decoration: TextDecoration.underline),
                                     ),
@@ -695,7 +695,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                   side: BorderSide(
                                       color: ColorConstant.cardGrey)),
                               child: ListTile(
-                                title: sectionTitle(context, 'House Photo'),
+                                title: sectionTitle(context, tr('House Photo')),
                                 subtitle: Padding(
                                   padding: const EdgeInsets.only(top: 10),
                                   child: Column(
@@ -853,7 +853,8 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                             color: ColorConstant.primaryColor),
                                         backgroundColor:
                                             ColorConstant.primaryColor),
-                                    child: Text(tr("Save changes"),
+                                    child: Text(tr("Save Changes"),
+                                        textAlign: TextAlign.start,
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium!
@@ -891,7 +892,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
             color: ColorConstant.inActiveColor),
       );
   Text sectionTitle(BuildContext context, String title) {
-    return Text(title,
+    return Text(tr(title),
         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
             fontSize: 15,
             color: ColorConstant.secondBtnColor,
@@ -924,7 +925,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Delete house?",
+                      "${tr("Delete House")}?",
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!
@@ -939,7 +940,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text("This cant be undone."),
+                child: Text(tr("This can’t be undone")),
               ),
             ],
           ),
@@ -958,7 +959,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                       color:
                           ColorConstant.secondBtnColor.withValues(alpha: 0.5)),
                   backgroundColor: Colors.white),
-              child: Text("Cancel",
+              child: Text(tr("Cancel"),
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         color: ColorConstant.secondBtnColor,
                       ))),
@@ -973,7 +974,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                   elevation: 0,
                   padding: EdgeInsets.only(left: 4, right: 4),
                   backgroundColor: ColorConstant.red),
-              child: Text("delete house",
+              child: Text(tr("Delete House"),
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         color: Colors.white,
                       )))
@@ -1029,7 +1030,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                       spacing: 10,
                       children: [
                         Text(
-                          "Change House type",
+                         tr("Change House type"),
                           style: Theme.of(context)
                               .textTheme
                               .bodyLarge!
@@ -1151,7 +1152,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Discard unsaved changes?",
+                      "${tr("Discard Unsaved Changes")}?",
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!
@@ -1166,7 +1167,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text("This cant be undone."),
+                child: Text(tr("This can’t be undone")),
               ),
             ],
           ),
@@ -1186,7 +1187,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                       color:
                           ColorConstant.secondBtnColor.withValues(alpha: 0.5)),
                   backgroundColor: Colors.white),
-              child: Text("Discard",
+              child: Text(tr("Discard"),
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         color: ColorConstant.secondBtnColor,
                       ))),
@@ -1198,7 +1199,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                   elevation: 0,
                   padding: EdgeInsets.only(left: 4, right: 4),
                   backgroundColor: ColorConstant.primaryColor),
-              child: Text("No",
+              child: Text(tr("NO"),
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         color: Colors.white,
                       )))

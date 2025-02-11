@@ -549,7 +549,7 @@ class _AddPropertiesState extends State<AddProperties> {
                         spacing: 15,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          stepTitleText(context, tr("Add Photos of the house")),
+                          stepTitleText(context, tr("Add photo of the house")),
                           SizedBox(
                             height: 5,
                           ),
@@ -809,7 +809,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                     side: BorderSide(
                                         color: ColorConstant.secondBtnColor),
                                     backgroundColor: Colors.white),
-                                child: Text(tr("Back"),
+                                child: Text(tr("back"),
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
@@ -886,7 +886,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                         ColorConstant.primaryColor),
                                 child: state is AddNewPropertyLoading
                                     ? loading
-                                    : Text(state.step != 6 ? tr("Next") : tr("Finish"),
+                                    : Text(state.step != 6 ? tr("next") : tr("Finish"),
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyLarge!

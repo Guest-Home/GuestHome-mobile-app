@@ -205,7 +205,7 @@ class _VerifyNewPhoneState extends State<VerifyNewPhone> {
                     padding: EdgeInsets.symmetric(
                         horizontal: 24, vertical: 18)),
                 child:state is GettingOtpNewPhone?loading: Text(
-                  "Resend",
+                  tr("Resend"),
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium!
@@ -226,7 +226,7 @@ class _VerifyNewPhoneState extends State<VerifyNewPhone> {
                     padding: EdgeInsets.symmetric(
                         horizontal: 24, vertical: 18)),
                 child:state is VerifyingOtpNew?loading: Text(
-                  "Verify",
+                  tr("Verify"),
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium!

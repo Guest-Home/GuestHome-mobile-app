@@ -313,7 +313,7 @@ class _ProfileState extends State<Profile> {
                                   color: Colors.white,
                                 ),
                                 if (GoRouterState.of(context).matchedLocation == '/profile')
-                                  Text("Switch to Guest",
+                                  Text(tr("Switch Guest"),
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodySmall!
@@ -532,7 +532,7 @@ class _ProfileState extends State<Profile> {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text("Do you want to logout? This cant be undone."),
+                child: Text("${tr("Do you want to logout")}?${tr("This can’t be undone")}"),
               ),
             ],
           ),

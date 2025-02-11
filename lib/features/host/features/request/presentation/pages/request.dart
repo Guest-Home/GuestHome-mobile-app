@@ -386,13 +386,13 @@ class _RequestState extends State<Request> {
                                               child: Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
-                                                  Text("Please enter the room number. ",style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                                  Text(tr("Please enter the room number"),style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                                       fontSize: 13,
                                                       fontWeight: FontWeight.w400
                                                   ),),
                                                   SizedBox(height: 17,),
                                                   RichText(text: TextSpan(children: [
-                                                    TextSpan(text: "Room Number",style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                                    TextSpan(text: tr("Room Number"),style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                                         fontSize: 14,
                                                         fontWeight: FontWeight.w500
                                                     )),

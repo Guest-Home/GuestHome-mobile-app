@@ -40,7 +40,8 @@ class _HouseTypeState extends State<HouseType> {
           )
         ],
       ),
-      body: SingleChildScrollView(
+      body:
+      SingleChildScrollView(
         padding: EdgeInsets.all(15),
         child: Column(
           spacing: 15,

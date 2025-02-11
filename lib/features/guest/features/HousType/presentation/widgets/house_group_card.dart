@@ -174,21 +174,21 @@ class _HouseGroupCardState extends State<HouseGroupCard> {
                           )
                       )
                     ])),
-
                 RichText(
-                    text: TextSpan(children: [
-                      TextSpan(
-                          text: "${widget.houseEntity.price} ${widget.houseEntity.unit} ",
-                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
-                              color: ColorConstant.secondBtnColor)),
-                      TextSpan(
-                          text: tr("/ ${tr("day")}"),
-                          style: TextStyle(
-                              color: ColorConstant.secondBtnColor
-                                  .withValues(alpha: 0.7))),
-                    ])),
+                        text: TextSpan(children: [
+                          TextSpan(
+                              text: "${widget.houseEntity.price} ${widget.houseEntity.unit} ",
+                              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  color: ColorConstant.secondBtnColor)),
+                          TextSpan(
+                              text: tr("/ ${tr("day")}"),
+                              style: TextStyle(
+                                  color: ColorConstant.secondBtnColor
+                                      .withValues(alpha: 0.7))),
+                        ])),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   spacing: 5,

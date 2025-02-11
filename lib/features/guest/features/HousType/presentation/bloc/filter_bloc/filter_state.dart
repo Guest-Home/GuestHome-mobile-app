@@ -14,7 +14,7 @@ class FilterState extends Equatable {
 
   const FilterState({
      this.category='',
-     this.city='',
+     this.city='Addis Ababa',
      this.latitude=0.0,
      this.longtiude=0.0,
     this.range=0,

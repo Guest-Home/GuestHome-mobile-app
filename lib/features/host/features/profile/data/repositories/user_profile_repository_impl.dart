@@ -55,4 +55,9 @@ class UserProfileRepositoryImple implements UserProfileRepository{
     return await  sl<UserProfileDataSource>().getDepositTransaction(url);
   }
 
+  @override
+  Future<Either<Failure, bool>> paymentConfig(Map<String, dynamic> config)async{
+    return await  sl<UserProfileDataSource>().paymentConfig(config);
+  }
+
 }

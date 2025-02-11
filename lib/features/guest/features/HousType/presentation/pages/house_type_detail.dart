@@ -247,8 +247,11 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                           child: IconButton(
                                             iconSize: 33,
                                             icon: Icon(Icons.filter_list),
-                                            onPressed: () =>
-                                                filterModalBottomSheet(context),
+                                            onPressed: (){
+                                              context.read<FilterBloc>().add(AddHouseTypeEvent(houseType: widget.name));
+                                              filterModalBottomSheet(context);
+                                            }
+
                                           ),
                                         );
                                       },
@@ -453,6 +456,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
           child: BlocBuilder<FilterBloc, FilterState>(
             buildWhen: (previous, current) => previous != current,
             builder: (context, filterState) {
+              widget.cityController.text=filterState.city;
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 15,
@@ -564,7 +568,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                                           ? ColorConstant
                                                               .primaryColor
                                                               .withValues(
-                                                                  alpha: 0.5)
+                                                                  alpha: 0.3)
                                                           : ColorConstant
                                                               .cardGrey,
                                                   shape: BoxShape.circle,

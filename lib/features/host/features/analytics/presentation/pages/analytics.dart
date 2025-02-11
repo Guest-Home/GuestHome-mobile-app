@@ -85,6 +85,7 @@ class _AnalyticsState extends State<Analytics> {
                   height: 40,
                   width: double.infinity,
                   child: Row(
+                    spacing: 5,
                     children: [
                       Expanded(
                         child: BlocBuilder<AnalyticsBloc, AnalyticsState>(
@@ -105,7 +106,6 @@ class _AnalyticsState extends State<Analytics> {
                                 },
                                 child: AnimatedContainer(
                                   duration: const Duration(milliseconds: 10),
-                                  margin: const EdgeInsets.only(right: 6),
                                   padding: EdgeInsets.all(10),
                                   decoration: BoxDecoration(
                                     color: state.selectedDate ==
@@ -115,7 +115,7 @@ class _AnalyticsState extends State<Analytics> {
                                     borderRadius: BorderRadius.circular(40),
                                   ),
                                   child: Center(
-                                    child: Text(state.occupancyDate[index],
+                                    child: Text(tr(state.occupancyDate[index]),
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodySmall!
@@ -224,21 +224,21 @@ class _AnalyticsState extends State<Analytics> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           spacing: 10,
                           children: [
-                            sectionTitle(context, 'Key Metrics'),
+                            sectionTitle(context, tr('Key Metrics')),
                             Wrap(
                               children: [
                                 MetricsCard(
-                                  title: 'Revenue',
+                                  title: tr('Revenue'),
                                   value:
-                                      "${state.occupancyRateEntity.last30Days!.totalRevenue} ETB",
+                                      "${state.occupancyRateEntity.last30Days!.totalRevenue} ${tr("ETB")}",
                                 ),
                                 MetricsCard(
-                                  title: "Active Bookings",
+                                  title: tr("Active Booking"),
                                   value:
                                       "${state.occupancyRateEntity.last30Days!.totalReservations}",
                                 ),
                                 MetricsCard(
-                                  title: 'Occupancy Rate',
+                                  title: tr('Occupancy Rate'),
                                   value:
                                       "${state.occupancyRateEntity.last30Days!.averageOccupancy}%",
                                 ),
@@ -261,21 +261,21 @@ class _AnalyticsState extends State<Analytics> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           spacing: 10,
                           children: [
-                            sectionTitle(context, 'Key Metrics'),
+                            sectionTitle(context, tr('Key Metrics')),
                             Wrap(
                               children: [
                                 MetricsCard(
-                                  title: 'Revenue',
+                                  title: tr('Revenue'),
                                   value:
-                                      "${state.occupancyRateEntity.last60Days!.totalRevenue} ETB",
+                                      "${state.occupancyRateEntity.last60Days!.totalRevenue} ${tr("ETB")}",
                                 ),
                                 MetricsCard(
-                                  title: "Active Bookings",
+                                  title: tr("Active Booking"),
                                   value:
                                       "${state.occupancyRateEntity.last60Days!.totalReservations}",
                                 ),
                                 MetricsCard(
-                                  title: 'Occupancy Rate',
+                                  title: tr('Occupancy Rate'),
                                   value:
                                       "${state.occupancyRateEntity.last60Days!.averageOccupancy}%",
                                 ),
@@ -301,21 +301,21 @@ class _AnalyticsState extends State<Analytics> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           spacing: 10,
                           children: [
-                            sectionTitle(context, 'Key Metrics'),
+                            sectionTitle(context, tr('Key Metrics')),
                             Wrap(
                               children: [
                                 MetricsCard(
-                                  title: 'Revenue',
+                                  title: tr('Revenue'),
                                   value:
-                                      "$revenu ETB",
+                                      "$revenu ${tr("ETB")}",
                                 ),
                                 MetricsCard(
-                                  title: "Active Bookings",
+                                  title: tr("Active Booking"),
                                   value:
                                       "$reservation",
                                 ),
                                 MetricsCard(
-                                  title: 'Occupancy Rate',
+                                  title: tr('Occupancy Rate'),
                                   value:
                                       "$oRate%",
                                 ),
@@ -343,16 +343,16 @@ class _AnalyticsState extends State<Analytics> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             spacing: 10,
                             children: [
-                              sectionTitle(context, tr('Key metrics')),
+                              sectionTitle(context, tr('key metrics')),
                               Wrap(
                                 children: [
                                   MetricsCard(
                                     title: tr('Revenue'),
                                     value:
-                                        "${state.customOccupancyEntity.custom!.totalRevenue} ETB",
+                                        "${state.customOccupancyEntity.custom!.totalRevenue} ${tr("ETB")}",
                                   ),
                                   MetricsCard(
-                                    title: tr("Active Bookings"),
+                                    title: tr("Active Booking"),
                                     value:
                                         "${state.customOccupancyEntity.custom!.totalReservations}",
                                   ),
@@ -438,22 +438,25 @@ class MetricsCard extends StatelessWidget {
       color: ColorConstant.cardGrey.withValues(alpha: 0.5),
       child: SizedBox(
         width: 150,
-        height: 80,
+        height: 90,
         child: Padding(
           padding: const EdgeInsets.all(14),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title,
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color:
-                            ColorConstant.secondBtnColor.withValues(alpha: 0.5),
-                      )),
+              Expanded(
+                child: Text(title,
+                    textAlign: TextAlign.start,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color:
+                              ColorConstant.secondBtnColor.withValues(alpha: 0.5),
+                        )),
+              ),
               Text(value,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                        fontSize: 15,
                         color: ColorConstant.secondBtnColor.withValues(),
                       )),
             ],

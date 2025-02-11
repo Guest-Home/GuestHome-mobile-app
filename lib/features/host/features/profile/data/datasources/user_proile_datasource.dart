@@ -13,6 +13,7 @@ import '../../../../../../core/network/dio_client.dart';
 import '../../../../../../service_locator.dart';
 
 abstract class UserProfileDataSource {
+  Future<Either<Failure,bool>> paymentConfig(Map<String,dynamic> config);
   Future<Either<Failure, UserProfileModel>> getUserProfile();
   Future<Either<Failure, bool>> updateUserProfile(
       Map<String,dynamic> userData);
@@ -181,6 +182,20 @@ class UserProfileDataSourceImple implements UserProfileDataSource {
         return Right(depositTransaction);
       } else {
         return Left(ServerFailure(response.data['error']));
+      }
+    } on DioException catch (e) {
+      return Left(ErrorResponse().mapDioExceptionToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> paymentConfig(Map<String, dynamic> config)async{
+    try {
+      final response = await sl<DioClient>().post(ApiUrl.paymentConfig,data: config);
+      if (response.statusCode == 200) {
+        return Right(true);
+      } else {
+        return Left(ServerFailure(response.data['Error']));
       }
     } on DioException catch (e) {
       return Left(ErrorResponse().mapDioExceptionToFailure(e));

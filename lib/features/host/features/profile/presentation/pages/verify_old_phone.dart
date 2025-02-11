@@ -124,7 +124,7 @@ class _VerifyOldPhoneState extends State<VerifyOldPhone> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Verifying old phone number",
+                           tr("Verifying old phone number"),
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineMedium!
@@ -226,7 +226,7 @@ class _VerifyOldPhoneState extends State<VerifyOldPhone> {
                                 child: state is GettingOtpOldPhone
                                     ? loading
                                     : Text(
-                                        "Resend",
+                                        tr("Resend"),
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium!
@@ -249,7 +249,7 @@ class _VerifyOldPhoneState extends State<VerifyOldPhone> {
                                 child: state is VerifyingOtpOld
                                     ? loading
                                     : Text(
-                                        "Verify",
+                                        tr("Verify"),
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium!
@@ -271,7 +271,7 @@ class _VerifyOldPhoneState extends State<VerifyOldPhone> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Enter new phone number",
+                              tr("Enter new phone number"),
                               style: Theme.of(context)
                                   .textTheme
                                   .headlineMedium!
@@ -352,7 +352,7 @@ class _VerifyOldPhoneState extends State<VerifyOldPhone> {
                                   child: state is GettingOtpNewPhone
                                       ? loading
                                       : Text(
-                                          "Next",
+                                          tr("next"),
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyMedium!

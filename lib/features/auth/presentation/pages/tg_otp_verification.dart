@@ -150,9 +150,7 @@ class _TgOtpVerificationState extends State<TgOtpVerification> {
                             ),
                           ),
                           onCompleted: (pin) {
-                            context
-                                .read<AuthBloc>()
-                                .add(AddOtpCodeEvent(otpCode: pin));
+                            context.read<AuthBloc>().add(AddOtpCodeEvent(otpCode: pin));
                           },
                         ),
                       ),
@@ -190,9 +188,7 @@ class _TgOtpVerificationState extends State<TgOtpVerification> {
                             onPressed: state is CreatingOtpLoadingState
                                 ? () {}
                                 : () {
-                              context
-                                  .read<AuthBloc>()
-                                  .add(CreateTgOtpEvent());
+                              context.read<AuthBloc>().add(CreateTgOtpEvent());
                             },
                             style: ElevatedButton.styleFrom(
                                 elevation: 0,

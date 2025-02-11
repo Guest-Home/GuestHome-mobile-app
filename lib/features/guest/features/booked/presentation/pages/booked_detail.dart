@@ -92,9 +92,9 @@ class _BookedDetailState extends State<BookedDetail> {
           Column(
             children: [
               ListTile(
-                title: SecctionHeader(title: "Approved Book", isSeeMore: false),
+                title: SecctionHeader(title: tr("Approved book"), isSeeMore: false),
                 subtitle: Text(
-                  "Detail of your reservation",
+                  tr("Detail of your reservation"),
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium!

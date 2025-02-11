@@ -17,4 +17,5 @@ abstract class UserProfileRepository{
   Future<Either<Failure,bool>> deposit(Map<String,dynamic> data);
   Future<Either<Failure,PlatformCommissionEntity>> getPlatformCommission();
   Future<Either<Failure,DepositTransactionEntity>> getDepositTransaction(String url);
+  Future<Either<Failure,bool>> paymentConfig(Map<String,dynamic> config);
 }

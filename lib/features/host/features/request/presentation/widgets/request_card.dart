@@ -266,7 +266,7 @@ class StatusButton extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       ),
       child: Text(
-        tr(status.name),
+        tr(status.status),
         style: Theme.of(context)
             .textTheme
             .bodyLarge!

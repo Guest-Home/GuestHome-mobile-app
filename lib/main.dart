@@ -12,6 +12,7 @@ import 'package:minapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:minapp/features/auth/presentation/bloc/log_out/log_out_bloc.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/change_phone_number/change_phone_bloc.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/deposit_transaction_bloc/deposit_transaction_bloc.dart';
+import 'package:minapp/features/host/features/profile/presentation/bloc/payment_config/payment_config_bloc.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/payment_setting_bloc/payment_setting_bloc.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/update_profile_bloc/update_profile_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/amenities/amenities_bloc.dart';
@@ -93,6 +94,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => sl<PaymentSettingBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => sl<PaymentConfigBloc>(),
         ),
         BlocProvider(
           create: (context) => sl<DepositTransactionBloc>(),

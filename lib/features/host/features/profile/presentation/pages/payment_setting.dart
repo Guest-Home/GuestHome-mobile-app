@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/core/common/custom_button.dart';
+import 'package:minapp/features/host/features/profile/presentation/bloc/payment_config/payment_config_bloc.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/payment_setting_bloc/payment_setting_bloc.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/profile_bloc.dart';
 import '../../../../../../config/color/color.dart';
@@ -64,7 +65,7 @@ class PaymentSetting extends StatelessWidget {
                               ColorConstant.inActiveColor.withValues(alpha: 0.5)),
                     ),
                     trailing:
-                        BlocBuilder<PaymentSettingBloc, PaymentSettingState>(
+                        BlocBuilder<PaymentConfigBloc, PaymentConfigState>(
                       buildWhen: (previous, current) =>
                           previous.isAcceptingPayment !=
                           current.isAcceptingPayment,
@@ -72,9 +73,8 @@ class PaymentSetting extends StatelessWidget {
                         return Switch.adaptive(
                           value: state.isAcceptingPayment,
                           onChanged: (value) {
-                            context
-                                .read<PaymentSettingBloc>()
-                                .add(IsAcceptingPaymentEvent(isAccepting: value));
+                            context.read<PaymentConfigBloc>()
+                                .add(AcceptPaymentEvent(isAccepting: value));
                           },
                           activeColor: Colors.white,
                           activeTrackColor: ColorConstant.green,

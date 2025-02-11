@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../../config/color/color.dart';
@@ -24,7 +25,7 @@ class SecctionHeader extends StatelessWidget {
         ),
         if (isSeeMore)
           Text(
-            "see all",
+            tr("see all"),
             style: TextStyle(
                 color: ColorConstant.secondBtnColor.withValues(alpha: 0.4)),
           )

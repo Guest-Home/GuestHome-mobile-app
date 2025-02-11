@@ -406,7 +406,7 @@ class SeeMoreTextState extends State<SeeMoreText> {
             });
           },
           child: Text(
-            _isExpanded ? 'See More' : 'See Less',
+            _isExpanded ? tr('See More') : tr('See Less'),
             style: textTheme.bodySmall?.copyWith(
               color: ColorConstant.primaryColor,
               fontWeight: FontWeight.bold,

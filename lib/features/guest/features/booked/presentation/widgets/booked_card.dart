@@ -187,7 +187,7 @@ class BookedCard extends StatelessWidget {
                       ),
                       Expanded(
                         child: Text(
-                          "${property.house!.city!}, ${property.house!.specificAddress!}",
+                          "${tr(property.house!.city!)}, ${property.house!.specificAddress!}",
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.ellipsis,
                           style: Theme.of(context).textTheme.bodySmall!.copyWith(
@@ -268,8 +268,7 @@ class StatusButton extends StatelessWidget {
           padding: EdgeInsets.all(1),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
         ),
-        child: Text(tr(
-          status.name),
+        child: Text(tr(status.status),
           textAlign: TextAlign.start,
           style: Theme.of(context).textTheme.bodyLarge!.copyWith(
               color: Colors.white, fontWeight: FontWeight.w600, fontSize: 12),
