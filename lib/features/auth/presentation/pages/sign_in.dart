@@ -2,7 +2,6 @@
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../config/color/color.dart';
 import '../../../../core/common/custom_button.dart';
@@ -15,7 +14,7 @@ class SignIn extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(onPressed: () => SystemNavigator.pop(), icon: Icon(Icons.arrow_back)),
+        leading: IconButton(onPressed: () => context.goNamed("houseType"), icon: Icon(Icons.arrow_back)),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),

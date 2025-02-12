@@ -9,9 +9,20 @@ import 'package:minapp/features/host/features/profile/presentation/bloc/profile_
 import '../../../../../../config/color/color.dart';
 import '../../../../../../service_locator.dart';
 
-class PaymentSetting extends StatelessWidget {
+class PaymentSetting extends StatefulWidget {
   const PaymentSetting({super.key});
 
+  @override
+  State<PaymentSetting> createState() => _PaymentSettingState();
+}
+
+class _PaymentSettingState extends State<PaymentSetting> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<PaymentConfigBloc>().add(GetPaymentConfigEvent());
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +40,7 @@ class PaymentSetting extends StatelessWidget {
       body: RefreshIndicator(
         onRefresh: ()async{
           context.read<ProfileBloc>().add(GetUserProfileEvent());
-
+          context.read<PaymentConfigBloc>().add(GetPaymentConfigEvent());
         },
         child: SingleChildScrollView(
           padding: EdgeInsets.all(16),
@@ -61,20 +72,19 @@ class PaymentSetting extends StatelessWidget {
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontWeight: FontWeight.w500,
                           fontSize: 14,
-                          color:
-                              ColorConstant.inActiveColor.withValues(alpha: 0.5)),
+                          color: ColorConstant.inActiveColor.withValues(alpha: 0.5)),
                     ),
-                    trailing:
-                        BlocBuilder<PaymentConfigBloc, PaymentConfigState>(
-                      buildWhen: (previous, current) =>
-                          previous.isAcceptingPayment !=
-                          current.isAcceptingPayment,
+                    trailing:BlocConsumer<PaymentConfigBloc, PaymentConfigState>(
+                      listener: (context, state) {
+                        if(state is PaymentConfigUpdatedState){
+                          context.read<PaymentConfigBloc>().add(GetPaymentConfigEvent());
+                        }
+                      },
                       builder: (context, state) {
                         return Switch.adaptive(
                           value: state.isAcceptingPayment,
                           onChanged: (value) {
-                            context.read<PaymentConfigBloc>()
-                                .add(AcceptPaymentEvent(isAccepting: value));
+                            context.read<PaymentConfigBloc>().add(AcceptPaymentEvent(isAccepting: value));
                           },
                           activeColor: Colors.white,
                           activeTrackColor: ColorConstant.green,

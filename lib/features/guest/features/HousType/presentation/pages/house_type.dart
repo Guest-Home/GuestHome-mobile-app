@@ -33,12 +33,12 @@ class _HouseTypeState extends State<HouseType> {
               .bodyLarge!
               .copyWith(fontWeight: FontWeight.w700, fontSize: 18),
         ),
-        actions: [
-          Icon(Icons.notifications_none),
-          SizedBox(
-            width: 10,
-          )
-        ],
+        // actions: [
+        //   Icon(Icons.notifications_none),
+        //   SizedBox(
+        //     width: 10,
+        //   )
+        // ],
       ),
       body:
       SingleChildScrollView(

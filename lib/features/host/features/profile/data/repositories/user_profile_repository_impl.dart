@@ -2,10 +2,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:minapp/core/error/failure.dart';
 import 'package:minapp/features/auth/data/models/otp_response_model.dart';
+import 'package:minapp/features/host/features/profile/data/models/payment_config_model.dart';
 import 'package:minapp/features/host/features/profile/data/datasources/user_proile_datasource.dart';
 import 'package:minapp/features/host/features/profile/data/models/deposit_transaction_model.dart';
 import 'package:minapp/features/host/features/profile/data/models/platform_commission_model.dart';
 import 'package:minapp/features/host/features/profile/data/models/user_profile_model.dart';
+import 'package:minapp/features/host/features/profile/domain/entities/payment_config_entity.dart';
 import 'package:minapp/features/host/features/profile/domain/repositories/user_profile_repository.dart';
 import '../../../../../../service_locator.dart';
 
@@ -58,6 +60,11 @@ class UserProfileRepositoryImple implements UserProfileRepository{
   @override
   Future<Either<Failure, bool>> paymentConfig(Map<String, dynamic> config)async{
     return await  sl<UserProfileDataSource>().paymentConfig(config);
+  }
+
+  @override
+  Future<Either<Failure, PaymentConfigModel>> getPaymentConfig()async{
+    return await  sl<UserProfileDataSource>().getPaymentConfig();
   }
 
 }

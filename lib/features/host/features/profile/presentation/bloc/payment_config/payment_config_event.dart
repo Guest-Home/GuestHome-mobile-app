@@ -6,3 +6,4 @@ class AcceptPaymentEvent extends PaymentConfigEvent{
   final bool isAccepting;
   AcceptPaymentEvent({required this.isAccepting});
 }
+class GetPaymentConfigEvent extends PaymentConfigEvent{}

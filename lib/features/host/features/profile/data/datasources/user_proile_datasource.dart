@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:minapp/features/auth/data/models/otp_response_model.dart';
 import 'package:minapp/features/host/features/profile/data/models/deposit_transaction_model.dart';
+import 'package:minapp/features/host/features/profile/data/models/payment_config_model.dart';
 import 'package:minapp/features/host/features/profile/data/models/platform_commission_model.dart';
 import 'package:minapp/features/host/features/profile/data/models/user_profile_model.dart';
 import '../../../../../../core/apiConstants/api_url.dart';
@@ -14,6 +15,8 @@ import '../../../../../../service_locator.dart';
 
 abstract class UserProfileDataSource {
   Future<Either<Failure,bool>> paymentConfig(Map<String,dynamic> config);
+  Future<Either<Failure,PaymentConfigModel>> getPaymentConfig();
+
   Future<Either<Failure, UserProfileModel>> getUserProfile();
   Future<Either<Failure, bool>> updateUserProfile(
       Map<String,dynamic> userData);
@@ -194,6 +197,22 @@ class UserProfileDataSourceImple implements UserProfileDataSource {
       final response = await sl<DioClient>().post(ApiUrl.paymentConfig,data: config);
       if (response.statusCode == 200) {
         return Right(true);
+      } else {
+        return Left(ServerFailure(response.data['Error']));
+      }
+    } on DioException catch (e) {
+      return Left(ErrorResponse().mapDioExceptionToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, PaymentConfigModel>> getPaymentConfig()async{
+    try {
+      final response = await sl<DioClient>().get(ApiUrl.paymentConfig);
+      if (response.statusCode == 200) {
+        final paymentConfig =
+        await Isolate.run(() => PaymentConfigModel.fromMap(response.data));
+        return Right(paymentConfig);
       } else {
         return Left(ServerFailure(response.data['Error']));
       }

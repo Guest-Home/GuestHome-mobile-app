@@ -1,24 +1,31 @@
 part of 'payment_config_bloc.dart';
 
  class PaymentConfigState extends Equatable {
-   const PaymentConfigState({required this.isAcceptingPayment});
+   const PaymentConfigState({this.isAcceptingPayment=false,this.paymentConfigEntity=const PaymentConfigEntity()});
 
 
    final bool isAcceptingPayment;
+   final PaymentConfigEntity paymentConfigEntity;
 
    PaymentConfigState copyWith({
-     bool? isAcceptingPayment
+     bool? isAcceptingPayment,
+     PaymentConfigEntity? paymentConfigEntity
  }){
      return PaymentConfigState(
-       isAcceptingPayment: isAcceptingPayment??this.isAcceptingPayment
+       isAcceptingPayment: isAcceptingPayment??this.isAcceptingPayment,
+       paymentConfigEntity: paymentConfigEntity??this.paymentConfigEntity
      );
 }
 
   @override
-  List<Object?> get props =>[isAcceptingPayment];
+  List<Object?> get props =>[isAcceptingPayment,paymentConfigEntity];
  }
 
-final class PaymentConfigInitial extends PaymentConfigState {
-  const PaymentConfigInitial({required super.isAcceptingPayment});
+final class PaymentConfigInitial extends PaymentConfigState {}
+class PaymentConfigLoadingState extends PaymentConfigState{}
+class PaymentConfigUpdatedState extends PaymentConfigState{}
+class PaymentConfigFailureState extends PaymentConfigState{
+   final Failure failure;
+  const PaymentConfigFailureState({required this.failure});
 }
 

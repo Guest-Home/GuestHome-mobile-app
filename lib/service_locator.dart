@@ -98,6 +98,7 @@ import 'features/auth/domain/usecases/create_tg_otp_usecase.dart';
 import 'features/guest/features/HousType/domain/usecases/filter_next_usecase.dart';
 import 'features/guest/features/booked/domain/usecases/get_booking_detail_usecase.dart';
 import 'features/host/features/profile/domain/usecases/get_commision_usecase.dart';
+import 'features/host/features/profile/domain/usecases/get_payment_config_usecase.dart';
 import 'features/host/features/profile/domain/usecases/payment_config_usecase.dart';
 import 'features/search/domain/usecases/host_search_property_usecase.dart';
 
@@ -221,6 +222,7 @@ void setup() async {
   sl.registerSingleton<FilterNextUseCase>(FilterNextUseCase());
   sl.registerSingleton<GetDepositTransactionUsecase>(GetDepositTransactionUsecase());
   sl.registerSingleton<PaymentConfigUseCase>(PaymentConfigUseCase());
+  sl.registerSingleton<GetPaymentConfigUseCase>(GetPaymentConfigUseCase());
 
   // repository
 
