@@ -18,6 +18,7 @@ class HoustypeState extends Equatable {
 }
 
 class HoustypeInitial extends HoustypeState {}
+class NoInternetHouseTypeSate extends HoustypeState {}
 
 class HouseTypeLoadingState extends HoustypeState {
   HouseTypeLoadingState(HoustypeState currentState):super(

@@ -5,18 +5,24 @@ import 'package:minapp/features/host/features/properties/domain/entities/amenity
 import 'package:minapp/features/host/features/properties/domain/usecases/get_amenity_usecase.dart';
 import 'package:minapp/service_locator.dart';
 
+import '../../../../../../../core/utils/connectivity_service.dart';
+
 part 'amenities_event.dart';
 part 'amenities_state.dart';
 
 class AmenitiesBloc extends Bloc<AmenitiesEvent, AmenitiesState> {
   AmenitiesBloc() : super(AmenitiesState()) {
     on<GetAmenityEvent>((event, emit) async {
-      emit(AmenityLoadingState());
-      Either response = await sl<GetAmenityUsecase>().call();
-      response.fold(
-        (l) => emit(AmenityTypeError(message: l)),
-        (r) => emit(state.copyWith(amenities: r)),
-      );
+      final hasConnection = await ConnectivityService.isConnected();
+      if (!hasConnection) {
+        emit(AmenityLoadingState());
+        Either response = await sl<GetAmenityUsecase>().call();
+        response.fold(
+              (l) => emit(AmenityTypeError(message: l)),
+              (r) => emit(state.copyWith(amenities: r)),
+        );
+      }
+
     });
     on<SelectAmenityEvent>((event, emit) async {
       final updatedAmenityList = List.of(state.selectedAmenity);

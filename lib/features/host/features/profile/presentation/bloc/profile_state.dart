@@ -20,6 +20,8 @@ class ProfileState extends Equatable {
 }
 class ProfileInitial extends ProfileState {
 }
+class NoInternetSate extends ProfileState {}
+
 class UserProfileLoadingState extends ProfileState {
    UserProfileLoadingState(ProfileState currentState):super(
     userProfileEntity: currentState.userProfileEntity,

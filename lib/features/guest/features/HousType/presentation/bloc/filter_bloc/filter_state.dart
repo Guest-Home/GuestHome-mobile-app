@@ -51,6 +51,7 @@ class FilterState extends Equatable {
 }
 
 final class FilterInitial extends FilterState {}
+final class NoInternetFilterState extends FilterState {}
 class FilterDataLoadingState extends FilterState{
   FilterDataLoadingState(FilterState currentState):super(
     isNearSearch: currentState.isNearSearch,

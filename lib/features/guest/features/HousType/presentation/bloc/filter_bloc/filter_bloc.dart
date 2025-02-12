@@ -6,6 +6,7 @@ import 'package:minapp/core/error/failure.dart';
 import 'package:minapp/features/guest/features/HousType/domain/usecases/filter_next_usecase.dart';
 import 'package:minapp/features/guest/features/HousType/domain/usecases/filter_property_usecase.dart';
 
+import '../../../../../../../core/utils/connectivity_service.dart';
 import '../../../../../../../core/utils/get_location.dart';
 import '../../../../../../../service_locator.dart';
 import '../../../domain/entities/guest_property_entity.dart';
@@ -50,14 +51,19 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
         "city":state.city,
         "category": state.category
       };
-
-      emit(FilterDataLoadingState(state));
-      Either response= await sl<FilterPropertyUseCase>().call(filterData);
-      response.fold((l) => emit(FilterErrorState(currentState: state, failure: l)),
-            (r){
+      final hasConnection = await ConnectivityService.isConnected();
+      if (!hasConnection) {
+        emit(FilterDataLoadingState(state));
+        Either response= await sl<FilterPropertyUseCase>().call(filterData);
+        response.fold((l) => emit(FilterErrorState(currentState: state, failure: l)),
+                (r){
               emit(state.copyWith(properties: r));
               emit(FilterDataLoadedState(currentState: state));
             });
+      }else{
+        emit(NoInternetFilterState());
+      }
+
     },);
     on<LoadMoreFilterPropertiesEvent>(_loadMoreProperties,);
   }

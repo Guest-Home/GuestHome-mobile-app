@@ -31,9 +31,15 @@ class BookedBloc extends Bloc<BookedEvent, BookedState> {
     });
 
     on<CancelBookingEvent>((event, emit)async{
-      emit(CancelBookingLoadingState());
-      Either response=await sl<CancelBookingUseCase>().call(event.id);
-      response.fold((l) => emit(CancelBookingErrorState(failure: l)), (r) => emit(CancelBookingSuccessState()),);
+      final hasConnection = await ConnectivityService.isConnected();
+      if (!hasConnection) {
+        emit(CancelBookingLoadingState());
+        Either response=await sl<CancelBookingUseCase>().call(event.id);
+        response.fold((l) => emit(CancelBookingErrorState(failure: l)), (r) => emit(CancelBookingSuccessState()),);
+      }else{
+        emit(NoInternetSate());
+      }
+
     },);
 
     on<LoadMoreBookedEvent>(_loadMoreProperties);

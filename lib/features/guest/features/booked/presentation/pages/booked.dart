@@ -61,7 +61,7 @@ class Booked extends StatelessWidget {
                     child: BlocConsumer<BookedBloc, BookedState>(
                         listener:(context, state) {
                           if(state is NoInternetSate){
-                            noInternetDialog(context);
+                            showNoInternetSnackBar(context,(){context.read<BookedBloc>().add(GetMyBookingEvent());});
                           }
                         },
                       builder: (context, state) {

@@ -16,6 +16,7 @@ class RequestState extends Equatable {
   List<Object> get props => [reservation];
 }
 class RequestInitial extends RequestState {}
+class NoInternetRequest extends RequestState {}
 
 class ReservationLoadingState extends RequestState{
   ReservationLoadingState(RequestState currentState):super(

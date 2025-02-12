@@ -6,6 +6,7 @@ import 'package:minapp/features/host/features/request/data/models/reservation_mo
 import 'package:minapp/features/host/features/request/domain/usecases/accept_reserv_usecase.dart';
 import 'package:minapp/features/host/features/request/domain/usecases/get_reservation_usecase.dart';
 
+import '../../../../../../core/utils/connectivity_service.dart';
 import '../../../../../../service_locator.dart';
 import '../../domain/usecases/reject_reserv_usecase.dart';
 
@@ -19,11 +20,17 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
     on<GetReservationEvent>(
       (event, emit) async {
         emit(ReservationLoadingState(state));
-        Either response = await sl<GetRservationUseCase>().call('');
-        response.fold(
-          (l) => emit(ReservationErrorState(state,failure: l)),
-          (r) => emit(state.copyWith(reservation: r)),
-        );
+        final hasConnection = await ConnectivityService.isConnected();
+        if (!hasConnection) {
+          Either response = await sl<GetRservationUseCase>().call('');
+          response.fold(
+                (l) => emit(ReservationErrorState(state,failure: l)),
+                (r) => emit(state.copyWith(reservation: r)),
+          );
+        }else{
+          emit(NoInternetRequest());
+        }
+
       },
     );
 

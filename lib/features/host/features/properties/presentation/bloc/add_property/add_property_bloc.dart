@@ -11,6 +11,7 @@ import 'package:minapp/features/host/features/properties/domain/usecases/get_age
 import 'package:minapp/features/host/features/properties/domain/usecases/update_property_usecase.dart';
 import 'package:minapp/service_locator.dart';
 
+import '../../../../../../../core/utils/connectivity_service.dart';
 import '../../../../../../../core/utils/file_picker.dart';
 import '../../../../../../../core/utils/get_token.dart';
 import '../../../domain/entities/agent_entity.dart';
@@ -108,75 +109,85 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
     // create property
     on<AddNewPropertyEvent>(
       (event, emit) async {
-        emit(AddNewPropertyLoading(state));
+        final hasConnection = await ConnectivityService.isConnected();
+        if (!hasConnection) {
+          emit(AddNewPropertyLoading(state));
+          final imageMultipartFiles =
+          await Future.wait(state.images.map((image) async {
+            return await MultipartFile.fromFile(
+              image.path,
+            );
+          }));
+          final FormData formData = FormData.fromMap({
+            'title': state.title,
+            'description': state.description,
+            'city': state.city,
+            'typeofHouse': state.houseType,
+            'latitude': state.latitude,
+            'longitude': state.longitude,
+            'price': state.price,
+            'unit': state.unit,
+            if (state.agentId.isNotEmpty) 'agent': state.agentId,
+            'image': imageMultipartFiles,
+            'number_of_room': state.noRoom,
+            'sub_description': state.amenities.join(','),
+            'specificAddress': state.specificAddress
+          });
 
-        final imageMultipartFiles =
-            await Future.wait(state.images.map((image) async {
-          return await MultipartFile.fromFile(
-            image.path,
+          Either response = await sl<CreatePropertyUsecase>()
+              .call(CreatePropertyParam(formData: formData));
+          response.fold(
+                (l) => emit(AddNewPropertyErrorState(state, l)),
+                (r) {
+              emit(AddNewPropertySuccess(r));
+            },
           );
-        }));
+        }
 
-        final FormData formData = FormData.fromMap({
-          'title': state.title,
-          'description': state.description,
-          'city': state.city,
-          'typeofHouse': state.houseType,
-          'latitude': state.latitude,
-          'longitude': state.longitude,
-          'price': state.price,
-          'unit': state.unit,
-          if (state.agentId.isNotEmpty) 'agent': state.agentId,
-          'image': imageMultipartFiles,
-          'number_of_room': state.noRoom,
-          'sub_description': state.amenities.join(','),
-          'specificAddress': state.specificAddress
-        });
-
-        Either response = await sl<CreatePropertyUsecase>()
-            .call(CreatePropertyParam(formData: formData));
-        response.fold(
-          (l) => emit(AddNewPropertyErrorState(state, l)),
-          (r) {
-            emit(AddNewPropertySuccess(r));
-          },
-        );
       },
     );
 
     on<DeletePropertyEvent>(
       (event, emit) async {
-        emit(DeletePropertyLoading(state));
-        Either response = await sl<DeletePropertyUsecase>().call(event.id);
-        response.fold(
-          (l) => emit(AddNewPropertyErrorState(state, l)),
-          (r) => emit(DeletePropertySuccess(isDeleted: r)),
-        );
+        final hasConnection = await ConnectivityService.isConnected();
+        if (!hasConnection) {
+          emit(DeletePropertyLoading(state));
+          Either response = await sl<DeletePropertyUsecase>().call(event.id);
+          response.fold(
+                (l) => emit(AddNewPropertyErrorState(state, l)),
+                (r) => emit(DeletePropertySuccess(isDeleted: r)),
+          );
+        }
+
       },
     );
     on<UpdatePropertyEvent>(
       (event, emit) async {
-        emit(UpdatePropertyLoading(state));
-        final formMap = event.propertyEntity;
-        if (state.images.isNotEmpty) {
-          final imageMultipartFiles =
-              await Future.wait(state.images.map((image) async {
-            return await MultipartFile.fromFile(
-              image.path,
-            );
-          }));
-          formMap['image'] = imageMultipartFiles;
+        final hasConnection = await ConnectivityService.isConnected();
+        if (!hasConnection) {
+          emit(UpdatePropertyLoading(state));
+          final formMap = event.propertyEntity;
+          if (state.images.isNotEmpty) {
+            final imageMultipartFiles =
+            await Future.wait(state.images.map((image) async {
+              return await MultipartFile.fromFile(
+                image.path,
+              );
+            }));
+            formMap['image'] = imageMultipartFiles;
+          }
+          final FormData formData = FormData.fromMap(formMap);
+          Either response = await sl<UpdatePropertyUseCase>()
+              .call(UpdatePropertyParam(formData: formData, id: event.id));
+          response.fold(
+                (l) => emit(UpdatePropertyErrorState(state, l)),
+                (r) {
+              emit(AddPropertyState());
+              emit(UpdatePropertySuccess(isUpdate: r));
+            },
+          );
         }
-        final FormData formData = FormData.fromMap(formMap);
-        Either response = await sl<UpdatePropertyUseCase>()
-            .call(UpdatePropertyParam(formData: formData, id: event.id));
-        response.fold(
-          (l) => emit(UpdatePropertyErrorState(state, l)),
-          (r) {
-            emit(AddPropertyState());
-            emit(UpdatePropertySuccess(isUpdate: r));
-          },
-        );
+
       },
     );
 

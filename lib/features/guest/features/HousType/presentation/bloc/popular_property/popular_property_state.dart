@@ -17,6 +17,7 @@ class PopularPropertyState extends Equatable {
 }
 
 final class PopularPropertyInitial extends PopularPropertyState {}
+final class NoInternetPopularProperty extends PopularPropertyState {}
 
 class PopularPropertyLoadingState extends PopularPropertyState{
   PopularPropertyLoadingState(PopularPropertyState currentState):super(

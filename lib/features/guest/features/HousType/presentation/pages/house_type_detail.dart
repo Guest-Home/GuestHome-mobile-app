@@ -69,12 +69,25 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
       //   shadowColor: Colors.transparent,
       //   scrolledUnderElevation: 0,
       // ),
-      body: CustomScrollView(
+      body: MultiBlocListener(
+  listeners: [
+    BlocListener<HoustypeBloc,HoustypeState>(listener: (context, state) {
+      if(state is NoInternetHouseTypeSate){
+        showNoInternetSnackBar(context,(){context.read<HoustypeBloc>().add(GetPropertyByHouseTypeEvent(name: widget.name));});
+      }
+    },),
+    BlocListener<FilterBloc,FilterState>(listener: (context, state) {
+      if(state is NoInternetFilterState){
+        showNoInternetSnackBar(context,(){});
+      }
+    },)
+  ],
+  child: CustomScrollView(
         slivers: [
           SliverAppBar(
             pinned: true,
             snap: false,
-            floating: true,
+            floating: false,
             centerTitle: false,
             elevation: 0,
             automaticallyImplyLeading: false,
@@ -89,7 +102,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                 padding: EdgeInsets.symmetric(horizontal: 15),
                   margin: EdgeInsets.only(bottom:10),
                   width: MediaQuery.of(context).size.width,
-                  height: 60,
+                  height: 65,
                   child: Row(
                     spacing: 10,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -321,7 +334,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                     buildWhen: (previous, current) =>
                                     previous != current,
                                     builder: (context, state) {
-                                      if (state is PopularPropertyLoadingState) {
+                                      if (state is PopularPropertyLoadingState || state is NoInternetPopularProperty) {
                                         return SizedBox(
                                           height: MediaQuery.of(context).size.height * 0.40,
                                           child: Center(
@@ -399,7 +412,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                   ),
                                   BlocBuilder<HoustypeBloc, HoustypeState>(
                                     builder: (context, state) {
-                                      if (state is HouseTypeLoadingState) {
+                                      if (state is HouseTypeLoadingState || state is NoInternetHouseTypeSate) {
                                         return Center(
                                           child: loadingIndicator(),
                                         );
@@ -459,7 +472,8 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
             ),
           )
         ],
-      )
+      ),
+)
 
     );
   }

@@ -145,19 +145,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthResetEvent>((event, emit) => emit(AuthState()),);
 
     on<CreateCustomerProfileEvent>((event, emit) async {
-      emit(CreatingCustomerProfileLoadingState(state));
-      List<String> names = state.fullName.trim().split(' ');
-      Either response = await sl<CreateCustomerProfileUsecase>().call(
-          CreateCustomerParams(
-              image: state.profilePhoto??XFile(''),
-              firstName: names.first,
-              lastName: names.last,
-              gender: state.gender.name,
-              typeOfCustomer: 'Guest'));
-      response.fold(
-        (l) => emit(OtpErrorState(state, l)),
-        (r) => emit(CreatedCustomerProfileLodedState(state, r)),
-      );
+      final hasConnection = await ConnectivityService.isConnected();
+      if (!hasConnection) {
+        emit(CreatingCustomerProfileLoadingState(state));
+        List<String> names = state.fullName.trim().split(' ');
+        Either response = await sl<CreateCustomerProfileUsecase>().call(
+            CreateCustomerParams(
+                image: state.profilePhoto??XFile(''),
+                firstName: names.first,
+                lastName: names.last,
+                gender: state.gender.name,
+                typeOfCustomer: 'Guest'));
+        response.fold(
+              (l) => emit(OtpErrorState(state, l)),
+              (r) => emit(CreatedCustomerProfileLodedState(state, r)),
+        );
+      }
+
     });
   }
 

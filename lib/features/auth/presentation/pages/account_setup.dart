@@ -36,7 +36,7 @@ class AccountSetup extends StatelessWidget {
             showErrorSnackBar(context, state.failure.message);
           }
           else if (state is NoInternetSate) {
-            noInternetDialog(context);
+            showNoInternetSnackBar(context,() {},);
           }
         },
         buildWhen: (previous, current) => previous != current,

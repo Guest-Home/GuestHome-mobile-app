@@ -12,6 +12,7 @@ import 'package:minapp/features/auth/presentation/bloc/log_out/log_out_bloc.dart
 import 'package:minapp/features/host/features/profile/presentation/bloc/profile_bloc.dart';
 
 import '../../../../../../core/common/spin_kit_loading.dart';
+import '../../../../../../core/utils/show_snack_bar.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -54,7 +55,12 @@ class _ProfileState extends State<Profile> {
                   children: [
                     SizedBox(
                       width: MediaQuery.of(context).size.width,
-                      child: BlocBuilder<ProfileBloc, ProfileState>(
+                      child: BlocConsumer<ProfileBloc, ProfileState>(
+                        listener: (context, state) {
+                          if(state is NoInternetSate){
+                            showNoInternetSnackBar(context,(){context.read<ProfileBloc>().add(GetUserProfileEvent());});
+                          }
+                        },
                         bloc: context.read<ProfileBloc>(),
                         buildWhen: (previous, current) => previous!=current,
                         builder: (context, state) {
@@ -65,18 +71,9 @@ class _ProfileState extends State<Profile> {
                             );
                           }
                           else if(state is ProfileErrorState || state.userProfileEntity.id==null){
-                            return SizedBox(
-                                child: Center(
-                                  child: Column(
-                                    children: [
-                                      Icon(Icons.error_outline,size: 25,color: ColorConstant.red,),
-                                      // Text(
-                                      //   state.failure.message,
-                                      //   style: Theme.of(context).textTheme.bodySmall,
-                                      // ),
-                                    ],
-                                  ),
-                                ),
+                               return SizedBox(
+                              height: 100,
+                              child: Center(child: loadingIndicator()),
                             );
                           }
                           return Column(

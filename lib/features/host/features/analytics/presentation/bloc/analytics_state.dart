@@ -41,6 +41,7 @@ class AnalyticsState extends Equatable {
   List<Object> get props => [occupancyDate,selectedDate,customStartDate,customEndDate,occupancyRateEntity,customOccupancyEntity];
 }
 class AnalyticsInitial extends AnalyticsState {}
+class NoInternetAnalytics extends AnalyticsState {}
 
 class OccupancyRateLoadingState extends AnalyticsState{
   OccupancyRateLoadingState(AnalyticsState currentState):super(

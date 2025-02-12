@@ -151,7 +151,7 @@ class _HouseTypeState extends State<HouseType> {
             BlocListener<PropertyTypeBloc, PropertyTypeState>(
               listener: (context, state) {
                 if (state is NoInternetSate) {
-                  noInternetDialog(context);
+                  showNoInternetSnackBar(context,(){context.read<PropertyTypeBloc>().add(GetPropertyTypesEvent());});
                 }
                 // else if(state is PropertyTypeError){
                 //   showDialog(context: context, builder: (context) => AlertDialog(
@@ -161,8 +161,12 @@ class _HouseTypeState extends State<HouseType> {
               },
               child: BlocBuilder<PropertyTypeBloc, PropertyTypeState>(
                 builder: (context, state) {
-                  if (state is PropertyTypeLoadingState
-                      ) {
+                  if (state is PropertyTypeLoadingState) {
+                    return Center(
+                      child: loadingIndicator(),
+                    );
+                  }
+                  else if (state is NoInternetSate) {
                     return Center(
                       child: loadingIndicator(),
                     );

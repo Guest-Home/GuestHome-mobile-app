@@ -9,6 +9,7 @@ import 'package:minapp/features/host/features/analytics/domain/usecases/download
 import 'package:minapp/features/host/features/analytics/domain/usecases/get_custom_occup_usecase.dart';
 import 'package:minapp/features/host/features/analytics/domain/usecases/get_occupancy_rate_usecase.dart';
 import 'package:permission_handler/permission_handler.dart';
+import '../../../../../../core/utils/connectivity_service.dart';
 import '../../../../../../service_locator.dart';
 
 part 'analytics_event.dart';
@@ -17,14 +18,21 @@ part 'analytics_state.dart';
 class AnalyticsBloc extends Bloc<AnalyticsEvent, AnalyticsState> {
   AnalyticsBloc() : super(AnalyticsInitial()) {
     on<GetOccupancyRateEvent>((event, emit) async {
-      emit(OccupancyRateLoadingState(state));
-      Either response = await sl<GetOccupancyRateUseCase>().call();
-      response.fold(
-          (l) => emit(AnalyticsErrorState(
-                failure: l,
-                currentState: state,
-              )),
-          (r) => emit(state.copyWith(occupancyRateEntity: r)));
+      final hasConnection = await ConnectivityService.isConnected();
+      if (!hasConnection) {
+        emit(OccupancyRateLoadingState(state));
+        Either response = await sl<GetOccupancyRateUseCase>().call();
+        response.fold(
+                (l) => emit(AnalyticsErrorState(
+              failure: l,
+              currentState: state,
+            )),
+                (r) => emit(state.copyWith(occupancyRateEntity: r)));
+      }
+      else{
+        emit(NoInternetAnalytics());
+      }
+
     });
     on<GetCustomOccupancyEvent>(
       (event, emit) async {
@@ -34,12 +42,16 @@ class AnalyticsBloc extends Bloc<AnalyticsEvent, AnalyticsState> {
           'endDate': state.customEndDate,
         };
 
-        Either response = await sl<GetCustomOccupancyUseCase>().call(dates);
-        response.fold(
-          (l) => emit(AnalyticsErrorState(failure: l, currentState: state)),
-          (r) => emit(
-              state.copyWith(customOccupancyEntity: r, selectedDate: "custom")),
-        );
+        final hasConnection = await ConnectivityService.isConnected();
+        if (!hasConnection) {
+          Either response = await sl<GetCustomOccupancyUseCase>().call(dates);
+          response.fold(
+                (l) => emit(AnalyticsErrorState(failure: l, currentState: state)),
+                (r) => emit(
+                state.copyWith(customOccupancyEntity: r, selectedDate: "custom")),
+          );
+        }
+
       },
     );
     on<ChangeOccupancyDateEvent>(
@@ -55,17 +67,21 @@ class AnalyticsBloc extends Bloc<AnalyticsEvent, AnalyticsState> {
         final hasPermission = await requestStoragePermission();
         if (hasPermission) {
           if (state.selectedDate == "custom") {
-            emit(DownloadingLoadingState(state));
-            Map<String, dynamic> dates = {
-              'startDate': state.customStartDate,
-              'endDate': state.customEndDate,
-            };
-            Either response =
-                await sl<DownloadReportCustomUseCase>().call(dates);
-            response.fold(
-              (l) => emit(AnalyticsErrorState(failure: l, currentState: state)),
-              (r) => emit(DownloadedState(state)),
-            );
+            final hasConnection = await ConnectivityService.isConnected();
+            if (!hasConnection) {
+              emit(DownloadingLoadingState(state));
+              Map<String, dynamic> dates = {
+                'startDate': state.customStartDate,
+                'endDate': state.customEndDate,
+              };
+              Either response =
+              await sl<DownloadReportCustomUseCase>().call(dates);
+              response.fold(
+                    (l) => emit(AnalyticsErrorState(failure: l, currentState: state)),
+                    (r) => emit(DownloadedState(state)),
+              );
+            }
+
           } else {
             emit(DownloadingLoadingState(state));
             String date = getDate(state.selectedDate);

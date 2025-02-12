@@ -14,3 +14,4 @@ class BookedDetailError extends BookedDetailState{
   final Failure failure;
   BookedDetailError({required this.failure});
 }
+class NoInternetBookedDetailSate extends BookedDetailState {}

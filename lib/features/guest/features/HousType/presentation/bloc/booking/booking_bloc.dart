@@ -4,6 +4,7 @@ import 'package:minapp/core/error/failure.dart';
 import 'package:minapp/core/utils/date_converter.dart';
 import 'package:minapp/features/guest/features/HousType/domain/usecases/proprty_booking_usecase.dart';
 
+import '../../../../../../../core/utils/connectivity_service.dart';
 import '../../../../../../../service_locator.dart';
 
 part 'booking_event.dart';
@@ -28,9 +29,15 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
           "checkOut":DateConverter().formatDateRange(state.checkOut),
           "type_proof_of_identity":state.idType.name
       };
-      emit(BookingLoadingState());
-      Either response=await sl<PropertyBookingUseCase>().call(bookingData);
-      response.fold((l) => emit(BookingErrorState(failure: l)), (r) => emit(BookingSuccessState(booked: r)),);
+      final hasConnection = await ConnectivityService.isConnected();
+      if (!hasConnection) {
+        emit(BookingLoadingState());
+        Either response=await sl<PropertyBookingUseCase>().call(bookingData);
+        response.fold((l) => emit(BookingErrorState(failure: l)), (r) => emit(BookingSuccessState(booked: r)),);
+      }else{
+        emit(NoInternetBookingState());
+      }
+
     });
 
    on<ResetBookingEvent>((event, emit) => emit(BookingInitial()),);

@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:minapp/core/error/failure.dart';
 import 'package:minapp/features/guest/features/HousType/domain/usecases/get_house_bytype_usecase.dart';
+import '../../../../../../core/utils/connectivity_service.dart';
 import '../../../../../../service_locator.dart';
 import '../../domain/entities/guest_property_entity.dart';
 
@@ -13,10 +14,16 @@ class HoustypeBloc extends Bloc<HoustypeEvent, HoustypeState> {
   HoustypeBloc() : super(HoustypeInitial()) {
     on<GetPropertyByHouseTypeEvent>((event, emit) async {
       emit(HouseTypeLoadingState(state));
-      Either response = await sl<GetHouseBytypeUsecase>().call(event.name);
-      response.fold((l) => emit(HouseTYpeErrorState(state,failure: l)), (r) => emit(state.copyWith(
-        properties: r
-      )),);
+      final hasConnection = await ConnectivityService.isConnected();
+      if (!hasConnection) {
+        Either response = await sl<GetHouseBytypeUsecase>().call(event.name);
+        response.fold((l) => emit(HouseTYpeErrorState(state,failure: l)), (r) => emit(state.copyWith(
+            properties: r
+        )),);
+      }else{
+        emit(NoInternetHouseTypeSate());
+      }
+
     });
     on<LoadMorePropertiesEvent>(_loadMoreProperties);
 

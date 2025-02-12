@@ -33,6 +33,7 @@ class BookingState {
 }
 
 final class BookingInitial extends BookingState {}
+final class NoInternetBookingState extends BookingState {}
 class BookingLoadingState extends BookingState{}
 class BookingErrorState extends BookingState{
   final Failure failure;

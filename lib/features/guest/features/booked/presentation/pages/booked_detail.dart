@@ -101,12 +101,18 @@ class _BookedDetailState extends State<BookedDetail> {
                       .copyWith(fontSize: 14, fontWeight: FontWeight.w400),
                 ),
               ),
-              BlocBuilder<BookedDetailBloc, BookedDetailState>(
+              BlocConsumer<BookedDetailBloc, BookedDetailState>(
+                listener: (context, state) {
+                  if(state is NoInternetBookedDetailSate){
+                    showNoInternetSnackBar(context,(){    context.read<BookedDetailBloc>().add(GetBookedDetail(id:widget.id));
+                    });
+                  }
+                },
                 builder: (context, state) {
-                  if(state is BookedDetailLoading){
+                  if(state is BookedDetailLoading || state is NoInternetBookedDetailSate){
                     return SizedBox(
                       height: MediaQuery.of(context).size.height/2,
-              child: Center(child:loadingIndicator()));
+                      child: Center(child:loadingIndicator()));
                   }
                   else if(state is BookedDetailLoaded){
                     return Column(
@@ -468,7 +474,10 @@ class _BookedDetailState extends State<BookedDetail> {
                             context.pop();
                             showErrorSnackBar(context, state.failure.message);
                           }
-                        },
+                          else if (state is NoInternetSate) {
+                            context.pop();
+                            showNoInternetSnackBar(context,(){});
+                        }},
                         child: BlocBuilder<BookedBloc, BookedState>(
                           builder: (context, state) {
                             return CustomButton(
