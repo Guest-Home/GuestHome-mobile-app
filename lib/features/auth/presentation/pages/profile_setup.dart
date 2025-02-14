@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/core/common/spin_kit_loading.dart';
-import 'package:minapp/core/common/upload_photo_widget.dart';
 import 'package:minapp/core/common/custom_text_field.dart';
 import 'package:minapp/core/utils/show_snack_bar.dart';
 import 'package:minapp/core/utils/validator.dart';
