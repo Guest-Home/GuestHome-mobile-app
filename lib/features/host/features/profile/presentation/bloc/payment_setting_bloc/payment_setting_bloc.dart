@@ -7,6 +7,7 @@ import 'package:minapp/features/host/features/profile/domain/entities/platform_c
 import 'package:minapp/features/host/features/profile/domain/usecases/deposit_usecase.dart';
 import 'package:minapp/features/host/features/profile/domain/usecases/get_commision_usecase.dart';
 
+import '../../../../../../../core/common/enum/payment_medthod.dart';
 import '../../../../../../../service_locator.dart';
 
 part 'payment_setting_event.dart';

@@ -26,4 +26,9 @@ class MyBookingRepositoryImpl implements MyBookingRepository{
     return await sl<BookingDataSource>().getMyBooking(id);
   }
 
+  @override
+  Future<Either<Failure, bool>> makePayment(Map<String, dynamic> data)async{
+    return await sl<BookingDataSource>().makePayment(data);
+  }
+
 }

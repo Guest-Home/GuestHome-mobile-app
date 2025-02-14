@@ -9,4 +9,5 @@ abstract class MyBookingRepository{
   Future<Either<Failure,MyBookingEntity>> getMyBookings(String url);
   Future<Either<Failure,bool>> cancelMyBookings(int id);
   Future<Either<Failure,BookedDetailEntity>> getMyBooking(int id);
+  Future<Either<Failure,bool>> makePayment(Map<String,dynamic> data);
 }

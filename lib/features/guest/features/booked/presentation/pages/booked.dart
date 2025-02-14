@@ -13,8 +13,14 @@ import 'package:minapp/features/guest/features/booked/presentation/widgets/booke
 import '../../../../../../core/common/enum/reservation_status_enum.dart';
 import '../../../../../../core/common/spin_kit_loading.dart';
 
-class Booked extends StatelessWidget {
+class Booked extends StatefulWidget {
   const Booked({super.key});
+
+  @override
+  State<Booked> createState() => _BookedState();
+}
+
+class _BookedState extends State<Booked> {
 
   BookingStatus getStatus(String status) {
     switch (status) {
@@ -28,6 +34,7 @@ class Booked extends StatelessWidget {
         return BookingStatus.pending;
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return
@@ -83,7 +90,8 @@ class Booked extends StatelessWidget {
                               onNotification: (scrollInfo) {
                                 if (scrollInfo.metrics.pixels ==
                                     scrollInfo.metrics.maxScrollExtent) {
-                                  context.read<BookedBloc>().add(LoadMoreBookedEvent());
+                                 context.read<BookedBloc>().add(LoadMoreBookedEvent());
+                               // myBookingBloc.add(LoadMoreBookedEvent());
                                 }
                                 return false;
                               },

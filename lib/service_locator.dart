@@ -28,8 +28,10 @@ import 'package:minapp/features/guest/features/booked/data/repositories/my_booki
 import 'package:minapp/features/guest/features/booked/domain/repositories/my_booking_repositorty.dart';
 import 'package:minapp/features/guest/features/booked/domain/usecases/cancel_booking_usecase.dart';
 import 'package:minapp/features/guest/features/booked/domain/usecases/get_my_booking_usecase.dart';
+import 'package:minapp/features/guest/features/booked/domain/usecases/make_payment_usecase.dart';
 import 'package:minapp/features/guest/features/booked/presentation/bloc/booked_bloc.dart';
 import 'package:minapp/features/guest/features/booked/presentation/bloc/booked_detail/booked_detail_bloc.dart';
+import 'package:minapp/features/guest/features/booked/presentation/bloc/guest_payment/guest_payment_bloc.dart';
 import 'package:minapp/features/host/features/analytics/data/datasources/analytics_data_source.dart';
 import 'package:minapp/features/host/features/analytics/data/repositories/occupancy_rate_repository_impl.dart';
 import 'package:minapp/features/host/features/analytics/domain/repositories/analytics_repository.dart';
@@ -174,6 +176,9 @@ void setup() async {
   sl.registerFactory<PaymentConfigBloc>(
         () => PaymentConfigBloc(),
   );
+  sl.registerFactory<GuestPaymentBloc>(
+        () => GuestPaymentBloc(),
+  );
   // usecase
 
   sl.registerSingleton<CreateOtpUsecase>(CreateOtpUsecase());
@@ -223,6 +228,7 @@ void setup() async {
   sl.registerSingleton<GetDepositTransactionUsecase>(GetDepositTransactionUsecase());
   sl.registerSingleton<PaymentConfigUseCase>(PaymentConfigUseCase());
   sl.registerSingleton<GetPaymentConfigUseCase>(GetPaymentConfigUseCase());
+  sl.registerSingleton<MakePaymentUseCase>(MakePaymentUseCase());
 
   // repository
 

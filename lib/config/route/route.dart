@@ -383,8 +383,8 @@ Future<GoRouter> createRouter() async {
                         );
                       },
                     ),
-                  ]
-              ),
+                  ],
+                  ),
             ],
           ),
           StatefulShellBranch(

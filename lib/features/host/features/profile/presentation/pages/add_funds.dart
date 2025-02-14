@@ -10,6 +10,7 @@ import 'package:minapp/features/host/features/profile/presentation/bloc/profile_
 import '../../../../../../config/color/color.dart';
 import '../../../../../../core/common/custom_button.dart';
 import '../../../../../../core/common/custom_text_field.dart';
+import '../../../../../../core/common/enum/payment_medthod.dart';
 
 class AddFunds extends StatelessWidget {
    AddFunds({super.key});

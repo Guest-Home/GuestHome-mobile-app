@@ -15,6 +15,8 @@ abstract class BookingDataSource {
   Future<Either<Failure, MyBookingModel>> getMyBookings(String url);
   Future<Either<Failure, bool>> cancelMyBookings(int id);
   Future<Either<Failure, BookedDetailModel>> getMyBooking(int id);
+  Future<Either<Failure,bool>> makePayment(Map<String,dynamic> data);
+
 }
 
 class BookingDataSourceImpl extends BookingDataSource {
@@ -68,6 +70,25 @@ class BookingDataSourceImpl extends BookingDataSource {
       }
     } on DioException catch (e) {
       return Left(ErrorResponse().mapDioExceptionToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> makePayment(Map<String, dynamic> data)async{
+    final id=data["id"];
+    Map<String, dynamic> newData = Map.fromEntries(
+      data.entries.where((entry) => entry.key != 'id'),
+    );
+
+    try {
+      final response = await sl<DioClient>().post("${ApiUrl.reservationPayment}$id/",data: newData);
+      if (response.statusCode == 200) {
+        return Right(true);
+      } else {
+        return Left(ServerFailure(response.data['Error']));
+      }
+    } on DioException catch (e) {
+      return Left(ServerFailure(e.response!.data['Error']));
     }
   }
 }

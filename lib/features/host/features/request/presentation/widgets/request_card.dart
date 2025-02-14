@@ -21,6 +21,8 @@ class RequestCard extends StatelessWidget {
     switch (status) {
       case 'Waiting for Approval':
         return BookingStatus.pending;
+      case 'Waiting For payment':
+        return BookingStatus.waitingPayment;
       case 'Approved':
         return BookingStatus.approved;
       case 'Rejected':
