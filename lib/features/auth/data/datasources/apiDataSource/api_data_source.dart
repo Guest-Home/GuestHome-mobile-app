@@ -64,7 +64,8 @@ class ApiDataSourceImpl implements ApiDataSource {
         return Left(ServerFailure(response.data['Error']));
       }
     } on DioException catch (e) {
-      return Left(ErrorResponse().mapDioExceptionToFailure(e));
+      return Left(ServerFailure(e.response!.data['Error']));
+     // return Left(ErrorResponse().mapDioExceptionToFailure(e));
     }
   }
 
@@ -173,7 +174,7 @@ class ApiDataSourceImpl implements ApiDataSource {
         return Left(ServerFailure(response.data['Error']));
       }
     } on DioException catch (e) {
-      return Left(ErrorResponse().mapDioExceptionToFailure(e));
+      return Left(ServerFailure(e.response!.data!['error']));
     }
   }
 }

@@ -12,6 +12,7 @@ import '../../../../config/color/color.dart';
 import '../../../../core/common/back_button.dart';
 import '../../../../core/common/custom_button.dart';
 import '../widgets/profile_photo_card.dart';
+import '../widgets/upload_profile_photo.dart';
 
 class ProfileSetup extends StatelessWidget {
   ProfileSetup({super.key});
@@ -161,7 +162,7 @@ class ProfileSetup extends StatelessWidget {
                                 SizedBox(
                                   height: 24,
                                 ),
-                                UploadPhoto(
+                                UploadProfilePhoto(
                                   ontTap: () {
                                     context
                                         .read<AuthBloc>()
