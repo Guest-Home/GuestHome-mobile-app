@@ -1,14 +1,21 @@
 import 'package:bottom_navbar_with_indicator/bottom_navbar_with_indicator.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key, required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
 
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   int _getSelectedIndex(BuildContext context) {
     final location = GoRouter.of(context).state?.path;
     if (location!.startsWith('/properties')) {
@@ -53,16 +60,43 @@ class Home extends StatelessWidget {
       return 4;
     }
 
-
-
-
     return 0;
   }
+  DateTime? _lastBackPressTime;
+  void _onWillPop(BuildContext context, bool didPop) async {
+    if (!didPop && widget.navigationShell.currentIndex != 0) {
+      widget.navigationShell.goBranch(0);
 
+    } else if (!didPop && widget.navigationShell.currentIndex == 0) {
+      final currentTime = DateTime.now();
+      if (_lastBackPressTime == null ||
+          currentTime.difference(_lastBackPressTime!) >
+              const Duration(seconds: 2)) {
+        _lastBackPressTime = currentTime;
+        Fluttertoast.showToast(
+          msg: "Tap again to exit.",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.black,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+      } else {
+        SystemNavigator.pop();
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) {
+      if (didPop) {}
+      _onWillPop(context, didPop);
+    },
+    child: Scaffold(
       resizeToAvoidBottomInset: false,
       floatingActionButton: Container(
         margin: EdgeInsets.only(top: 65),
@@ -125,16 +159,16 @@ class Home extends StatelessWidget {
             ],
             onTap: (item) => {
                   if (item == 0)
-                    {navigationShell.goBranch(item)}
+                    {widget.navigationShell.goBranch(item)}
                   else if (item == 1)
-                    {navigationShell.goBranch(item)}
+                    {widget.navigationShell.goBranch(item)}
                   else if (item == 3)
-                    {navigationShell.goBranch(2)}
+                    {widget.navigationShell.goBranch(2)}
                   else if (item == 4)
-                    {navigationShell.goBranch(3)}
+                    {widget.navigationShell.goBranch(3)}
                 }),
       ),
-      body: navigationShell,
-    );
+      body: widget.navigationShell,
+    ));
   }
 }
