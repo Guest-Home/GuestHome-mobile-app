@@ -273,7 +273,30 @@ class BookedCard extends StatelessWidget {
                                     fontSize: 12,
                                     color: ColorConstant.secondBtnColor),
                           ),
-                        )
+                        ),
+                        SizedBox(width: 10,),
+                        if (property.assignedRoom != null)
+                          RichText(
+                              text: TextSpan(children: [
+                                TextSpan(
+                                  text: tr("Room number "),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                      fontWeight: FontWeight.w500, fontSize: 12),
+                                ),
+                                TextSpan(
+                                  text: property.assignedRoom,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14,
+                                      color: ColorConstant.primaryColor),
+                                )
+                              ])),
                       ],
                     )
                   ],
@@ -281,13 +304,8 @@ class BookedCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 3),
                   child: Row(
-                    spacing: 10,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          spacing: 5,
+                          spacing: 10,
                           children: [
                             Text(
                               tr("Booking Status"),
@@ -307,35 +325,11 @@ class BookedCard extends StatelessWidget {
 
                           ],
                         ),
-                      ),
-                      if (property.assignedRoom != null)
-                        RichText(
-                            text: TextSpan(children: [
-                          TextSpan(
-                            text: tr("Room number "),
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                    fontWeight: FontWeight.w500, fontSize: 12),
-                          ),
-                          TextSpan(
-                            text: property.assignedRoom,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14,
-                                    color: ColorConstant.primaryColor),
-                          )
-                        ])),
-                    ],
-                  ),
+
                 ),
                 if(!property.house!.postedBy!.isPaymentRequired! &&
-                    getStatus(property.status!) == BookingStatus.pending ||
-                    getStatus(property.status!) == BookingStatus.approved)
+                   (getStatus(property.status!) == BookingStatus.pending ||
+                    getStatus(property.status!) == BookingStatus.approved))
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal:3),
                   child: Column(
@@ -398,7 +392,7 @@ class BookedCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                if (property.house!.postedBy!.isPaymentRequired! || getStatus(property.status!) == BookingStatus.waitingPayment )
+                if (property.house!.postedBy!.isPaymentRequired! && getStatus(property.status!) == BookingStatus.waitingPayment )
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 3),
                     child: Column(
@@ -720,7 +714,7 @@ class BookedCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                Divider(
+                  Divider(
                   color: ColorConstant.cardGrey,
                 ),
               ],
