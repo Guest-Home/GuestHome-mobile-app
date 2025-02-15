@@ -2,17 +2,52 @@
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../config/color/color.dart';
 import '../../../../core/common/custom_button.dart';
 import '../widgets/tg_signin_button.dart';
 
 class SignIn extends StatelessWidget {
-  const SignIn({super.key});
+   SignIn({super.key});
 
+  DateTime? _lastBackPressTime;
+
+  void _onWillPop(BuildContext context, bool didPop) async {
+    if (!didPop && GoRouterState.of(context).matchedLocation != '/signIn') {
+
+
+    } else if (!didPop && GoRouterState.of(context).matchedLocation == '/signIn') {
+      final currentTime = DateTime.now();
+      if (_lastBackPressTime == null ||
+          currentTime.difference(_lastBackPressTime!) >
+              const Duration(seconds: 2)) {
+        _lastBackPressTime = currentTime;
+        Fluttertoast.showToast(
+          msg: "Tap again to exit.",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.black,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+      } else {
+        SystemNavigator.pop();
+      }
+    }
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) {
+      if (didPop) {}
+      _onWillPop(context, didPop);
+    },
+    child:
+      Scaffold(
       appBar: AppBar(
         leading: IconButton(onPressed: () => context.goNamed("houseType"), icon: Icon(Icons.arrow_back)),
       ),
@@ -57,7 +92,7 @@ class SignIn extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ));
   }
 }
 
