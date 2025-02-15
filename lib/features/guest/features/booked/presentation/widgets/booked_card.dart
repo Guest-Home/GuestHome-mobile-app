@@ -94,8 +94,8 @@ class BookedCard extends StatelessWidget {
     );
   }
 
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController codeController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController codeController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
