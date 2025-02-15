@@ -112,6 +112,7 @@ class PostedByEntity extends Equatable {
   final int? rating;
   final String? language;
   final String? profilePicture;
+  final bool? isPaymentRequired;
 
   const PostedByEntity({
     this.id,
@@ -119,11 +120,12 @@ class PostedByEntity extends Equatable {
     this.typeOfCustomer,
     this.rating,
     this.language,
-    this.profilePicture
+    this.profilePicture,
+    this.isPaymentRequired
   });
 
   @override
-  List<Object?> get props =>[id,userAccount,typeOfCustomer,rating,language,profilePicture];
+  List<Object?> get props =>[id,userAccount,typeOfCustomer,rating,language,profilePicture,isPaymentRequired];
 }
 class PostedByUserAccountEntity extends Equatable {
   final  int? id;

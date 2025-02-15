@@ -44,6 +44,7 @@ class Result {
   String? checkIn;
   String? checkOut;
   String? status;
+  final String? assignedRoom;
   String? decisionTime;
 
   Result({
@@ -53,6 +54,7 @@ class Result {
     this.checkIn,
     this.checkOut,
     this.status,
+    this.assignedRoom,
     this.decisionTime,
   });
 
@@ -63,6 +65,7 @@ class Result {
     checkIn:json["checkIn"],
     checkOut:json["checkOut"],
     status: json["status"],
+    assignedRoom: json["assigned_room"],
     decisionTime:json["decisionTime"],
   );
 

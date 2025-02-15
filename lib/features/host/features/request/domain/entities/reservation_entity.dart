@@ -25,6 +25,7 @@ class ResultEntity extends Equatable {
  final String? checkIn;
  final String? checkOut;
  final String? status;
+ final String? assignedRoom;
  final String? decisionTime;
 
   const ResultEntity({
@@ -34,11 +35,12 @@ class ResultEntity extends Equatable {
     this.checkIn,
     this.checkOut,
     this.status,
+    this.assignedRoom,
     this.decisionTime,
   });
 
   @override
-  List<Object?> get props =>[id,house,user,checkIn,checkOut,status,decisionTime];
+  List<Object?> get props =>[id,house,user,checkIn,checkOut,status,assignedRoom,decisionTime];
 
 
 }

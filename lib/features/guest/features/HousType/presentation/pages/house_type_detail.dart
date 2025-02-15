@@ -13,6 +13,7 @@ import 'package:minapp/features/guest/features/HousType/presentation/bloc/filter
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/houstype_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/popular_property/popular_property_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/widgets/near_house_card.dart';
+import 'package:minapp/features/host/features/properties/presentation/bloc/city/city_bloc.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/property_type/property_type_bloc.dart';
 import '../../../../../../core/common/custom_button.dart';
 import '../../../../../../core/common/spin_kit_loading.dart';
@@ -767,26 +768,12 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                       SizedBox(
                         height: 5,
                       ),
-                      CustomTextField(
-                        readOnly: true,
-                          hintText: tr("Addis Ababa"),
-                          validator: (value) {
-                            return null;
-                          },
-                          textEditingController: widget.cityController,
-                          surfixIcon: SizedBox(
-                            child: CityDropDown(onSelected: (value) {
-                              if (filterState.category.isNotEmpty) {
-                                widget.cityController.text = value;
-                                context
-                                    .read<FilterBloc>()
-                                    .add(AddFilterCityEvent(city: value));
-                              }
-                            }),
-                          ),
-                          onTextChnage: (value) {},
-                          isMultiLine: false,
-                          textInputType: TextInputType.text),
+                      CityDropDown(onSelected: (value){
+                        widget.cityController.text = value;
+                        context
+                            .read<FilterBloc>()
+                            .add(AddFilterCityEvent(city: value));
+                      },),
                       CheckboxListTile(
                         activeColor: ColorConstant.green,
                         controlAffinity: ListTileControlAffinity.leading,

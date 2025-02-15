@@ -970,27 +970,35 @@ class CityDropDown extends StatelessWidget {
   final ValueChanged<String> onSelected;
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CityBloc, CityState>(
+    return  BlocBuilder<CityBloc, CityState>(
       builder: (context, state) {
-        return
-          PopupMenuButton<String>(
-            icon: Icon(Icons.arrow_drop_down,size:26,),
-            // Remove ButtonStyle alignment (not needed for menu position)
-            onSelected: (value) => onSelected(value),
-            position: PopupMenuPosition.under, // Position menu under the button
-            offset: Offset(0, 10), // Adjust vertical offset for spacing
-            popUpAnimationStyle: AnimationStyle.noAnimation,
-            color: Colors.white,
-            itemBuilder: (BuildContext context) {
-              return List.generate(
-                state.cities.length,
-                    (index) => PopupMenuItem(
-                  value: state.cities[index].city,
-                  child: Text(tr(state.cities[index].city)),
-                ),
-              );
-            },
-          );
+        return DropdownButtonFormField(
+          borderRadius: BorderRadius.circular(10),
+          isExpanded: true,
+          elevation: 0,
+          hint: Text(tr("Addis Ababa")),
+          decoration: InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(color: ColorConstant.cardGrey),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(color: ColorConstant.cardGrey),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(color: ColorConstant.cardGrey),
+            ),
+          ),
+          items:List.generate(
+            state.cities.length,
+                (index) => DropdownMenuItem(
+              value: state.cities[index].city,
+              child: Text(tr(state.cities[index].city)),
+            ),
+          ),
+          onChanged:(value) => onSelected(value!),);
       },
     );
   }

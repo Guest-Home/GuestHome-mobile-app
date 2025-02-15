@@ -35,27 +35,7 @@ class RequestCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return
-      BlocConsumer<RequestBloc,RequestState>(
-        listener: (context, state) {
-          if (state is AcceptedReservationState) {
-            context.read<RequestBloc>().add(GetReservationEvent());
-            context.pop();
-            showSuccessSnackBar(context, "reservation accepted");
-          } else if (state is RejectedReservationState) {
-            context.read<RequestBloc>().add(GetReservationEvent());
-            context.pop();
-            showSuccessSnackBar(context, "reservation accepted");
-          } else if(state is AcceptingReservationState){
-            context.pop();
-            lodingDialog(context);
-          }
-
-          else if (state is ReservationErrorState) {
-            context.pop();
-            showErrorSnackBar(context, state.failure.message);
-          }
-        },
-      builder: (context, state) =>  Card(
+          Card(
         margin: EdgeInsets.symmetric(vertical: 5),
         color: ColorConstant.cardGrey.withValues(alpha: 0.5),
         elevation: 0,
@@ -207,6 +187,24 @@ class RequestCard extends StatelessWidget {
                 SizedBox(
                   height: 5,
                 ),
+                if(reservationEntity.assignedRoom!=null)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    spacing: 10,
+                    children: [
+                      Text(tr("Assigned Room Number :"), style:
+                      Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                      )),
+                      Text(reservationEntity.assignedRoom!,style:
+                      Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: ColorConstant.primaryColor
+                      )),
+                    ],
+                  ),
                 SizedBox(
                       child: Row(
                         spacing: 20,
@@ -227,9 +225,7 @@ class RequestCard extends StatelessWidget {
                       )),
               ]),
         ),
-      )
-
-    );
+      );
 
 
   }

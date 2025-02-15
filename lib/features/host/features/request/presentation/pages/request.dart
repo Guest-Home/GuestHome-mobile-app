@@ -371,7 +371,25 @@ class _RequestState extends State<Request> {
                   SizedBox(
                     height: 5,
                   ),
-                  SizedBox(
+                  if(state.reservation.results![index].assignedRoom!=null)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      spacing: 10,
+                      children: [
+                        Text(tr("Assigned Room Number :"), style:
+                        Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                        )),
+                        Text(state.reservation.results![index].assignedRoom!,style:
+                        Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                            color: ColorConstant.primaryColor
+                        )),
+                      ],
+                    ),
+                 SizedBox(
                         child: Row(
                           spacing: 20,
                           children: [
@@ -387,7 +405,7 @@ class _RequestState extends State<Request> {
                                               fontWeight: FontWeight.w600
                                           ),),
                                           content: SizedBox(
-                                            height: MediaQuery.of(context).size.height/3.7,
+                                            height: MediaQuery.of(context).size.height*0.2,
                                             child: Form(
                                               key: formKey,
                                               child: Column(
@@ -400,7 +418,7 @@ class _RequestState extends State<Request> {
                                                   SizedBox(height: 17,),
                                                   RichText(text: TextSpan(children: [
                                                     TextSpan(text: tr("Room Number"),style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                                        fontSize: 14,
+                                                        fontSize: 13,
                                                         fontWeight: FontWeight.w500
                                                     )),
                                                     TextSpan(text: "*",style: TextStyle(color: ColorConstant.red)),
@@ -419,72 +437,72 @@ class _RequestState extends State<Request> {
                                                       },
                                                       isMultiLine: false,
                                                       textInputType: TextInputType.text),
-                                                  SizedBox(height:20,),
-                                                  SizedBox(
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                      spacing: 10,
-                                                      children: [
-                                                        Expanded(
-                                                          child: CustomButton(
-                                                            onPressed:
-                                                                () {
-                                                              formKey.currentState!.save();
-                                                              if(formKey.currentState!.validate()){
-                                                                context.read<RequestBloc>().add(
-                                                                    AcceptReservationEvent(id: state.reservation.results![index].id!,
-                                                                        roomNumber: roomNumberController.text));
-                                                              }
-                                                            },
-                                                            style: ElevatedButton.styleFrom(
-                                                              backgroundColor: ColorConstant.primaryColor,
-                                                              padding: EdgeInsets.all(13),
-                                                              shape: RoundedRectangleBorder(
-                                                                  borderRadius: BorderRadius.circular(10)),
-                                                            ),
-                                                            child: Text(
-                                                             tr("Submit"),
-                                                              style: Theme.of(context)
-                                                                  .textTheme
-                                                                  .bodyLarge!
-                                                                  .copyWith(
-                                                                  color: Colors.white,
-                                                                  fontSize: 12,
-                                                                  fontWeight: FontWeight.w700),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Expanded(
-                                                          child: CustomButton(
-                                                            onPressed: () {
-                                                              context.pop();
-                                                            },
-                                                            style: ElevatedButton.styleFrom(
-                                                              backgroundColor: ColorConstant.red,
-                                                              padding: EdgeInsets.all(13),
-                                                              shape: RoundedRectangleBorder(
-                                                                  borderRadius: BorderRadius.circular(10)),
-                                                            ),
-                                                            child:Text(
-                                                              tr("Cancel"),
-                                                              style: Theme.of(context)
-                                                                  .textTheme
-                                                                  .bodyLarge!
-                                                                  .copyWith(
-                                                                  color: Colors.white,
-                                                                  fontSize: 12,
-                                                                  fontWeight: FontWeight.w700),
-                                                            ),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  )
 
                                                 ],
                                               ),
                                             ),
                                           ),
+                                          actions: [
+                                            Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                spacing: 10,
+                                                children: [
+                                                  Expanded(
+                                                    child: CustomButton(
+                                                      onPressed:
+                                                          () {
+                                                        formKey.currentState!.save();
+                                                        if(formKey.currentState!.validate()){
+                                                          context.read<RequestBloc>().add(
+                                                              AcceptReservationEvent(id: state.reservation.results![index].id!,
+                                                                  roomNumber: roomNumberController.text));
+                                                        }
+                                                      },
+                                                      style: ElevatedButton.styleFrom(
+                                                        backgroundColor: ColorConstant.primaryColor,
+                                                        padding: EdgeInsets.all(13),
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(10)),
+                                                      ),
+                                                      child: Text(
+                                                        tr("Submit"),
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyLarge!
+                                                            .copyWith(
+                                                            color: Colors.white,
+                                                            fontSize: 12,
+                                                            fontWeight: FontWeight.w700),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: CustomButton(
+                                                      onPressed: () {
+                                                        context.pop();
+                                                      },
+                                                      style: ElevatedButton.styleFrom(
+                                                        backgroundColor: ColorConstant.red,
+                                                        padding: EdgeInsets.all(13),
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(10)),
+                                                      ),
+                                                      child:Text(
+                                                        tr("Cancel"),
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyLarge!
+                                                            .copyWith(
+                                                            color: Colors.white,
+                                                            fontSize: 12,
+                                                            fontWeight: FontWeight.w700),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+
+                                            )
+                                          ],
                                         ));
                                   },
                                   style: ElevatedButton.styleFrom(

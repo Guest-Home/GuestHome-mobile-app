@@ -301,11 +301,10 @@ class BookedCard extends StatelessWidget {
                                       fontWeight: FontWeight.w500,
                                       fontSize: 12),
                             ),
-                            Expanded(
-                              child: StatusButton(
+                          StatusButton(
                                 status: getStatus(property.status.toString()),
                               ),
-                            ),
+
                           ],
                         ),
                       ),
@@ -334,38 +333,72 @@ class BookedCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                // if(getStatus(property.status!)==BookingStatus.approved)
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(horizontal:3),
-                //   child: Column(
-                //     crossAxisAlignment: CrossAxisAlignment.start,
-                //     children: [
-                //       Text(
-                //         tr("Booking Payment"),
-                //         textAlign: TextAlign.start,
-                //         overflow: TextOverflow.ellipsis,
-                //         maxLines: 1,
-                //         style: Theme.of(context)
-                //             .textTheme
-                //             .bodyMedium!
-                //             .copyWith(fontWeight: FontWeight.w700, fontSize: 12),
-                //       ),
-                //       Text(
-                //         tr("You have Paid Successfully. "),
-                //         textAlign: TextAlign.start,
-                //         overflow: TextOverflow.ellipsis,
-                //         maxLines: 1,
-                //         style: Theme.of(context)
-                //             .textTheme
-                //             .bodyMedium!
-                //             .copyWith(fontWeight: FontWeight.w400, fontSize: 12,color: ColorConstant.secondBtnColor
-                //                     .withValues(alpha: 0.8)),
-                //       ),
-                //
-                //     ],
-                //   ),
-                // ),
-                if (getStatus(property.status!) == BookingStatus.waitingPayment)
+                if(!property.house!.postedBy!.isPaymentRequired! &&
+                    getStatus(property.status!) == BookingStatus.pending ||
+                    getStatus(property.status!) == BookingStatus.approved)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal:3),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        tr("Booking Payment"),
+                        textAlign: TextAlign.start,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(fontWeight: FontWeight.w700, fontSize: 12),
+                      ),
+                      Text(
+                        tr("Your will pay on arrival. "),
+                        textAlign: TextAlign.start,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(fontWeight: FontWeight.w400, fontSize: 12,color: ColorConstant.secondBtnColor
+                                    .withValues(alpha: 0.8)),
+                      ),
+
+                    ],
+                  ),
+                ),
+                if(property.house!.postedBy!.isPaymentRequired! &&
+                    getStatus(property.status!) == BookingStatus.approved)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal:3),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          tr("Booking Payment"),
+                          textAlign: TextAlign.start,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(fontWeight: FontWeight.w700, fontSize: 12),
+                        ),
+                        Text(
+                          tr("You have Paid Successfully."),
+                          textAlign: TextAlign.start,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(fontWeight: FontWeight.w400, fontSize: 12,color: ColorConstant.secondBtnColor
+                              .withValues(alpha: 0.8)),
+                        ),
+
+                      ],
+                    ),
+                  ),
+                if (property.house!.postedBy!.isPaymentRequired! || getStatus(property.status!) == BookingStatus.waitingPayment )
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 3),
                     child: Column(
@@ -555,7 +588,7 @@ class BookedCard extends StatelessWidget {
                                                 width: MediaQuery.of(context)
                                                     .size
                                                     .width,
-                                                padding: EdgeInsets.all(15),
+                                                padding: EdgeInsets.symmetric(vertical: 15),
                                                 child: Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
