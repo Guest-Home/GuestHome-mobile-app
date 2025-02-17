@@ -581,16 +581,16 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                       subSectionText(tr("Name of the city")),
                                       CustomTextField(
                                         readOnly: true,
-                                        hintText: tr(widget.propertyEntity.city),
+                                        hintText: tr(cityController.text),
                                         textInputType: TextInputType.text,
                                         textEditingController: cityController,
                                         surfixIcon: SizedBox(
                                           child:CityDropDown(onSelected: (value) {
                                             cityController.text =tr(value);
-                                            context
-                                                .read<AddPropertyBloc>()
-                                                .add(AddCityEvent(city: value));
-                                          }),
+                                            context.read<AddPropertyBloc>().add(AddCityEvent(city: value));
+                                          },
+                                          hintText:widget.propertyEntity.city,
+                                          ),
                                         ),
                                         isMultiLine: false,
                                         onTextChnage: (value) {},

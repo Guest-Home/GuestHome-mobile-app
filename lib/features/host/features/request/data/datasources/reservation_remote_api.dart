@@ -42,8 +42,7 @@ class ReservationApiDataSourceImpl implements ReservationApiDataSource {
       Map<String,dynamic> roomNo={
         "room_number":data['room_number']
       };
-      final response =
-          await sl<DioClient>().put("${ApiUrl.acceptReservations}$id/",data: roomNo);
+      final response = await sl<DioClient>().put("${ApiUrl.acceptReservations}$id/",data: roomNo);
       if (response.statusCode == 200) {
         return Right(true);
       } else {
@@ -66,7 +65,7 @@ class ReservationApiDataSourceImpl implements ReservationApiDataSource {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.response!.data['error'].toString()));
+      return Left(ServerFailure(e.response!.data['msg'].toString()));
     }
   }
 }

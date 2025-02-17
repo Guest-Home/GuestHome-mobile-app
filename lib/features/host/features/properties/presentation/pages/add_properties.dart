@@ -965,9 +965,11 @@ class CityDropDown extends StatelessWidget {
   const CityDropDown({
     super.key,
     required this.onSelected,
+    this.hintText
   });
 
   final ValueChanged<String> onSelected;
+  final String? hintText;
   @override
   Widget build(BuildContext context) {
     return  BlocBuilder<CityBloc, CityState>(
@@ -976,7 +978,7 @@ class CityDropDown extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           isExpanded: true,
           elevation: 0,
-          hint: Text(tr("Addis Ababa")),
+          hint:Text(tr(hintText??"Addis Ababa")),
           decoration: InputDecoration(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),

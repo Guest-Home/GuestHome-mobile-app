@@ -204,8 +204,8 @@ class _RequestState extends State<Request> {
           BlocConsumer<RequestBloc,RequestState>(
         listener: (context, state) {
           if (state is AcceptedReservationState) {
-            context.read<RequestBloc>().add(GetReservationEvent());
             context.pop();
+            context.read<RequestBloc>().add(GetReservationEvent());
             showSuccessSnackBar(context, "reservation accepted");
           } else if (state is RejectedReservationState) {
             context.read<RequestBloc>().add(GetReservationEvent());
@@ -216,6 +216,7 @@ class _RequestState extends State<Request> {
             lodingDialog(context);
           }
           else if (state is ReservationErrorState) {
+            context.pop();
             showErrorSnackBar(context, state.failure.message);
           }
         },
