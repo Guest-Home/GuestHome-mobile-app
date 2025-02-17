@@ -109,11 +109,7 @@ class _NearHouseCardState extends State<NearHouseCard> {
                             .withValues(alpha: 0.4)
                     )
                 ),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    RichText(
+                RichText(
                         text: TextSpan(children: [
                           TextSpan(
                               text:tr("posted by"),
@@ -132,30 +128,6 @@ class _NearHouseCardState extends State<NearHouseCard> {
                               )
                           )
                         ])),
-                    if(widget.property.distance!=null)
-                    RichText(
-                        text: TextSpan(children: [
-                          TextSpan(
-                              text:widget.property.distance.toString(),
-                              style:Theme.of(context).textTheme.bodySmall!.copyWith(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  color: ColorConstant.secondBtnColor
-                                      .withValues(alpha: 0.4)
-                              )),
-                          TextSpan(
-                              text: " km away",
-                              style:Theme.of(context).textTheme.bodySmall!.copyWith(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  color: ColorConstant.secondBtnColor
-                                      .withValues(alpha: 0.4)
-                              )
-                          )
-                        ])),
-                  ],
-                ),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   spacing: 20,
@@ -184,6 +156,33 @@ class _NearHouseCardState extends State<NearHouseCard> {
                         ],
                       ),
                     ),
+                    if(widget.property.distance!=null)
+                      RichText(
+                          text: TextSpan(children: [
+                            TextSpan(
+                                text:widget.property.distance.toString(),
+                                style:Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: ColorConstant.secondBtnColor
+                                        .withValues(alpha: 0.4)
+                                )),
+                            TextSpan(
+                                text: " km away",
+                                style:Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: ColorConstant.secondBtnColor
+                                        .withValues(alpha: 0.4)
+                                )
+                            )
+                          ])),
+
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
                     Text(tr("See Detail"),style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                         color: ColorConstant.primaryColor,
                         fontWeight: FontWeight.w600,
