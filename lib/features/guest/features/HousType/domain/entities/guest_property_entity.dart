@@ -41,6 +41,7 @@ class ResultEntity extends Equatable {
   final int? rating;
   final String? language;
   final dynamic profilePicture;
+  final String? distance;
   final bool? isPaymentRequired;
   final List<HouseEntity>? houses;
 
@@ -52,12 +53,13 @@ class ResultEntity extends Equatable {
     this.rating,
     this.language,
     this.profilePicture,
+    this.distance,
     this.isPaymentRequired,
     this.houses,
   });
 
   @override
-  List<Object?> get props =>[id,userAccount,typeOfCustomer,tumbleImage,rating,language,profilePicture,isPaymentRequired,houses];
+  List<Object?> get props =>[id,userAccount,typeOfCustomer,tumbleImage,rating,language,profilePicture,distance,isPaymentRequired,houses];
 
 }
 

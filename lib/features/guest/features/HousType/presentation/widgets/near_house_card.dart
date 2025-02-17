@@ -63,7 +63,6 @@ class _NearHouseCardState extends State<NearHouseCard> {
           ),
           ListTile(
             contentPadding: EdgeInsets.symmetric(horizontal:8), // Adjust padding
-
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               spacing: 10,
@@ -110,25 +109,52 @@ class _NearHouseCardState extends State<NearHouseCard> {
                             .withValues(alpha: 0.4)
                     )
                 ),
-                RichText(
-                    text: TextSpan(children: [
-                      TextSpan(
-                          text:tr("posted by"),
-                          style:Theme.of(context).textTheme.bodySmall!.copyWith(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: ColorConstant.secondBtnColor
-                                  .withValues(alpha: 0.4)
-                          )),
-                      TextSpan(
-                          text: " @${widget.property.userAccount!.firstName} ${widget.property.userAccount!.lastName??""}",
-                          style:Theme.of(context).textTheme.bodySmall!.copyWith(
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
-    color:ColorConstant.secondBtnColor
-    )
-                         )
-                    ])),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    RichText(
+                        text: TextSpan(children: [
+                          TextSpan(
+                              text:tr("posted by"),
+                              style:Theme.of(context).textTheme.bodySmall!.copyWith(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: ColorConstant.secondBtnColor
+                                      .withValues(alpha: 0.4)
+                              )),
+                          TextSpan(
+                              text: " @${widget.property.userAccount!.firstName} ${widget.property.userAccount!.lastName??""}",
+                              style:Theme.of(context).textTheme.bodySmall!.copyWith(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color:ColorConstant.secondBtnColor
+                              )
+                          )
+                        ])),
+                    if(widget.property.distance!=null)
+                    RichText(
+                        text: TextSpan(children: [
+                          TextSpan(
+                              text:widget.property.distance.toString(),
+                              style:Theme.of(context).textTheme.bodySmall!.copyWith(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: ColorConstant.secondBtnColor
+                                      .withValues(alpha: 0.4)
+                              )),
+                          TextSpan(
+                              text: " km away",
+                              style:Theme.of(context).textTheme.bodySmall!.copyWith(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: ColorConstant.secondBtnColor
+                                      .withValues(alpha: 0.4)
+                              )
+                          )
+                        ])),
+                  ],
+                ),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -158,7 +184,6 @@ class _NearHouseCardState extends State<NearHouseCard> {
                         ],
                       ),
                     ),
-
                     Text(tr("See Detail"),style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                         color: ColorConstant.primaryColor,
                         fontWeight: FontWeight.w600,

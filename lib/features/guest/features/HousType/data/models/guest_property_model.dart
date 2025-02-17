@@ -28,6 +28,7 @@ class ResultModel extends ResultEntity  {
    required super.rating,
    required super.language,
    required super.profilePicture,
+   required super.distance,
    required super.isPaymentRequired,
    required super.houses,
   });
@@ -40,6 +41,7 @@ class ResultModel extends ResultEntity  {
     rating: json["rating"],
     language:json["language"],
     profilePicture: json["profilePicture"],
+    distance: json["distance"],
     isPaymentRequired: json["is_payment_required"],
     houses: List<HouseModel>.from(json["houses"].map((x) => HouseModel.fromMap(x))),
   );

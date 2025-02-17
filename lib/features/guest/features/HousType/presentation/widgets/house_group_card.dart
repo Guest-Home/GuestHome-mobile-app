@@ -174,6 +174,7 @@ class _HouseGroupCardState extends State<HouseGroupCard> {
                           )
                       )
                     ])),
+
                 RichText(
                         text: TextSpan(children: [
                           TextSpan(

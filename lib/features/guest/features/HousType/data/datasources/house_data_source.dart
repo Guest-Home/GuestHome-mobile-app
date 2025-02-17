@@ -82,6 +82,7 @@ class HouseDataSourceImpl implements HouseDataSource {
   Future<Either<Failure, GuestPropertyModel>> filterProperty(
       Map<String, dynamic> filterData) async {
     try {
+      print(filterData);
       final response =
           await sl<DioClient>().post(ApiUrl.filterProperties, data: filterData);
       if (response.statusCode == 200) {
