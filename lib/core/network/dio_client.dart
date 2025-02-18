@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
+import 'package:flutter/services.dart';
 import 'package:minapp/core/network/auth_interceptor.dart';
 import 'package:minapp/core/network/retry_on_connection_changeInterceptor.dart';
 import '../apiConstants/api_url.dart';
@@ -17,11 +21,40 @@ class DioClient {
               responseType: ResponseType.json,
               sendTimeout: const Duration(seconds: 20),
               receiveTimeout: const Duration(seconds: 20)),
-        )..interceptors.addAll([
-            AuthInterceptor(),
-            LoggerInterceptor(),
-            RetryOnConnectionChangeInterceptor(),
-          ]);
+        ){
+    // Configure SSL Handling
+    _initializeSSL();
+
+    // Add Interceptors
+    _dio.interceptors.addAll([
+      AuthInterceptor(),
+      LoggerInterceptor(),
+      RetryOnConnectionChangeInterceptor(),
+    ]);
+  }
+
+  /// Initialize SSL configuration for Dio
+  Future<void> _initializeSSL() async {
+    try {
+      final ByteData sslCert = await rootBundle.load('assets/certificates/fullchain.pem');
+      SecurityContext context = SecurityContext.defaultContext;
+      context.setTrustedCertificatesBytes(sslCert.buffer.asUint8List());
+
+      // Set up Dio's HTTP client adapter with the SSL context
+      (_dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
+        return HttpClient(context: context);
+      };
+    } catch (e) {
+      print("SSL Certificate Error: $e");
+    }
+  }
+    // ..interceptors.addAll([
+    //         AuthInterceptor(),
+    //         LoggerInterceptor(),
+    //         RetryOnConnectionChangeInterceptor(),
+    //       ]);
+
+
 
   // DOWNLOAD METHOD
   Future<Response> download(

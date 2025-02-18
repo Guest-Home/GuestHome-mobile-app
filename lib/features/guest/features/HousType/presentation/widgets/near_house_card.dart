@@ -180,15 +180,18 @@ class _NearHouseCardState extends State<NearHouseCard> {
 
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(tr("See Detail"),style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        color: ColorConstant.primaryColor,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14
-                    ),),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(tr("See Detail"),style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: ColorConstant.primaryColor,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14
+                      ),),
+                    ],
+                  ),
                 )
               ],
             ),

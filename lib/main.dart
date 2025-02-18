@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +36,7 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+ // HttpOverrides.global = MyHttpOverrides();
   setup();
   //Bloc.observer=MyBlocObserver();
   HydratedBloc.storage = await HydratedStorage.build(
@@ -131,7 +134,6 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               routerConfig: router,
               title: 'GuestHome',
-              //builder: DevicePreview.appBuilder,
               theme: appLightTheme);
         },
       ),
@@ -162,5 +164,14 @@ class MyBlocObserver extends BlocObserver {
       print('${bloc.runtimeType} $error $stackTrace');
     }
     super.onError(bloc, error, stackTrace);
+  }
+}
+
+
+class MyHttpOverrides extends HttpOverrides{
+  @override
+  HttpClient createHttpClient(SecurityContext? context){
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
   }
 }
