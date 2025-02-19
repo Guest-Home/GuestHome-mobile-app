@@ -12,6 +12,7 @@ class ChangeAppLocalEvent extends LanguageEvent{
   const ChangeAppLocalEvent(this.appLocal);
 }
 
+
 class ChangeAppLocalSetting extends LanguageEvent{
   final String appLocal;
 

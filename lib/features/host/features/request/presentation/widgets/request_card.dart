@@ -136,7 +136,7 @@ class RequestCard extends StatelessWidget {
                           children: [
                             Icon(Icons.arrow_circle_up,
                                 color: ColorConstant.primaryColor),
-                            titleText(context, tr('Check Out')),
+                            titleText(context, tr('Check out')),
                           ],
                         ),
                         valueText(
@@ -179,7 +179,7 @@ class RequestCard extends StatelessWidget {
                       children: [
                         titleText(context, tr('Unit type')),
                         valueText(context,
-                            "${reservationEntity.house!.price.toString()}${reservationEntity.house!.unit}")
+                            "${reservationEntity.house!.price.toString()}${tr(reservationEntity.house!.unit!)}")
                       ],
                     ),
                   ],

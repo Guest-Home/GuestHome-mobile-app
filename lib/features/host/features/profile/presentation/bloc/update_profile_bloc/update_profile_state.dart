@@ -54,3 +54,10 @@ class UpdateUserProfileLoadedState extends UpdateProfileState {
   @override
   List<Object> get props => [isUpdate];
 }
+
+class UpdateUserLanguageLoadedState extends UpdateProfileState {
+  final bool isUpdate;
+  const UpdateUserLanguageLoadedState({required this.isUpdate});
+  @override
+  List<Object> get props => [isUpdate];
+}

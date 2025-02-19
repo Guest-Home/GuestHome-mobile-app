@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:minapp/core/common/bloc/language_bloc.dart';
+import 'package:minapp/features/host/features/profile/presentation/bloc/update_profile_bloc/update_profile_bloc.dart';
 
 import '../../../../../../config/color/color.dart';
 import '../../../../../../core/common/back_button.dart';
@@ -57,10 +58,10 @@ class Language extends StatelessWidget {
                             suffixIcon: PopupMenuButton<String>(
                               icon: Icon(Icons.arrow_drop_down),
                               onSelected: (String value) {
-                                print(value);
-                                context
-                                    .read<LanguageBloc>()
-                                    .add(ChangeAppLocalSetting(value));
+                                context.read<LanguageBloc>().add(ChangeAppLocalSetting(value));
+                                // update user language
+                                context.read<UpdateProfileBloc>().add(UpdateUserLanguageEvent(value));
+
                               },
                               color: Colors.white,
                               itemBuilder: (BuildContext context) {
