@@ -36,7 +36,6 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
- // HttpOverrides.global = MyHttpOverrides();
   setup();
   //Bloc.observer=MyBlocObserver();
   HydratedBloc.storage = await HydratedStorage.build(
@@ -167,11 +166,3 @@ class MyBlocObserver extends BlocObserver {
   }
 }
 
-
-class MyHttpOverrides extends HttpOverrides{
-  @override
-  HttpClient createHttpClient(SecurityContext? context){
-    return super.createHttpClient(context)
-      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
-  }
-}
