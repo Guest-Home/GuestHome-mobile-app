@@ -1,5 +1,6 @@
 
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:minapp/core/error/failure.dart';
 import 'package:minapp/features/host/features/profile/domain/entities/deposit_transaction_model.dart';
 import 'package:minapp/features/host/features/profile/domain/entities/payment_config_entity.dart';
@@ -20,4 +21,6 @@ abstract class UserProfileRepository{
   Future<Either<Failure,DepositTransactionEntity>> getDepositTransaction(String url);
   Future<Either<Failure,bool>> paymentConfig(Map<String,dynamic> config);
   Future<Either<Failure,PaymentConfigEntity>> getPaymentConfig();
+
+  Future<Either<Failure,bool>> updateUserLanguage(FormData formdata);
 }

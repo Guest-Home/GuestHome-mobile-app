@@ -102,6 +102,7 @@ import 'features/guest/features/booked/domain/usecases/get_booking_detail_usecas
 import 'features/host/features/profile/domain/usecases/get_commision_usecase.dart';
 import 'features/host/features/profile/domain/usecases/get_payment_config_usecase.dart';
 import 'features/host/features/profile/domain/usecases/payment_config_usecase.dart';
+import 'features/host/features/profile/domain/usecases/update_user_language_usecase.dart';
 import 'features/search/domain/usecases/host_search_property_usecase.dart';
 
 final sl = GetIt.instance;
@@ -229,6 +230,7 @@ void setup() async {
   sl.registerSingleton<PaymentConfigUseCase>(PaymentConfigUseCase());
   sl.registerSingleton<GetPaymentConfigUseCase>(GetPaymentConfigUseCase());
   sl.registerSingleton<MakePaymentUseCase>(MakePaymentUseCase());
+  sl.registerSingleton<UpdateUserLanguageUseCase>(UpdateUserLanguageUseCase());
 
   // repository
 

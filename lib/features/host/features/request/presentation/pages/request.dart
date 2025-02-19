@@ -364,7 +364,7 @@ class _RequestState extends State<Request> {
                         children: [
                           titleText(context, tr('Unit type')),
                           valueText(context,
-                              "${state.reservation.results![index].house!.price.toString()}${state.reservation.results![index].house!.unit}")
+                              "${state.reservation.results![index].house!.price.toString()}${tr(state.reservation.results![index].house!.unit!)}")
                         ],
                       ),
                     ],

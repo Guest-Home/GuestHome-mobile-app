@@ -1,15 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:minapp/core/common/custom_button.dart';
 import 'package:minapp/core/common/enum/reservation_status_enum.dart';
 import 'package:minapp/core/utils/date_converter.dart';
-import 'package:minapp/core/utils/show_snack_bar.dart';
 import 'package:minapp/features/host/features/request/data/models/reservation_model.dart';
-import 'package:minapp/features/host/features/request/presentation/bloc/request_bloc.dart';
 import '../../../../../../config/color/color.dart';
-import '../../../../../../core/common/loading_indicator_widget.dart';
 
 class RequestCard extends StatelessWidget {
    const RequestCard(
@@ -136,7 +131,7 @@ class RequestCard extends StatelessWidget {
                           children: [
                             Icon(Icons.arrow_circle_up,
                                 color: ColorConstant.primaryColor),
-                            titleText(context, tr('Check Out')),
+                            titleText(context, tr('Check out')),
                           ],
                         ),
                         valueText(
@@ -179,7 +174,7 @@ class RequestCard extends StatelessWidget {
                       children: [
                         titleText(context, tr('Unit type')),
                         valueText(context,
-                            "${reservationEntity.house!.price.toString()}${reservationEntity.house!.unit}")
+                            "${reservationEntity.house!.price.toString()}${tr(reservationEntity.house!.unit!)}")
                       ],
                     ),
                   ],

@@ -26,3 +26,11 @@ class UpdateUserProfileEvent extends UpdateProfileEvent{
   @override
   List<Object?> get props =>[userData];
 }
+
+class UpdateUserLanguageEvent extends UpdateProfileEvent{
+  final String appLocal;
+
+  @override
+  List<Object?> get props =>[appLocal];
+  const UpdateUserLanguageEvent(this.appLocal);
+}

@@ -29,6 +29,8 @@ abstract class UserProfileDataSource {
   Future<Either<Failure,PlatformCommissionModel>> getPlatformCommission();
   Future<Either<Failure,DepositTransactionModel>> getDepositTransaction(String url);
 
+  Future<Either<Failure,bool>> updateUserLanguage(FormData formdata);
+
 
 
 }
@@ -66,8 +68,7 @@ class UserProfileDataSourceImple implements UserProfileDataSource {
       formData.files.add(MapEntry('profilePicture', multipartFile));
     }
     try {
-      final response =
-          await sl<DioClient>().put(ApiUrl.customer, data: formData);
+      final response = await sl<DioClient>().put(ApiUrl.customer, data: formData);
       if (response.statusCode == 200) {
         return Right(true);
       } else {
@@ -215,6 +216,20 @@ class UserProfileDataSourceImple implements UserProfileDataSource {
         return Right(paymentConfig);
       } else {
         return Left(ServerFailure(response.data['Error']));
+      }
+    } on DioException catch (e) {
+      return Left(ErrorResponse().mapDioExceptionToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> updateUserLanguage(FormData formdata)async{
+    try {
+      final response = await sl<DioClient>().put(ApiUrl.customer, data: formdata);
+      if (response.statusCode == 200) {
+        return Right(true);
+      } else {
+        return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
       return Left(ErrorResponse().mapDioExceptionToFailure(e));
