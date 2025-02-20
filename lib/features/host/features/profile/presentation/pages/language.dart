@@ -70,7 +70,7 @@ class Language extends StatelessWidget {
                                       (e) => PopupMenuItem(
                                           value: e.name,
                                           child: Text(e.name == "amharic"
-                                              ? "አማርኛ"
+                                              ? "አማርኛ":e.name=="afanOromo"?"afan oromo"
                                               : e.name)),
                                     )
                                     .toList();

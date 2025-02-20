@@ -250,12 +250,17 @@
   "Active Booking": "Active Booking",
   "Occupancy Rate": "Occupancy Rate",
   "Switch Guest": "Switch Guest",
-  "See Detail": "See Detail",
-  "See More": "See More",
-  "See Less": "See Less",
+  "See Detail": "See detail",
+  "See More": "See more",
+  "See Less": "See less",
   "See All": "See All",
   "7 Days": "7 Days",
   "30 Days": "30 Days",
   "60 Days": "60 Days",
-  "key metrics": "key metrics"
+  "key metrics": "key metrics",
+  "Assigned room number":"Assigned room number",
+  "Please enter the room number":"Please enter the room number",
+  "submit":"Submit",
+  "Room number": "Room number"
+
 }

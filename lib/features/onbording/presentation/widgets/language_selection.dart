@@ -62,7 +62,7 @@ class LanguageSelection extends StatelessWidget {
                             activeColor: ColorConstant.primaryColor,
                             tileColor: Colors.transparent,
                             selectedTileColor: ColorConstant.primaryColor,
-                            title: Text(e.name=="amharic"?"አማርኛ":
+                            title: Text(e.name=="amharic"?"አማርኛ":e.name=="afanOromo"?"afan oromo":
                               e.name,
                               style: Theme.of(context)
                                   .textTheme
