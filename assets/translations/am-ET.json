@@ -258,5 +258,9 @@
   "7 Days": "7 ቀናት",
   "30 Days": "30 ቀናት",
   "60 Days": "60 ቀናት",
-  "key metrics":"ቁልፍ መለኪያዎች"
+  "key metrics":"ቁልፍ መለኪያዎች",
+  "Assigned room number":"የተመደበው የክፍል ቁጥር",
+  "Please enter the room number":"እባክዎ የክፍሉን ቁጥር ያስገቡ",
+  "submit":"አስገባ",
+  "Room number": "የክፍል ቁጥር"
 }

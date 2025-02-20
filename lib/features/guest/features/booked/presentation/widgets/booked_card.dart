@@ -279,7 +279,7 @@ class BookedCard extends StatelessWidget {
                           RichText(
                               text: TextSpan(children: [
                                 TextSpan(
-                                  text: tr("Room number "),
+                                  text: tr("Room number"),
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyMedium!
@@ -287,7 +287,7 @@ class BookedCard extends StatelessWidget {
                                       fontWeight: FontWeight.w500, fontSize: 12),
                                 ),
                                 TextSpan(
-                                  text: property.assignedRoom,
+                                  text:" ${property.assignedRoom}",
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyMedium!
@@ -378,7 +378,7 @@ class BookedCard extends StatelessWidget {
                               .copyWith(fontWeight: FontWeight.w700, fontSize: 12),
                         ),
                         Text(
-                          tr("You have Paid Successfully."),
+                          tr("You have Paid Successfully"),
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
@@ -410,7 +410,7 @@ class BookedCard extends StatelessWidget {
                                   fontWeight: FontWeight.w700, fontSize: 12),
                         ),
                         Text(
-                          tr("Please pay your booking payment under 1 hour "),
+                          tr("Please pay your booking payment under 1 hour"),
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
@@ -546,7 +546,7 @@ class BookedCard extends StatelessWidget {
                                                         style: TextStyle(color: ColorConstant.secondBtnColor.withValues(alpha: 0.7)))
                                                   ])),
                                               CustomTextField(
-                                                  hintText: "phone number",
+                                                  hintText: tr("phone number"),
                                                   textEditingController: phoneController,
                                                   surfixIcon: null,
                                                   prifixIcon: CountryCodePicker(

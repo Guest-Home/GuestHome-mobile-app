@@ -10,6 +10,7 @@ import 'package:minapp/core/common/custom_button.dart';
 import 'package:minapp/core/common/loading_indicator_widget.dart';
 import 'package:minapp/features/auth/presentation/bloc/log_out/log_out_bloc.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../../core/common/spin_kit_loading.dart';
 import '../../../../../../core/utils/show_snack_bar.dart';
@@ -135,7 +136,7 @@ class _ProfileState extends State<Profile> {
                                                   fontSize: 14),
                                         ),
                                         Text(
-                                          state.userProfileEntity.typeOfCustomer!,
+                                          tr(state.userProfileEntity.typeOfCustomer!),
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodySmall!
@@ -182,7 +183,7 @@ class _ProfileState extends State<Profile> {
                                                         fontWeight: FontWeight.w700,
                                                         fontSize: 14),
                                               ),
-                                              Text("your current deposited amount ",
+                                              Text(tr("your current deposited amount"),
                                                 textAlign: TextAlign.start,
                                                 style: Theme.of(context)
                                                     .textTheme
@@ -221,56 +222,6 @@ class _ProfileState extends State<Profile> {
                                       ),
                                     ),
                                   ),
-
-                                //switch to guest button
-                                // if (GoRouter.of(context).state!.name == 'profile')
-                                // Container(
-                                //       width: MediaQuery.of(context).size.width / 2,
-                                //       margin: EdgeInsets.only(
-                                //           left: 10, right: 10, bottom: 15, top: 10),
-                                //       child: CustomButton(
-                                //           onPressed: () {
-                                //             if (GoRouter.of(context).state!.name == 'profile'){
-                                //               context.goNamed('houseType');
-                                //             }else{
-                                //               context.goNamed('properties');
-                                //             }
-                                //
-                                //           },
-                                //           style: ElevatedButton.styleFrom(
-                                //               elevation: 10,
-                                //               side: BorderSide(
-                                //                   color:
-                                //                       ColorConstant.secondBtnColor),
-                                //               backgroundColor:
-                                //                   ColorConstant.secondBtnColor),
-                                //           child: Row(
-                                //             mainAxisAlignment:
-                                //                 MainAxisAlignment.center,
-                                //             spacing: 5,
-                                //             children: [
-                                //               Icon(
-                                //                 Icons.recycling,
-                                //                 color: Colors.white,
-                                //               ),
-                                //               if (GoRouterState.of(context).matchedLocation == '/profile')
-                                //               Text("Switch to Guest",
-                                //                   style: Theme.of(context)
-                                //                       .textTheme
-                                //                       .bodySmall!
-                                //                       .copyWith(
-                                //                         color: Colors.white,
-                                //                       )),
-                                //               if (GoRouterState.of(context).matchedLocation=='/guestProfile')
-                                //                 Text("Switch to Host",
-                                //                     style: Theme.of(context)
-                                //                         .textTheme
-                                //                         .bodySmall!
-                                //                         .copyWith(
-                                //                       color: Colors.white,
-                                //                     )),
-                                //             ],
-                                //           ))),
                               ],
                             );
 
@@ -387,6 +338,46 @@ class _ProfileState extends State<Profile> {
                       leading: Image.asset("assets/icons/account.png"),
                       title: Text(
                        tr("Account"),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(fontWeight: FontWeight.w400, fontSize: 14),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        size: 17,
+                      ),
+                    ),
+                    ListTile(
+                      onTap: () async{
+                        final Uri url = Uri.parse("https://etguesthome.com/");
+                        if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+                        throw 'Could not launch $url';
+                        }
+                      },
+                      leading: Icon(Icons.info_outline,color: ColorConstant.inActiveColor.withValues(alpha: 0.6),),
+                      title: Text(
+                       tr("About us"),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(fontWeight: FontWeight.w400, fontSize: 14),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        size: 17,
+                      ),
+                    ),
+                    ListTile(
+                      onTap: () async{
+                        final Uri url = Uri.parse("https://etguesthome.com/TermCondition.html");
+                        if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+                          throw 'Could not launch $url';
+                        }
+                      },
+                      leading: Icon(Icons.privacy_tip_outlined,color: ColorConstant.inActiveColor.withValues(alpha: 0.6),),
+                      title: Text(
+                        tr("Term and condition"),
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium!

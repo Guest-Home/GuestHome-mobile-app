@@ -651,7 +651,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                         prifixIcon: null,
                                       ),
                                       SizedBox(height: 5),
-                                      subSectionText("Price"),
+                                      subSectionText(tr("Price")),
                                       CustomTextField(
                                         hintText: 'price',
                                         textEditingController: priceController,
