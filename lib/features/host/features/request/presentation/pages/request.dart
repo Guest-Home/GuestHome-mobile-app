@@ -377,7 +377,7 @@ class _RequestState extends State<Request> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       spacing: 10,
                       children: [
-                        Text(tr("Assigned Room Number :"), style:
+                        Text("${tr("Assigned room number")}:", style:
                         Theme.of(context).textTheme.bodyLarge!.copyWith(
                           fontSize: 12,
                           fontWeight: FontWeight.w700,

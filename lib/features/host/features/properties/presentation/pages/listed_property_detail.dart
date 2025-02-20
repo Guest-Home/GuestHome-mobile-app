@@ -704,12 +704,21 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                     spacing: 10,
                                     children: [
                                       UploadPhoto(
-                                        ontTap: () {
-                                          context
-                                              .read<AddPropertyBloc>()
-                                              .add(SelectPhotosEvent());
-                                        },
+                                        ontTap:state.totalImageSize<=10? () {
+                                          context.read<AddPropertyBloc>().add(SelectPhotosEvent());
+                                        }:(){},
                                       ),
+                                      if(state.images.isNotEmpty)
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        spacing: 5,
+                                        children: [
+                                          Text("Total Image Size",style: Theme.of(context).textTheme.bodySmall,),
+                                          Text("${state.totalImageSize.toStringAsFixed(2)} MB",style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                              color: ColorConstant.primaryColor,
+                                              fontWeight: FontWeight.w700
+                                          ),)
+                                        ],),
                                       //  photo
                                       SizedBox(
                                           width: double.infinity,
@@ -820,28 +829,62 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                                 priceController.text ||
                                             widget.propertyEntity.numberOfRoom
                                                     .toString() !=
-                                                roomController.text) {
-                                            context.read<AddPropertyBloc>().add(
+                                                roomController.text ||
+                                              state.images.isNotEmpty
+                                        ) {
+
+                                          if(state.images.isNotEmpty){
+                                            if(state.totalImageSize<=10){
+                                              context.read<AddPropertyBloc>().add(
                                                   UpdatePropertyEvent(
                                                       propertyEntity: {
-                                                    'title': nameController.text,
-                                                    'description': descriptionController.text,
-                                                    'city': cityController.text,
-                                                    'typeofHouse': state.houseType.isEmpty? widget.propertyEntity.typeofHouse : state.houseType,
-                                                    if (widget.propertyEntity.latitude != lat.toString())
-                                                      'latitude': lat,
-                                                    if (widget.propertyEntity.longitude != long.toString())
-                                                      'longitude': long,
-                                                    'price': priceController.text,
-                                                    'unit': unitController.text.isEmpty
-                                                        ? widget.propertyEntity.unit
-                                                        : unitController.text,
-                                                    'number_of_room': roomController.text,
-                                                    'sub_description':state.amenities.join(','),
-                                                    'specificAddress': addressNmaeController.text
-                                                  },
+                                                        'title': nameController.text,
+                                                        'description': descriptionController.text,
+                                                        'city': cityController.text,
+                                                        'typeofHouse': state.houseType.isEmpty? widget.propertyEntity.typeofHouse : state.houseType,
+                                                        if (widget.propertyEntity.latitude != lat.toString())
+                                                          'latitude': lat,
+                                                        if (widget.propertyEntity.longitude != long.toString())
+                                                          'longitude': long,
+                                                        'price': priceController.text,
+                                                        'unit': unitController.text.isEmpty
+                                                            ? widget.propertyEntity.unit
+                                                            : unitController.text,
+                                                        'number_of_room': roomController.text,
+                                                        'sub_description':state.amenities.join(','),
+                                                        'specificAddress': addressNmaeController.text
+                                                      },
                                                       id: widget
                                                           .propertyEntity.id));
+                                            }else{
+                                              showErrorSnackBar(
+                                                  context, tr("Total image size must be 10 MB please remove some images"));
+                                            }
+
+                                          }else{
+                                            context.read<AddPropertyBloc>().add(
+                                                UpdatePropertyEvent(
+                                                    propertyEntity: {
+                                                      'title': nameController.text,
+                                                      'description': descriptionController.text,
+                                                      'city': cityController.text,
+                                                      'typeofHouse': state.houseType.isEmpty? widget.propertyEntity.typeofHouse : state.houseType,
+                                                      if (widget.propertyEntity.latitude != lat.toString())
+                                                        'latitude': lat,
+                                                      if (widget.propertyEntity.longitude != long.toString())
+                                                        'longitude': long,
+                                                      'price': priceController.text,
+                                                      'unit': unitController.text.isEmpty
+                                                          ? widget.propertyEntity.unit
+                                                          : unitController.text,
+                                                      'number_of_room': roomController.text,
+                                                      'sub_description':state.amenities.join(','),
+                                                      'specificAddress': addressNmaeController.text
+                                                    },
+                                                    id: widget
+                                                        .propertyEntity.id));
+                                          }
+
                                         }
                                       }
 

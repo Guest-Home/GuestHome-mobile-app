@@ -80,6 +80,12 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
             final updatedAmenityList = List.of(state.images);
             updatedAmenityList.addAll(images);
             emit(state.copyWith(images: updatedAmenityList));
+            double totalSizeMB = 0.0;
+            for (XFile image in state.images) {
+              int sizeInBytes = await image.length();
+              totalSizeMB += sizeInBytes / (1024 * 1024); // Convert to MB
+            }
+            emit(state.copyWith(totalImageSize: totalSizeMB));
           } else {
             emit(ImagePickerError(state, 'No image selected.'));
           }
@@ -96,10 +102,16 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
       emit(state.copyWith(latitude: event.lat, longitude: event.long));
     });
     on<RemovePictureEvent>(
-      (event, emit) {
+      (event, emit) async{
         final updatedAmenityList = List.of(state.images);
         updatedAmenityList.removeAt(event.index);
         emit(state.copyWith(images: updatedAmenityList));
+        double totalSizeMB = 0.0;
+        for (XFile image in state.images) {
+          int sizeInBytes = await image.length();
+          totalSizeMB += sizeInBytes / (1024 * 1024); // Convert to MB
+        }
+        emit(state.copyWith(totalImageSize: totalSizeMB));
       },
     );
 

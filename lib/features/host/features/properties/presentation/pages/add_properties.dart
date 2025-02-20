@@ -554,36 +554,45 @@ class _AddPropertiesState extends State<AddProperties> {
                             height: 5,
                           ),
                           UploadPhoto(
-                            ontTap: () {
+                            ontTap:state.totalImageSize<=10?
+                                () {
                               context
                                   .read<AddPropertyBloc>()
                                   .add(SelectPhotosEvent());
-                            },
+                            }:(){},
                           ),
-                          SizedBox(
-                            height: 2,
-                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            spacing: 5,
+                            children: [
+                            Text("Total Image Size",style: Theme.of(context).textTheme.bodySmall,),
+                            Text("${state.totalImageSize.toStringAsFixed(2)} MB",style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              color: ColorConstant.primaryColor,
+                              fontWeight: FontWeight.w700
+                            ),)
+                          ],),
                           Expanded(
                               child: ListView.builder(
                             itemCount: state.images.length,
-                            itemBuilder: (context, index) => Card(
-                                elevation: 0.2,
-                                color: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    side: BorderSide(
-                                        color: ColorConstant.cardGrey)),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: PropertyPhotoCard(
-                                    image: state.images[index],
-                                    ontap: () {
-                                      context.read<AddPropertyBloc>().add(
-                                          RemovePictureEvent(index: index));
-                                    },
-                                  ),
-                                )),
-                          ))
+                            itemBuilder: (context, index) =>  Card(
+                                  elevation: 0.2,
+                                  color: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      side: BorderSide(
+                                          color: ColorConstant.cardGrey)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: PropertyPhotoCard(
+                                        image: state.images[index],
+                                        ontap: () {
+                                          context.read<AddPropertyBloc>().add(
+                                              RemovePictureEvent(index: index));
+                                        },
+                                    ),
+                                  )),
+                            ),
+                          )
                         ],
                       ),
                     ),
@@ -797,9 +806,13 @@ class _AddPropertiesState extends State<AddProperties> {
                             child: CustomButton(
                                 onPressed: () {
                                   if (state.step != 0) {
-                                    context
-                                        .read<AddPropertyBloc>()
-                                        .add(BackStepEvent());
+                                    if(state is AddNewPropertyLoading){
+                                    }else{
+                                      context
+                                          .read<AddPropertyBloc>()
+                                          .add(BackStepEvent());
+                                    }
+
                                   } else {
                                     context.goNamed('properties');
                                   }
@@ -826,9 +839,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                       showErrorSnackBar(
                                           context, "Please select house type");
                                     } else {
-                                      context
-                                          .read<AddPropertyBloc>()
-                                          .add(NextStepEvent());
+                                      context.read<AddPropertyBloc>().add(NextStepEvent());
                                     }
                                   } else if (state.step == 1) {
                                     _houseFormKey.currentState!.validate();
@@ -867,15 +878,23 @@ class _AddPropertiesState extends State<AddProperties> {
                                     if (state.images.isEmpty) {
                                       showErrorSnackBar(
                                           context, "Please select images");
-                                    } else {
-                                      context
-                                          .read<AddPropertyBloc>()
-                                          .add(NextStepEvent());
+                                    }
+                                    else {
+                                      if(state.totalImageSize<=10){
+                                         context.read<AddPropertyBloc>().add(NextStepEvent());
+                                      }else{
+                                        showErrorSnackBar(
+                                            context, "Total image size must be 10 MB please remove some images");
+                                      }
+
                                     }
                                   } else if (state.step == 6) {
-                                    context
-                                        .read<AddPropertyBloc>()
-                                        .add(AddNewPropertyEvent());
+                                    if(state is AddNewPropertyLoading){
+
+                                    }else{
+                                      context.read<AddPropertyBloc>().add(AddNewPropertyEvent());
+                                    }
+
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
