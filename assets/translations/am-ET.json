@@ -244,7 +244,6 @@
   "No": "አይ",
   "Not Found": "አልተገኘም",
   "The property you are searching is not found, please search again": "የፈለጉት ንብረት አልተገኘም፣ እባክዎ ዳግም ፈልጉ",
-  "Your current deposited amount": "የአሁኑ የተቀመጠዎት መጠን",
   "Wolaita Sodo": "ወላይታ ሶዶ",
   "Jimma": "ጅማ",
   "Revenue": "ገቢ",
@@ -263,5 +262,9 @@
   "Please enter the room number":"እባክዎ የክፍሉን ቁጥር ያስገቡ",
   "submit":"አስገባ",
   "Room number": "የክፍል ቁጥር",
-  "Select": "ይምረጡ"
+  "Select": "ይምረጡ",
+  "Term and condition":"የውልና ሁኔታዎች",
+  "Amount": "መጠን",
+  "Your current deposited amount": "አሁን ያለዎት የተቀማጭ ገንዘብ መጠን"
+
 }
