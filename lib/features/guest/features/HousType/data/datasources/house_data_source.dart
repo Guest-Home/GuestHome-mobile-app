@@ -74,7 +74,7 @@ class HouseDataSourceImpl implements HouseDataSource {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      return Left(ErrorResponse().mapDioExceptionToFailure(e));
+      return Left(ServerFailure(e.response!.data['error']));
     }
   }
 
@@ -82,7 +82,6 @@ class HouseDataSourceImpl implements HouseDataSource {
   Future<Either<Failure, GuestPropertyModel>> filterProperty(
       Map<String, dynamic> filterData) async {
     try {
-      print(filterData);
       final response =
           await sl<DioClient>().post(ApiUrl.filterProperties, data: filterData);
       if (response.statusCode == 200) {

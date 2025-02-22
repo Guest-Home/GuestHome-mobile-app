@@ -51,6 +51,7 @@
   "Book": "Qabadhu",
   "Cancel": "Haquu",
   "ETB": " Biirrii ITO ",
+  "Birr": " Biirrii ITO ",
   "day": "Guyyaa",
   "km away": "Km Fagaata",
   "Clear all": "Hunda Haqi",
@@ -262,5 +263,8 @@
   "Assigned room number":"Lakkoofsa kutaa kenname",
   "Please enter the room number":"Maaloo, lakkoofsa kutaa galchaa",
   "submit":"Galchi",
-  "Room number": "kutaa kenname"
+  "Room number": "kutaa kenname",
+  "Select": "magaalaa",
+  "Term and condition": "Ulaagaalee fi haalota",
+  "Amount": "Hanga"
 }

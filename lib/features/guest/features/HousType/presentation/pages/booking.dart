@@ -38,6 +38,7 @@ final int id;
       showBookedDialog(context);
     }
     else if(state is BookingErrorState){
+      context.pop();
       showErrorSnackBar(context, state.failure.message);
     }
   },

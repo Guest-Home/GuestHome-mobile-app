@@ -5,13 +5,13 @@ class FilePicker {
 
   Future<XFile?> picImage() async {
     // make it with isolates
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery,requestFullMetadata: true);
 
     return image;
   }
 
   Future<List<XFile>?> picMultipleImage() async {
-    final List<XFile> images = await picker.pickMultiImage();
+    final List<XFile> images = await picker.pickMultiImage(requestFullMetadata: true);
     return images;
   }
 }

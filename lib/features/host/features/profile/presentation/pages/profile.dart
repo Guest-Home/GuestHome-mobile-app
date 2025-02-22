@@ -183,7 +183,7 @@ class _ProfileState extends State<Profile> {
                                                         fontWeight: FontWeight.w700,
                                                         fontSize: 14),
                                               ),
-                                              Text(tr("your current deposited amount"),
+                                              Text(tr("Your current deposited amount"),
                                                 textAlign: TextAlign.start,
                                                 style: Theme.of(context)
                                                     .textTheme
@@ -208,7 +208,7 @@ class _ProfileState extends State<Profile> {
                                                             .primaryColor),
                                               ),
                                               Text(
-                                                "ETB",
+                                                tr("ETB"),
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .bodySmall!
