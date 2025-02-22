@@ -97,7 +97,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                     spacing: 16,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(tr("opt verification"),
+                      Text(tr("otp verification"),
                         style: Theme.of(context)
                             .textTheme
                             .headlineMedium!
