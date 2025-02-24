@@ -118,7 +118,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                                         fontWeight: FontWeight.w400),
                               ),
                               TextSpan(
-                                  text: state.phoneNumber.substring(1),
+                                  text: "+${state.phoneNumber.substring(1)}",
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyMedium!

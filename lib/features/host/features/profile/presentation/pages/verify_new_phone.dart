@@ -128,7 +128,7 @@ class _VerifyNewPhoneState extends State<VerifyNewPhone> {
                         fontWeight: FontWeight.w400),
                   ),
                   TextSpan(
-                      text:state.newPhone,
+                      text: "+${state.newPhone}",
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!

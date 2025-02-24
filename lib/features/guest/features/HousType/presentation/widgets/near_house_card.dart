@@ -47,9 +47,15 @@ class _NearHouseCardState extends State<NearHouseCard> {
                 borderRadius: BorderRadius.circular(20),
                 child: CachedNetworkImage(
                   imageUrl: widget.property.tumbleImage??"",
-                  placeholder: (context, url) => Icon(
-                    Icons.photo,
-                    color: Colors.black12,
+                  placeholder: (context, url) => Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height*0.6,
+                    color: ColorConstant.cardGrey,
+                    child: Icon(
+                      Icons.roofing,
+                      color: Colors.black12,
+                      size: 100,
+                    ),
                   ),
                   errorWidget: (context, url, error) =>
                       Icon(Icons.image),
