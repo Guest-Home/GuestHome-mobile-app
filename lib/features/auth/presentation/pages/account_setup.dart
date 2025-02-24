@@ -59,7 +59,7 @@ class AccountSetup extends StatelessWidget {
                     ),
                     CustomTextField(
                         textEditingController: _phoneController,
-                        hintText: "988885555",
+                        hintText: "9********",
                         surfixIcon: null,
                         validator: (value) {
                           if (!Validation.numberValidation(value ?? "")) {

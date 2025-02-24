@@ -308,7 +308,7 @@ class _VerifyOldPhoneState extends State<VerifyOldPhone> {
                                   ])),
                             ),
                             CustomTextField(
-                                hintText: "987654321",
+                                hintText: "9********",
                                 surfixIcon: null,
                                 validator: (value) {
                                   if (value!.isEmpty ||
