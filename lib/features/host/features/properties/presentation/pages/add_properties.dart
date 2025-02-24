@@ -188,7 +188,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                   context, tr("Registered house name"), true),
                               CustomTextField(
                                 textEditingController: nameController,
-                                hintText: "eg Diamond Guest House",
+                                hintText: "eg: Diamond Guest House",
                                 surfixIcon: null,
                                 textInputType: TextInputType.text,
                                 isMultiLine: false,
@@ -211,7 +211,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                   context, tr("Description of the house"), true),
                               CustomTextField(
                                 textEditingController: descriptionController,
-                                hintText: "eg Diamond Guest House",
+                                hintText: "eg: Diamond Guest House",
                                 surfixIcon: null,
                                 isMultiLine: true,
                                 textInputType: TextInputType.multiline,
@@ -419,7 +419,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                     tr("Known or address name of the place"), true),
                                 CustomTextField(
                                   textEditingController: addressNmaeController,
-                                  hintText: "e.g Gurd Shola beside tele",
+                                  hintText: "e.g: Gurd Shola beside tele",
                                   surfixIcon: null,
                                   isMultiLine: false,
                                   validator: (value) {
@@ -486,7 +486,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                     true),
                                 CustomTextField(
                                   textEditingController: roomController,
-                                  hintText: "eg 4",
+                                  hintText: "eg: 4",
                                   surfixIcon: null,
                                   isMultiLine: false,
                                   validator: (value) {
@@ -508,7 +508,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                 stepSutTitle(context, tr('Enter the price'), true),
                                 CustomTextField(
                                   textEditingController: priceController,
-                                  hintText: "500",
+                                  hintText: "eg: 500",
                                   surfixIcon: TextButton.icon(
                                     iconAlignment: IconAlignment.end,
                                     onPressed: () {

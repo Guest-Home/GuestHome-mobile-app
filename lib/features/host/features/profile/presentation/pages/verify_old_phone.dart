@@ -137,8 +137,7 @@ class _VerifyOldPhoneState extends State<VerifyOldPhone> {
                                 textAlign: TextAlign.start,
                                 text: TextSpan(children: [
                                   TextSpan(
-                                    text:
-                                        'Before changing phone number  we need to verify you old phone number.  Please enter the one time password sent to your mobile number ',
+                                    text:tr("Before changing your phone number, we need to verify your old phone number. Please enter the one-time password sent to your mobile number"),
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium!
@@ -147,7 +146,7 @@ class _VerifyOldPhoneState extends State<VerifyOldPhone> {
                                             fontWeight: FontWeight.w400),
                                   ),
                                   TextSpan(
-                                      text: state.oldPhone,
+                                      text: " +${state.oldPhone}",
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium!
