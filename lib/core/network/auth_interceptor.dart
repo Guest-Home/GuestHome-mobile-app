@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/core/apiConstants/api_url.dart';
@@ -10,12 +11,25 @@ class AuthInterceptor extends Interceptor {
   @override
   Future<void> onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
-    // Retrieve the token from local storage
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? authToken = prefs.getString('access'); // Replace with your key
-    // If the token is not null, add it to the headers
-    if (authToken != null) {
-      options.headers['Authorization'] = 'Bearer $authToken';
+    List<String> authRequiredEndpoints = [
+      '/hostapp/api/v1/amenities/',
+      '/hostapp/api/v1/cities/',
+      '/guestapp/api/v1/properties_by_type/',
+      '/guestapp/api/v1/property_trending/',
+      '/guestapp/api/v1/filter_properties/',
+      '/guestapp/api/v1/search_properties/',
+      '/hostapp/api/v1/property_types/',
+      'authapp/api/v1/otp/'
+    ];
+    bool requiresAuth = authRequiredEndpoints.any((endpoint) => options.path.contains(endpoint));
+    if (!requiresAuth) {
+      // Retrieve the token from local storage
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? authToken = prefs.getString('access'); // Replace with your key
+      // If the token is not null, add it to the headers
+      if (authToken != null) {
+        options.headers['Authorization'] = 'Bearer $authToken';
+      }
     }
     // Proceed with the request
     return super.onRequest(options, handler);
@@ -53,22 +67,26 @@ class AuthInterceptor extends Interceptor {
   Future<String?> _refreshToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? refreshToken = prefs.getString('refresh'); // Replace with your key
-
     if (refreshToken == null) {
       return null; // No refresh token available
     }
 
     // Make a request to refresh the token
     try {
+      if (kDebugMode) {
+        print("get redresh token token");
+      }
       final response = await Dio().post(
         ApiUrl.baseUrl +
             ApiUrl.refresh, // Replace with your refresh token endpoint
         data: {'refresh': refreshToken},
       );
+      if (kDebugMode) {
+        print(response.data);
+      }
 
       // Assuming the new token is in the response
-      String newToken =
-          response.data['access']; // Adjust based on your API response
+      String newToken = response.data['access']; // Adjust based on your API response
       String refreshTo =
           response.data['refresh']; // Adjust based on your API response
       await prefs.setString('access', newToken); // Store the new token
@@ -76,7 +94,9 @@ class AuthInterceptor extends Interceptor {
       return newToken;
     } catch (e) {
       // Handle error (e.g., log it, clear tokens, etc.)
-
+       if (kDebugMode) {
+         print(e);
+       }
       return null;
     }
   }
