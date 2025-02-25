@@ -47,6 +47,7 @@ class AboutHostCard extends StatelessWidget {
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                if(postedByDetailEntity.userAccount!=null)
                 Text("${postedByDetailEntity.userAccount!.firstName!} ${postedByDetailEntity.userAccount!.lastName!}",
                   style: Theme.of(context).textTheme
                   .bodyMedium!.copyWith(
@@ -90,6 +91,7 @@ class AboutHostCard extends StatelessWidget {
     fontSize: 12,
     fontWeight: FontWeight.w400
     ),),
+                if(postedByDetailEntity.userAccount!=null)
                 Text(
                   postedByDetailEntity.userAccount!.username==postedByDetailEntity.phoneNumber?"": postedByDetailEntity.userAccount!.username!,
                   style: Theme.of(context)

@@ -224,9 +224,11 @@ class BookedCard extends StatelessWidget {
                                       fontWeight: FontWeight.w400,
                                       color: ColorConstant.secondBtnColor
                                           .withValues(alpha: 0.6))),
+                          if(property.house!.postedBy!.userAccount!=null)
                           TextSpan(
                               text:
-                                  " @${property.house!.postedBy!.userAccount!.firstName} ${property.house!.postedBy!.userAccount!.lastName}",
+                                  " @${property.house!.postedBy!.userAccount!.firstName}"
+                                      " ${property.house!.postedBy!.userAccount!.lastName}",
                               style: TextStyle(
                                   color: ColorConstant.secondBtnColor
                                       .withValues(alpha: 1)))
