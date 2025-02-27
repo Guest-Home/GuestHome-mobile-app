@@ -17,6 +17,7 @@ import 'package:minapp/core/common/custom_text_field.dart';
 import 'package:minapp/core/common/loading_indicator_widget.dart';
 import 'package:minapp/core/common/spin_kit_loading.dart';
 import 'package:minapp/core/common/upload_photo_widget.dart';
+import 'package:minapp/core/utils/get_address_name.dart';
 import 'package:minapp/core/utils/show_snack_bar.dart';
 import 'package:minapp/features/host/features/properties/domain/entities/property_entity.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/add_property/add_property_bloc.dart';
@@ -51,6 +52,11 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
 
   final _formKey = GlobalKey<FormState>();
 
+  late bool isEditAbout=false;
+  late bool isEditAmenities=false;
+  late bool isEditLocation=false;
+  late bool isEditPrice=false;
+
   @override
   void initState() {
     super.initState();
@@ -69,7 +75,6 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
     long = double.parse(widget.propertyEntity.longitude);
     mapController = MapController();
     context.read<AmenitiesBloc>().add(GetAmenityEvent());
-
 
   }
 
@@ -285,16 +290,24 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     sectionTitle(context, tr('About the house')),
-                                    Text(
-                                     tr("Edit"),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall!
-                                          .copyWith(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w400,
-                                              decoration:
-                                                  TextDecoration.underline),
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                         isEditAbout=!isEditAbout;
+                                        });
+                                      },
+                                      child: Text(
+                                       tr("Edit"),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall!
+                                            .copyWith(
+                                                color: isEditAbout?ColorConstant.primaryColor:ColorConstant.secondBtnColor,
+                                                fontSize: 14,
+                                                fontWeight: isEditAbout? FontWeight.w700:FontWeight.w500,
+                                                decoration:
+                                                    TextDecoration.underline),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -308,6 +321,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                       subSectionText(tr('Registered house name')),
                                       CustomTextField(
                                         hintText: 'title',
+                                        enabled: isEditAbout,
                                         textEditingController: nameController,
                                         surfixIcon: null,
                                         isMultiLine: false,
@@ -329,6 +343,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                       CustomTextField(
                                           surfixIcon: null,
                                           isMultiLine: true,
+                                          enabled: isEditAbout,
                                           onTextChnage: (value) {},
                                           textInputType: TextInputType.text,
                                           validator: (value) {
@@ -366,18 +381,24 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       sectionTitle(context,tr("House amenities")),
-                                      Text(
-                                         tr("Edit"),
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            isEditAmenities=!isEditAmenities;
+                                          });
+                                        },
+                                        child: Text(
+                                          tr("Edit"),
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodySmall!
                                               .copyWith(
+                                              color: isEditAmenities?ColorConstant.primaryColor:ColorConstant.secondBtnColor,
                                               fontSize: 14,
-                                              fontWeight: FontWeight.w400,
-                                              decoration:
-                                              TextDecoration.underline),
+                                              fontWeight: isEditAmenities? FontWeight.w700:FontWeight.w500,
+                                              decoration: TextDecoration.underline),
                                         ),
-
+                                      ),
                                     ],
                                   ),
                                   BlocBuilder<AmenitiesBloc, AmenitiesState>(
@@ -400,8 +421,10 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                             itemBuilder: (context, index) {
                                               return GestureDetector(
                                                 onTap: () {
-                                                  context.read<AddPropertyBloc>().add(
-                                                      AddAmenityEvent(amenityName:amState.amenities[index].amenity));
+                                                  if(isEditAmenities){
+                                                    context.read<AddPropertyBloc>().add(
+                                                        AddAmenityEvent(amenityName:amState.amenities[index].amenity));
+                                                  }
                                                 },
                                                 child: HouseTypeCard(
                                                   iconData: amenitiesIcon[
@@ -438,16 +461,24 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     sectionTitle(context, tr('Location')),
-                                    Text(
-                                      tr("Edit"),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall!
-                                          .copyWith(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w400,
-                                              decoration:
-                                                  TextDecoration.underline),
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          isEditLocation=!isEditLocation;
+                                        });
+                                      },
+                                      child: Text(
+                                        tr("Edit"),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall!
+                                            .copyWith(
+                                            color: isEditLocation?ColorConstant.primaryColor:ColorConstant.secondBtnColor,
+                                            fontSize: 14,
+                                            fontWeight: isEditLocation? FontWeight.w700:FontWeight.w500,
+                                            decoration:
+                                            TextDecoration.underline),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -468,12 +499,20 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                                 child: FlutterMap(
                                                     mapController: mapController,
                                                     options: MapOptions(
-                                                        initialZoom: 14,
-                                                        onTap: (tapPosition, point) {
-                                                          setState(() {
-                                                            lat = point.latitude;
-                                                            long = point.longitude;
-                                                          });
+                                                        initialZoom: 15,
+                                                        onTap: (tapPosition, point)async{
+                                                          if(isEditLocation){
+                                                            setState((){
+                                                              lat = point.latitude;
+                                                              long = point.longitude;
+
+                                                            });
+                                                            String? add= await GetAddressName().getAddress(lat, long);
+                                                            if(add!=null){
+                                                              addressNmaeController.text=add;
+                                                            }
+                                                          }
+
                                                         },
                                                         backgroundColor: ColorConstant.cardGrey
                                                             .withValues(
@@ -509,14 +548,19 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                             left:30,
                                             right: 30,
                                             child: CustomButton(
-                                                onPressed: ()async{
+                                                onPressed:isEditLocation?()async{
                                                   final loc = await GetLocation().gatePosition();
                                                   setState(() {
                                                     lat = loc.latitude;
                                                     long = loc.longitude;
                                                   });
                                                    mapController.move(LatLng(lat,long), 15);
-                                                },
+                                                  String? add= await GetAddressName().getAddress(lat, long);
+                                                  if(add!=null){
+                                                    addressNmaeController.text=add;
+                                                  }
+
+                                                }:(){},
                                                 style: ElevatedButton.styleFrom(
                                                   elevation: 0,
                                                   backgroundColor:
@@ -534,7 +578,6 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                           )
                                         ],
                                       ),
-
                                       Align(
                                           alignment: Alignment.bottomRight,
                                           child: Row(
@@ -563,6 +606,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                       subSectionText(tr("Known or address name of the place")),
                                       CustomTextField(
                                         hintText: 'known address name',
+                                        enabled: isEditLocation,
                                         textEditingController:
                                             addressNmaeController,
                                         surfixIcon: null,
@@ -582,12 +626,14 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                       CustomTextField(
                                         readOnly: true,
                                         hintText: tr(cityController.text),
+                                        enabled: isEditLocation,
                                         textInputType: TextInputType.text,
                                         textEditingController: cityController,
                                         surfixIcon: SizedBox(
-                                          child:CityDropDown(onSelected: (value) {
-                                            cityController.text =tr(value);
-                                            context.read<AddPropertyBloc>().add(AddCityEvent(city: value));
+                                          child:CityDropDown(
+                                            onSelected: (value) {
+                                                cityController.text =tr(value);
+                                                context.read<AddPropertyBloc>().add(AddCityEvent(city: value));
                                           },
                                           hintText:widget.propertyEntity.city,
                                           ),
@@ -619,10 +665,24 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     sectionTitle(context, tr('Price')),
-                                    Text(
-                                      tr("Edit"),
-                                      style: TextStyle(
-                                          decoration: TextDecoration.underline),
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          isEditPrice=!isEditPrice;
+                                        });
+                                      },
+                                      child: Text(
+                                        tr("Edit"),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall!
+                                            .copyWith(
+                                            color: isEditPrice?ColorConstant.primaryColor:ColorConstant.secondBtnColor,
+                                            fontSize: 14,
+                                            fontWeight: isEditPrice? FontWeight.w700:FontWeight.w500,
+                                            decoration:
+                                            TextDecoration.underline),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -638,6 +698,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                       CustomTextField(
                                         hintText: 'no room',
                                         textEditingController: roomController,
+                                        enabled: isEditPrice,
                                         surfixIcon: null,
                                         isMultiLine: false,
                                         onTextChnage: (value) {},
@@ -654,6 +715,7 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
                                       subSectionText(tr("Price")),
                                       CustomTextField(
                                         hintText: 'price',
+                                        enabled: isEditPrice,
                                         textEditingController: priceController,
                                         surfixIcon: TextButton.icon(
                                           iconAlignment: IconAlignment.end,

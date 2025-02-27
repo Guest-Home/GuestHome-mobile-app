@@ -93,7 +93,7 @@ class PostedByDetailModel extends PostedByDetailEntity {
 
   factory PostedByDetailModel.fromMap(Map<String, dynamic> json) => PostedByDetailModel(
     id: json["id"],
-    userAccount: UserAccountDetailModel.fromMap(json["userAccount"]),
+    userAccount:json["userAccount"]!=null? UserAccountDetailModel.fromMap(json["userAccount"]):null,
     phoneNumber: json["phoneNumber"],
     profilePicture: json["profilePicture"],
     typeOfCustomer: json["typeOfCustomer"],

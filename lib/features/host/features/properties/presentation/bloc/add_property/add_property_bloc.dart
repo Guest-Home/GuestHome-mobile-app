@@ -13,6 +13,7 @@ import 'package:minapp/service_locator.dart';
 
 import '../../../../../../../core/utils/connectivity_service.dart';
 import '../../../../../../../core/utils/file_picker.dart';
+import '../../../../../../../core/utils/get_address_name.dart';
 import '../../../../../../../core/utils/get_token.dart';
 import '../../../domain/entities/agent_entity.dart';
 
@@ -96,9 +97,17 @@ class AddPropertyBloc extends Bloc<AddPropertyEvent, AddPropertyState> {
     );
     on<GetLocationEvent>((event, emit) async {
       final loc = await GetLocation().gatePosition();
+      String? add= await GetAddressName().getAddress(loc.latitude, loc.longitude);
+      if(add!=null){
+        emit(state.copyWith(specificAddress: add));
+      }
       emit(state.copyWith(latitude: loc.latitude, longitude: loc.longitude));
     });
     on<SelectLocationEvent>((event, emit) async {
+      String? add= await GetAddressName().getAddress(event.lat, event.long);
+      if(add!=null){
+        emit(state.copyWith(specificAddress: add));
+      }
       emit(state.copyWith(latitude: event.lat, longitude: event.long));
     });
     on<RemovePictureEvent>(

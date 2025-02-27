@@ -89,6 +89,7 @@ class _AddPropertiesState extends State<AddProperties> {
         ),
         body:BlocConsumer<AddPropertyBloc, AddPropertyState>(
           builder: (context, state) {
+            addressNmaeController.text=state.specificAddress;
             return Column(
               children: [
                 Expanded(
@@ -384,17 +385,13 @@ class _AddPropertiesState extends State<AddProperties> {
                                   ),
                                   Positioned(
                                     bottom: 10,
-                                    left:
-                                        MediaQuery.of(context).size.width / 2 -
-                                            100,
+                                    left: MediaQuery.of(context).size.width / 2 - 100,
                                     right:
                                         MediaQuery.of(context).size.width / 2 -
                                             100,
                                     child: CustomButton(
                                         onPressed: () {
-                                          context
-                                              .read<AddPropertyBloc>()
-                                              .add(GetLocationEvent());
+                                          context.read<AddPropertyBloc>().add(GetLocationEvent());
                                         },
                                         style: ElevatedButton.styleFrom(
                                           elevation: 0,
@@ -439,29 +436,31 @@ class _AddPropertiesState extends State<AddProperties> {
                                 ),
                                 stepSutTitle(context,
                                     tr("Please select the city"), true),
-                                CustomTextField(
-                                  readOnly: true,
-                                  textEditingController: cityController,
-                                  hintText: state.city,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter city name';
-                                    }
-                                    return null;
-                                  },
-                                  textInputType: TextInputType.text,
-                                  surfixIcon: CityDropDown(onSelected: (value) {
+                                    CustomTextField(
+                                    readOnly: true,
+                                    textEditingController: cityController,
+                                    hintText: state.city,
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Please enter city name';
+                                      }
+                                      return null;
+                                    },
+                                    textInputType: TextInputType.text,
+                                    surfixIcon: CityDropDown(onSelected: (value) {
                                       cityController.text =tr(value);
                                       context.read<AddPropertyBloc>().add(AddCityEvent(city: value));
                                     }),
 
-                                  isMultiLine: false,
-                                  onTextChnage: (value) {
-                                    context
-                                        .read<AddPropertyBloc>()
-                                        .add(AddCityEvent(city: value));
-                                  },
-                                ),
+                                    isMultiLine: false,
+                                    onTextChnage: (value) {
+                                      context
+                                          .read<AddPropertyBloc>()
+                                          .add(AddCityEvent(city: value));
+                                    },
+                                  )
+
+
                               ],
                             ),
                           ),

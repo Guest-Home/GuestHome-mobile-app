@@ -99,7 +99,7 @@ class PostedBy extends PostedByEntity {
 
   factory PostedBy.fromMap(Map<String, dynamic> json) => PostedBy(
     id: json["id"],
-    userAccount: PostedByUserAccount.fromMap(json["userAccount"]),
+    userAccount:json["userAccount"]!=null? PostedByUserAccount.fromMap(json["userAccount"]):null,
     typeOfCustomer: json["typeOfCustomer"],
     rating: json["rating"],
     language: json["language"],
