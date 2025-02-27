@@ -38,6 +38,10 @@ class AuthInterceptor extends Interceptor {
   @override
   Future<void> onError(
       DioException err, ErrorInterceptorHandler handler) async {
+    List<String> requireAccountEndPoint = [
+      '/guestapp/api/v1/property_booking/',
+      '/hostapp/api/v1/customer/',
+    ];
     // Check for 401 Unauthorized error
     if (err.response?.statusCode == 401) {
       // Attempt to refresh the token
@@ -59,6 +63,19 @@ class AuthInterceptor extends Interceptor {
         return handler.reject(err);
       }
     }
+    else if(err.response!.statusCode==404){
+      bool requiresAuth = requireAccountEndPoint.any((endpoint) => err.requestOptions.path.contains(endpoint));
+      if(requiresAuth){
+        final context = navigatorKey.currentContext;
+        if (context != null) {
+          GoRouter.of(context).goNamed('profileSetup');
+        } else {
+          debugPrint('Navigator context is null. Ensure the app is fully initialized.');
+        }
+      }
+
+    }
+
 
     // Pass other errors to the next handler
     return handler.next(err);

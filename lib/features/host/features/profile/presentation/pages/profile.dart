@@ -32,7 +32,7 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-      return RefreshIndicator(
+    return RefreshIndicator(
         onRefresh: () async{
           context.read<ProfileBloc>().add(GetUserProfileEvent());
         },

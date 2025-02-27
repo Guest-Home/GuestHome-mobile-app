@@ -321,14 +321,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 spacing:10,
                                 children: [
-                                  // search
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 15, right: 15),
-                                    child: SecctionHeader(
-                                      title: tr("Most Popular"),
-                                      isSeeMore: true,
-                                    ),
-                                  ),
+
                                   BlocBuilder<PopularPropertyBloc,PopularPropertyState>(
                                     buildWhen: (previous, current) =>
                                     previous != current,
@@ -345,58 +338,73 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                         return SizedBox.shrink();
                                       } else if (state.properties.results!.isNotEmpty) {
                                         return SizedBox(
-                                          height: MediaQuery.of(context).size.height * 0.43,
+                                          height: MediaQuery.of(context).size.height * 0.46,
                                           width: MediaQuery.of(context).size.width,
-                                          child: NotificationListener<ScrollNotification>(
-                                            onNotification: (scrollInfo) {
-                                              if (scrollInfo.metrics.pixels ==
-                                                  scrollInfo.metrics.maxScrollExtent) {
-                                                context.read<PopularPropertyBloc>().add(
-                                                    LoadMorePopularPropertiesEvent());
-                                              }
-                                              return false;
-                                            },
-                                            child: ListView.builder(
-                                                itemCount: state.properties.results!.length +
-                                                    (state is PopularPropertyLoadingMoreState
-                                                        ? 1
-                                                        : 0),
-                                                scrollDirection: Axis.horizontal,
-                                                itemBuilder: (context, index) {
-                                                  if (index >= state.properties.results!.length) {
-                                                    return Center(child: loadingWithPrimary);
-                                                  }
-                                                  return GestureDetector(
-                                                    onTap: () async {
-                                                      final token = await GetToken()
-                                                          .getUserToken();
-                                                      context.push('/popularHouseDetail/$token',
-                                                        extra: state.properties.results![index],
-                                                      );
-                                                    },
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.symmetric(
-                                                          horizontal: 10,
-                                                          vertical: 1),
-                                                      child: Material(
-                                                        elevation: 2,
-                                                        shadowColor: ColorConstant
-                                                            .cardGrey
-                                                            .withValues(alpha: 0.3),
-                                                        borderRadius:
-                                                        BorderRadius.circular(10),
-                                                        child: PopularHouseCard(
-                                                            width:MediaQuery.of(context).size.width * 0.7,
-                                                            height: 300,
-                                                            showBorder: true,
-                                                            showIndicator: false,
-                                                            property: state.properties
-                                                                .results![index]),
-                                                      ),
-                                                    ),
-                                                  );
-                                                }),
-                                          ),
+                                          child:Column(
+                                            spacing: 2,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(left: 15, right: 15),
+                                                child: SecctionHeader(
+                                                  title: tr("Most Popular"),
+                                                  isSeeMore: true,
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: NotificationListener<ScrollNotification>(
+                                                  onNotification: (scrollInfo) {
+                                                    if (scrollInfo.metrics.pixels ==
+                                                        scrollInfo.metrics.maxScrollExtent) {
+                                                      context.read<PopularPropertyBloc>().add(
+                                                          LoadMorePopularPropertiesEvent());
+                                                    }
+                                                    return false;
+                                                  },
+                                                  child: ListView.builder(
+                                                      itemCount: state.properties.results!.length +
+                                                          (state is PopularPropertyLoadingMoreState
+                                                              ? 1
+                                                              : 0),
+                                                      scrollDirection: Axis.horizontal,
+                                                      itemBuilder: (context, index) {
+                                                        if (index >= state.properties.results!.length) {
+                                                          return Center(child: loadingWithPrimary);
+                                                        }
+                                                        return GestureDetector(
+                                                          onTap: () async {
+                                                            final token = await GetToken()
+                                                                .getUserToken();
+                                                            context.push('/popularHouseDetail/$token',
+                                                              extra: state.properties.results![index],
+                                                            );
+                                                          },
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.symmetric(
+                                                                horizontal: 10,
+                                                                vertical: 1),
+                                                            child: Material(
+                                                              elevation: 2,
+                                                              shadowColor: ColorConstant
+                                                                  .cardGrey
+                                                                  .withValues(alpha: 0.3),
+                                                              borderRadius:
+                                                              BorderRadius.circular(10),
+                                                              child: PopularHouseCard(
+                                                                  width:MediaQuery.of(context).size.width * 0.7,
+                                                                  height: 300,
+                                                                  showBorder: true,
+                                                                  showIndicator: false,
+                                                                  property: state.properties
+                                                                      .results![index]),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      }),
+                                                ),
+                                              ),
+                                            ],
+                                          )
+
                                         );
                                       }
                                       return SizedBox.shrink();
