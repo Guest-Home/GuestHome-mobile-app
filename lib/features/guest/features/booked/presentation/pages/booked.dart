@@ -35,9 +35,15 @@ class _BookedState extends State<Booked> {
     }
   }
 
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    context.read<BookedBloc>().add(GetMyBookingEvent());
+
     return
       SafeArea(
         child: Scaffold(

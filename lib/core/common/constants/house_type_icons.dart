@@ -8,7 +8,9 @@ const Map<String, String> houseTypeIcons = {
   "Hotel and Resort": 'assets/icons/housetype/hotelR.svg',
   "House": 'assets/icons/housetype/houses.svg',
   "Hotel Bedroom": 'assets/icons/housetype/hotelbederoom.svg',
+  "Private Compound": 'assets/icons/housetype/hotelbederoom.svg',
   "Shared Space": 'assets/icons/housetype/sharedspace.svg',
+  "Shared Office Space": 'assets/icons/housetype/sharedspace.svg',
   "Unit of Condominium": 'assets/icons/housetype/unitofcondominium.svg',
   "Warehouse": 'assets/icons/housetype/warehouse.svg',
   "Hall": 'assets/icons/housetype/hall.svg',
@@ -28,6 +30,8 @@ const List<String> houseTypeList = [
   "Warehouses",
   "Hall",
   "Other",
+  "Shared Office Space",
+  "Private Compound"
 ];
 
 const Map<String, String> amenitiesIcon = {

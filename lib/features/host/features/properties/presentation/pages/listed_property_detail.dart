@@ -1121,12 +1121,14 @@ class _ListedPropertyDetailState extends State<ListedPropertyDetail> {
     showDialog(
         context: context,
         barrierDismissible: false,
+        useSafeArea: true,
         builder: (context) => Dialog(
               backgroundColor: Colors.white,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               child: Container(
                   height: MediaQuery.of(context).size.height / 1.7,
+                  width: MediaQuery.of(context).size.width, // Full width
                   padding: EdgeInsets.all(10),
                   child: BlocBuilder<PropertyTypeBloc, PropertyTypeState>(
                       builder: (context, state) {
