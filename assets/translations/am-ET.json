@@ -267,6 +267,14 @@
   "Amount": "መጠን",
   "Your current deposited amount": "አሁን ያለዎት የተቀማጭ ገንዘብ መጠን",
   "Private Compound":"የግል ግቢ",
-  "Shared Office Space": "የጋራ የቢሮ ቦታ"
+  "Shared Office Space": "የጋራ የቢሮ ቦታ",
+
+  "No reservation found":"ቦታ አልተያዘም።",
+  "No property is listed":"ምንም ንብረት አልተዘረዘረም።",
+  "Start by adding your properties":"ንብረቶችህን በመጨመር ጀምር።",
+  "Add properties":"ንብረቶችን ጨምር",
+  "No transaction yet":"እስካሁን ምንም ግብይት የለም።",
+  "You didn't book any properties. Search and book properties":"ምንም ንብረት አልያዝክም። ንብረቶችን ፈልግ እና ያዝ።",
+  "Here is the list of your requested booking":"የጠየቅከው የቦታ ማስያዣ ዝርዝር ይኸውልህ።"
 
 }

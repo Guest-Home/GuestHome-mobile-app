@@ -142,7 +142,7 @@ class _DepositHistoryState extends State<DepositHistory> {
       return Center(child:RepaintBoundary(child: CupertinoActivityIndicator(),),);
     }
     if(state.depositTransactionEntity.results!=null && state.depositTransactionEntity.results!.isEmpty){
-      return Center(child: Text("no transaction yet!"),);
+      return Center(child: Text("No transaction yet"),);
     }
     return NotificationListener<ScrollNotification>(
       onNotification: (scrollInfo) {
