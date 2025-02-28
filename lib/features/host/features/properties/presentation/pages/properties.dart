@@ -144,7 +144,7 @@ class NoPropertyFound extends StatelessWidget {
           spacing: 20,
           children: [
             Text(
-              tr("No Properties is listed start by adding your properties"),
+              tr("No property is listed"),
               textAlign: TextAlign.center,
               style: Theme.of(context)
                   .textTheme
@@ -168,7 +168,7 @@ class NoPropertyFound extends StatelessWidget {
                     children: [
                       Icon(Icons.add, color: Colors.white),
                       Text(
-                        tr('Add Property'),
+                        tr('Add properties'),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontSize: 16,
                             color: Colors.white,

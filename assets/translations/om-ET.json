@@ -245,7 +245,6 @@
   "Not Found": "Hin argamne",
   "The property you are searching is not found, please search again": "Qabeenya barbaaddu hin argamne, irra deebi'ii barbaadi",
   "Your current deposited amount": "Qarshii amma galmeeffatte",
-  "Here is the list of your requested booking": "bakki kun tarefama isiin qabachuuf gaafattani dha",
   "Wolaita Sodo": "Wolayiitaa Soddo",
   "Jimma": "Jimma",
   "Revenue": "Galii",
@@ -268,5 +267,14 @@
   "Term and condition": "Ulaagaalee fi haalota",
   "Amount": "Hanga",
   "Private Compound":"Moora dhuunfaa",
-  "Shared Office Space":"Wajjira iddo hirmaachuu"
+  "Shared Office Space":"Wajjira iddo hirmaachuu",
+
+
+  "No reservation found":"Bakki eeggate hin argamne.",
+  "No property is listed":"Qabeenyi tokkollee hin galmmesinee.",
+  "Start by adding your properties":"Qabeenya kee galmeessuun jalqabi.",
+  "Add properties":"Qabeenyaa dabali",
+  "No transaction yet":"hanga yoonaa daldalii hin raawwatamnee",
+  "You didn't book any properties. Search and book properties":"Qabeenya tokkollee hin qabsiifanne. Qabeenya barbaadii fi qabsiifadhu.",
+  "Here is the list of your requested booking":"Kanneen bakka buuksachuuf gaafatte tarreen isaa kanadha."
 }

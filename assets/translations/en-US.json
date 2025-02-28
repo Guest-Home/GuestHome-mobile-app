@@ -266,6 +266,14 @@
   "Term and condition": "Term and condition",
   "Amount": "Amount",
   "Private Compound":"private compound",
-  "Shared Office Space": "shared space office"
+  "Shared Office Space": "shared space office",
+
+  "No reservation found":"No reservation found",
+  "No property is listed":"No property is listed",
+  "Start by adding your properties":"Start by adding your properties",
+  "Add properties":"Add properties",
+  "No transaction yet":"No transaction yet",
+  "You didn't book any properties. Search and book properties":"You didn't book any properties. Search and book properties",
+  "Here is the list of your requested booking":"Here is the list of your requested booking"
 
 }

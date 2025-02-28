@@ -329,9 +329,9 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                       if (state is PopularPropertyLoadingState || state is NoInternetPopularProperty) {
                                         return SizedBox(
                                           height: MediaQuery.of(context).size.height * 0.40,
-                                          child: Center(
-                                            child: loadingIndicator(),
-                                          ),
+                                          // child: Center(
+                                          //   child: loadingIndicator(),
+                                          // ),
                                         );
                                       } else if (state.properties.count == 0 ||
                                           state.properties.results == null) {
@@ -410,13 +410,13 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                       return SizedBox.shrink();
                                     },
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 15),
-                                    child: SecctionHeader(
-                                      title: tr('Nearby Your Location'),
-                                      isSeeMore: false,
-                                    ),
-                                  ),
+                                  // Padding(
+                                  //   padding: EdgeInsets.symmetric(horizontal: 15),
+                                  //   child: SecctionHeader(
+                                  //     title: tr('Nearby Your Location'),
+                                  //     isSeeMore: false,
+                                  //   ),
+                                  // ),
                                   BlocBuilder<HoustypeBloc, HoustypeState>(
                                     builder: (context, state) {
                                       if (state is HouseTypeLoadingState || state is NoInternetHouseTypeSate) {
