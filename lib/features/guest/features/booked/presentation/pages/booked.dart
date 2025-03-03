@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
@@ -204,7 +205,7 @@ class EmptyBooked extends StatelessWidget {
                           .copyWith(fontWeight: FontWeight.w700,fontSize: 14),
                     )),
               )
-            ],
+            ].animate().fade(),
           ),
         ),
 

@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:minapp/config/color/color.dart';
 
 class OnbordScreen extends StatelessWidget {
@@ -15,30 +16,30 @@ class OnbordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
+    return  Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(
               width: MediaQuery.of(context).size.width,
               child: ListTile(
                   title: Text(tr(title),
+                      textAlign:TextAlign.start,
+                      maxLines:2,
                       style: TextTheme.of(context)
-                          .headlineMedium
-                          ?.copyWith(color: ColorConstant.primaryColor,fontSize: 24,fontWeight: FontWeight.w700)
+                          .headlineLarge
+                          ?.copyWith(color: ColorConstant.primaryColor,fontSize:32,fontWeight: FontWeight.w700)
           
                       ),
-                  subtitle: Column(
-                    spacing: 10,
-                    children: [
-                       Padding(
-                          padding: const EdgeInsets.only(top: 30),
-                          child:Image.asset(image,fit: BoxFit.cover,),),
-          
-                    ],
-                  ))),
-        ],
-      ),
+              )),
+          Expanded(
+            child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child:  Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child:Image.asset(image,fit: BoxFit.contain,),),),
+          ),
+        ].animate().fade(),
+
     );
   }
 }
