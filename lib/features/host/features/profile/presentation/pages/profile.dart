@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:go_router/go_router.dart';
@@ -51,7 +52,7 @@ class _ProfileState extends State<Profile> {
             padding: EdgeInsets.all(20),
             child: SingleChildScrollView(
                 child: Column(
-                  spacing: 15,
+                  spacing: 13,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
@@ -146,9 +147,9 @@ class _ProfileState extends State<Profile> {
                                                   color:
                                                       ColorConstant.secondBtnColor),
                                         )
-                                      ],
+                                      ].animate(interval: 10.ms).fade(),
                                     )
-                                  ],
+                                  ].animate(interval: 10.ms).fade(),
                                 ),
                                 // based on the user display either card or container
                                 if (GoRouterState.of(context).matchedLocation == '/profile')
@@ -441,7 +442,7 @@ class _ProfileState extends State<Profile> {
                         );
                       },
                     ),
-                  ],
+                  ].animate().fade(),
                 ),
               ),
 

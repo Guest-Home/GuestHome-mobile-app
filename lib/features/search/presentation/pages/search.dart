@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/features/host/features/properties/presentation/widgets/search_filed.dart';
@@ -165,7 +166,7 @@ class Search extends StatelessWidget {
 
                                 ],)
                           ),
-                        );
+                        ).animate().fade();
                       },),
                   ));
               },
@@ -278,19 +279,21 @@ class Search extends StatelessWidget {
                                           spacing: 4,
                                           children: [
                                             Icon(Icons.location_pin, size: 15,),
-                                            Text(state.hostProperties[index]
-                                                .specificAddress,
-                                              textAlign: TextAlign.start,
-                                              overflow: TextOverflow.ellipsis,
-                                              style:
-                                            Theme
-                                                .of(context)
-                                                .textTheme
-                                                .bodyMedium!
-                                                .copyWith(
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 14
-                                            ),),
+                                            Expanded(
+                                              child: Text(state.hostProperties[index]
+                                                  .specificAddress,
+                                                textAlign: TextAlign.start,
+                                                overflow: TextOverflow.ellipsis,
+                                                style:
+                                              Theme
+                                                  .of(context)
+                                                  .textTheme
+                                                  .bodyMedium!
+                                                  .copyWith(
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 14
+                                              ),),
+                                            ),
                                           ],
                                         ),
                                         Row(
@@ -318,7 +321,7 @@ class Search extends StatelessWidget {
 
                                 ],)
                           ),
-                        );
+                        ).animate().fade();
                       },));
                   }
               ),
@@ -359,7 +362,7 @@ class NoSearchFound extends StatelessWidget {
             fontWeight: FontWeight.w400,
             fontSize: 12
           ),),
-      ],
+      ].animate().fade(),
     ),);
   }
 }

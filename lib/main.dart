@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +72,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => sl<AddPropertyBloc>()),
         BlocProvider(create: (context) => sl<ChangePhoneBloc>()),
         BlocProvider(create: (context) => sl<LogOutBloc>()),
-        BlocProvider(create: (context) =>sl<BookedBloc>()..add(GetMyBookingEvent()),),
+        BlocProvider(
+          create: (context) => sl<BookedBloc>()..add(GetMyBookingEvent()),
+        ),
         BlocProvider(
           create: (context) => sl<PropertiesBloc>()..add(GetPropertiesEvent()),
         ),
@@ -104,8 +105,7 @@ class MyApp extends StatelessWidget {
           create: (context) => sl<DepositTransactionBloc>(),
         ),
         BlocProvider(
-          create: (context) =>
-          sl<RequestBloc>()..add(GetReservationEvent()),
+          create: (context) => sl<RequestBloc>()..add(GetReservationEvent()),
         ),
         BlocProvider(
           create: (context) => sl<UpdateProfileBloc>(),
@@ -164,4 +164,3 @@ class MyBlocObserver extends BlocObserver {
     super.onError(bloc, error, stackTrace);
   }
 }
-

@@ -3,6 +3,7 @@ import 'package:currency_picker/currency_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_svg/svg.dart';
@@ -168,7 +169,7 @@ class _AddPropertiesState extends State<AddProperties> {
                               },
                             ),
                           )
-                        ],
+                        ].animate().fade(),
                       ),
                     ),
                     // step 2
@@ -227,7 +228,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                       AddDescriptionEvent(description: value));
                                 },
                               ),
-                            ],
+                            ].animate().fade(),
                           ),
                         ),
                       ),
@@ -302,7 +303,7 @@ class _AddPropertiesState extends State<AddProperties> {
                               }
                             },
                           ))
-                        ],
+                        ].animate().fade(),
                       ),
                     ),
                     // step 4
@@ -461,7 +462,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                   )
 
 
-                              ],
+                              ].animate().fade(),
                             ),
                           ),
                         )),
@@ -537,7 +538,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                         .add(AddPriceEvent(price: value));
                                   },
                                 ),
-                              ],
+                              ].animate().fade(),
                             ),
                           ),
                         )),
@@ -592,7 +593,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                   )),
                             ),
                           )
-                        ],
+                        ].animate().fade(),
                       ),
                     ),
                     //step 7
@@ -789,7 +790,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                           )),
                                     ),
                                   )
-                              ],
+                              ].animate().fade(),
                             ),
                           ),
                         ))
@@ -915,7 +916,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                             ))))
                       ],
                     ))
-              ],
+              ].animate().fade(),
             );
           },
           buildWhen: (previous, current) => previous != current,

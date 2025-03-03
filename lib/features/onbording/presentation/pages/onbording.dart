@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
 import 'package:minapp/features/onbording/presentation/bloc/on_bording_bloc.dart';
@@ -148,7 +149,7 @@ class _OnBordingState extends State<OnBording>
                               )),
                         ),
 
-                      ],
+                      ].animate().fade(),
                     );
                   },
                   listener: (context, state) async {

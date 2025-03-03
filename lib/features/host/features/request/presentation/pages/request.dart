@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
@@ -116,7 +117,7 @@ class _RequestState extends State<Request> {
                                     ],
                                   ),
                                 )
-                            ),]
+                            ),].animate().fade()
                           ),
                         );
                       }
@@ -150,7 +151,7 @@ class _RequestState extends State<Request> {
                                     isEditing: false,
                                     reservationEntity:
                                     state.reservation.results![index],
-                                  )
+                                  ).animate().fade()
                               );
                             }
                             ),

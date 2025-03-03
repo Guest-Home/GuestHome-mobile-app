@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
@@ -268,7 +269,7 @@ class _HouseDetailState extends State<HouseDetail> {
                   ),
                 ),
               )
-            ],
+            ].animate(interval: 10.ms).fadeIn(),
           )),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -325,7 +326,7 @@ class _HouseDetailState extends State<HouseDetail> {
               ],
             ),
           )
-        ],
+        ].animate(interval: 100.ms).fade(),
       ),
     );
   }

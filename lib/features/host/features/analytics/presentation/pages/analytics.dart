@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
@@ -218,7 +219,7 @@ class _AnalyticsState extends State<Analytics> {
                                   state.failure.message,
                                   style: Theme.of(context).textTheme.bodySmall,
                                 ),
-                              ],
+                              ].animate().fade(),
                             ),
                           ),
                         ),
@@ -260,7 +261,7 @@ class _AnalyticsState extends State<Analytics> {
                               ),
                             ),
                             ReportDownload()
-                          ],
+                          ].animate().fade(),
                         );
                       } else if (state.selectedDate == '60 Days') {
                         return Column(
@@ -297,7 +298,7 @@ class _AnalyticsState extends State<Analytics> {
                               ),
                             ),
                             ReportDownload()
-                          ],
+                          ].animate().fade(),
                         );
                       } else if (state.selectedDate == '7 Days') {
                         final revenu=state.occupancyRateEntity.last7Days!.totalRevenue;
@@ -337,7 +338,7 @@ class _AnalyticsState extends State<Analytics> {
                               ),
                             ),
                             ReportDownload()
-                          ],
+                          ].animate().fade(),
                         );
                       } else if (state.selectedDate == 'custom') {
                         if (state is CustomOccupancyRateLoadingState) {
@@ -379,7 +380,7 @@ class _AnalyticsState extends State<Analytics> {
                                 ),
                               ),
                               ReportDownload()
-                            ],
+                            ].animate().fade(),
                           );
                         }
                       }
@@ -388,7 +389,7 @@ class _AnalyticsState extends State<Analytics> {
                   },
                 )
               ],
-            ),
+            ).animate().fade(),
           ),
         ));
   }

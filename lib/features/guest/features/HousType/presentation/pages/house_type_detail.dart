@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -228,8 +229,9 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
               backgroundColor: ColorConstant.primaryColor,
               color: Colors.white,
               onRefresh: () async {
-                context.read<HoustypeBloc>().add(GetPropertyByHouseTypeEvent(name: widget.name));
                 context.read<PopularPropertyBloc>().add(GetPopularPropertyEvent());
+                context.read<HoustypeBloc>().add(GetPropertyByHouseTypeEvent(name: widget.name));
+
               },
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -319,7 +321,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                               controller: _verticalController,
                               child:Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                spacing:10,
+                                spacing:15,
                                 children: [
 
                                   BlocBuilder<PopularPropertyBloc,PopularPropertyState>(
@@ -397,7 +399,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                                                   property: state.properties
                                                                       .results![index]),
                                                             ),
-                                                          ),
+                                                          ).animate().fade()
                                                         );
                                                       }),
                                                 ),
@@ -508,7 +510,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
         width: MediaQuery.of(context).size.width,
         height: 400,
         property: result,
-      ),
+      ).animate().fade(),
     );
   }
   Future<dynamic> filterModalBottomSheet(BuildContext context) {
@@ -886,9 +888,9 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                           ],
                         ),
                       )
-                    ],
+                    ].animate(interval: 10.ms).fade(),
                   ))
-                ],
+                ].animate(interval: 100.ms).fade(),
               );
             },
           ),
