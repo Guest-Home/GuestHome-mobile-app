@@ -47,6 +47,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
         if(state.latitude!=0.0|| state.longtiude!=0.0)
         "range": 10,//in KM
         "minPrice": state.priceRange.start.ceil(),
+        if(state.priceRange.end<5000)
         "maxPrice": state.priceRange.end.ceil(),
         "city":state.city,
         "category": state.category

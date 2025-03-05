@@ -349,7 +349,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                                                 padding: const EdgeInsets.only(left: 15, right: 15),
                                                 child: SecctionHeader(
                                                   title: tr("Most Popular"),
-                                                  isSeeMore: true,
+                                                  isSeeMore: false,
                                                 ),
                                               ),
                                               Expanded(
