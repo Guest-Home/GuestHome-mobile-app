@@ -258,7 +258,7 @@ class _ProfileState extends State<Profile> {
                               spacing: 5,
                               children: [
                                 Icon(
-                                  Icons.recycling,
+                                  Icons.swap_horiz,
                                   color: Colors.white,
                                 ),
                                 if (GoRouterState.of(context).matchedLocation == '/profile')
