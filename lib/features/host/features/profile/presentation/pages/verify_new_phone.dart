@@ -107,7 +107,7 @@ class _VerifyNewPhoneState extends State<VerifyNewPhone> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-           tr("opt verification"),
+           tr("otp verification"),
             style: Theme.of(context)
                 .textTheme
                 .headlineMedium!
@@ -182,7 +182,7 @@ class _VerifyNewPhoneState extends State<VerifyNewPhone> {
                         fontWeight: FontWeight.w400),
                   ),
                   TextSpan(
-                      text:"${tr("resend in _ second")} ${_formatTime(_remainingTime)} ${tr("second")}",
+                      text:"${tr("resend in second")} ${_formatTime(_remainingTime)} ${tr("second")}",
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!

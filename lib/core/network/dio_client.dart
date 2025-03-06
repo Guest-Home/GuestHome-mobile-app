@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:minapp/core/network/auth_interceptor.dart';
 import 'package:minapp/core/network/retry_on_connection_changeInterceptor.dart';
@@ -28,6 +29,7 @@ class DioClient {
     // Add Interceptors
     _dio.interceptors.addAll([
       AuthInterceptor(),
+      if(kDebugMode)
       LoggerInterceptor(),
       RetryOnConnectionChangeInterceptor(),
     ]);

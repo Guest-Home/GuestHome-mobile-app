@@ -173,7 +173,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                                         fontWeight: FontWeight.w400),
                               ),
                               TextSpan(
-                                  text:"${tr("resend in _ second")} ${_formatTime(_remainingTime)} ${tr("second")}",
+                                  text:" ${tr("resend in second")} ${_formatTime(_remainingTime)} ${tr("second")}",
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyMedium!
