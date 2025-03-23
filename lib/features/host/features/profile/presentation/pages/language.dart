@@ -61,7 +61,6 @@ class Language extends StatelessWidget {
                                 context.read<LanguageBloc>().add(ChangeAppLocalSetting(value));
                                 // update user language
                                 context.read<UpdateProfileBloc>().add(UpdateUserLanguageEvent(value));
-
                               },
                               color: Colors.white,
                               itemBuilder: (BuildContext context) {
@@ -70,8 +69,8 @@ class Language extends StatelessWidget {
                                       (e) => PopupMenuItem(
                                           value: e.name,
                                           child: Text(e.name == "amharic"
-                                              ? "አማርኛ":e.name=="afanOromo"?"afan oromo"
-                                              : e.name)),
+                                              ? "አማርኛ":e.name=="afanOromo"?"Afaan Oromo"
+                                              : e.name=='english'?"English":"")),
                                     )
                                     .toList();
                               },

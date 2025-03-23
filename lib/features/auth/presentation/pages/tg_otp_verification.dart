@@ -98,7 +98,7 @@ class _TgOtpVerificationState extends State<TgOtpVerification> {
                     spacing: 16,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(tr("opt verification"),
+                      Text(tr("otp verification"),
                         style: Theme.of(context)
                             .textTheme
                             .headlineMedium!
@@ -173,7 +173,7 @@ class _TgOtpVerificationState extends State<TgOtpVerification> {
                                         fontWeight: FontWeight.w400),
                                   ),
                                   TextSpan(
-                                      text:"${tr("resend in _ second")} ${_formatTime(_remainingTime)} ${tr("second")}",
+                                      text:"${tr("resend in second")} ${_formatTime(_remainingTime)} ${tr("second")}",
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium!

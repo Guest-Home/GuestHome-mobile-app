@@ -10,7 +10,10 @@ import 'package:minapp/core/utils/show_snack_bar.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/widgets/section_header_text.dart';
 import 'package:minapp/features/guest/features/booked/presentation/bloc/booked_bloc.dart';
 import 'package:minapp/features/guest/features/booked/presentation/widgets/booked_card.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../../../core/common/bloc/internet_connection_bloc/connectivity_bloc.dart';
+import '../../../../../../core/common/bloc/internet_connection_bloc/connectivity_state.dart';
 import '../../../../../../core/common/enum/reservation_status_enum.dart';
 import '../../../../../../core/common/spin_kit_loading.dart';
 
@@ -35,18 +38,22 @@ class _BookedState extends State<Booked> {
         return BookingStatus.pending;
     }
   }
-
+late bool isLoggedIn;
   @override
   void initState() {
     super.initState();
+    isUserLogedIn();
+  }
+  isUserLogedIn()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+     isLoggedIn =prefs.getBool('isLogin') ?? false; // Check if the token exists
   }
 
   @override
   Widget build(BuildContext context) {
-    context.read<BookedBloc>().add(GetMyBookingEvent());
+    // context.read<BookedBloc>().add(GetMyBookingEvent());
 
-    return
-      SafeArea(
+    return SafeArea(
         child: Scaffold(
         body: RefreshIndicator(
             backgroundColor: ColorConstant.primaryColor,
@@ -74,8 +81,8 @@ class _BookedState extends State<Booked> {
                   Expanded(
                     child: BlocConsumer<BookedBloc, BookedState>(
                         listener:(context, state) {
-                          if(state is NoInternetSate){
-                            showNoInternetSnackBar(context,(){context.read<BookedBloc>().add(GetMyBookingEvent());});
+                          if(state is MyBookingErrorState){
+                            showErrorSnackBar(context, state.failure.message);
                           }
                         },
                       builder: (context, state) {
@@ -84,15 +91,10 @@ class _BookedState extends State<Booked> {
                             child: loadingIndicator(),
                           );
                         }
-                        else if (state.booking.results==null) {
-                          return Center(
-                            child: loadingIndicator(),
-                          );
-                        }
                          else if (state.booking.count==0) {
                             return ListView(children:[ EmptyBooked()]);
                           }
-                         else if(state.booking.results!.isNotEmpty){
+                         else if(state.booking.results!=null && state.booking.results!.isNotEmpty){
                           return NotificationListener<ScrollNotification>(
                               onNotification: (scrollInfo) {
                                 if (scrollInfo.metrics.pixels ==
@@ -124,20 +126,34 @@ class _BookedState extends State<Booked> {
                             );
                         }
                          else if(state is MyBookingErrorState){
-                          return SizedBox(
-                              height: MediaQuery.of(context).size.height/2,
-                              child: Center(
-                                child: Column(
-                                  children: [
-                                    Icon(Icons.error_outline,size: 25,color: ColorConstant.red,),
-                                    Text(
-                                      state.failure.message,
-                                      style: Theme.of(context).textTheme.bodySmall,
-                                    ),
-                                  ],
+                          return SingleChildScrollView(
+                            child: SizedBox(
+                                height: MediaQuery.of(context).size.height/2,
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    spacing: 10,
+                                    children: [
+                                      Icon(Icons.error_outline,size: 25,color: ColorConstant.red,),
+                                      Text(
+                                        state.failure.message,
+                                        style: Theme.of(context).textTheme.bodySmall,
+                                      ),
+                                      CustomButton(
+                                        onPressed: () {
+                                          context.read<BookedBloc>().add(GetMyBookingEvent());
+                                        },
+                                          style: ElevatedButton.styleFrom(
+                                            padding: EdgeInsets.symmetric(horizontal:40,vertical: 10),
+                                        backgroundColor: ColorConstant.primaryColor
+                                      ), child: Text("Retry",style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                        color: Colors.white
+                                      ),))
+                                    ],
+                                  ),
                                 ),
-                              ),
-
+                            
+                            ),
                           );
                         }
                         return SizedBox.shrink();
@@ -147,9 +163,7 @@ class _BookedState extends State<Booked> {
                 ],
               ),
             ),
-          ),
-
-            ),
+          ),)
       );
   }
 }
@@ -163,8 +177,7 @@ class EmptyBooked extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10),
-      child:
-      SingleChildScrollView(
+      child: SingleChildScrollView(
         child:
           Column(
             spacing: 15,

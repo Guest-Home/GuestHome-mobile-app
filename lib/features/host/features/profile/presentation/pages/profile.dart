@@ -11,6 +11,7 @@ import 'package:minapp/core/common/custom_button.dart';
 import 'package:minapp/core/common/loading_indicator_widget.dart';
 import 'package:minapp/features/auth/presentation/bloc/log_out/log_out_bloc.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../../core/common/spin_kit_loading.dart';
@@ -60,170 +61,161 @@ class _ProfileState extends State<Profile> {
                       child: BlocConsumer<ProfileBloc, ProfileState>(
                         listener: (context, state) {
                           if(state is NoInternetSate){
-                            showNoInternetSnackBar(context,(){context.read<ProfileBloc>().add(GetUserProfileEvent());});
+                            // showNoInternetSnackBar(context,(){context.read<ProfileBloc>().add(GetUserProfileEvent());});
                           }
                         },
                         bloc: context.read<ProfileBloc>(),
                         buildWhen: (previous, current) => previous!=current,
                         builder: (context, state) {
-                          if (state is UserProfileLoadingState) {
-                            return SizedBox(
-                              height: 100,
-                              child: Center(child: loadingIndicator()),
-                            );
-                          }
-                          else if(state is ProfileErrorState || state.userProfileEntity.id==null){
+                          // if (state is UserProfileLoadingState) {
+                          //   return SizedBox(
+                          //     height: 100,
+                          //     child: Center(child: loadingIndicator()),
+                          //   );
+                          // }
+                          // else
+                            if(state is ProfileErrorState || state.userProfileEntity.id==null){
                                return SizedBox(
                               height: 100,
                               child: Center(child: loadingIndicator()),
                             );
                           }
-                          return Column(
-                              spacing: 15,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  spacing: 10,
-                                  children: [
-                                    CircleAvatar(
-                                      radius: 38,
-                                      backgroundColor: ColorConstant.cardGrey,
-                                      backgroundImage:state.userProfileEntity.profilePicture!=null?
-                                      CachedNetworkImageProvider(
-                                        ApiUrl.baseUrl + state.userProfileEntity.profilePicture!,
-                                          headers: {'Authorization': 'Bearer ${state.token}'
-                                          },
-                                        cacheManager: NoCacheManager()
-                                      )
-                                      // NetworkImage(
-                                      //   ApiUrl.baseUrl + state.userProfileEntity.profilePicture!,
-                                      //   headers: {'Authorization': 'Bearer ${state.token}'
-                                      //   },// Use custom manager
-                                      // )
-                                            :null,
-                                      child: state.userProfileEntity.profilePicture == null
-                                          ? Icon(
-                                        Icons.person,
-                                        color: Colors.black12,
-                                        size: 20,
-                                      )
-                                          :   Icon(
-                                              Icons.photo,
-                                           color: Colors.black12,
-                                             ),
-                                    ),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "${state.userProfileEntity.userAccount!.firstName} "
-                                          "${state.userProfileEntity.userAccount!.lastName}",
-                                          textAlign: TextAlign.start,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headlineSmall!
-                                              .copyWith(
-                                                  fontSize: 21,
-                                                  fontWeight: FontWeight.w700),
-                                        ),
-                                        Text(
-                                          state.userProfileEntity.phoneNumber!,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall!
-                                              .copyWith(
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 14),
-                                        ),
-                                        Text(
-                                          tr(state.userProfileEntity.typeOfCustomer!),
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall!
-                                              .copyWith(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w400,
-                                                  color:
-                                                      ColorConstant.secondBtnColor),
+                          return
+                            Skeletonizer(
+                              enabled:state is UserProfileLoadingState ,
+                              child: Column(
+                                spacing: 15,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    spacing: 10,
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 38,
+                                        backgroundColor: ColorConstant.cardGrey,
+                                        backgroundImage:state.userProfileEntity.profilePicture!=null?
+                                        CachedNetworkImageProvider(
+                                          ApiUrl.baseUrl + state.userProfileEntity.profilePicture!,
+                                            headers: {'Authorization': 'Bearer ${state.token}'
+                                            },
+                                          cacheManager: NoCacheManager()
                                         )
-                                      ].animate(interval: 10.ms).fade(),
-                                    )
-                                  ].animate(interval: 10.ms).fade(),
-                                ),
-                                // based on the user display either card or container
-                                if (GoRouterState.of(context).matchedLocation == '/profile')
-                                  Card(
-                                    color: ColorConstant.cardGrey,
-                                    elevation: 0,
-                                    shadowColor: ColorConstant.cardGrey,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                      side: BorderSide(
-                                        color: ColorConstant.cardGrey,
+                                        // NetworkImage(
+                                        //   ApiUrl.baseUrl + state.userProfileEntity.profilePicture!,
+                                        //   headers: {'Authorization': 'Bearer ${state.token}'
+                                        //   },// Use custom manager
+                                        // )
+                                              :null,
+                                        child: state.userProfileEntity.profilePicture == null
+                                            ? Icon(
+                                          Icons.person,
+                                          color: Colors.black12,
+                                          size: 20,
+                                        )
+                                            :   Icon(
+                                                Icons.photo,
+                                             color: Colors.black12,
+                                               ),
                                       ),
-                                    ),
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      padding: const EdgeInsets.all(15),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            spacing: 5,
-                                            children: [
-                                              Text(
-                                                tr("Amount"),
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyLarge!
-                                                    .copyWith(
+                                          Text(
+                                            "${state.userProfileEntity.userAccount!.firstName} "
+                                            "${state.userProfileEntity.userAccount!.lastName}",
+                                            textAlign: TextAlign.start,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headlineSmall!
+                                                .copyWith(
+                                                    fontSize: 21,
+                                                    fontWeight: FontWeight.w700),
+                                          ),
+                                          Text(
+                                            state.userProfileEntity.phoneNumber!,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall!
+                                                .copyWith(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 14),
+                                          ),
+                                          Text(
+                                            tr(state.userProfileEntity.typeOfCustomer!),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall!
+                                                .copyWith(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                    color:
+                                                        ColorConstant.secondBtnColor),
+                                          )
+                                        ].animate(interval: 10.ms).fade(),
+                                      )
+                                    ].animate(interval: 10.ms).fade(),
+                                  ),
+                                  // based on the user display either card or container
+                                  if (GoRouterState.of(context).matchedLocation == '/profile')
+                                    Card(
+                                      color: ColorConstant.cardGrey,
+                                      elevation: 0,
+                                      shadowColor: ColorConstant.cardGrey,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                        side: BorderSide(
+                                          color: ColorConstant.cardGrey,
+                                        ),
+                                      ),
+                                      child: Container(
+                                        width: MediaQuery.of(context).size.width,
+                                        padding: const EdgeInsets.all(0),
+                                        child: ListTile(
+                                             title: Text(
+                                                        tr("Amount"),
+                                                        style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
                                                         fontWeight: FontWeight.w700,
                                                         fontSize: 14),
-                                              ),
-                                              Text(tr("Your current deposited amount"),
-                                                textAlign: TextAlign.start,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodySmall,
-                                              ),
-                                            ],
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            spacing: 10,
-                                            children: [
-                                              Text(
-                                                state.userProfileEntity.points!.toString(),
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyLarge!
-                                                    .copyWith(
-                                                        fontWeight: FontWeight.w700,
-                                                        fontSize: 20,
-                                                        color: ColorConstant
-                                                            .primaryColor),
-                                              ),
-                                              Text(
-                                                tr("ETB"),
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodySmall!
-                                                    .copyWith(
-                                                        color: ColorConstant
-                                                            .primaryColor),
-                                              )
-                                            ],
-                                          )
-                                        ],
+                                                        ),
+                                             subtitle: Text(tr("Your current deposited amount"),
+                                                        textAlign: TextAlign.start,
+                                                        style: Theme.of(context)
+                                .textTheme
+                                .bodySmall,
+                                                        ),
+                                          trailing: RichText(text: TextSpan(
+                                              children: [
+                                                TextSpan(text:  state.userProfileEntity.points!.toString(),
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge!
+                                                      .copyWith(
+                                                      fontWeight: FontWeight.w700,
+                                                      fontSize: 20,
+                                                      color: ColorConstant
+                                                          .primaryColor),),
+                                                TextSpan(
+                                                  text: tr("ETB"),
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodySmall!
+                                                      .copyWith(
+                                                      color: ColorConstant
+                                                          .primaryColor),
+                                                )
+                                              ]
+                                          ))
+                                                        ),
+
                                       ),
                                     ),
-                                  ),
-                              ],
+
+                                ],
+                              ),
                             );
 
                           // return SizedBox(
@@ -351,14 +343,11 @@ class _ProfileState extends State<Profile> {
                     ),
                     ListTile(
                       onTap: () async{
-                        final Uri url = Uri.parse("https://etguesthome.com/");
-                        if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
-                        throw 'Could not launch $url';
-                        }
+                        context.pushNamed("termCondition");
                       },
-                      leading: Icon(Icons.info_outline,color: ColorConstant.inActiveColor.withValues(alpha: 0.6),),
+                      leading: Icon(Icons.privacy_tip_outlined,color: ColorConstant.inActiveColor.withValues(alpha: 0.6),),
                       title: Text(
-                       tr("About us"),
+                        tr("Term and condition"),
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium!
@@ -371,14 +360,11 @@ class _ProfileState extends State<Profile> {
                     ),
                     ListTile(
                       onTap: () async{
-                        final Uri url = Uri.parse("https://etguesthome.com/TermCondition.html");
-                        if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
-                          throw 'Could not launch $url';
-                        }
+                        context.pushNamed("aboutUs");
                       },
-                      leading: Icon(Icons.privacy_tip_outlined,color: ColorConstant.inActiveColor.withValues(alpha: 0.6),),
+                      leading: Icon(Icons.info_outline,color: ColorConstant.inActiveColor.withValues(alpha: 0.6),),
                       title: Text(
-                        tr("Term and condition"),
+                        tr("About us"),
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium!

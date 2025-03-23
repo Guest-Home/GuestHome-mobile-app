@@ -101,11 +101,11 @@
   "telegram username": "Maqaa fayyadamaa telegram",
   "eg username": "Fakkeenyaaf maqaa fayyadamaa",
   "verify username": "Maqaa fayyadamaa mirkaneessaa",
-  "opt verification": "Mirkaneessaa OTP",
+  "otp verification": "Mirkaneessaa OTP",
   "please enter the one time": "Maaloo yeroo tokkof galchaa",
   "password sent to your mobile number": "Jechi darbii lakkoofsa bilbila keessan irratti ergameraa",
-  "Didn’t receive the code": "Koodii hin fudhannee? ",
-  "Resend in _ second": "sekondii keessatti irra deebisii,",
+  "Didn't receive the code": "Koodii hin fudhannee? ",
+  "resend in second": "sekondii keessatti irra deebisii,",
   "second": "ergi",
   "what are you looking for?": "Maal  ilaalachuu barbaadda?",
   "Hotel and resort": "Hoteela fi riizortii",
@@ -267,7 +267,7 @@
   "Term and condition": "Ulaagaalee fi haalota",
   "Amount": "Hanga",
   "Private Compound":"Moora dhuunfaa",
-  "Shared Office Space":"Wajjira iddo hirmaachuu",
+  "Office Shared Space":"Wajjira iddo hirmaachuu",
 
 
   "No reservation found":"Bakki eeggate hin argamne.",
@@ -276,5 +276,8 @@
   "Add properties":"Qabeenyaa dabali",
   "No transaction yet":"hanga yoonaa daldalii hin raawwatamnee",
   "You didn't book any properties. Search and book properties":"Qabeenya tokkollee hin qabsiifanne. Qabeenya barbaadii fi qabsiifadhu.",
-  "Here is the list of your requested booking":"Kanneen bakka buuksachuuf gaafatte tarreen isaa kanadha."
+  "Here is the list of your requested booking":"Kanneen bakka buuksachuuf gaafatte tarreen isaa kanadha.",
+  "Processing Payment":"Adeemsa Kaffaltii",
+  "Waiting For payment":"Kaffaltiidhaaf Eeggachuu",
+  "you will receive USSD payment dialog and please verify your payment": "Kaffaltti USSD qaaqa kessan fudhatanittu, maaloo kaffaltti kessan mirkaneessa."
 }

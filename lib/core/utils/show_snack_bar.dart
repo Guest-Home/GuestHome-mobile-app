@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../config/color/color.dart';
 
-showNoInternetSnackBar(BuildContext context, VoidCallback onpressed){
+showNoInternetSnackBar(BuildContext context,){
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(action: SnackBarAction(label: 'Retry', onPressed:onpressed, textColor: ColorConstant.red,backgroundColor:
-          Colors.white,),
+        SnackBar(
+          // action: SnackBarAction(label: 'Retry',
+          // onPressed:onpressed, textColor: ColorConstant.red,backgroundColor:
+          // Colors.white,),
       content: ListTile(
         leading:Icon(Icons.signal_wifi_connected_no_internet_4,color: ColorConstant.red,),
         title: Text("No Internet connection",

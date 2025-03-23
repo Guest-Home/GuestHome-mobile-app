@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/config/route/navigator_observer.dart';
+import 'package:minapp/core/common/pages/connectivty_listener_wrapper.dart';
+import 'package:minapp/core/common/pages/server_error.dart';
 import 'package:minapp/features/auth/presentation/pages/sign_in.dart';
 import 'package:minapp/features/auth/presentation/pages/sign_in_with_tg.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/booking/booking_bloc.dart';
@@ -26,6 +28,7 @@ import 'package:minapp/features/auth/presentation/pages/account_setup.dart';
 import 'package:minapp/features/auth/presentation/pages/otp_verification.dart';
 import 'package:minapp/features/auth/presentation/pages/profile_setup.dart';
 import 'package:minapp/features/host/features/home/presentation/pages/home.dart';
+import 'package:minapp/features/host/features/profile/presentation/pages/about_us.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/account.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/add_funds.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/commission.dart';
@@ -35,6 +38,7 @@ import 'package:minapp/features/host/features/profile/presentation/pages/general
 import 'package:minapp/features/host/features/profile/presentation/pages/language.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/payment_setting.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/profile.dart';
+import 'package:minapp/features/host/features/profile/presentation/pages/term_condition.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/verify_new_phone.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/verify_old_phone.dart';
 import 'package:minapp/features/host/features/properties/domain/entities/property_entity.dart';
@@ -50,7 +54,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../core/model/house_detail_argument.dart';
 import '../../features/auth/presentation/pages/tg_otp_verification.dart';
 import '../../features/guest/features/HousType/domain/entities/guest_property_entity.dart';
+import '../../features/guest/features/booked/presentation/bloc/booked_bloc.dart';
+import '../../features/host/features/profile/presentation/bloc/profile_bloc.dart';
 import '../../features/host/features/properties/presentation/bloc/add_property/add_property_bloc.dart';
+import '../../features/host/features/properties/presentation/bloc/properties_bloc.dart';
+import '../../features/host/features/properties/presentation/bloc/property_type/property_type_bloc.dart';
+import '../../features/host/features/request/presentation/bloc/request_bloc.dart';
 import '../../features/onbording/presentation/bloc/on_bording_bloc.dart';
 import '../../main.dart';
 import '../../service_locator.dart';
@@ -62,7 +71,7 @@ Future<GoRouter> createRouter() async {
   bool isFirstTimeUser = prefs.getBool('isFirstTimeUser') ?? true;
   final GoRouter router = GoRouter(
     navigatorKey: navigatorKey,
-    debugLogDiagnostics: true,
+    debugLogDiagnostics: false,
     observers: [MyNavigatorObserver()],
     initialLocation: isFirstTimeUser ? '/onboarding' : '/houseType',
     errorBuilder: (context, state) => Scaffold(
@@ -98,6 +107,10 @@ Future<GoRouter> createRouter() async {
     },
     routes: [
       GoRoute(
+          name: 'serverError',
+          path: '/serverError',
+          builder: (context, state) => ServerError()),
+      GoRoute(
           name: 'splash',
           path: '/splash',
           builder: (context, state) => Splash()),
@@ -125,6 +138,20 @@ Future<GoRouter> createRouter() async {
           return ListedPropertyDetail(
             propertyEntity: property,
           );
+        },
+      ),
+      GoRoute(
+        name: 'aboutUs',
+        path: '/AboutUs',
+        builder: (context, state) {
+          return AboutUs();
+        },
+      ),
+      GoRoute(
+        name: 'termCondition',
+        path: '/termCondition',
+        builder: (context, state) {
+          return TermCondition();
         },
       ),
       GoRoute(
@@ -173,7 +200,10 @@ Future<GoRouter> createRouter() async {
               GoRoute(
                   name: 'properties',
                   path: '/properties',
-                  builder: (context, state) => Properties(),
+                  builder: (context, state) => ConnectivityListener(
+                      routeName:"properties",
+                      onConnected: () =>context.read<PropertiesBloc>().add(GetPropertiesEvent()),
+                      child: Properties()),
                   routes: [
                     GoRoute(
                       name: 'hostSearch',
@@ -191,7 +221,10 @@ Future<GoRouter> createRouter() async {
               GoRoute(
                   name: 'request',
                   path: '/request',
-                  builder: (context, state) =>  const Request(),
+                  builder: (context, state) =>   ConnectivityListener(
+                    routeName: 'request',
+                      onConnected: () =>context.read<RequestBloc>().add(GetReservationEvent()),
+                      child: Request()),
                       ),
             ],
           ),
@@ -212,7 +245,13 @@ Future<GoRouter> createRouter() async {
                               ..add(GetTotalPropertyEvent()),
                           ),
                         ],
-                        child: const Analytics(),
+                        child: ConnectivityListener(
+                          routeName:'analytics',
+                            onConnected: () {
+                              sl<AnalyticsBloc>().add(GetOccupancyRateEvent());
+                              sl<TotalPropertyBloc>().add(GetTotalPropertyEvent());
+                            },
+                            child: Analytics()),
                       )),
             ],
           ),
@@ -222,7 +261,10 @@ Future<GoRouter> createRouter() async {
               GoRoute(
                 name: 'profile',
                 path: '/profile',
-                builder: (context, state) => const Profile(),
+                builder: (context, state) => ConnectivityListener(
+                    routeName:'profile',
+                    onConnected: () => context.read<ProfileBloc>().add(GetUserProfileEvent()),
+                    child: Profile()),
                 routes: [
                   GoRoute(
                       name: 'generalInformation',
@@ -293,8 +335,8 @@ Future<GoRouter> createRouter() async {
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return GuestHome(
-              navigationShell:
-                  navigationShell); // Pass navigationShell for controlling navigation.
+                navigationShell:
+                    navigationShell);// Pass navigationShell for controlling navigation.
         },
         branches: [
           StatefulShellBranch(
@@ -303,7 +345,11 @@ Future<GoRouter> createRouter() async {
               GoRoute(
                   name: 'houseType',
                   path: '/houseType',
-                  builder: (context, state) => HouseType(),
+                  builder: (context, state) =>
+                      ConnectivityListener(
+                        onConnected: () => context.read<PropertyTypeBloc>().add(GetPropertyTypesEvent()),
+                          routeName: "houseType",
+                          child: HouseType()),
                   routes: [
                     GoRoute(
                         name: 'houseTypeDetail',
@@ -322,8 +368,15 @@ Future<GoRouter> createRouter() async {
                                   ..add(GetPopularPropertyEvent()),
                               ),
                             ],
-                            child: HouseTypeDetail(
-                              name: name,
+                            child: ConnectivityListener(
+                              routeName: "houseTypeDetail",
+                              onConnected: () {
+                                sl<PopularPropertyBloc>().add(GetPopularPropertyEvent());
+                                sl<HoustypeBloc>().add( GetPropertyByHouseTypeEvent(name: name));
+                              },
+                              child: HouseTypeDetail(
+                                name: name,
+                              ),
                             ),
                           );
                         },
@@ -354,7 +407,10 @@ Future<GoRouter> createRouter() async {
               GoRoute(
                   name: 'booked',
                   path: '/booked',
-                  builder: (context, state) => Booked(),
+                  builder: (context, state) => ConnectivityListener(
+                    onConnected: () =>context.read<BookedBloc>().add(GetMyBookingEvent()),
+                      routeName: "booked",
+                      child: Booked()),
                   routes: [
                     GoRoute(
                       name: 'bookedDetail',
@@ -364,9 +420,13 @@ Future<GoRouter> createRouter() async {
                         final token = state.pathParameters['token'];
                         return BlocProvider(
                           create: (context) => sl<BookedDetailBloc>(),
-                          child: BookedDetail(
-                            token: token!,
-                            id: id,
+                          child: ConnectivityListener(
+                            routeName:"bookedDetail",
+                            onConnected: () => sl<BookedDetailBloc>().add(GetBookedDetail(id:id)),
+                            child: BookedDetail(
+                              token: token!,
+                              id: id,
+                            ),
                           ),
                         );
                       },
@@ -393,7 +453,10 @@ Future<GoRouter> createRouter() async {
               GoRoute(
                   name: 'guestProfile',
                   path: '/guestProfile',
-                  builder: (context, state) => const Profile(),
+                  builder: (context, state) => ConnectivityListener(
+                    routeName: "guestProfile",
+                    onConnected: () => context.read<ProfileBloc>().add(GetUserProfileEvent()),
+                      child: const Profile()),
                   routes: [
                     GoRoute(
                         name: 'guestGeneralInformation',

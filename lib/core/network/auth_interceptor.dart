@@ -45,10 +45,10 @@ class AuthInterceptor extends Interceptor {
     if (err.response?.statusCode == 401) {
       // Attempt to refresh the token
       final newToken = await _refreshToken();
+      print("get new tok:  $newToken");
       if (newToken != null) {
         // Update the request header with the new token
         err.requestOptions.headers['Authorization'] = 'Bearer $newToken';
-
         // Retry the original request
         try {
           final response = await Dio().fetch(err.requestOptions);
@@ -62,7 +62,7 @@ class AuthInterceptor extends Interceptor {
         return handler.reject(err);
       }
     }
-    else if(err.response!.statusCode==404){
+    else if(err.response?.statusCode==404){
       bool requiresAuth = requireAccountEndPoint.any((endpoint) => err.requestOptions.path.contains(endpoint));
       if(requiresAuth){
         final context = navigatorKey.currentContext;
@@ -74,7 +74,6 @@ class AuthInterceptor extends Interceptor {
       }
 
     }
-
 
     // Pass other errors to the next handler
     return handler.next(err);
@@ -90,7 +89,7 @@ class AuthInterceptor extends Interceptor {
     // Make a request to refresh the token
     try {
       if (kDebugMode) {
-        print("get redresh token token");
+        print("get refresh token");
       }
       final response = await Dio().post(
         ApiUrl.baseUrl +
@@ -99,14 +98,20 @@ class AuthInterceptor extends Interceptor {
       );
       if (kDebugMode) {
         print(response.data);
+        print('acesss');
+        print(response.data);
       }
 
       // Assuming the new token is in the response
       String newToken = response.data['access']; // Adjust based on your API response
-      String refreshTo =
-          response.data['refresh']; // Adjust based on your API response
+      // String refreshTo = response.data['refresh'];
+      print("newww: ${newToken}");// Adjust based on your API response
+    //  print("new ref: ${refreshTo}");// Adjust based on your API response
       await prefs.setString('access', newToken); // Store the new token
-      await prefs.setString('refresh', refreshTo); // Store the new token
+     // await prefs.setString('refresh', refreshTo); // Store the new token
+
+     // await sharedPreferences.setBool('isLogin', true);
+
       return newToken;
     } catch (e) {
       // Handle error (e.g., log it, clear tokens, etc.)

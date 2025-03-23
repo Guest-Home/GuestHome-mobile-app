@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:minapp/core/common/bloc/internet_connection_bloc/connectivity_bloc.dart';
 import 'package:minapp/core/common/bloc/language_bloc.dart';
 import 'package:minapp/core/network/dio_client.dart';
 import 'package:minapp/core/utils/connectivity_service.dart';
@@ -110,6 +111,7 @@ void setup() async {
   // connectivity service
   sl.registerSingleton<ConnectivityService>(ConnectivityService());
   //Bloc
+  sl.registerFactory<ConnectivityBloc>(() => ConnectivityBloc());
   sl.registerFactory<LanguageBloc>(() => LanguageBloc());
   sl.registerFactory<OnBordingBloc>(() => OnBordingBloc());
   sl.registerFactory<AddPropertyBloc>(() => AddPropertyBloc());

@@ -77,11 +77,6 @@ class _RequestState extends State<Request> {
                 ),
                 BlocConsumer<RequestBloc, RequestState>(
                   listener: (context, state) {
-                    if(state is NoInternetRequest){
-                      showNoInternetSnackBar(context, () {
-                        context.read<RequestBloc>().add(GetReservationEvent());
-                      },);
-                    }
                   },
                   builder: (context, state) {
                     if (state is ReservationLoadingState || state is NoInternetRequest) {

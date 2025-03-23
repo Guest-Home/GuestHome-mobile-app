@@ -19,7 +19,8 @@ class BookedBloc extends Bloc<BookedEvent, BookedState> {
       final hasConnection = await ConnectivityService.isConnected();
       if (!hasConnection) {
       Either response= await sl<GetMyBookingUseCase>().call("");
-      response.fold((l) => emit(MyBookingErrorState(state,failure: l)), (r) => emit(
+      response.fold((l) => emit(MyBookingErrorState(state,failure: l)),
+            (r) => emit(
         state.copyWith(booking: r)
       ),);
       } else {

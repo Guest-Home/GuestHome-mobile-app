@@ -102,7 +102,7 @@
   "Enter your phone number": "ስልክ ቁጥርዎን ያስገቡ",
   "Verify phone number": "ስልክ ቁጥርዎን ያረጋግጡ",
   "Sign in with telegram": "በቴሌግራም ይግቡ",
-  "Sign with telegram": "በቴሌግራም ይግቡ",
+  "Sign with telegram": "በቴሌግራም ተጠቃሚ ስም ይግቡ",
   "telegram username": "ቴሌግራም የተጠቃሚ ስም",
   "eg username": "ለምሳሌ የተጠቃሚ ስም",
   "verify username": "የተጠቃሚ ስም ያረጋግጡ",
@@ -110,7 +110,7 @@
   "please enter the one time": "እባክዎን አንድ ጊዜውን ያስገቡ",
   "password sent to your mobile number": "ወደ ስልክ ቁጥርዎ የተላከ የይለፍ ቃል",
   "Didn't receive the code": "ኮድ አልደረሰም? ",
-  "resend in _ second": "በ",
+  "resend in second": "በ",
   "second": "ሰከንድ ዳግም ላክ",
   "what are you looking for?": "ምን ይፈልጋሉ?",
   "Hotel and resort": "ሆቴል እና ሪዞርት",
@@ -267,7 +267,7 @@
   "Amount": "መጠን",
   "Your current deposited amount": "አሁን ያለዎት የተቀማጭ ገንዘብ መጠን",
   "Private Compound":"የግል ግቢ",
-  "Shared Office Space": "የጋራ የቢሮ ቦታ",
+  "Office Shared Space": "የጋራ የቢሮ ቦታ",
 
   "No reservation found":"ቦታ አልተያዘም።",
   "No property is listed":"ምንም ንብረት አልተዘረዘረም።",
@@ -275,6 +275,8 @@
   "Add properties":"ንብረቶችን ጨምር",
   "No transaction yet":"እስካሁን ምንም ግብይት የለም።",
   "You didn't book any properties. Search and book properties":"ምንም ንብረት አልያዝክም። ንብረቶችን ፈልግ እና ያዝ።",
-  "Here is the list of your requested booking":"የጠየቅከው የቦታ ማስያዣ ዝርዝር ይኸውልህ።"
-
+  "Here is the list of your requested booking":"የጠየቅከው የቦታ ማስያዣ ዝርዝር ይኸውልህ።",
+  "Processing Payment":"ክፍያ በመካሄድ ላይ",
+  "Waiting For payment": "ክፍያ በመጠበቅ ላይ",
+  "you will receive USSD payment dialog and please verify your payment": "የUSSD ክፍያ መልዕክት ይደርስዎታል፣ እባክዎን ክፍያዎን ያረጋግጡ።"
 }

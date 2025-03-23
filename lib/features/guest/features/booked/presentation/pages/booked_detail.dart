@@ -85,9 +85,7 @@ class _BookedDetailState extends State<BookedDetail> {
       appBar: AppBar(
         leading: AppBarBackButton(),
       ),
-      body: BlocProvider.value(
-        value: sl<BookedBloc>(),
-        child: SingleChildScrollView(
+      body:SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 10,vertical: 2),
           child:
           Column(
@@ -104,10 +102,6 @@ class _BookedDetailState extends State<BookedDetail> {
               ),
               BlocConsumer<BookedDetailBloc, BookedDetailState>(
                 listener: (context, state) {
-                  if(state is NoInternetBookedDetailSate){
-                    showNoInternetSnackBar(context,(){    context.read<BookedDetailBloc>().add(GetBookedDetail(id:widget.id));
-                    });
-                  }
                 },
                 builder: (context, state) {
                   if(state is BookedDetailLoading || state is NoInternetBookedDetailSate){
@@ -342,7 +336,6 @@ class _BookedDetailState extends State<BookedDetail> {
           )
 
         ),
-      ),
     );
   }
 
@@ -408,6 +401,7 @@ class _BookedDetailState extends State<BookedDetail> {
       isDismissible: false,
       useSafeArea: true,
       isScrollControlled: true,
+      useRootNavigator: true,
       builder: (context) => Container(
         height: MediaQuery.of(context).size.height * 0.30,
         color: Colors.white,
@@ -477,7 +471,7 @@ class _BookedDetailState extends State<BookedDetail> {
                           }
                           else if (state is NoInternetSate) {
                             context.pop();
-                            showNoInternetSnackBar(context,(){});
+                           // showNoInternetSnackBar(context,(){});
                         }},
                         child: BlocBuilder<BookedBloc, BookedState>(
                           builder: (context, state) {
