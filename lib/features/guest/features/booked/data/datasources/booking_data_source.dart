@@ -35,7 +35,7 @@ class BookingDataSourceImpl extends BookingDataSource {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      return Left(ErrorResponse().mapDioExceptionToFailure(e));
+      return Left(ServerFailure(e.response!.statusMessage!));
     }
   }
 

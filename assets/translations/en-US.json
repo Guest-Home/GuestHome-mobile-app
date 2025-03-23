@@ -91,7 +91,7 @@
   "Post your home and go viral": "Post your home and go viral",
   "Sign in with": "Sign in with",
   "Or sign with": "Or sign with",
-  "Sign in with telegram": "Sign in with telegram",
+  "Sign in with telegram": "Sign in with telegram username",
   "Enter your phone number": "Enter your phone number",
   "Verify phone number": "Verify phone number",
   "Sign with telegram": "Sign with telegram",
@@ -274,6 +274,8 @@
   "Add properties":"Add properties",
   "No transaction yet":"No transaction yet",
   "You didn't book any properties. Search and book properties":"You didn't book any properties. Search and book properties",
-  "Here is the list of your requested booking":"Here is the list of your requested booking"
-
+  "Here is the list of your requested booking":"Here is the list of your requested booking",
+  "Processing Payment":"Processing Payment",
+  "Waiting For payment": "Waiting For payment",
+  "you will receive USSD payment dialog and please verify your payment": "you will receive USSD payment dialog and please verify your payment"
 }

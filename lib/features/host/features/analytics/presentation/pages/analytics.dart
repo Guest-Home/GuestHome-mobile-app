@@ -196,12 +196,6 @@ class _AnalyticsState extends State<Analytics> {
                       context.pop();
                       showSuccessSnackBar(context, "report saved");
                     }
-                    else if (state is NoInternetAnalytics) {
-                     showNoInternetSnackBar(context, () {
-                       context.read<AnalyticsBloc>().add(GetOccupancyRateEvent());
-                       context.read<TotalPropertyBloc>().add(GetTotalPropertyEvent());
-                     },);
-                    }
                   },
                   buildWhen: (previous, current) => previous != current,
                   builder: (context, state) {

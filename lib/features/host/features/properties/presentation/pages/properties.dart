@@ -69,13 +69,7 @@ class _PropertiesState extends State<Properties> {
           ),
           BlocConsumer<PropertiesBloc, PropertiesState>(
             listener: (context, state) {
-              if (state is NoInternetSate) {
-                showNoInternetSnackBar(context, () {
-                  context.read<PropertiesBloc>().add(GetPropertiesEvent());
-                },);
-              }
-
-            },
+              },
             builder: (context, state) {
               if (state is PropertiesLoading || state is NoInternetSate) {
                 return SliverToBoxAdapter(

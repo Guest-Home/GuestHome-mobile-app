@@ -14,6 +14,8 @@ import 'package:minapp/features/guest/features/HousType/presentation/bloc/housty
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/popular_property/popular_property_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/widgets/near_house_card.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/property_type/property_type_bloc.dart';
+import '../../../../../../core/common/bloc/internet_connection_bloc/connectivity_bloc.dart';
+import '../../../../../../core/common/bloc/internet_connection_bloc/connectivity_state.dart';
 import '../../../../../../core/common/custom_button.dart';
 import '../../../../../../core/common/spin_kit_loading.dart';
 import '../../../../../../core/utils/get_token.dart';
@@ -69,20 +71,23 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
       //   shadowColor: Colors.transparent,
       //   scrolledUnderElevation: 0,
       // ),
-      body: MultiBlocListener(
-  listeners: [
-    BlocListener<HoustypeBloc,HoustypeState>(listener: (context, state) {
-      if(state is NoInternetHouseTypeSate){
-        showNoInternetSnackBar(context,(){context.read<HoustypeBloc>().add(GetPropertyByHouseTypeEvent(name: widget.name));});
-      }
-    },),
-    BlocListener<FilterBloc,FilterState>(listener: (context, state) {
-      if(state is NoInternetFilterState){
-        showNoInternetSnackBar(context,(){});
-      }
-    },)
-  ],
-  child: CustomScrollView(
+      body:
+  //     MultiBlocListener(
+  // listeners: [
+  //   BlocListener<ConnectivityBloc, ConnectivityState>(
+  //     listener: (context, state) {
+  //       if (state is Connected) {
+  //         // Refresh page on connection
+  //         context.read<PopularPropertyBloc>().add(GetPopularPropertyEvent());
+  //         context.read<HoustypeBloc>().add(GetPropertyByHouseTypeEvent(name: widget.name));
+  //       } else if (state is Disconnected) {
+  //         showNoInternetSnackBar(context);
+  //       }
+  //     },
+  //   ),
+  // ],
+  // child:
+  CustomScrollView(
         slivers: [
           SliverAppBar(
             pinned: true,
@@ -481,7 +486,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
             ),
           )
         ],
-      ),
+
 )
 
     );
@@ -522,6 +527,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
       elevation: 10,
       isDismissible: false,
       isScrollControlled: true,
+      useRootNavigator: true,
       enableDrag: true,
       builder: (context) => SizedBox(
         height: MediaQuery.of(context).size.height * 0.80,

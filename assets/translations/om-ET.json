@@ -276,5 +276,8 @@
   "Add properties":"Qabeenyaa dabali",
   "No transaction yet":"hanga yoonaa daldalii hin raawwatamnee",
   "You didn't book any properties. Search and book properties":"Qabeenya tokkollee hin qabsiifanne. Qabeenya barbaadii fi qabsiifadhu.",
-  "Here is the list of your requested booking":"Kanneen bakka buuksachuuf gaafatte tarreen isaa kanadha."
+  "Here is the list of your requested booking":"Kanneen bakka buuksachuuf gaafatte tarreen isaa kanadha.",
+  "Processing Payment":"Adeemsa Kaffaltii",
+  "Waiting For payment":"Kaffaltiidhaaf Eeggachuu",
+  "you will receive USSD payment dialog and please verify your payment": "Kaffaltti USSD qaaqa kessan fudhatanittu, maaloo kaffaltti kessan mirkaneessa."
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../config/color/color.dart';
 
@@ -15,6 +16,7 @@ class CustomTextField extends StatelessWidget {
       this.textEditingController,
         this.enabled,
         this.readOnly,
+        this.inputFormatter,
       this.intialValue});
 
   final String hintText;
@@ -28,6 +30,7 @@ class CustomTextField extends StatelessWidget {
   final String? intialValue;
   final bool? enabled;
   final bool? readOnly;
+  final List<TextInputFormatter>? inputFormatter;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +40,7 @@ class CustomTextField extends StatelessWidget {
         controller: textEditingController,
         keyboardType: textInputType,
         minLines: 1,
+        inputFormatters:inputFormatter,
         initialValue: intialValue,
         maxLines: isMultiLine ? null : 1,
         onChanged: (value) => onTextChnage(value),

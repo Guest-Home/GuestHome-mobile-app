@@ -74,7 +74,8 @@ class HouseDataSourceImpl implements HouseDataSource {
         return Left(ServerFailure(response.data['error']));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.response!.data['error']));
+     // return Left(ServerFailure(e.response!.data['error']));
+      return Left(ErrorResponse().mapDioExceptionToFailure(e));
     }
   }
 

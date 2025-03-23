@@ -7,6 +7,8 @@ import 'package:go_router/go_router.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:minapp/config/route/route.dart';
 import 'package:minapp/config/theme/app_theme.dart';
+import 'package:minapp/core/common/bloc/internet_connection_bloc/connectivity_bloc.dart';
+import 'package:minapp/core/common/bloc/internet_connection_bloc/connectivity_event.dart';
 import 'package:minapp/core/common/bloc/language_bloc.dart';
 import 'package:minapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:minapp/features/auth/presentation/bloc/log_out/log_out_bloc.dart';
@@ -35,7 +37,10 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setup();
-  //Bloc.observer=MyBlocObserver();
+  if(kDebugMode){
+    Bloc.observer=MyBlocObserver();
+  }
+
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
@@ -63,6 +68,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        // BlocProvider(
+        //   create: (context) => sl<ConnectivityBloc>()..add(CheckConnectivity()),
+        // ),
         BlocProvider(
           create: (context) => sl<LanguageBloc>(),
         ),

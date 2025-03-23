@@ -104,7 +104,7 @@ class _BookingDetailNonApprovedState extends State<BookingDetailNonApproved> {
                               children: [
                                 CarouselSlider.builder(
                                   options:CarouselOptions(
-                                    height: MediaQuery.of(context).size.height * 0.34,
+                                    height: MediaQuery.of(context).size.height * 0.8,
                                     aspectRatio: 16/9,
                                     viewportFraction:0.96,
                                     initialPage: 0,
@@ -137,7 +137,7 @@ class _BookingDetailNonApprovedState extends State<BookingDetailNonApproved> {
                                                 RepaintBoundary(child: CupertinoActivityIndicator()),
                                             errorWidget: (context, url, error) =>
                                                 Icon(Icons.error),
-                                            fit: BoxFit.cover,
+                                            fit: BoxFit.fill,
                                             width: MediaQuery.of(context).size.width,
                                           ),
                                         ),
@@ -334,6 +334,7 @@ class _BookingDetailNonApprovedState extends State<BookingDetailNonApproved> {
       isDismissible: false,
       useSafeArea: true,
       isScrollControlled: true,
+      useRootNavigator: true,
       builder: (context) => Container(
         height: MediaQuery.of(context).size.height * 0.30,
         color: Colors.white,

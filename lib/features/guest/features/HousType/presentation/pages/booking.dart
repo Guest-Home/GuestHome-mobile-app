@@ -50,7 +50,7 @@ final int id;
           child:BlocBuilder<BookingBloc,BookingState>(
             buildWhen: (previous, current) => previous!=current,
             builder: (context, state) =>
-        Column(
+          Column(
           children: [
             Expanded(
                 child:
@@ -78,11 +78,12 @@ final int id;
                                 initialEntryMode: DatePickerEntryMode.calendarOnly, // Forces vertical scrolling
                                 context: context,
                                 firstDate: DateTime.now(),
-                                lastDate: DateTime(2060),
+                              lastDate: DateTime(2100),
                             );
                             if(time!=null){
                               context.read<BookingBloc>().add(AddCheckInEvent(checkIn: time.toString()));
                               checkInController.text=DateConverter().formatDateRange(time.toString());
+                              checkOutController.text='';
                             }
                           },
                           child: Icon(
@@ -106,6 +107,7 @@ final int id;
                 SizedBox(height: 10,),
                 CustomTextField(
                   readOnly: true,
+                    enabled: state.checkIn.isNotEmpty,
                     hintText:DateConverter().formatDateRange(DateTime.now().toString()),
                     surfixIcon: GestureDetector(
                           onTap: ()async{
@@ -113,8 +115,10 @@ final int id;
                               helpText: "Check-Out date",
                                 context: context,
                                 initialEntryMode: DatePickerEntryMode.calendarOnly, // Forces vertical scrolling
-                                firstDate: DateTime.now(),
-                                lastDate: DateTime(2060));
+                              initialDate: DateTime.parse(state.checkIn).add(Duration(days: 1)), // Start 1 day after check-in
+                              firstDate: DateTime.parse(state.checkIn).add(Duration(days: 1)), // Prevent earlier selection
+                              lastDate: DateTime(2100),
+                            );
                             if(time!=null){
                               context.read<BookingBloc>().add(AddCheckOutEvent(checkOut: time.toString()));
                               checkOutController.text=DateConverter().formatDateRange(time.toString());
@@ -176,7 +180,7 @@ final int id;
                 ),
               ].animate().fade(),
             ),),
-                Container(
+            Container(
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.all(15),
               child: Row(
