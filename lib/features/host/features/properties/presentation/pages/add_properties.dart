@@ -3,6 +3,7 @@ import 'package:currency_picker/currency_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -489,6 +490,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                   hintText: "eg: 4",
                                   surfixIcon: null,
                                   isMultiLine: false,
+                                  inputFormatter: [FilteringTextInputFormatter.digitsOnly], // Restricts input to digits
                                   validator: (value) {
                                     if (value!.isEmpty ||
                                         !Validation.numberValidation(value)) {
@@ -509,6 +511,7 @@ class _AddPropertiesState extends State<AddProperties> {
                                 CustomTextField(
                                   textEditingController: priceController,
                                   hintText: "eg: 500",
+                                  inputFormatter: [FilteringTextInputFormatter.digitsOnly], // Restricts input to digits
                                   surfixIcon: TextButton.icon(
                                     iconAlignment: IconAlignment.end,
                                     onPressed: () {

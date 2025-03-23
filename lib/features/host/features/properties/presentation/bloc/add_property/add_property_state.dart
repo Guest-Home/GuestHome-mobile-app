@@ -30,7 +30,7 @@ class AddPropertyState extends Equatable {
     this.amenities = const [],
     this.images = const [],
     this.totalImageSize=0.0,
-    this.specificAddress = 'e.g Gurd Shola beside tele',
+    this.specificAddress = '',
     this.city = 'Addis Ababa',
     this.houseType = '',
     this.noRoom = '',
