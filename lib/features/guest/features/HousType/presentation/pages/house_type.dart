@@ -9,12 +9,8 @@ import 'package:minapp/core/common/constants/house_type_icons.dart';
 import 'package:minapp/core/common/custom_button.dart';
 import 'package:minapp/core/common/loading_indicator_widget.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/widgets/section_header_text.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
-import '../../../../../../core/common/bloc/internet_connection_bloc/connectivity_bloc.dart';
-import '../../../../../../core/common/bloc/internet_connection_bloc/connectivity_state.dart';
 import '../../../../../../core/common/house_type_card.dart';
-import '../../../../../../core/utils/show_snack_bar.dart';
 import '../../../../../host/features/properties/presentation/bloc/property_type/property_type_bloc.dart';
 
 class HouseType extends StatefulWidget {
@@ -27,12 +23,6 @@ class HouseType extends StatefulWidget {
 class _HouseTypeState extends State<HouseType> {
   int photoIndex = 0;
 
-  void _refreshPage(BuildContext context) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const HouseType()),
-    );
-  }
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
