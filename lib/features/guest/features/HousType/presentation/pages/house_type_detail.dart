@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
 import 'package:minapp/core/common/constants/house_type_icons.dart';
@@ -535,7 +536,16 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
           listener: (context, state) {
             if (state is FilterDataLoadedState) {
             } else if (state is FilterErrorState) {
-              showWarningSnackBar(context, state.failure.message);
+              // showWarningSnackBar(context, state.failure.message);
+              Fluttertoast.showToast(
+                msg:state.failure.message,
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.black,
+                textColor: Colors.white,
+                fontSize: 16.0,
+              );
             }
           },
           child: BlocBuilder<FilterBloc, FilterState>(

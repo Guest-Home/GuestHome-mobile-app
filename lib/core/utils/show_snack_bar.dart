@@ -58,7 +58,8 @@ showErrorSnackBar(BuildContext context, String message){
     ));}
 showWarningSnackBar(BuildContext context, String message){
   ScaffoldMessenger.of(context).clearSnackBars();
-  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
     content: ListTile(
       leading: SvgPicture.asset(
         'assets/icons/warning.svg',

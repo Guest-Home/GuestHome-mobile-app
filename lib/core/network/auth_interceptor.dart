@@ -45,7 +45,6 @@ class AuthInterceptor extends Interceptor {
     if (err.response?.statusCode == 401) {
       // Attempt to refresh the token
       final newToken = await _refreshToken();
-      print("get new tok:  $newToken");
       if (newToken != null) {
         // Update the request header with the new token
         err.requestOptions.headers['Authorization'] = 'Bearer $newToken';
