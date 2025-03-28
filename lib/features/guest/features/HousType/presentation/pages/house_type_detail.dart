@@ -3,19 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:minapp/config/color/color.dart';
 import 'package:minapp/core/common/constants/house_type_icons.dart';
 import 'package:minapp/core/common/loading_indicator_widget.dart';
-import 'package:minapp/core/utils/show_snack_bar.dart';
 import 'package:minapp/features/guest/features/HousType/domain/entities/guest_property_entity.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/filter_bloc/filter_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/houstype_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/bloc/popular_property/popular_property_bloc.dart';
 import 'package:minapp/features/guest/features/HousType/presentation/widgets/near_house_card.dart';
 import 'package:minapp/features/host/features/properties/presentation/bloc/property_type/property_type_bloc.dart';
-import '../../../../../../core/common/bloc/internet_connection_bloc/connectivity_bloc.dart';
-import '../../../../../../core/common/bloc/internet_connection_bloc/connectivity_state.dart';
 import '../../../../../../core/common/custom_button.dart';
 import '../../../../../../core/common/spin_kit_loading.dart';
 import '../../../../../../core/utils/get_token.dart';
@@ -535,7 +533,16 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
           listener: (context, state) {
             if (state is FilterDataLoadedState) {
             } else if (state is FilterErrorState) {
-              showWarningSnackBar(context, state.failure.message);
+              // showWarningSnackBar(context, state.failure.message);
+              Fluttertoast.showToast(
+                msg:state.failure.message,
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.black,
+                textColor: Colors.white,
+                fontSize: 16.0,
+              );
             }
           },
           child: BlocBuilder<FilterBloc, FilterState>(
@@ -788,6 +795,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                             .read<FilterBloc>()
                             .add(AddFilterCityEvent(city: value));
                       },
+                        hintText:filterState.city,
                       ),
                       CheckboxListTile(
                         activeColor: ColorConstant.green,

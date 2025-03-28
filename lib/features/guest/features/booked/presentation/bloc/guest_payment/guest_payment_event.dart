@@ -18,3 +18,9 @@ class MakeReservationPaymentEvent extends GuestPaymentEvent{
   @override
   List<Object?> get props =>[phone,id];
 }
+class MakeReservationRestEvent extends GuestPaymentEvent{
+  const MakeReservationRestEvent();
+
+  @override
+  List<Object?> get props =>[];
+}

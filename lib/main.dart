@@ -27,6 +27,7 @@ import 'core/utils/custom_local_delegate.dart';
 import 'features/guest/features/HousType/presentation/bloc/filter_bloc/filter_bloc.dart';
 import 'features/guest/features/booked/presentation/bloc/booked_bloc.dart';
 import 'features/guest/features/booked/presentation/bloc/guest_payment/guest_payment_bloc.dart';
+import 'features/host/features/profile/presentation/bloc/booking_history_bloc/booking_history_bloc.dart';
 import 'features/host/features/profile/presentation/bloc/profile_bloc.dart';
 import 'features/host/features/properties/presentation/bloc/add_property/add_property_bloc.dart';
 import 'features/host/features/properties/presentation/bloc/properties_bloc.dart';
@@ -124,6 +125,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => sl<GuestPaymentBloc>(),
         ),
+      BlocProvider(create: (context) => sl<BookingHistoryBloc>()..add(GetBookingHistoryEvent()))
       ],
       child: BlocBuilder<LanguageBloc, LanguageState>(
         builder: (context, state) {

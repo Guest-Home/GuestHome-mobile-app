@@ -28,6 +28,7 @@ import 'package:minapp/features/auth/presentation/pages/account_setup.dart';
 import 'package:minapp/features/auth/presentation/pages/otp_verification.dart';
 import 'package:minapp/features/auth/presentation/pages/profile_setup.dart';
 import 'package:minapp/features/host/features/home/presentation/pages/home.dart';
+import 'package:minapp/features/host/features/profile/presentation/bloc/booking_history_bloc/booking_history_bloc.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/about_us.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/account.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/add_funds.dart';
@@ -35,6 +36,7 @@ import 'package:minapp/features/host/features/profile/presentation/pages/commiss
 import 'package:minapp/features/host/features/profile/presentation/pages/delete_account.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/deposit_history.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/general_information.dart';
+import 'package:minapp/features/host/features/profile/presentation/pages/histor_page.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/language.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/payment_setting.dart';
 import 'package:minapp/features/host/features/profile/presentation/pages/profile.dart';
@@ -483,6 +485,14 @@ Future<GoRouter> createRouter() async {
                       path: '/guestLanguage',
                       builder: (context, state) => const Language(),
                     ),
+                    GoRoute(
+                      name: 'guestHistory',
+                      path: '/guestHistory',
+                      builder: (context, state) =>ConnectivityListener(
+                              routeName: 'guestHistory',
+                              onConnected: () =>context.read<BookingHistoryBloc>().add(GetBookingHistoryEvent()) ,
+                              child: HistoryPage()),),
+
                     GoRoute(
                         name: 'guestAccount',
                         path: '/guestAccount',

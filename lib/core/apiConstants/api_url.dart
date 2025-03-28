@@ -41,6 +41,7 @@ class ApiUrl {
       "/guestapp/api/v1/property_booking/cancel/";
   static const String filterProperties = "/guestapp/api/v1/filter_properties/";
   static const String searchProperties = "/guestapp/api/v1/search_properties/";
+  static const String bookingHistory = "/guestapp/api/v1/property_booking_history/";
 
   //payment
   static const String deposit = "/payment/api/v1/deposit_point_to_system/";

@@ -297,6 +297,25 @@ class _ProfileState extends State<Profile> {
                         size: 17,
                       ),
                     ),
+                    if (GoRouterState.of(context).matchedLocation == '/guestProfile')
+                    ListTile(
+                      onTap: () {
+                          context.pushNamed("guestHistory");
+
+                      },
+                      leading:Icon(Icons.history_outlined,color: ColorConstant.inActiveColor.withValues(alpha: 0.6),),
+                      title: Text(
+                        tr("history"),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(fontWeight: FontWeight.w400, fontSize: 14),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        size: 17,
+                      ),
+                    ),
                     ListTile(
                       onTap: () {
                         if (GoRouter.of(context).routerDelegate.state!.name ==

@@ -5,6 +5,7 @@ enum BookingStatus {
   approved("Approved",Colors.green),
   pending("Waiting for Approval", Colors.orange),
   waitingPayment("Waiting For payment", Colors.orange),
+  cancelled("Cancelled", Colors.orange),
   rejected("Rejected", Colors.red);
 
   final String status;

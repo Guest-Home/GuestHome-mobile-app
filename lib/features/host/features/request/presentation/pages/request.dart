@@ -203,6 +203,7 @@ class _RequestState extends State<Request> {
             context.pop();
             context.read<RequestBloc>().add(GetReservationEvent());
             showSuccessSnackBar(context, "reservation accepted");
+            context.pop();
           } else if (state is RejectedReservationState) {
             context.read<RequestBloc>().add(GetReservationEvent());
             context.pop();
@@ -214,6 +215,7 @@ class _RequestState extends State<Request> {
           else if (state is ReservationErrorState) {
             context.pop();
             showErrorSnackBar(context, state.failure.message);
+            context.pop();
           }
         },
         builder: (context, state) =>  Card(

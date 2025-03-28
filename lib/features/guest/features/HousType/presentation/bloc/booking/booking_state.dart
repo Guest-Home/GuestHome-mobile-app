@@ -16,10 +16,6 @@ class BookingState {
   final IdType idType;
 
   BookingState copyWith({
-    String? firstName,
-    String? lastName,
-    String? phoneNumber,
-    String? countryCode,
     String? checkIn,
     String? checkOut,
     IdType? idType,
@@ -32,14 +28,38 @@ class BookingState {
   }
 }
 
-final class BookingInitial extends BookingState {}
-final class NoInternetBookingState extends BookingState {}
-class BookingLoadingState extends BookingState{}
+final class BookingInitial extends BookingState {
+}
+final class NoInternetBookingState extends BookingState {
+  NoInternetBookingState(BookingState currentState)
+      : super(
+      checkIn:currentState.checkIn,
+      checkOut: currentState.checkOut,
+      idType: currentState.idType
+  );
+}
+class BookingLoadingState extends BookingState{
+  BookingLoadingState(BookingState currentState)
+      : super(
+      checkIn:currentState.checkIn,
+      checkOut: currentState.checkOut,
+      idType: currentState.idType
+  );
+}
 class BookingErrorState extends BookingState{
   final Failure failure;
-  BookingErrorState({required this.failure});
+  BookingErrorState(BookingState currentState,{required this.failure}): super(
+checkIn:currentState.checkIn,
+checkOut: currentState.checkOut,
+idType: currentState.idType
+);
 }
 class BookingSuccessState extends BookingState{
   final bool booked;
-  BookingSuccessState({required this.booked});
+  BookingSuccessState(BookingState currentState,{required this.booked})
+      : super(
+      checkIn:currentState.checkIn,
+      checkOut: currentState.checkOut,
+      idType: currentState.idType
+  );
 }

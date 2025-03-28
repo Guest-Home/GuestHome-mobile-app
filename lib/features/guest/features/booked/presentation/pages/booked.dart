@@ -11,9 +11,6 @@ import 'package:minapp/features/guest/features/HousType/presentation/widgets/sec
 import 'package:minapp/features/guest/features/booked/presentation/bloc/booked_bloc.dart';
 import 'package:minapp/features/guest/features/booked/presentation/widgets/booked_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../../../../../core/common/bloc/internet_connection_bloc/connectivity_bloc.dart';
-import '../../../../../../core/common/bloc/internet_connection_bloc/connectivity_state.dart';
 import '../../../../../../core/common/enum/reservation_status_enum.dart';
 import '../../../../../../core/common/spin_kit_loading.dart';
 
