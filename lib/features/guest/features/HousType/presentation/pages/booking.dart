@@ -12,15 +12,23 @@ import 'package:minapp/features/guest/features/booked/presentation/bloc/booked_b
 import '../../../../../../config/color/color.dart';
 import '../../../../../../core/common/back_button.dart';
 import '../../../../../../core/common/custom_button.dart';
+import '../../../../../../core/common/loading_indicator_widget.dart';
 import '../../../../../../core/common/spin_kit_loading.dart';
 import '../../../../../../core/utils/date_converter.dart';
 
-class Booking extends StatelessWidget {
+class Booking extends StatefulWidget {
    Booking({super.key,required this.id});
 final int id;
 
+  @override
+  State<Booking> createState() => _BookingState();
+}
+
+class _BookingState extends State<Booking> {
   final _formKey=GlobalKey<FormState>();
+
   final TextEditingController checkInController=TextEditingController();
+
   final TextEditingController checkOutController=TextEditingController();
 
   @override
@@ -32,7 +40,8 @@ final int id;
       body: BlocListener<BookingBloc, BookingState>(
   listener: (context, state) {
     if(state is BookingLoadingState){
-      _bookingDialog(context, "booking...");
+      // _bookingDialog(context, "booking...");
+      lodingDialog(context);
     }
     else if(state is BookingSuccessState){
       context.pop();
@@ -215,7 +224,7 @@ final int id;
                           onPressed: () {
                             _formKey.currentState!.save();
                             if(_formKey.currentState!.validate()){
-                              context.read<BookingBloc>().add(BookEvent(id: id));
+                              context.read<BookingBloc>().add(BookEvent(id: widget.id));
                             }
                           },
                           style: ElevatedButton.styleFrom(
@@ -312,6 +321,7 @@ final int id;
                   : ColorConstant.cardGrey.withValues(alpha: 0.5)))
     ]));
   }
+
    void _bookingDialog(BuildContext context,String title) {
      showDialog(
        context: context,

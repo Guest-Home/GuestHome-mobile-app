@@ -277,5 +277,17 @@
   "Here is the list of your requested booking":"Here is the list of your requested booking",
   "Processing Payment":"Processing Payment",
   "Waiting For payment": "Waiting For payment",
-  "you will receive USSD payment dialog and please verify your payment": "you will receive USSD payment dialog and please verify your payment"
+  "you will receive USSD payment dialog and please verify your payment": "you will receive USSD payment dialog and please verify your payment",
+
+  "booking": "Booking",
+  "payment": "Payment",
+  "booking payment": "Booking payment",
+  "please pay your booking payment under 1 hour": "Please pay your booking payment under 1 hour",
+  "make payment": "Make payment",
+  "choose payment method": "Choose payment method",
+  "Telebirr": "Telebirr",
+  "Mpesaa": "Mpesaa",
+  "enter your phone number associated with selected payment": "enter your phone number associated with selected payment",
+  "Proceed": "Proceed",
+  "cancel": "Cancel"
 }

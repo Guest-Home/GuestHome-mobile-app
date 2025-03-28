@@ -268,8 +268,6 @@
   "Amount": "Hanga",
   "Private Compound":"Moora dhuunfaa",
   "Office Shared Space":"Wajjira iddo hirmaachuu",
-
-
   "No reservation found":"Bakki eeggate hin argamne.",
   "No property is listed":"Qabeenyi tokkollee hin galmmesinee.",
   "Start by adding your properties":"Qabeenya kee galmeessuun jalqabi.",
@@ -279,5 +277,17 @@
   "Here is the list of your requested booking":"Kanneen bakka buuksachuuf gaafatte tarreen isaa kanadha.",
   "Processing Payment":"Adeemsa Kaffaltii",
   "Waiting For payment":"Kaffaltiidhaaf Eeggachuu",
-  "you will receive USSD payment dialog and please verify your payment": "Kaffaltti USSD qaaqa kessan fudhatanittu, maaloo kaffaltti kessan mirkaneessa."
+  "you will receive USSD payment dialog and please verify your payment": "Kaffaltti USSD qaaqa kessan fudhatanittu, maaloo kaffaltti kessan mirkaneessa.",
+
+  "booking": "Booking",
+  "payment": "Payment",
+  "booking payment": "Booking payment",
+  "please pay your booking payment under 1 hour": "Please pay your booking payment under 1 hour",
+  "make payment": "Make payment",
+  "choose payment method": "Choose payment method",
+  "Telebirr": "Telebirr",
+  "Mpesaa": "Mpesaa",
+  "enter your phone number associated with selected payment": "enter your phone number associated with selected payment",
+  "Proceed": "Proceed",
+  "cancel": "Cancel"
 }

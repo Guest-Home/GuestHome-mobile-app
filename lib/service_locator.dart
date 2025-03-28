@@ -28,6 +28,7 @@ import 'package:minapp/features/guest/features/booked/data/datasources/booking_d
 import 'package:minapp/features/guest/features/booked/data/repositories/my_booking_repository_impl.dart';
 import 'package:minapp/features/guest/features/booked/domain/repositories/my_booking_repositorty.dart';
 import 'package:minapp/features/guest/features/booked/domain/usecases/cancel_booking_usecase.dart';
+import 'package:minapp/features/guest/features/booked/domain/usecases/get_Booking_History_useCase.dart';
 import 'package:minapp/features/guest/features/booked/domain/usecases/get_my_booking_usecase.dart';
 import 'package:minapp/features/guest/features/booked/domain/usecases/make_payment_usecase.dart';
 import 'package:minapp/features/guest/features/booked/presentation/bloc/booked_bloc.dart';
@@ -54,6 +55,7 @@ import 'package:minapp/features/host/features/profile/domain/usecases/get_user_p
 import 'package:minapp/features/host/features/profile/domain/usecases/update_user_profile_usecase.dart';
 import 'package:minapp/features/host/features/profile/domain/usecases/verify_new_otp_usecase.dart';
 import 'package:minapp/features/host/features/profile/domain/usecases/verify_old_otp_usecase.dart';
+import 'package:minapp/features/host/features/profile/presentation/bloc/booking_history_bloc/booking_history_bloc.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/change_phone_number/change_phone_bloc.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/deposit_transaction_bloc/deposit_transaction_bloc.dart';
 import 'package:minapp/features/host/features/profile/presentation/bloc/payment_config/payment_config_bloc.dart';
@@ -182,6 +184,9 @@ void setup() async {
   sl.registerFactory<GuestPaymentBloc>(
         () => GuestPaymentBloc(),
   );
+  sl.registerFactory<BookingHistoryBloc>(
+        () => BookingHistoryBloc(),
+  );
   // usecase
 
   sl.registerSingleton<CreateOtpUsecase>(CreateOtpUsecase());
@@ -233,6 +238,7 @@ void setup() async {
   sl.registerSingleton<GetPaymentConfigUseCase>(GetPaymentConfigUseCase());
   sl.registerSingleton<MakePaymentUseCase>(MakePaymentUseCase());
   sl.registerSingleton<UpdateUserLanguageUseCase>(UpdateUserLanguageUseCase());
+  sl.registerSingleton<GetBookingHistoryUsecase>(GetBookingHistoryUsecase());
 
   // repository
 

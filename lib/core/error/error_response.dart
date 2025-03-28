@@ -29,6 +29,9 @@ class ErrorResponse{
         if (e.response?.statusCode == 404) {
           return UnauthorizedFailure(e.response?.statusMessage ?? 'Client error');
         }
+        if (e.response?.statusCode == 403) {
+          return UnauthorizedFailure(e.response!.data['error'] ?? 'Client error');
+        }
         return ServerFailure(e.response?.statusMessage ?? 'Server error occurred');
         //return ServerFailure(e.response?.data['Error'] ?? 'Server error occurred');
       case DioExceptionType.cancel:

@@ -13,6 +13,7 @@ import '../../../../../../service_locator.dart';
 
 abstract class BookingDataSource {
   Future<Either<Failure, MyBookingModel>> getMyBookings(String url);
+  Future<Either<Failure,MyBookingModel>> getBookingHistory(String url);
   Future<Either<Failure, bool>> cancelMyBookings(int id);
   Future<Either<Failure, BookedDetailModel>> getMyBooking(int id);
   Future<Either<Failure,bool>> makePayment(Map<String,dynamic> data);
@@ -85,10 +86,31 @@ class BookingDataSourceImpl extends BookingDataSource {
       if (response.statusCode == 200) {
         return Right(true);
       } else {
-        return Left(ServerFailure(response.data['Error']));
+        return Left(ServerFailure(response.data['Error']??"something went wrong please try again"));
       }
     } on DioException catch (e) {
-      return Left(ServerFailure(e.response!.data['Error']));
+      return Left(ServerFailure(e.response?.data['Error']??"something went wrong please try again"));
     }
+  }
+
+  @override
+  Future<Either<Failure, MyBookingModel>> getBookingHistory(String url)async{
+    try {
+      final response =url.isNotEmpty?await sl<DioClient>().get(url.substring(ApiUrl.baseUrl.length)):await sl<DioClient>().get(ApiUrl.bookingHistory);
+      if (response.statusCode == 200) {
+        final booking = await Isolate.run(
+              () {
+            return MyBookingModel.fromMap(response.data);
+          },
+        );
+        return Right(booking);
+      } else {
+        return Left(ServerFailure(response.data['error']));
+      }
+    } on DioException catch (e) {
+      return Left(ServerFailure(e.response!.data['error']??"something went wrong"));
+
+    }
+
   }
 }

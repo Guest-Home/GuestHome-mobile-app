@@ -275,8 +275,20 @@
   "Add properties":"ንብረቶችን ጨምር",
   "No transaction yet":"እስካሁን ምንም ግብይት የለም።",
   "You didn't book any properties. Search and book properties":"ምንም ንብረት አልያዝክም። ንብረቶችን ፈልግ እና ያዝ።",
-  "Here is the list of your requested booking":"የጠየቅከው የቦታ ማስያዣ ዝርዝር ይኸውልህ።",
+  "Here is the list of your requested booking":"የጠየቅከው የቦታ ማስያዣ ዝርዝር።",
   "Processing Payment":"ክፍያ በመካሄድ ላይ",
   "Waiting For payment": "ክፍያ በመጠበቅ ላይ",
-  "you will receive USSD payment dialog and please verify your payment": "የUSSD ክፍያ መልዕክት ይደርስዎታል፣ እባክዎን ክፍያዎን ያረጋግጡ።"
+  "you will receive USSD payment dialog and please verify your payment": "የUSSD ክፍያ መልዕክት ይደርስዎታል፣ እባክዎን ክፍያዎን ያረጋግጡ።",
+
+  "booking": "ቦታ ማስያዝ",
+  "payment": "ክፍያ",
+  "booking payment": "ቦታ ማስያዝ ክፍያ",
+  "please pay your booking payment under 1 hour": "እባክዎ ቦታ ማስያዣ ክፍያዎን በ 1 ሰዓት ውስጥ ይክፈሉ",
+  "make payment": "ክፍያ ይፈጽሙ",
+  "choose payment method": "የክፍያ ዘዴ ይምረጡ",
+  "Telebirr": "ቴሌብር",
+  "Mpesaa": "ኤም-ፔሳ",
+  "enter your phone number associated with selected payment": "ከተመረጠው ክፍያ ጋር የተገናኘውን ስልክ ቁጥር ያስገቡ",
+  "Proceed": "ተከናውኗል",
+  "cancel": "ይቅር"
 }

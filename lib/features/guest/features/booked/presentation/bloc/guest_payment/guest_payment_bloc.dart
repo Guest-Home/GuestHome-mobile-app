@@ -16,6 +16,9 @@ class GuestPaymentBloc extends Bloc<GuestPaymentEvent, GuestPaymentState> {
     on<AddGuestPaymentMethodEvent>((event, emit) {
       emit(state.copyWith(paymentMethod: event.paymentMethod));
     });
+    on<MakeReservationRestEvent>((event, emit) {
+      emit(GuestPaymentInitial());
+    });
     on<MakeReservationPaymentEvent>((event, emit) async{
       Map<String,dynamic> data={
         "paymentMethods":state.paymentMethod.code,

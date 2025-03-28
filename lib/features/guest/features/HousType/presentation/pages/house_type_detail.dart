@@ -795,6 +795,7 @@ class _HouseTypeDetailState extends State<HouseTypeDetail> {
                             .read<FilterBloc>()
                             .add(AddFilterCityEvent(city: value));
                       },
+                        hintText:filterState.city,
                       ),
                       CheckboxListTile(
                         activeColor: ColorConstant.green,

@@ -31,11 +31,11 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       };
       final hasConnection = await ConnectivityService.isConnected();
       if (!hasConnection) {
-        emit(BookingLoadingState());
+        emit(BookingLoadingState(state));
         Either response=await sl<PropertyBookingUseCase>().call(bookingData);
-        response.fold((l) => emit(BookingErrorState(failure: l)), (r) => emit(BookingSuccessState(booked: r)),);
+        response.fold((l) => emit(BookingErrorState(state,failure: l)), (r) => emit(BookingSuccessState(state,booked: r)),);
       }else{
-        emit(NoInternetBookingState());
+        emit(NoInternetBookingState(state));
       }
 
     });
